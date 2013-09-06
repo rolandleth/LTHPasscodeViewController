@@ -106,7 +106,8 @@
 				2AE8003917D9505600DBDE63 /* LTHPasscodeViewController.h */,
 				2AE8003A17D9505600DBDE63 /* LTHPasscodeViewController.m */,
 			);
-			path = AddToYourProject;
+			name = AddToYourProject;
+			path = ../AddToYourProject;
 			sourceTree = "<group>";
 		};
 		2AE8FFFD17D9503000DBDE63 = {

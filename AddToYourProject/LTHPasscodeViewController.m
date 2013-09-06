@@ -9,14 +9,14 @@
 #import "LTHPasscodeViewController.h"
 #import "SFHFKeychainUtils.h"
 
-static NSString *kKeychainUsername = @"demoUser";
-static NSString *kKeychainServiceName = @"demoProject";
-static NSString *kPasscodeCharacter = @"\u2014"; // A longer -
-static CGFloat kLabelFontSize = 15.0f;
-static CGFloat kPasscodeFontSize = 33.0f;
-static CGFloat kFontSizeModifier = 1.5f;
-static CGFloat kiPhoneHorizontalGap = 40.0f;
-static CGFloat kAnimationDuration = 0.3f;
+static NSString *const kKeychainUsername = @"demoUser";
+static NSString *const kKeychainServiceName = @"demoProject";
+static NSString *const kPasscodeCharacter = @"\u2014"; // A longer "-"
+static CGFloat const kLabelFontSize = 15.0f;
+static CGFloat const kPasscodeFontSize = 33.0f;
+static CGFloat const kFontSizeModifier = 1.5f;
+static CGFloat const kiPhoneHorizontalGap = 40.0f;
+static CGFloat const kAnimationDuration = 0.3f;
 // Gaps
 // To have a properly centered Passcode, the horizontal gap difference between iPhone and iPad
 // Must have the same ratio as the font size difference
