@@ -25,7 +25,10 @@
 	[self.window makeKeyAndVisible];
 	
 	if ([LTHPasscodeViewController passcodeExistsInKeychain]) {
-		[self showLockView];
+		// Init the singleton
+		[LTHPasscodeViewController sharedUser];
+		if ([LTHPasscodeViewController didPasscodeTimerEnd])
+			[[LTHPasscodeViewController sharedUser] showLockscreen];
 	}
 	
     return YES;
@@ -34,17 +37,16 @@
 
 - (void)applicationWillResignActive:(UIApplication *)application {
 	if ([LTHPasscodeViewController passcodeExistsInKeychain]) {
-		[self showLockView];
+		[LTHPasscodeViewController saveTimerStartTime];
+		if ([LTHPasscodeViewController timerDuration] == 0)
+			[[LTHPasscodeViewController sharedUser] showLockscreen];
 	}
 }
 
-
-- (void)showLockView {
-	// For the case when the user exits the app while the passcode view is on screen
-	if (_passcodeController.isCurrentlyOnScreen) return;
-	_passcodeController = [[LTHPasscodeViewController alloc] initForBeingDisplayedAsLockscreen];
-	[self.window.rootViewController.view addSubview: _passcodeController.view];
-	[self.window.rootViewController addChildViewController: _passcodeController];
+-(void)applicationWillEnterForeground:(UIApplication *)application {
+	if ([LTHPasscodeViewController passcodeExistsInKeychain] && [LTHPasscodeViewController didPasscodeTimerEnd]) {
+		[[LTHPasscodeViewController sharedUser] showLockscreen];
+	}
 }
 
 @end

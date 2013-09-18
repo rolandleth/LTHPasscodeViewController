@@ -43,6 +43,9 @@
     [super viewDidLoad];
 	self.title = @"Demo";
 	self.view.backgroundColor = [UIColor whiteColor];
+	
+	[LTHPasscodeViewController sharedUser].delegate = self;
+	
 	_changePasscode = [UIButton buttonWithType: UIButtonTypeCustom];
 	_enablePasscode = [UIButton buttonWithType: UIButtonTypeCustom];
 	_testPasscode = [UIButton buttonWithType: UIButtonTypeCustom];
@@ -94,33 +97,22 @@
 
 
 - (void)showLockViewForEnablingPasscode {
-	LTHPasscodeViewController *passcodeViewController = [[LTHPasscodeViewController alloc] init];
-	passcodeViewController.delegate = self;
-	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController: passcodeViewController];
-	[self presentViewController: navController animated: YES completion: nil];
+	[[LTHPasscodeViewController sharedUser] showForEnablingPasscodeInViewController: self];
 }
 
 
 - (void)showLockViewForTestingPasscode {
-	LTHPasscodeViewController *passcodeViewController = [[LTHPasscodeViewController alloc] initForBeingDisplayedAsLockscreen];
-	[((LTHAppDelegate *)[UIApplication sharedApplication].delegate).window.rootViewController.view addSubview: passcodeViewController.view];
-	[((LTHAppDelegate *)[UIApplication sharedApplication].delegate).window.rootViewController addChildViewController: passcodeViewController];
+	[[LTHPasscodeViewController sharedUser] showLockscreen];
 }
 
 
 - (void)showLockViewForChangingPasscode {
-	LTHPasscodeViewController *passcodeViewController = [[LTHPasscodeViewController alloc] initForChangingPasscode];
-	passcodeViewController.delegate = self;
-	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController: passcodeViewController];
-	[self presentViewController: navController animated: YES completion: nil];
+	[[LTHPasscodeViewController sharedUser] showForChangingPasscodeInViewController: self];
 }
 
 
 - (void)showLockViewForTurningPasscodeOff {
-	LTHPasscodeViewController *passcodeViewController = [[LTHPasscodeViewController alloc] initForTurningPasscodeOff];
-	passcodeViewController.delegate = self;
-	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController: passcodeViewController];
-	[self presentViewController: navController animated: YES completion: nil];
+	[[LTHPasscodeViewController sharedUser] showForTurningOffPasscodeInViewController: self];
 }
 
 

@@ -17,6 +17,7 @@
 		2AE8003B17D9505600DBDE63 /* LTHPasscodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AE8003A17D9505600DBDE63 /* LTHPasscodeViewController.m */; };
 		2AE8003E17D9505E00DBDE63 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AE8003D17D9505E00DBDE63 /* SFHFKeychainUtils.m */; };
 		2AE8004117D9507E00DBDE63 /* LTHDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AE8004017D9507E00DBDE63 /* LTHDemoViewController.m */; };
+		2AE8006017DCC1D500DBDE63 /* LTHNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AE8005F17DCC1D500DBDE63 /* LTHNavigationViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,8 @@
 		2AE8003D17D9505E00DBDE63 /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
 		2AE8003F17D9507E00DBDE63 /* LTHDemoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTHDemoViewController.h; sourceTree = "<group>"; };
 		2AE8004017D9507E00DBDE63 /* LTHDemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTHDemoViewController.m; sourceTree = "<group>"; };
+		2AE8005E17DCC1D500DBDE63 /* LTHNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTHNavigationViewController.h; sourceTree = "<group>"; };
+		2AE8005F17DCC1D500DBDE63 /* LTHNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTHNavigationViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +108,8 @@
 				2AE8003D17D9505E00DBDE63 /* SFHFKeychainUtils.m */,
 				2AE8003917D9505600DBDE63 /* LTHPasscodeViewController.h */,
 				2AE8003A17D9505600DBDE63 /* LTHPasscodeViewController.m */,
+				2AE8005E17DCC1D500DBDE63 /* LTHNavigationViewController.h */,
+				2AE8005F17DCC1D500DBDE63 /* LTHNavigationViewController.m */,
 			);
 			name = AddToYourProject;
 			path = ../AddToYourProject;
@@ -188,6 +193,7 @@
 				2AE8003E17D9505E00DBDE63 /* SFHFKeychainUtils.m in Sources */,
 				2AE8004117D9507E00DBDE63 /* LTHDemoViewController.m in Sources */,
 				2AE8001A17D9503000DBDE63 /* LTHAppDelegate.m in Sources */,
+				2AE8006017DCC1D500DBDE63 /* LTHNavigationViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

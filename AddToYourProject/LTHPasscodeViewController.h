@@ -1,8 +1,8 @@
 //
 //  PasscodeViewController.h
-//  ExpensesPlanner
+//  LTHPasscodeViewController
 //
-//  Created by Roland Leth on 9/4/13.
+//  Created by Roland Leth on 9/6/13.
 //  Copyright (c) 2013 Roland Leth. All rights reserved.
 //
 
@@ -12,6 +12,7 @@
 @protocol LTHPasscodeViewControllerDelegate;
 @interface LTHPasscodeViewController : UIViewController <UITextFieldDelegate> {
 	UIView *_animatingView;
+	UIView *_coverView;
 	UITextField *_firstDigitTextField;
 	UITextField *_secondDigitTextField;
 	UITextField *_thirdDigitTextField;
@@ -24,19 +25,32 @@
 	BOOL _isUserBeingAskedForNewPasscode;
 	BOOL _isUserTurningPasscodeOff;
 	BOOL _isUserChangingPasscode;
+	BOOL _isUserEnablingPasscode;
 	BOOL _beingDisplayedAsLockscreen;
 	NSString *_tempPasscode;
+	BOOL _timerStartInSeconds;
 }
 
 
 @property (nonatomic, weak) id<LTHPasscodeViewControllerDelegate> delegate;
 @property (assign) BOOL isCurrentlyOnScreen;
 
+- (void)showLockscreen;
+- (void)showForEnablingPasscodeInViewController:(UIViewController *)viewController;
+- (void)showForChangingPasscodeInViewController:(UIViewController *)viewController;
+- (void)showForTurningOffPasscodeInViewController:(UIViewController *)viewController;
 
-- (id)initForTurningPasscodeOff;
-- (id)initForChangingPasscode;
-- (id)initForBeingDisplayedAsLockscreen;
+- (void)prepareAsLockscreen;
+- (void)prepareForChangingPasscode;
+- (void)prepareForTurningOffPasscode;
+- (void)prepareForEnablingPasscode;
+
++ (LTHPasscodeViewController *)sharedUser;
 + (BOOL)passcodeExistsInKeychain;
++ (BOOL)didPasscodeTimerEnd;
++ (void)saveTimerStartTime;
++ (CGFloat)timerDuration;
++ (CGFloat)timerStartTime;
 
 
 @end
