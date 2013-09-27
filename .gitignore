@@ -1,2 +1,3 @@
 *.xcworkspace
 *.xccheckout
+.DS_Store
