@@ -183,13 +183,15 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
 	_thirdDigitTextField.translatesAutoresizingMaskIntoConstraints = NO;
 	_fourthDigitTextField.translatesAutoresizingMaskIntoConstraints = NO;
 	
+	// MARK: Please read.
 	// The controller works properly on all devices and orientations, but looks odd on iPhone's landscape.
 	// Below is a bit of code to make it look good on iPhone's landscape,
 	// but it will make it look a bit worse on iPhone's portrait.
 	// Usually, lockscreens on iPhone are kepy portrait only, though.
-	//	CGFloat yOffsetFromCenter = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ?
-	//								 -self.view.frame.size.height * 0.24f :
-	//								 -self.view.frame.size.height * 0.20f);
+	
+//	CGFloat yOffsetFromCenter = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ?
+//								 -self.view.frame.size.height * 0.24f :
+//								 -self.view.frame.size.height * 0.20f);
 	CGFloat yOffsetFromCenter = -self.view.frame.size.height * 0.24f;
 	NSLayoutConstraint *enterPasscodeConstraintCenterX = [NSLayoutConstraint constraintWithItem: _enterPasscodeLabel
 																					  attribute: NSLayoutAttributeCenterX
@@ -407,25 +409,32 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
 		// (having a modal on screen when the user leaves the app, for example).
 		[self rotateAccordingToStatusBarOrientationAndSupportedOrientations];
 		CGPoint newCenter;
+		CGFloat yOffset = 0.0f;
+		if (self.navigationController) {
+			yOffset = self.navigationController.navigationBar.frame.size.height / 2;
+		}
+		else if (self.tabBarController) {
+			yOffset = self.tabBarController.tabBar.frame.size.height / 2;
+		}
 		if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) {
 			self.view.center = CGPointMake(self.view.center.x * -1.f, self.view.center.y);
-			newCenter = CGPointMake(self.navigationController.view.center.x - self.navigationController.navigationBar.frame.size.height / 2,
-									self.navigationController.view.center.y);
+			newCenter = CGPointMake(self.view.window.center.x - yOffset,
+									self.view.window.center.y);
 		}
 		else if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight) {
 			self.view.center = CGPointMake(self.view.center.x * 2.f, self.view.center.y);
-			newCenter = CGPointMake(self.navigationController.view.center.x + self.navigationController.navigationBar.frame.size.height / 2,
-									self.navigationController.view.center.y);
+			newCenter = CGPointMake(self.view.window.center.x + yOffset,
+									self.view.window.center.y);
 		}
 		else if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) {
 			self.view.center = CGPointMake(self.view.center.x, self.view.center.y * -1.f);
-			newCenter = CGPointMake(self.navigationController.view.center.x,
-									self.navigationController.view.center.y - self.navigationController.navigationBar.frame.size.height / 2);
+			newCenter = CGPointMake(self.view.window.center.x,
+									self.view.window.center.y - yOffset);
 		}
 		else {
 			self.view.center = CGPointMake(self.view.center.x, self.view.center.y * 2.f);
-			newCenter = CGPointMake(self.navigationController.view.center.x,
-									self.navigationController.view.center.y + self.navigationController.navigationBar.frame.size.height / 2);
+			newCenter = CGPointMake(self.view.window.center.x,
+									self.view.window.center.y + yOffset);
 		}
 		[UIView animateWithDuration: kLockAnimationDuration animations: ^{
 			self.view.center = newCenter;
@@ -788,17 +797,27 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
 	
     CGAffineTransform transform = CGAffineTransformMakeRotation(angle);
     CGRect bounds = self.view.window.bounds;
+	// MARK: Please Read
+	// The other problem with the iPhone is on the 3.5" screen:
+	// when going from landscape directly to the 'other' landscape, the view isn't positioned properly anymore
+	CGFloat yOffset = 0.0f;
+	if (self.navigationController) {
+		yOffset = self.navigationController.navigationBar.frame.size.height / 2;
+	}
+	else if (self.tabBarController) {
+		yOffset = self.tabBarController.tabBar.frame.size.height / 2;
+	}
 	if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) {
-		bounds.origin.x -= self.navigationController.navigationBar.frame.size.height / 2;
+		bounds.origin.x -= yOffset;
 	}
 	else if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight) {
-		bounds.origin.x += self.navigationController.navigationBar.frame.size.height / 2;
+		bounds.origin.x += yOffset;
 	}
 	else if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) {
-		bounds.origin.y -= self.navigationController.navigationBar.frame.size.height / 2;
+		bounds.origin.y -= yOffset * 2;
 	}
 	else {
-		bounds.origin.y += self.navigationController.navigationBar.frame.size.height / 2;
+		bounds.origin.y += yOffset * 2;
 	}
     CGRect frame = [[self class] rectInWindowBounds: bounds
 							   statusBarOrientation: statusBarOrientation

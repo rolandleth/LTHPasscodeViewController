@@ -20,7 +20,9 @@
 	
 	LTHDemoViewController *demoController = [[LTHDemoViewController alloc] init];
 	demoController.title = nil;
-	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController: demoController];
+//	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController: demoController];
+	UITabBarController *navController = [[UITabBarController alloc] init];
+	[navController addChildViewController: demoController];
 	self.window.rootViewController = navController;
 	[self.window makeKeyAndVisible];
 	
