@@ -60,5 +60,5 @@
 @protocol LTHPasscodeViewControllerDelegate <NSObject>
 @optional
 - (void)passcodeViewControllerWasDismissed;
-- (void)refreshUI;
+- (void)updateUI;
 @end

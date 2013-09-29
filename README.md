@@ -16,7 +16,7 @@ Drag the contents of `AddToYourProject` to your project. I made it a singleton b
 [[LTHPasscodeViewController sharedUser] showForEnablingPasscodeInViewController: self]
 ```
 
-* At app launch, or whenever you'd like the user to require a passcode entry:
+* At app launch, or whenever you'd like the user to be shown a passcode entry:
 
 ```
 - (void)showLockscreen;
@@ -54,4 +54,4 @@ Rather than writing a big documentation, I heavily commented it as best as I cou
 ![Screenshot](http://rolandleth.com/assets/ios7-style-passcode/screenshot.png)   ![Screenshot](http://rolandleth.com/assets/ios7-style-passcode/change-passcode-screenshot.png)
 
 # License
-Licensed under MIT.
+Licensed under MIT. If you'd like, or need a license without attribution, don't hesitate to [contact me](mailto:roland@rolandleth.com).

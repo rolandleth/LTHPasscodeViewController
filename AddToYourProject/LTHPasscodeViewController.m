@@ -24,15 +24,22 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
 #define DegreesToRadians(x) ((x) * M_PI / 180.0)
 // Gaps
 // To have a properly centered Passcode, the horizontal gap difference between iPhone and iPad
-// Must have the same ratio as the font size difference
+// must have the same ratio as the font size difference between them.
 #define kHorizontalGap (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? kiPhoneHorizontalGap * kFontSizeModifier : kiPhoneHorizontalGap)
 #define kVerticalGap (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 60.0f : 25.0f)
 #define kModifierForBottomVerticalGap (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 2.6f : 3.0f)
 // Text Sizes
-#define kPasscodeCharWidth [kPasscodeCharacter sizeWithAttributes: @{NSFontAttributeName : kPasscodeFont}].width
-#define kFailedAttemptLabelWidth (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? [_failedAttemptLabel.text sizeWithAttributes: @{NSFontAttributeName : kLabelFont}].width + 60.0f : [_failedAttemptLabel.text sizeWithAttributes: @{NSFontAttributeName : kLabelFont}].width + 30.0f)
-#define kFailedAttemptLabelHeight [_failedAttemptLabel.text sizeWithAttributes: @{NSFontAttributeName : kLabelFont}].height
-#define kEnterPasscodeLabelWidth [_enterPasscodeLabel.text sizeWithAttributes: @{NSFontAttributeName : kLabelFont}].width
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
+	#define kPasscodeCharWidth [kPasscodeCharacter sizeWithAttributes: @{NSFontAttributeName : kPasscodeFont}].width
+	#define kFailedAttemptLabelWidth (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? [_failedAttemptLabel.text sizeWithAttributes: @{NSFontAttributeName : kLabelFont}].width + 60.0f : [_failedAttemptLabel.text sizeWithAttributes: @{NSFontAttributeName : kLabelFont}].width + 30.0f)
+	#define kFailedAttemptLabelHeight [_failedAttemptLabel.text sizeWithAttributes: @{NSFontAttributeName : kLabelFont}].height
+	#define kEnterPasscodeLabelWidth [_enterPasscodeLabel.text sizeWithAttributes: @{NSFontAttributeName : kLabelFont}].width
+#else
+	#define kPasscodeCharWidth [kPasscodeCharacter sizeWithFont:kPasscodeFont].width
+	#define kFailedAttemptLabelWidth (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? [_failedAttemptLabel.text sizeWithFont:kLabelFont].width + 60.0f : [_failedAttemptLabel.text sizeWithFont:kLabelFont].width + 30.0f)
+	#define kFailedAttemptLabelHeight [_failedAttemptLabel.text sizeWithFont:kLabelFont].height
+	#define kEnterPasscodeLabelWidth [_enterPasscodeLabel.text sizeWithFont:kLabelFont].width
+#endif
 // Backgrounds
 #define kEnterPasscodeLabelBackgroundColor [UIColor clearColor]
 #define kBackgroundColor [UIColor colorWithRed:0.97f green:0.97f blue:1.0f alpha:1.00f]
@@ -83,7 +90,7 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
 
 + (BOOL)didPasscodeTimerEnd {
 	NSTimeInterval now = [NSDate timeIntervalSinceReferenceDate];
-	// startTime wasn't saved yet (first app use and it crashed, phone force closed, etc) if it returns -1
+	// startTime wasn't saved yet (first app use and it crashed, phone force closed, etc) if it returns -1.
 	if (now - [self timerStartTime] >= [self timerDuration] || [self timerStartTime] == -1) return YES;
 	return NO;
 }
@@ -183,7 +190,7 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
 	_thirdDigitTextField.translatesAutoresizingMaskIntoConstraints = NO;
 	_fourthDigitTextField.translatesAutoresizingMaskIntoConstraints = NO;
 	
-	// MARK: Please read.
+	// MARK: Please read
 	// The controller works properly on all devices and orientations, but looks odd on iPhone's landscape.
 	// Below is a bit of code to make it look good on iPhone's landscape,
 	// but it will make it look a bit worse on iPhone's portrait.
@@ -315,13 +322,13 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
 	[_passcodeTextField resignFirstResponder];
 	[self resetUI];
 	// Or, if you prefer by notifications:
-	[[NSNotificationCenter defaultCenter] postNotificationName: @"dismissPasscodeViewController"
-														object: self
-													  userInfo: nil];
+//	[[NSNotificationCenter defaultCenter] postNotificationName: @"dismissPasscodeViewController"
+//														object: self
+//													  userInfo: nil];
 	if ([self.delegate respondsToSelector: @selector(passcodeViewControllerWasDismissed)])
 		[self.delegate performSelector: @selector(passcodeViewControllerWasDismissed)];
-	if ([self.delegate respondsToSelector: @selector(refreshUI)])
-		[self.delegate performSelector: @selector(refreshUI)];
+	if ([self.delegate respondsToSelector: @selector(updateUI)])
+		[self.delegate performSelector: @selector(updateUI)];
 	[self dismissViewControllerAnimated: YES completion: nil];
 }
 
@@ -363,13 +370,13 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
 		}
 	} completion: ^(BOOL finished) {
 		// Or, if you prefer by notifications:
-		[[NSNotificationCenter defaultCenter] postNotificationName: @"dismissPasscodeViewController"
-															object: self
-														  userInfo: nil];
+//		[[NSNotificationCenter defaultCenter] postNotificationName: @"dismissPasscodeViewController"
+//															object: self
+//														  userInfo: nil];
 		if ([self.delegate respondsToSelector: @selector(passcodeViewControllerWasDismissed)])
 			[self.delegate performSelector: @selector(passcodeViewControllerWasDismissed)];
-		if ([self.delegate respondsToSelector: @selector(refreshUI)])
-			[self.delegate performSelector: @selector(refreshUI)];
+		if ([self.delegate respondsToSelector: @selector(updateUI)])
+			[self.delegate performSelector: @selector(updateUI)];
 		if (_beingDisplayedAsLockscreen) {
 			[self.view removeFromSuperview];
 			[self removeFromParentViewController];
@@ -389,10 +396,10 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
 
 #pragma mark - Displaying
 - (void)showLockscreen {
-	// In case the user leaves the app while changing/disabling Passcode
+	// In case the user leaves the app while changing/disabling Passcode.
 	if (!_beingDisplayedAsLockscreen) [self cancelAndDismissMe];
 	[self prepareAsLockscreen];
-	// In case the user leaves the app while the lockscreen is already active
+	// In case the user leaves the app while the lockscreen is already active.
 	if (!_isCurrentlyOnScreen) {
 		[[UIApplication sharedApplication].keyWindow addSubview: self.view];
 		[[NSNotificationCenter defaultCenter] addObserver:self
@@ -665,7 +672,7 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
 - (void)resetUIForReEnteringNewPasscode {
 	[self resetTextFields];
 	_passcodeTextField.text = @"";
-	// If there's no passcode saved in Keychain, the user is adding one for the first time, otherwise he's changing his passcode
+	// If there's no passcode saved in Keychain, the user is adding one for the first time, otherwise he's changing his passcode.
 	NSString *savedPasscode = [SFHFKeychainUtils getPasswordForUsername: kKeychainPasscode
 														 andServiceName: kKeychainServiceName
 																  error: nil];
@@ -755,7 +762,8 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
 }
 
 
-// Thanks to Håvard Fossli's ( https://github.com/hfossli ) answer: http://stackoverflow.com/a/4960988/793916
+// All of the rotation handling is thanks to Håvard Fossli's ( https://github.com/hfossli )
+// answer: http://stackoverflow.com/a/4960988/793916
 #pragma mark - Handling rotation
 - (void)statusBarFrameOrOrientationChanged:(NSNotification *)notification {
     /*
@@ -766,6 +774,9 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
 }
 
 
+// And to his AGWindowView ( https://github.com/hfossli/AGWindowView )
+// Without the 'desiredOrientation' method, using showLockscreen in one orientation,
+// then presenting it inside a modal in another orientation would display the view in the first orientation.
 - (UIInterfaceOrientation)desiredOrientation {
     UIInterfaceOrientation statusBarOrientation = [[UIApplication sharedApplication] statusBarOrientation];
     UIInterfaceOrientationMask statusBarOrientationAsMask = UIInterfaceOrientationMaskFromOrientation(statusBarOrientation);
@@ -799,7 +810,7 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
     CGRect bounds = self.view.window.bounds;
 	// MARK: Please Read
 	// The other problem with the iPhone is on the 3.5" screen:
-	// when going from landscape directly to the 'other' landscape, the view isn't positioned properly anymore
+	// when going from landscape directly to the 'other' landscape, the view isn't positioned properly anymore.
 	CGFloat yOffset = 0.0f;
 	if (self.navigationController) {
 		yOffset = self.navigationController.navigationBar.frame.size.height / 2;
