@@ -35,6 +35,7 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
 	#define kFailedAttemptLabelHeight [_failedAttemptLabel.text sizeWithAttributes: @{NSFontAttributeName : kLabelFont}].height
 	#define kEnterPasscodeLabelWidth [_enterPasscodeLabel.text sizeWithAttributes: @{NSFontAttributeName : kLabelFont}].width
 #else
+// Thanks to Kent Nguyen ( https://github.com/kentnguyen )
 	#define kPasscodeCharWidth [kPasscodeCharacter sizeWithFont:kPasscodeFont].width
 	#define kFailedAttemptLabelWidth (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? [_failedAttemptLabel.text sizeWithFont:kLabelFont].width + 60.0f : [_failedAttemptLabel.text sizeWithFont:kLabelFont].width + 30.0f)
 	#define kFailedAttemptLabelHeight [_failedAttemptLabel.text sizeWithFont:kLabelFont].height
