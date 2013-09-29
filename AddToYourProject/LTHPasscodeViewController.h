@@ -45,20 +45,19 @@
 - (void)prepareForTurningOffPasscode;
 - (void)prepareForEnablingPasscode;
 
-+ (LTHPasscodeViewController *)sharedUser;
 + (BOOL)passcodeExistsInKeychain;
 + (BOOL)didPasscodeTimerEnd;
 + (void)saveTimerStartTime;
 + (CGFloat)timerDuration;
 + (CGFloat)timerStartTime;
++ (LTHPasscodeViewController *)sharedUser;
 
 
 @end
 
 
-// These serve, mostly, as an "update stuff after dismissing"
+// This serves, mostly, as an "update stuff after dismissing"
 @protocol LTHPasscodeViewControllerDelegate <NSObject>
 @optional
 - (void)passcodeViewControllerWasDismissed;
-- (void)updateUI;
 @end

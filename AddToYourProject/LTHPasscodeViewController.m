@@ -328,8 +328,6 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
 //													  userInfo: nil];
 	if ([self.delegate respondsToSelector: @selector(passcodeViewControllerWasDismissed)])
 		[self.delegate performSelector: @selector(passcodeViewControllerWasDismissed)];
-	if ([self.delegate respondsToSelector: @selector(updateUI)])
-		[self.delegate performSelector: @selector(updateUI)];
 	[self dismissViewControllerAnimated: YES completion: nil];
 }
 
@@ -376,8 +374,6 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
 //														  userInfo: nil];
 		if ([self.delegate respondsToSelector: @selector(passcodeViewControllerWasDismissed)])
 			[self.delegate performSelector: @selector(passcodeViewControllerWasDismissed)];
-		if ([self.delegate respondsToSelector: @selector(updateUI)])
-			[self.delegate performSelector: @selector(updateUI)];
 		if (_beingDisplayedAsLockscreen) {
 			[self.view removeFromSuperview];
 			[self removeFromParentViewController];

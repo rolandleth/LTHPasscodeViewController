@@ -13,7 +13,7 @@
 @implementation LTHDemoViewController
 
 
-- (void)updateUI {
+- (void)_refreshUI {
 	if ([LTHPasscodeViewController passcodeExistsInKeychain]) {
 		_enablePasscode.enabled = NO;
 		_changePasscode.enabled = YES;
@@ -36,6 +36,11 @@
 		_testPasscode.backgroundColor = [UIColor colorWithWhite: 0.8f alpha: 1.0f];
 		_turnOffPasscode.backgroundColor = [UIColor colorWithWhite: 0.8f alpha: 1.0f];
 	}
+}
+
+
+- (void)passcodeViewControllerWasDismissed {
+	[self _refreshUI];
 }
 
 
@@ -62,7 +67,7 @@
 	[_testPasscode setTitle: @"Test" forState: UIControlStateNormal];
 	[_enablePasscode setTitle: @"Enable" forState: UIControlStateNormal];
 	
-	[self updateUI];
+	[self _refreshUI];
 	
 	[_changePasscode addTarget: self action: @selector(_changePasscode) forControlEvents: UIControlEventTouchUpInside];
 	[_enablePasscode addTarget: self action: @selector(_enablePasscode) forControlEvents: UIControlEventTouchUpInside];
