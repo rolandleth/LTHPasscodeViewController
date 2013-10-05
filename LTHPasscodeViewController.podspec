@@ -15,4 +15,5 @@ Pod::Spec.new do |s|
     :tag => "1.0.0" 
   }
   s.source_files  = 'AddToYourProject', 'AddToYourProject/*.{h,m}'
+  s.requires_arc = true
 end
