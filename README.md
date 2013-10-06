@@ -2,7 +2,7 @@
 Simple to use iOS 7 style (replica, if you will) Passcode view. Not the Lock Screen one, but the one you get in Settings when changing your passcode.
 
 # How to use
-Drag the contents of `AddToYourProject` to your project. I made it a singleton because if the lock is active, when leaving the app a view must be placed on top, so no data from within the app can be seen in the multitasking mode. This is done under the hood, without having to do anything extra.
+Drag the contents of `AddToYourProject` to your project, or add `pod 'LTHPasscodeViewController'` to your podspec file. I made it a singleton because if the lock is active, when leaving the app a view must be placed on top, so no data from within the app can be seen in the multitasking mode. This is done under the hood, without having to do anything extra.
 
 
 * When opened from Settings, as a modal:
