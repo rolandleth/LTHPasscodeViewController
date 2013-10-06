@@ -27,7 +27,7 @@ Drag the contents of `AddToYourProject` to your project, or add `pod 'LTHPasscod
 // the keyboard sliding down animation, creates an "unlocking" impression.
 ```
 
-* launching and resigning:
+* Entering foreground and resigning:
 
 ```
 - (void)applicationWillResignActive:(UIApplication *)application {
