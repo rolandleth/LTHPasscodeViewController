@@ -524,6 +524,8 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
 
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+	if ([string isEqualToString: @"\n"]) return NO;
+	
 	NSString *typedString = [textField.text stringByReplacingCharactersInRange: range
 																	withString: string];
 	if (typedString.length >= 1) _firstDigitTextField.secureTextEntry = YES;
