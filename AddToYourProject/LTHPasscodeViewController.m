@@ -443,6 +443,7 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
 		[UIView animateWithDuration: kLockAnimationDuration animations: ^{
 			self.view.center = newCenter;
 		}];
+		_isCurrentlyOnScreen = YES;
 	}
 }
 
@@ -490,6 +491,7 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
 
 
 - (void)prepareForChangingPasscode {
+	_isCurrentlyOnScreen = YES;
 	_beingDisplayedAsLockscreen = NO;
 	_isUserTurningPasscodeOff = NO;
 	_isUserChangingPasscode = YES;
@@ -500,6 +502,7 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
 
 
 - (void)prepareForTurningOffPasscode {
+	_isCurrentlyOnScreen = YES;
 	_beingDisplayedAsLockscreen = NO;
 	_isUserTurningPasscodeOff = YES;
 	_isUserChangingPasscode = NO;
@@ -510,6 +513,7 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
 
 
 - (void)prepareForEnablingPasscode {
+	_isCurrentlyOnScreen = YES;
 	_beingDisplayedAsLockscreen = NO;
 	_isUserTurningPasscodeOff = NO;
 	_isUserChangingPasscode = NO;
@@ -520,7 +524,9 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
 
 
 #pragma mark - UITextFieldDelegate
-- (BOOL)textFieldShouldEndEditing:(UITextField *)textField { return !_isCurrentlyOnScreen; }
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
+	return !_isCurrentlyOnScreen;
+}
 
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
