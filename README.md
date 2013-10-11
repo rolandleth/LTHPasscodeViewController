@@ -7,7 +7,7 @@ Drag the contents of `AddToYourProject` to your project, or add `pod 'LTHPasscod
 
 * When opened from Settings, as a modal:
 
-```
+```objc
 - (void)showForEnablingPasscodeInViewController:(UIViewController *)viewController;
 - (void)showForChangingPasscodeInViewController:(UIViewController *)viewController;
 - (void)showForTurningOffPasscodeInViewController:(UIViewController *)viewController;
@@ -18,7 +18,7 @@ Drag the contents of `AddToYourProject` to your project, or add `pod 'LTHPasscod
 
 * At app launch, or whenever you'd like the user to be shown a passcode entry:
 
-```
+```objc
 - (void)showLockscreen;
 
 // Example:
@@ -29,7 +29,7 @@ Drag the contents of `AddToYourProject` to your project, or add `pod 'LTHPasscod
 
 * Entering foreground and resigning:
 
-```
+```objc
 - (void)applicationWillResignActive:(UIApplication *)application {
 	if ([LTHPasscodeViewController passcodeExistsInKeychain]) {
 		[LTHPasscodeViewController saveTimerStartTime];
