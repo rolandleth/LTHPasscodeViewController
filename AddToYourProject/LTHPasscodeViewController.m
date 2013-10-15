@@ -193,14 +193,11 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
 	
 	// MARK: Please read
 	// The controller works properly on all devices and orientations, but looks odd on iPhone's landscape.
-	// Below is a bit of code to make it look good on iPhone's landscape,
-	// but it will make it look a bit worse on iPhone's portrait.
-	// Usually, lockscreens on iPhone are kepy portrait only, though.
+	// Usually, lockscreens on iPhone are kept portrait-only, though. It also doesn't fit inside a modal when landscape.
+	// That's why only portrait is selected for iPhone's supported orientations.
+	// Modify this to fit your needs.
 	
-//	CGFloat yOffsetFromCenter = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ?
-//								 -self.view.frame.size.height * 0.24f :
-//								 -self.view.frame.size.height * 0.20f);
-	CGFloat yOffsetFromCenter = -self.view.frame.size.height * 0.24f;
+	CGFloat yOffsetFromCenter = -self.view.frame.size.height * 0.24;
 	NSLayoutConstraint *enterPasscodeConstraintCenterX = [NSLayoutConstraint constraintWithItem: _enterPasscodeLabel
 																					  attribute: NSLayoutAttributeCenterX
 																					  relatedBy: NSLayoutRelationEqual
@@ -321,6 +318,11 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
 - (void)cancelAndDismissMe {
 	_isCurrentlyOnScreen = NO;
 	[_passcodeTextField resignFirstResponder];
+	_isUserBeingAskedForNewPasscode = NO;
+	_isUserChangingPasscode = NO;
+	_isUserConfirmingPasscode = NO;
+	_isUserEnablingPasscode = NO;
+	_isUserTurningPasscodeOff = NO;
 	[self resetUI];
 	// Or, if you prefer by notifications:
 //	[[NSNotificationCenter defaultCenter] postNotificationName: @"dismissPasscodeViewController"
@@ -413,36 +415,77 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
 		// (having a modal on screen when the user leaves the app, for example).
 		[self rotateAccordingToStatusBarOrientationAndSupportedOrientations];
 		CGPoint newCenter;
-		CGFloat yOffset = 0.0f;
-		if (self.navigationController) {
-			yOffset = self.navigationController.navigationBar.frame.size.height / 2;
-		}
-		else if (self.tabBarController) {
-			yOffset = self.tabBarController.tabBar.frame.size.height / 2;
-		}
 		if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) {
 			self.view.center = CGPointMake(self.view.center.x * -1.f, self.view.center.y);
-			newCenter = CGPointMake(self.view.window.center.x - yOffset,
-									self.view.window.center.y);
+			newCenter = CGPointMake(self.navigationController.view.center.x - self.navigationController.navigationBar.frame.size.height / 2,
+									self.navigationController.view.center.y);
 		}
 		else if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight) {
 			self.view.center = CGPointMake(self.view.center.x * 2.f, self.view.center.y);
-			newCenter = CGPointMake(self.view.window.center.x + yOffset,
-									self.view.window.center.y);
+			newCenter = CGPointMake(self.navigationController.view.center.x + self.navigationController.navigationBar.frame.size.height / 2,
+									self.navigationController.view.center.y);
 		}
 		else if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) {
 			self.view.center = CGPointMake(self.view.center.x, self.view.center.y * -1.f);
-			newCenter = CGPointMake(self.view.window.center.x,
-									self.view.window.center.y - yOffset);
+			newCenter = CGPointMake(self.navigationController.view.center.x,
+									self.navigationController.view.center.y - self.navigationController.navigationBar.frame.size.height / 2);
 		}
 		else {
 			self.view.center = CGPointMake(self.view.center.x, self.view.center.y * 2.f);
-			newCenter = CGPointMake(self.view.window.center.x,
-									self.view.window.center.y + yOffset);
+			newCenter = CGPointMake(self.navigationController.view.center.x,
+									self.navigationController.view.center.y + self.navigationController.navigationBar.frame.size.height / 2);
 		}
 		[UIView animateWithDuration: kLockAnimationDuration animations: ^{
 			self.view.center = newCenter;
 		}];
+		_isCurrentlyOnScreen = YES;
+	}
+}
+
+
+- (void)showLockscreenWithoutAnimation {
+	// In case the user leaves the app while changing/disabling Passcode.
+	if (!_beingDisplayedAsLockscreen) [self cancelAndDismissMe];
+	[self prepareAsLockscreen];
+	// In case the user leaves the app while the lockscreen is already active.
+	if (!_isCurrentlyOnScreen) {
+		[[UIApplication sharedApplication].keyWindow addSubview: self.view];
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(statusBarFrameOrOrientationChanged:)
+													 name:UIApplicationDidChangeStatusBarOrientationNotification
+												   object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(statusBarFrameOrOrientationChanged:)
+													 name:UIApplicationDidChangeStatusBarFrameNotification
+												   object:nil];
+		[[[UIApplication sharedApplication] keyWindow].rootViewController addChildViewController: self];
+		// All this hassle because a view added to UIWindow does not rotate automatically
+		// and if we would have added the view anywhere else, it wouldn't display properly
+		// (having a modal on screen when the user leaves the app, for example).
+		[self rotateAccordingToStatusBarOrientationAndSupportedOrientations];
+		CGPoint newCenter;
+		if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) {
+			self.view.center = CGPointMake(self.view.center.x * -1.f, self.view.center.y);
+			newCenter = CGPointMake(self.navigationController.view.center.x - self.navigationController.navigationBar.frame.size.height / 2,
+									self.navigationController.view.center.y);
+		}
+		else if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight) {
+			self.view.center = CGPointMake(self.view.center.x * 2.f, self.view.center.y);
+			newCenter = CGPointMake(self.navigationController.view.center.x + self.navigationController.navigationBar.frame.size.height / 2,
+									self.navigationController.view.center.y);
+		}
+		else if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) {
+			self.view.center = CGPointMake(self.view.center.x, self.view.center.y * -1.f);
+			newCenter = CGPointMake(self.navigationController.view.center.x,
+									self.navigationController.view.center.y - self.navigationController.navigationBar.frame.size.height / 2);
+		}
+		else {
+			self.view.center = CGPointMake(self.view.center.x, self.view.center.y * 2.f);
+			newCenter = CGPointMake(self.navigationController.view.center.x,
+									self.navigationController.view.center.y + self.navigationController.navigationBar.frame.size.height / 2);
+		}
+
+		self.view.center = newCenter;
 		_isCurrentlyOnScreen = YES;
 	}
 }
@@ -709,7 +752,13 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
 - (void)applicationDidEnterBackground {
 	if ([LTHPasscodeViewController passcodeExistsInKeychain]) {
 		if ([_passcodeTextField isFirstResponder]) [_passcodeTextField resignFirstResponder];
-		_coverView.hidden = NO;
+		// Without animation because otherwise it won't come down fast enough,
+		// so inside iOS' multitasking view the app won't be covered by anything.
+		if ([LTHPasscodeViewController timerDuration] == 0) [self showLockscreenWithoutAnimation];
+		else {
+			_coverView.hidden = NO;
+			if (![[UIApplication sharedApplication].keyWindow viewWithTag: 99]) [[UIApplication sharedApplication].keyWindow addSubview: _coverView];
+		}
 	}
 }
 
@@ -719,11 +768,27 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
 }
 
 
+- (void)applicationWillEnterForeground {
+	if ([LTHPasscodeViewController passcodeExistsInKeychain] &&
+		[LTHPasscodeViewController didPasscodeTimerEnd] &&
+		![LTHPasscodeViewController sharedUser].isCurrentlyOnScreen) {
+		[[LTHPasscodeViewController sharedUser] showLockscreen];
+	}
+}
+
+
+- (void)applicationWillResignActive {
+	if ([LTHPasscodeViewController passcodeExistsInKeychain]) {
+		[LTHPasscodeViewController saveTimerStartTime];
+	}
+}
+
+
 #pragma mark - Init
 + (LTHPasscodeViewController *)sharedUser {
     __strong static LTHPasscodeViewController *sharedObject = nil;
 	
-	if (sharedObject != nil) {
+	if (sharedObject) {
 		return sharedObject;
 	}
 	
@@ -744,15 +809,25 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
 													 name: UIApplicationDidEnterBackgroundNotification
 												   object: nil];
 		[[NSNotificationCenter defaultCenter] addObserver: self
+												 selector: @selector(applicationWillResignActive)
+													 name: UIApplicationWillResignActiveNotification
+												   object: nil];
+		[[NSNotificationCenter defaultCenter] addObserver: self
 												 selector: @selector(applicationDidBecomeActive)
 													 name: UIApplicationDidBecomeActiveNotification
 												   object: nil];
-		_coverView = [[UIView alloc] init];
+		[[NSNotificationCenter defaultCenter] addObserver: self
+												 selector: @selector(applicationWillEnterForeground)
+													 name: UIApplicationWillEnterForegroundNotification
+												   object: nil];
+		
+		_coverView = [[UIView alloc] initWithFrame: CGRectZero];
 		_coverView.backgroundColor = kCoverViewBackgroundColor;
-		_coverView.frame = [UIApplication sharedApplication].keyWindow.frame;
+		_coverView.frame = self.view.frame;
 		_coverView.userInteractionEnabled = NO;
-		[[UIApplication sharedApplication].keyWindow addSubview: _coverView];
+		_coverView.tag = 99;
 		_coverView.hidden = YES;
+		[[UIApplication sharedApplication].keyWindow addSubview: _coverView];
 	}
 	return self;
 }
@@ -809,39 +884,11 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
 
 - (void)rotateAccordingToStatusBarOrientationAndSupportedOrientations {
 	UIInterfaceOrientation orientation = [self desiredOrientation];
-    UIInterfaceOrientation statusBarOrientation = [UIApplication sharedApplication].statusBarOrientation;
     CGFloat angle = UIInterfaceOrientationAngleOfOrientation(orientation);
-    CGFloat statusBarHeight = [[self class] getStatusBarHeight];
-	
     CGAffineTransform transform = CGAffineTransformMakeRotation(angle);
-    CGRect bounds = self.view.window.bounds;
-	// MARK: Please Read
-	// The other problem with the iPhone is on the 3.5" screen:
-	// when going from landscape directly to the 'other' landscape, the view isn't positioned properly anymore.
-	CGFloat yOffset = 0.0f;
-	if (self.navigationController) {
-		yOffset = self.navigationController.navigationBar.frame.size.height / 2;
-	}
-	else if (self.tabBarController) {
-		yOffset = self.tabBarController.tabBar.frame.size.height / 2;
-	}
-	if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) {
-		bounds.origin.x -= yOffset;
-	}
-	else if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight) {
-		bounds.origin.x += yOffset;
-	}
-	else if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) {
-		bounds.origin.y -= yOffset * 2;
-	}
-	else {
-		bounds.origin.y += yOffset * 2;
-	}
-    CGRect frame = [[self class] rectInWindowBounds: bounds
-							   statusBarOrientation: statusBarOrientation
-									statusBarHeight: statusBarHeight];
 	
-    [self setIfNotEqualTransform:transform frame:frame];
+    [self setIfNotEqualTransform: transform
+						   frame: self.view.window.bounds];
 }
 
 
@@ -863,16 +910,6 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
     else {
         return [UIApplication sharedApplication].statusBarFrame.size.height;
     }
-}
-
-
-+ (CGRect)rectInWindowBounds:(CGRect)windowBounds statusBarOrientation:(UIInterfaceOrientation)statusBarOrientation statusBarHeight:(CGFloat)statusBarHeight {
-    CGRect frame = windowBounds;
-    frame.origin.x += statusBarOrientation == UIInterfaceOrientationLandscapeLeft ? statusBarHeight : 0;
-    frame.origin.y += statusBarOrientation == UIInterfaceOrientationPortrait ? statusBarHeight : 0;
-    frame.size.width -= UIInterfaceOrientationIsLandscape(statusBarOrientation) ? statusBarHeight : 0;
-    frame.size.height -= UIInterfaceOrientationIsPortrait(statusBarOrientation) ? statusBarHeight : 0;
-    return frame;
 }
 
 

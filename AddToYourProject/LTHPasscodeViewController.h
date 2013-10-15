@@ -12,7 +12,6 @@
 @protocol LTHPasscodeViewControllerDelegate;
 @interface LTHPasscodeViewController : UIViewController <UITextFieldDelegate> {
 	UIView *_animatingView;
-	UIView *_coverView;
 	UITextField *_firstDigitTextField;
 	UITextField *_secondDigitTextField;
 	UITextField *_thirdDigitTextField;
@@ -32,6 +31,7 @@
 }
 
 
+@property (nonatomic, strong) UIView *coverView;
 @property (nonatomic, weak) id<LTHPasscodeViewControllerDelegate> delegate;
 @property (assign) BOOL isCurrentlyOnScreen;
 

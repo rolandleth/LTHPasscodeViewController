@@ -36,19 +36,4 @@
     return YES;
 }
 
-
-- (void)applicationWillResignActive:(UIApplication *)application {
-	if ([LTHPasscodeViewController passcodeExistsInKeychain]) {
-		[LTHPasscodeViewController saveTimerStartTime];
-		if ([LTHPasscodeViewController timerDuration] == 0)
-			[[LTHPasscodeViewController sharedUser] showLockscreen];
-	}
-}
-
--(void)applicationWillEnterForeground:(UIApplication *)application {
-	if ([LTHPasscodeViewController passcodeExistsInKeychain] && [LTHPasscodeViewController didPasscodeTimerEnd]) {
-		[[LTHPasscodeViewController sharedUser] showLockscreen];
-	}
-}
-
 @end
