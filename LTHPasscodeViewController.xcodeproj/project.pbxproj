@@ -18,6 +18,7 @@
 		2AE8003E17D9505E00DBDE63 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AE8003D17D9505E00DBDE63 /* SFHFKeychainUtils.m */; };
 		2AE8004117D9507E00DBDE63 /* LTHDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AE8004017D9507E00DBDE63 /* LTHDemoViewController.m */; };
 		2AE8006017DCC1D500DBDE63 /* LTHNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AE8005F17DCC1D500DBDE63 /* LTHNavigationViewController.m */; };
+		C1A8176C180C473D00A4807F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C1A8176E180C473D00A4807F /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,8 @@
 		2AE8004017D9507E00DBDE63 /* LTHDemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTHDemoViewController.m; sourceTree = "<group>"; };
 		2AE8005E17DCC1D500DBDE63 /* LTHNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTHNavigationViewController.h; sourceTree = "<group>"; };
 		2AE8005F17DCC1D500DBDE63 /* LTHNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTHNavigationViewController.m; sourceTree = "<group>"; };
+		C1A8176D180C473D00A4807F /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		C1A8176F180C474200A4807F /* de */ = {isa = PBXFileReference; lastKnownFileType = file; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +113,7 @@
 				2AE8003A17D9505600DBDE63 /* LTHPasscodeViewController.m */,
 				2AE8005E17DCC1D500DBDE63 /* LTHNavigationViewController.h */,
 				2AE8005F17DCC1D500DBDE63 /* LTHNavigationViewController.m */,
+				C1A8176E180C473D00A4807F /* Localizable.strings */,
 			);
 			name = AddToYourProject;
 			path = ../AddToYourProject;
@@ -160,6 +164,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				de,
 			);
 			mainGroup = 2AE8FFFD17D9503000DBDE63;
 			productRefGroup = 2AE8000717D9503000DBDE63 /* Products */;
@@ -177,6 +182,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2AE8001417D9503000DBDE63 /* InfoPlist.strings in Resources */,
+				C1A8176C180C473D00A4807F /* Localizable.strings in Resources */,
 				2AE8001C17D9503000DBDE63 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -206,6 +212,15 @@
 				2AE8001317D9503000DBDE63 /* en */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		C1A8176E180C473D00A4807F /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C1A8176D180C473D00A4807F /* en */,
+				C1A8176F180C474200A4807F /* de */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

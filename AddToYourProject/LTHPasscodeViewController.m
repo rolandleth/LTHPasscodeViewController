@@ -106,7 +106,7 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
 		self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemCancel
 																							   target: self
 																							   action: @selector(cancelAndDismissMe)];
-		self.title = @"Enter Passcode";
+		self.title = NSLocalizedString(@"Enter Passcode", @"");
 	}
 	
 	_isCurrentlyOnScreen = YES;
@@ -182,7 +182,7 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
 	[_passcodeTextField becomeFirstResponder];
     [_animatingView addSubview:_passcodeTextField];
 	
-	_enterPasscodeLabel.text = _isUserChangingPasscode ? @"Enter your old passcode" : @"Enter your passcode";
+	_enterPasscodeLabel.text = _isUserChangingPasscode ? NSLocalizedString(@"Enter your old passcode", @"") : NSLocalizedString(@"Enter your passcode", @"");
 	
 	_enterPasscodeLabel.translatesAutoresizingMaskIntoConstraints = NO;
 	_failedAttemptLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -504,21 +504,21 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
 - (void)showForEnablingPasscodeInViewController:(UIViewController *)viewController {
 	[self prepareForEnablingPasscode];
 	[self prepareNavigationControllerWithController: viewController];
-	self.title = @"Enable Passcode";
+	self.title = NSLocalizedString(@"Enable Passcode", @"");
 }
 
 
 - (void)showForChangingPasscodeInViewController:(UIViewController *)viewController {
 	[self prepareForChangingPasscode];
 	[self prepareNavigationControllerWithController: viewController];
-	self.title = @"Change Passcode";
+	self.title = NSLocalizedString(@"Change Passcode", @"");
 }
 
 
 - (void)showForTurningOffPasscodeInViewController:(UIViewController *)viewController {
 	[self prepareForTurningOffPasscode];
 	[self prepareNavigationControllerWithController: viewController];
-	self.title = @"Turn Off Passcode";
+	self.title = NSLocalizedString(@"Turn Off Passcode", @"");
 }
 
 
@@ -705,15 +705,15 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
 	_failedAttemptLabel.hidden = YES;
 	_passcodeTextField.text = @"";
 	if (_isUserConfirmingPasscode) {
-		if (_isUserEnablingPasscode) _enterPasscodeLabel.text = @"Re-enter your passcode";
-		else if (_isUserChangingPasscode) _enterPasscodeLabel.text = @"Re-enter your new passcode";
+		if (_isUserEnablingPasscode) _enterPasscodeLabel.text = NSLocalizedString(@"Re-enter your passcode", @"");
+		else if (_isUserChangingPasscode) _enterPasscodeLabel.text = NSLocalizedString(@"Re-enter your new passcode", @"");
 	}
 	else if (_isUserBeingAskedForNewPasscode) {
 		if (_isUserEnablingPasscode || _isUserChangingPasscode) {
-			_enterPasscodeLabel.text = @"Enter your new passcode";
+			_enterPasscodeLabel.text = NSLocalizedString(@"Enter your new passcode", @"");
 		}
 	}
-	else _enterPasscodeLabel.text = @"Enter your passcode";
+	else _enterPasscodeLabel.text = NSLocalizedString(@"Enter your passcode", @"");
 }
 
 
@@ -724,10 +724,10 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
 	NSString *savedPasscode = [SFHFKeychainUtils getPasswordForUsername: kKeychainPasscode
 														 andServiceName: kKeychainServiceName
 																  error: nil];
-	_enterPasscodeLabel.text = savedPasscode.length == 0 ? @"Enter your passcode" : @"Enter your new passcode";
+	_enterPasscodeLabel.text = savedPasscode.length == 0 ? NSLocalizedString(@"Enter your passcode", @"") : NSLocalizedString(@"Enter your new passcode", @"");
 	
 	_failedAttemptLabel.hidden = NO;
-	_failedAttemptLabel.text = @"Passcodes did not match. Try again.";
+	_failedAttemptLabel.text = NSLocalizedString(@"Passcodes did not match. Try again.", @"");
 	_failedAttemptLabel.backgroundColor = [UIColor clearColor];
 	_failedAttemptLabel.layer.borderWidth = 0;
 	_failedAttemptLabel.layer.borderColor = [UIColor clearColor].CGColor;
@@ -739,9 +739,9 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
 	[self resetTextFields];
 	_passcodeTextField.text = @"";
 	_failedAttempts++;
-	if (_failedAttempts == 1) _failedAttemptLabel.text = [NSString stringWithFormat: @"%i Passcode Failed Attempt", _failedAttempts];
+	if (_failedAttempts == 1) _failedAttemptLabel.text = [NSString stringWithFormat: NSLocalizedString(@"%i Passcode Failed Attempt", @""), _failedAttempts];
 	else {
-		_failedAttemptLabel.text = [NSString stringWithFormat: @"%i Passcode Failed Attempts", _failedAttempts];
+		_failedAttemptLabel.text = [NSString stringWithFormat: NSLocalizedString(@"%i Passcode Failed Attempts", @""), _failedAttempts];
 	}
 	_failedAttemptLabel.layer.cornerRadius = kFailedAttemptLabelHeight * 0.65f;
 	_failedAttemptLabel.hidden = NO;
