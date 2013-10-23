@@ -35,7 +35,7 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
 	#define kFailedAttemptLabelHeight [_failedAttemptLabel.text sizeWithAttributes: @{NSFontAttributeName : kLabelFont}].height
 	#define kEnterPasscodeLabelWidth [_enterPasscodeLabel.text sizeWithAttributes: @{NSFontAttributeName : kLabelFont}].width
 #else
-// Thanks to Kent Nguyen ( https://github.com/kentnguyen )
+// Thanks to Kent Nguyen - https://github.com/kentnguyen
 	#define kPasscodeCharWidth [kPasscodeCharacter sizeWithFont:kPasscodeFont].width
 	#define kFailedAttemptLabelWidth (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? [_failedAttemptLabel.text sizeWithFont:kLabelFont].width + 60.0f : [_failedAttemptLabel.text sizeWithFont:kLabelFont].width + 30.0f)
 	#define kFailedAttemptLabelHeight [_failedAttemptLabel.text sizeWithFont:kLabelFont].height
@@ -395,6 +395,11 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
 
 #pragma mark - Displaying
 - (void)showLockscreen {
+	// If you're using Storyboards or a custom rootController,
+	// replace all the calls to self.navigationController.view
+	// inside this method with [UIApplication sharedApplication].keyWindow
+	// Fix found by Jesse Grosjean - https://github.com/jessegrosjean
+	
 	// In case the user leaves the app while changing/disabling Passcode.
 	if (!_beingDisplayedAsLockscreen) [self cancelAndDismissMe];
 	[self prepareAsLockscreen];
@@ -444,6 +449,10 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
 
 
 - (void)showLockscreenWithoutAnimation {
+	// If you're using Storyboards, replace all the calls to self.navigationController.view
+	// inside this method with [UIApplication sharedApplication].keyWindow
+	// Fix found by Jesse Grosjean - https://github.com/jessegrosjean
+	
 	// In case the user leaves the app while changing/disabling Passcode.
 	if (!_beingDisplayedAsLockscreen) [self cancelAndDismissMe];
 	[self prepareAsLockscreen];
@@ -844,7 +853,7 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
 }
 
 
-// All of the rotation handling is thanks to Håvard Fossli's ( https://github.com/hfossli )
+// All of the rotation handling is thanks to Håvard Fossli's - https://github.com/hfossli
 // answer: http://stackoverflow.com/a/4960988/793916
 #pragma mark - Handling rotation
 - (void)statusBarFrameOrOrientationChanged:(NSNotification *)notification {
@@ -856,7 +865,7 @@ static CGFloat const kSlideAnimationDuration = 0.15f;
 }
 
 
-// And to his AGWindowView ( https://github.com/hfossli/AGWindowView )
+// And to his AGWindowView: https://github.com/hfossli/AGWindowView
 // Without the 'desiredOrientation' method, using showLockscreen in one orientation,
 // then presenting it inside a modal in another orientation would display the view in the first orientation.
 - (UIInterfaceOrientation)desiredOrientation {
