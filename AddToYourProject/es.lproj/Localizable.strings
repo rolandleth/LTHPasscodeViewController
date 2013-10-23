@@ -1,0 +1,26 @@
+/* 
+  Localizable.strings
+*/
+"Enter Passcode" = "Insertar contraseña";
+
+"Enter your old passcode" = "Insertar contraseña antigua";
+
+"Enter your passcode" = "Inserte su contraseña";
+
+"Enable Passcode" = "Activar contraseña";
+
+"Change Passcode" = "Cambiar contraseña";
+
+"Turn Off Passcode" = "Desactivar contraseña";
+
+"Re-enter your passcode" = "Repetir contraseña";
+
+"Re-enter your new passcode" = "Repetir contraseña nueva";
+
+"Enter your new passcode" = "Inserte su contraseña nueva";
+
+"Passcodes did not match. Try again." = "Contraseña no son iguales. Por favor tratalo otra vez.";
+
+"%i Passcode Failed Attempt" = "%i inteto de entrada falló";
+
+"%i Passcode Failed Attempts" = "%i intentos de entrada fallaron";
