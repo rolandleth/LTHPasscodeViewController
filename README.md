@@ -26,6 +26,8 @@ Drag the contents of `AddToYourProject` to your project, or add `pod 'LTHPasscod
 // the keyboard sliding down animation, creates an "unlocking" impression.
 ```
 
+* entering foreground and resigning is handled from within the class. 
+
 Everything is easily customizable with macros and static constants.
 
 Makes use of [SFHFKeyChainUtils](https://github.com/ldandersen/scifihifi-iphone) to save the passcode in the Keychain. I know he dropped support for it, but I updated it for ARC 2 years ago ([with help](http://stackoverflow.com/questions/7663443/sfhfkeychainutils-ios-keychain-arc-compatible)) and I kept using it since. The 'new' version isn't updated to ARC anyway, so I saw no reason to switch to it, or to any other library.
