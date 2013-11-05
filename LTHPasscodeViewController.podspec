@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "LTHPasscodeViewController"
-  s.version      = "1.0.0"
+  s.version      = "1.1.0"
   s.summary      = "iOS 7 style Passcode Lock"
   s.homepage     = "https://github.com/rolandleth/LTHPasscodeViewController"
   s.screenshots  = 
@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '6.0'
   s.source       = { 
     :git => "https://github.com/rolandleth/LTHPasscodeViewController.git", 
-    :tag => "1.0.0" 
+    :tag => "1.1.0" 
   }
   s.source_files  = 'AddToYourProject', 'AddToYourProject/*.{h,m}'
   s.requires_arc = true
