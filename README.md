@@ -19,10 +19,10 @@ Drag the contents of `AddToYourProject` to your project, or add `pod 'LTHPasscod
 * At app launch, or whenever you'd like the user to be shown a passcode entry:
 
 ```objc
-- (void)showLockscreen;
+- (void)showLockscreenWithAnimation:(BOOL)animated;
 
 // Example:
-[[LTHPasscodeViewController sharedUser] showLockscreen]
+[[LTHPasscodeViewController sharedUser] showLockscreenWithAnimation: YES]
 // Displayed with a slide up animation, which, combined with 
 // the keyboard sliding down animation, creates an "unlocking" impression.
 ```
