@@ -21,6 +21,6 @@
 
 "Passcodes did not match. Try again." = "Pincodes nicht ident. Bitte nochmals versuchen.";
 
-"%i Passcode Failed Attempt" = "%i fehlgeschlagener Eingabeversuch";
+"1 Passcode Failed Attempt" = "1 fehlgeschlagener Eingabeversuch";
 
 "%i Passcode Failed Attempts" = "%i fehlgeschlagene Eingabeversuche";

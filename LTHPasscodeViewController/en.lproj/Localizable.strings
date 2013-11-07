@@ -21,6 +21,6 @@
 
 "Passcodes did not match. Try again." = "Passcodes did not match. Try again.";
 
-"%i Passcode Failed Attempt" = "%i Passcode Failed Attempt";
+"1 Passcode Failed Attempt" = "1 Passcode Failed Attempt";
 
 "%i Passcode Failed Attempts" = "%i Passcode Failed Attempts";

@@ -30,7 +30,7 @@
 		// Init the singleton
 		[LTHPasscodeViewController sharedUser];
 		if ([LTHPasscodeViewController didPasscodeTimerEnd])
-			[[LTHPasscodeViewController sharedUser] showLockscreen];
+			[[LTHPasscodeViewController sharedUser] showLockscreenWithAnimation: YES];
 	}
 	
     return YES;

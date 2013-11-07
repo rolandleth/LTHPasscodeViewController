@@ -98,6 +98,15 @@
 
 - (void)_testPasscode {
 	[self showLockViewForTestingPasscode];
+	// MARK: Please read
+	// Please check Issue #16 on the GitHub repo, or this Stack Overflow question, maybe you can give a hand:
+	// http://stackoverflow.com/questions/19816142/uialertviews-uiactionsheets-and-keywindow-problems
+	// https://github.com/rolandleth/LTHPasscodeViewController/issues/16
+	// The issue started with a positioning problem, which is now fixed, but it revealed another kinda hard to fix problem.
+//	UIActionSheet *as = [[UIActionSheet alloc] initWithTitle: @"aa" delegate: nil cancelButtonTitle: @"aa" destructiveButtonTitle:@"ss" otherButtonTitles: nil];
+//	[as showInView: self.view];
+//	UIAlertView *av = [[UIAlertView alloc] initWithTitle: @"aa" message: @"ss" delegate: nil cancelButtonTitle: @"c" otherButtonTitles: nil];
+//	[av show];
 }
 
 
@@ -107,7 +116,7 @@
 
 
 - (void)showLockViewForTestingPasscode {
-	[[LTHPasscodeViewController sharedUser] showLockscreen];
+	[[LTHPasscodeViewController sharedUser] showLockscreenWithAnimation: YES];
 }
 
 

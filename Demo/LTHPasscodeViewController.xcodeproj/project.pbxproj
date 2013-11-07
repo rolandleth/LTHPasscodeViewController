@@ -42,6 +42,7 @@
 		2AE8004017D9507E00DBDE63 /* LTHDemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTHDemoViewController.m; sourceTree = "<group>"; };
 		2AE8005E17DCC1D500DBDE63 /* LTHNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTHNavigationViewController.h; sourceTree = "<group>"; };
 		2AE8005F17DCC1D500DBDE63 /* LTHNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTHNavigationViewController.m; sourceTree = "<group>"; };
+		2AF19576182BB6E1005CE38A /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C1A8176D180C473D00A4807F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C1A8176F180C474200A4807F /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C1B597B11817FB5E00018D15 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -117,7 +118,7 @@
 				C1A8176E180C473D00A4807F /* Localizable.strings */,
 			);
 			name = AddToYourProject;
-			path = ../AddToYourProject;
+			path = ../../LTHPasscodeViewController;
 			sourceTree = "<group>";
 		};
 		2AE8FFFD17D9503000DBDE63 = {
@@ -167,6 +168,7 @@
 				en,
 				de,
 				es,
+				ro,
 			);
 			mainGroup = 2AE8FFFD17D9503000DBDE63;
 			productRefGroup = 2AE8000717D9503000DBDE63 /* Products */;
@@ -222,6 +224,7 @@
 				C1A8176D180C473D00A4807F /* en */,
 				C1A8176F180C474200A4807F /* de */,
 				C1B597B11817FB5E00018D15 /* es */,
+				2AF19576182BB6E1005CE38A /* ro */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

@@ -35,7 +35,7 @@
 @property (nonatomic, weak) id<LTHPasscodeViewControllerDelegate> delegate;
 @property (assign) BOOL isCurrentlyOnScreen;
 
-- (void)showLockscreen;
+- (void)showLockscreenWithAnimation:(BOOL)animated;
 - (void)showForEnablingPasscodeInViewController:(UIViewController *)viewController;
 - (void)showForChangingPasscodeInViewController:(UIViewController *)viewController;
 - (void)showForTurningOffPasscodeInViewController:(UIViewController *)viewController;
@@ -48,6 +48,7 @@
 + (BOOL)passcodeExistsInKeychain;
 + (BOOL)didPasscodeTimerEnd;
 + (void)saveTimerStartTime;
++ (void)deletePasscodeFromKeychain;
 + (CGFloat)timerDuration;
 + (CGFloat)timerStartTime;
 + (LTHPasscodeViewController *)sharedUser;
@@ -60,4 +61,5 @@
 @protocol LTHPasscodeViewControllerDelegate <NSObject>
 @optional
 - (void)passcodeViewControllerWasDismissed;
+- (void)maxNumberOfFailedAttemptsReached;
 @end

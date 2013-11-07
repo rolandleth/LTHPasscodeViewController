@@ -21,6 +21,6 @@
 
 "Passcodes did not match. Try again." = "Contraseña no son iguales. Por favor tratalo otra vez.";
 
-"%i Passcode Failed Attempt" = "%i inteto de entrada falló";
+"1 Passcode Failed Attempt" = "1 inteto de entrada falló";
 
 "%i Passcode Failed Attempts" = "%i intentos de entrada fallaron";
