@@ -14,11 +14,11 @@
 		2AE8001617D9503000DBDE63 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AE8001517D9503000DBDE63 /* main.m */; };
 		2AE8001A17D9503000DBDE63 /* LTHAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AE8001917D9503000DBDE63 /* LTHAppDelegate.m */; };
 		2AE8001C17D9503000DBDE63 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2AE8001B17D9503000DBDE63 /* Images.xcassets */; };
-		2AE8003B17D9505600DBDE63 /* LTHPasscodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AE8003A17D9505600DBDE63 /* LTHPasscodeViewController.m */; };
-		2AE8003E17D9505E00DBDE63 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AE8003D17D9505E00DBDE63 /* SFHFKeychainUtils.m */; };
 		2AE8004117D9507E00DBDE63 /* LTHDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AE8004017D9507E00DBDE63 /* LTHDemoViewController.m */; };
-		2AE8006017DCC1D500DBDE63 /* LTHNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AE8005F17DCC1D500DBDE63 /* LTHNavigationViewController.m */; };
-		C1A8176C180C473D00A4807F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C1A8176E180C473D00A4807F /* Localizable.strings */; };
+		2AF19593182C09D5005CE38A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2AF19588182C09D5005CE38A /* Localizable.strings */; };
+		2AF19594182C09D5005CE38A /* LTHNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF1958D182C09D5005CE38A /* LTHNavigationViewController.m */; };
+		2AF19595182C09D5005CE38A /* LTHPasscodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF1958F182C09D5005CE38A /* LTHPasscodeViewController.m */; };
+		2AF19596182C09D5005CE38A /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF19592182C09D5005CE38A /* SFHFKeychainUtils.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,18 +34,18 @@
 		2AE8001917D9503000DBDE63 /* LTHAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LTHAppDelegate.m; sourceTree = "<group>"; };
 		2AE8001B17D9503000DBDE63 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		2AE8002217D9503000DBDE63 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		2AE8003917D9505600DBDE63 /* LTHPasscodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTHPasscodeViewController.h; sourceTree = "<group>"; };
-		2AE8003A17D9505600DBDE63 /* LTHPasscodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTHPasscodeViewController.m; sourceTree = "<group>"; };
-		2AE8003C17D9505E00DBDE63 /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHFKeychainUtils.h; sourceTree = "<group>"; };
-		2AE8003D17D9505E00DBDE63 /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
 		2AE8003F17D9507E00DBDE63 /* LTHDemoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTHDemoViewController.h; sourceTree = "<group>"; };
 		2AE8004017D9507E00DBDE63 /* LTHDemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTHDemoViewController.m; sourceTree = "<group>"; };
-		2AE8005E17DCC1D500DBDE63 /* LTHNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTHNavigationViewController.h; sourceTree = "<group>"; };
-		2AE8005F17DCC1D500DBDE63 /* LTHNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTHNavigationViewController.m; sourceTree = "<group>"; };
-		2AF19576182BB6E1005CE38A /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/Localizable.strings; sourceTree = "<group>"; };
-		C1A8176D180C473D00A4807F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		C1A8176F180C474200A4807F /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
-		C1B597B11817FB5E00018D15 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		2AF19589182C09D5005CE38A /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		2AF1958A182C09D5005CE38A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		2AF1958B182C09D5005CE38A /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		2AF1958C182C09D5005CE38A /* LTHNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTHNavigationViewController.h; sourceTree = "<group>"; };
+		2AF1958D182C09D5005CE38A /* LTHNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTHNavigationViewController.m; sourceTree = "<group>"; };
+		2AF1958E182C09D5005CE38A /* LTHPasscodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTHPasscodeViewController.h; sourceTree = "<group>"; };
+		2AF1958F182C09D5005CE38A /* LTHPasscodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTHPasscodeViewController.m; sourceTree = "<group>"; };
+		2AF19590182C09D5005CE38A /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/Localizable.strings; sourceTree = "<group>"; };
+		2AF19591182C09D5005CE38A /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHFKeychainUtils.h; sourceTree = "<group>"; };
+		2AF19592182C09D5005CE38A /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,7 +84,7 @@
 		2AE8000F17D9503000DBDE63 /* LTHPasscodeViewController */ = {
 			isa = PBXGroup;
 			children = (
-				2AE8003817D9504600DBDE63 /* AddToYourProject */,
+				2AF19587182C09D5005CE38A /* LTHPasscodeViewController */,
 				2AE8001817D9503000DBDE63 /* LTHAppDelegate.h */,
 				2AE8001917D9503000DBDE63 /* LTHAppDelegate.m */,
 				2AE8003F17D9507E00DBDE63 /* LTHDemoViewController.h */,
@@ -106,21 +106,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		2AE8003817D9504600DBDE63 /* AddToYourProject */ = {
-			isa = PBXGroup;
-			children = (
-				2AE8003C17D9505E00DBDE63 /* SFHFKeychainUtils.h */,
-				2AE8003D17D9505E00DBDE63 /* SFHFKeychainUtils.m */,
-				2AE8003917D9505600DBDE63 /* LTHPasscodeViewController.h */,
-				2AE8003A17D9505600DBDE63 /* LTHPasscodeViewController.m */,
-				2AE8005E17DCC1D500DBDE63 /* LTHNavigationViewController.h */,
-				2AE8005F17DCC1D500DBDE63 /* LTHNavigationViewController.m */,
-				C1A8176E180C473D00A4807F /* Localizable.strings */,
-			);
-			name = AddToYourProject;
-			path = ../../LTHPasscodeViewController;
-			sourceTree = "<group>";
-		};
 		2AE8FFFD17D9503000DBDE63 = {
 			isa = PBXGroup;
 			children = (
@@ -128,6 +113,21 @@
 				2AE8000817D9503000DBDE63 /* Frameworks */,
 				2AE8000717D9503000DBDE63 /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		2AF19587182C09D5005CE38A /* LTHPasscodeViewController */ = {
+			isa = PBXGroup;
+			children = (
+				2AF19588182C09D5005CE38A /* Localizable.strings */,
+				2AF1958C182C09D5005CE38A /* LTHNavigationViewController.h */,
+				2AF1958D182C09D5005CE38A /* LTHNavigationViewController.m */,
+				2AF1958E182C09D5005CE38A /* LTHPasscodeViewController.h */,
+				2AF1958F182C09D5005CE38A /* LTHPasscodeViewController.m */,
+				2AF19591182C09D5005CE38A /* SFHFKeychainUtils.h */,
+				2AF19592182C09D5005CE38A /* SFHFKeychainUtils.m */,
+			);
+			name = LTHPasscodeViewController;
+			path = ../../LTHPasscodeViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -186,7 +186,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2AE8001417D9503000DBDE63 /* InfoPlist.strings in Resources */,
-				C1A8176C180C473D00A4807F /* Localizable.strings in Resources */,
+				2AF19593182C09D5005CE38A /* Localizable.strings in Resources */,
 				2AE8001C17D9503000DBDE63 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -198,12 +198,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2AE8003B17D9505600DBDE63 /* LTHPasscodeViewController.m in Sources */,
 				2AE8001617D9503000DBDE63 /* main.m in Sources */,
-				2AE8003E17D9505E00DBDE63 /* SFHFKeychainUtils.m in Sources */,
 				2AE8004117D9507E00DBDE63 /* LTHDemoViewController.m in Sources */,
+				2AF19596182C09D5005CE38A /* SFHFKeychainUtils.m in Sources */,
 				2AE8001A17D9503000DBDE63 /* LTHAppDelegate.m in Sources */,
-				2AE8006017DCC1D500DBDE63 /* LTHNavigationViewController.m in Sources */,
+				2AF19594182C09D5005CE38A /* LTHNavigationViewController.m in Sources */,
+				2AF19595182C09D5005CE38A /* LTHPasscodeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,13 +218,13 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		C1A8176E180C473D00A4807F /* Localizable.strings */ = {
+		2AF19588182C09D5005CE38A /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				C1A8176D180C473D00A4807F /* en */,
-				C1A8176F180C474200A4807F /* de */,
-				C1B597B11817FB5E00018D15 /* es */,
-				2AF19576182BB6E1005CE38A /* ro */,
+				2AF19589182C09D5005CE38A /* de */,
+				2AF1958A182C09D5005CE38A /* en */,
+				2AF1958B182C09D5005CE38A /* es */,
+				2AF19590182C09D5005CE38A /* ro */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -263,7 +263,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -295,7 +295,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
