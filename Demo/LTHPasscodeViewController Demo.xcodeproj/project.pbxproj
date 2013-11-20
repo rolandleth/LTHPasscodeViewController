@@ -308,8 +308,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "LTHPasscodeViewController/LTHPasscodeViewController Demo-Prefix.pch";
-				INFOPLIST_FILE = "LTHPasscodeViewController/LTHPasscodeViewController Demo-Info.plist";
+				GCC_PREFIX_HEADER = "LTHPasscodeViewController Demo/LTHPasscodeViewController Demo-Prefix.pch";
+				INFOPLIST_FILE = "LTHPasscodeViewController Demo/LTHPasscodeViewController Demo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "LTHPasscodeViewController Demo";
 				WRAPPER_EXTENSION = app;
@@ -322,8 +322,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "LTHPasscodeViewController/LTHPasscodeViewController Demo-Prefix.pch";
-				INFOPLIST_FILE = "LTHPasscodeViewController/LTHPasscodeViewController Demo-Info.plist";
+				GCC_PREFIX_HEADER = "LTHPasscodeViewController Demo/LTHPasscodeViewController Demo-Prefix.pch";
+				INFOPLIST_FILE = "LTHPasscodeViewController Demo/LTHPasscodeViewController Demo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "LTHPasscodeViewController Demo";
 				WRAPPER_EXTENSION = app;
