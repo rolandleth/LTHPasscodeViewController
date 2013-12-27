@@ -32,6 +32,7 @@
 + (void)saveTimerStartTime;
 + (void)deletePasscodeFromKeychain;
 + (CGFloat)timerDuration;
++ (void)setTimerDuration:(float) duration;
 + (CGFloat)timerStartTime;
 + (LTHPasscodeViewController *)sharedUser;
 

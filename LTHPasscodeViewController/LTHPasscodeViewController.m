@@ -91,6 +91,9 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	return [[NSUserDefaults standardUserDefaults] floatForKey: kUserDefaultsKeyForTimerDuration];
 }
 
++ (void)setTimerDuration:(float) duration {
+    [[NSUserDefaults standardUserDefaults] setFloat:duration forKey:kUserDefaultsKeyForTimerDuration];
+}
 
 + (CGFloat)timerStartTime {
 	NSString *keychainValue = [SFHFKeychainUtils getPasswordForUsername: kKeychainTimerStart
