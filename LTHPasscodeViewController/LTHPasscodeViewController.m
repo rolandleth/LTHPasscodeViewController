@@ -58,7 +58,25 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 #define kPasscodeTextColor [UIColor colorWithWhite:0.31f alpha:1.0f]
 #define kFailedAttemptLabelTextColor [UIColor whiteColor]
 
-@implementation LTHPasscodeViewController
+@implementation LTHPasscodeViewController {
+	UIView *_animatingView;
+	UITextField *_firstDigitTextField;
+	UITextField *_secondDigitTextField;
+	UITextField *_thirdDigitTextField;
+	UITextField *_fourthDigitTextField;
+	UITextField *_passcodeTextField;
+	UILabel *_failedAttemptLabel;
+	UILabel *_enterPasscodeLabel;
+	int _failedAttempts;
+	BOOL _isUserConfirmingPasscode;
+	BOOL _isUserBeingAskedForNewPasscode;
+	BOOL _isUserTurningPasscodeOff;
+	BOOL _isUserChangingPasscode;
+	BOOL _isUserEnablingPasscode;
+	BOOL _beingDisplayedAsLockScreen;
+	NSString *_tempPasscode;
+	BOOL _timerStartInSeconds;
+}
 
 
 #pragma mark - Class methods
@@ -112,14 +130,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
     [super viewDidLoad];
 	
 	self.view.backgroundColor = kBackgroundColor;
-	if (!_beingDisplayedAsLockscreen) {
-		self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemCancel
-																							   target: self
-																							   action: @selector(cancelAndDismissMe)];
-		self.title = NSLocalizedString(@"Enter Passcode", @"");
-	}
-	
-	_isCurrentlyOnScreen = YES;
+
 	_failedAttempts = 0;
 	_animatingView = [[UIView alloc] initWithFrame: self.view.frame];
 	[self.view addSubview: _animatingView];
@@ -350,7 +361,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	[self resetUI];
 	[_passcodeTextField resignFirstResponder];
 	[UIView animateWithDuration: kLockAnimationDuration animations: ^{
-		if (_beingDisplayedAsLockscreen) {
+		if (_beingDisplayedAsLockScreen) {
 			if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) {
 				self.view.center = CGPointMake(self.view.center.x * -1.f, self.view.center.y);
 			}
@@ -385,7 +396,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 //		[[NSNotificationCenter defaultCenter] postNotificationName: @"dismissPasscodeViewController"
 //															object: self
 //														  userInfo: nil];
-		if (_beingDisplayedAsLockscreen) {
+		if (_beingDisplayedAsLockScreen) {
 			[self.view removeFromSuperview];
 			[self removeFromParentViewController];
 		}
@@ -403,10 +414,8 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 
 
 #pragma mark - Displaying
-- (void)showLockscreenWithAnimation:(BOOL)animated {
-	// In case the user leaves the app while changing/disabling Passcode.
-	if (!_beingDisplayedAsLockscreen) [self cancelAndDismissMe];
-	[self prepareAsLockscreen];
+- (void)showLockScreenWithAnimation:(BOOL)animated {
+	[self prepareAsLockScreen];
 	// In case the user leaves the app while the lockscreen is already active.
 	if (!_isCurrentlyOnScreen) {
 		// MARK: Window changes. Please read:
@@ -499,8 +508,12 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 
 
 #pragma mark - Preparing
-- (void)prepareAsLockscreen {
-	_beingDisplayedAsLockscreen = YES;
+- (void)prepareAsLockScreen {
+    // In case the user leaves the app while changing/disabling Passcode.
+    if (_isCurrentlyOnScreen && !_beingDisplayedAsLockScreen) {
+        [self cancelAndDismissMe];
+    }
+	_beingDisplayedAsLockScreen = YES;
 	_isUserTurningPasscodeOff = NO;
 	_isUserChangingPasscode = NO;
 	_isUserConfirmingPasscode = NO;
@@ -511,7 +524,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 
 - (void)prepareForChangingPasscode {
 	_isCurrentlyOnScreen = YES;
-	_beingDisplayedAsLockscreen = NO;
+	_beingDisplayedAsLockScreen = NO;
 	_isUserTurningPasscodeOff = NO;
 	_isUserChangingPasscode = YES;
 	_isUserConfirmingPasscode = NO;
@@ -522,7 +535,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 
 - (void)prepareForTurningOffPasscode {
 	_isCurrentlyOnScreen = YES;
-	_beingDisplayedAsLockscreen = NO;
+	_beingDisplayedAsLockScreen = NO;
 	_isUserTurningPasscodeOff = YES;
 	_isUserChangingPasscode = NO;
 	_isUserConfirmingPasscode = NO;
@@ -533,7 +546,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 
 - (void)prepareForEnablingPasscode {
 	_isCurrentlyOnScreen = YES;
-	_beingDisplayedAsLockscreen = NO;
+	_beingDisplayedAsLockScreen = NO;
 	_isUserTurningPasscodeOff = NO;
 	_isUserChangingPasscode = NO;
 	_isUserConfirmingPasscode = NO;
@@ -602,7 +615,15 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 		}
 		// App launch/Turning passcode off: Passcode OK -> dismiss, Passcode incorrect -> deny access.
 		else {
-			if ([typedString isEqualToString: savedPasscode]) [self dismissMe];
+			if ([typedString isEqualToString: savedPasscode]) {
+                if ([self.delegate respondsToSelector: @selector(passcodeWasEnteredSuccessfully)])
+                    [self.delegate performSelector: @selector(passcodeWasEnteredSuccessfully)];
+                // Or, if you prefer by notifications:
+//                	[[NSNotificationCenter defaultCenter] postNotificationName: @"passcodeWasEnteredSuccessfully"
+//                														object: self
+//                													  userInfo: nil];
+                [self dismissMe];
+            }
 			else {
 				[self performSelector: @selector(denyAccess) withObject: nil afterDelay: 0.15f];
 				return NO;
@@ -742,7 +763,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 		if ([_passcodeTextField isFirstResponder]) [_passcodeTextField resignFirstResponder];
 		// Without animation because otherwise it won't come down fast enough,
 		// so inside iOS' multitasking view the app won't be covered by anything.
-		if ([LTHPasscodeViewController timerDuration] == 0) [self showLockscreenWithAnimation: NO];
+		if ([LTHPasscodeViewController timerDuration] == 0) [self showLockScreenWithAnimation: NO];
 		else {
 			_coverView.hidden = NO;
 			if (![[UIApplication sharedApplication].keyWindow viewWithTag: 99]) [[UIApplication sharedApplication].keyWindow addSubview: _coverView];
@@ -760,7 +781,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	if ([LTHPasscodeViewController passcodeExistsInKeychain] &&
 		[LTHPasscodeViewController didPasscodeTimerEnd] &&
 		![LTHPasscodeViewController sharedUser].isCurrentlyOnScreen) {
-		[[LTHPasscodeViewController sharedUser] showLockscreenWithAnimation: YES];
+		[[LTHPasscodeViewController sharedUser] showLockScreenWithAnimation: YES];
 	}
 }
 
@@ -822,7 +843,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 
 
 - (NSUInteger)supportedInterfaceOrientations {
-	if (_beingDisplayedAsLockscreen) return UIInterfaceOrientationMaskAll;
+	if (_beingDisplayedAsLockScreen) return UIInterfaceOrientationMaskAll;
 	// I'll be honest and mention I have no idea why this line of code below works.
 	// Without it, if you present the passcode view as lockscreen (directly on the window)
 	// and then inside of a modal, the orientation will be wrong.
