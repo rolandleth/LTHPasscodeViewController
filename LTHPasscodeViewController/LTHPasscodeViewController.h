@@ -8,10 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol LTHPasscodeViewControllerDelegate <NSObject>
+@optional
+// This serves, mostly, as an "update stuff after dismissing"
+- (void)passcodeViewControllerWasDismissed;
+- (void)maxNumberOfFailedAttemptsReached;
+- (void)passcodeWasEnteredSuccessfully;
+@end
 
-@protocol LTHPasscodeViewControllerDelegate;
 @interface LTHPasscodeViewController : UIViewController <UITextFieldDelegate>
-
 
 @property (nonatomic, strong) UIView *coverView;
 @property (nonatomic, weak) id<LTHPasscodeViewControllerDelegate> delegate;
@@ -36,14 +41,4 @@
 + (CGFloat)timerStartTime;
 + (LTHPasscodeViewController *)sharedUser;
 
-
-@end
-
-
-@protocol LTHPasscodeViewControllerDelegate <NSObject>
-@optional
-// This serves, mostly, as an "update stuff after dismissing"
-- (void)passcodeViewControllerWasDismissed;
-- (void)maxNumberOfFailedAttemptsReached;
-- (void)passcodeWasEnteredSuccessfully;
 @end
