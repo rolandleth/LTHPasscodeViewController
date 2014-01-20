@@ -38,7 +38,10 @@ Rather than writing a big documentation, I heavily commented it as best as I cou
 ![Screenshot](http://rolandleth.com/assets/ios7-style-passcode/screenshot.png)   ![Screenshot](http://rolandleth.com/assets/ios7-style-passcode/change-passcode-screenshot.png)
 
 # Apps using this control
-If you're using this control, I'd love hearing from you!
+If you're using this control, I'd love hearing from you!  
+[Expenses Planner](https://itunes.apple.com/us/app/expenses-planner-reminders/id669431471?mt=8)  
+[DigitalOcean Manager](https://itunes.apple.com/us/app/digitalocean-manager/id633128302?mt=8)
+
 
 # License
 Licensed under MIT. If you'd like (or need) a license without attribution, don't hesitate to [contact me](mailto:roland@rolandleth.com).
