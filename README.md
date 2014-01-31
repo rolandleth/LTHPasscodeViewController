@@ -3,7 +3,7 @@ Simple to use iOS 7 style (replica, if you will) Passcode view. Not the Lock Scr
 I made it a singleton because if the lock is active, when leaving the app a view must be placed on top, so no data from within the app can be seen in the multitasking mode. This is done under the hood, without having to do anything extra.
 
 # How to use
-Drag the contents of `AddToYourProject` to your project, or add `pod 'LTHPasscodeViewController'` to your podspec file.
+Drag the contents of `LTHPasscodeViewController` to your project, or add `pod 'LTHPasscodeViewController'` to your podspec file.
 
 * When opened from Settings (as a modal):
 
@@ -38,9 +38,12 @@ Rather than writing a big documentation, I heavily commented it as best as I cou
 ![Screenshot](http://rolandleth.com/assets/ios7-style-passcode/screenshot.png)   ![Screenshot](http://rolandleth.com/assets/ios7-style-passcode/change-passcode-screenshot.png)
 
 # Apps using this control
-If you're using this control, I'd love hearing from you!  
 [Expenses Planner](https://itunes.apple.com/us/app/expenses-planner-reminders/id669431471?mt=8)  
-[DigitalOcean Manager](https://itunes.apple.com/us/app/digitalocean-manager/id633128302?mt=8)
+[DigitalOcean Manager](https://itunes.apple.com/us/app/digitalocean-manager/id633128302?mt=8)  
+[LovelyHeroku](https://itunes.apple.com/us/app/lovelyheroku/id706287663?mt=8&uo=4)
+
+If you're using this control, I'd love hearing from you!  
+
 
 
 # License
