@@ -430,6 +430,8 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 		// http://stackoverflow.com/questions/19816142/uialertviews-uiactionsheets-and-keywindow-problems
 		// https://github.com/rolandleth/LTHPasscodeViewController/issues/16
 		// Usually not more than one window is needed, but your needs may vary; modify below.
+		// Also, in case the control doesn't work properly,
+		// try it with .keyWindow before anything else, it might work.
 //		UIWindow *mainWindow = [UIApplication sharedApplication].keyWindow;
 		UIWindow *mainWindow = [UIApplication sharedApplication].windows[0];
 		[mainWindow addSubview: self.view];
