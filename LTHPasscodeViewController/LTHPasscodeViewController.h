@@ -22,6 +22,11 @@
 @property (nonatomic, weak) id<LTHPasscodeViewControllerDelegate> delegate;
 @property (assign) BOOL isCurrentlyOnScreen;
 
+// Customization
+@property (nonatomic, strong) UIColor *navigationBarTintColor;
+@property (nonatomic, strong) UIColor *navigationTintColor;
+@property (nonatomic, strong) UIColor *navigationTitleColor;
+
 - (void)showLockScreenWithAnimation:(BOOL)animated;
 - (void)showForEnablingPasscodeInViewController:(UIViewController *)viewController;
 - (void)showForChangingPasscodeInViewController:(UIViewController *)viewController;
