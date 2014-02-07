@@ -483,6 +483,18 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 
 - (void)prepareNavigationControllerWithController:(UIViewController *)viewController {
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController: self];
+	
+	// Customize navigation bar
+	// Make sure UITextAttributeTextColor is not set to nil
+	// And barTintColor is only called on iOS7+
+	navController.navigationBar.tintColor           = self.navigationTintColor;
+	if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
+		navController.navigationBar.barTintColor        = self.navigationBarTintColor;
+	}
+	if (self.navigationTitleColor) {
+		navController.navigationBar.titleTextAttributes = @{UITextAttributeTextColor : self.navigationTitleColor};
+	}
+	
 	[viewController presentViewController: navController animated: YES completion: nil];
 	[self rotateAccordingToStatusBarOrientationAndSupportedOrientations];
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemCancel
