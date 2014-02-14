@@ -26,6 +26,7 @@
 @property (nonatomic, strong) UIColor *navigationBarTintColor;
 @property (nonatomic, strong) UIColor *navigationTintColor;
 @property (nonatomic, strong) UIColor *navigationTitleColor;
+@property (nonatomic, assign) BOOL navigationBarTranslucent;
 
 - (void)showLockScreenWithAnimation:(BOOL)animated;
 - (void)showForEnablingPasscodeInViewController:(UIViewController *)viewController;

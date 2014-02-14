@@ -486,10 +486,11 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	
 	// Customize navigation bar
 	// Make sure UITextAttributeTextColor is not set to nil
-	// And barTintColor is only called on iOS7+
+	// barTintColor & translucent is only called on iOS7+
 	navController.navigationBar.tintColor           = self.navigationTintColor;
 	if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
 		navController.navigationBar.barTintColor        = self.navigationBarTintColor;
+		navController.navigationBar.translucent			= self.navigationBarTranslucent;
 	}
 	if (self.navigationTitleColor) {
 		navController.navigationBar.titleTextAttributes = @{UITextAttributeTextColor : self.navigationTitleColor};
