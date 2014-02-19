@@ -37,6 +37,8 @@
 - (void)prepareForChangingPasscode;
 - (void)prepareForTurningOffPasscode;
 - (void)prepareForEnablingPasscode;
+- (void)dismissMe;
+- (void)resetUI;
 
 + (BOOL)passcodeExistsInKeychain;
 + (BOOL)didPasscodeTimerEnd;
