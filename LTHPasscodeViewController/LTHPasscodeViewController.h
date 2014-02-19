@@ -40,6 +40,7 @@
 - (void)dismissMe;
 - (void)resetUI;
 
++ (void)setUsername:(NSString*)username andServiceName:(NSString*)serviceName;
 + (BOOL)passcodeExistsInKeychain;
 + (BOOL)didPasscodeTimerEnd;
 + (void)saveTimerStartTime;
