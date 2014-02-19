@@ -14,6 +14,7 @@
 - (void)passcodeViewControllerWasDismissed;
 - (void)maxNumberOfFailedAttemptsReached;
 - (void)passcodeWasEnteredSuccessfully;
+- (void)logoutAction;
 @end
 
 @interface LTHPasscodeViewController : UIViewController <UITextFieldDelegate>
@@ -27,8 +28,10 @@
 @property (nonatomic, strong) UIColor *navigationTintColor;
 @property (nonatomic, strong) UIColor *navigationTitleColor;
 @property (nonatomic, assign) BOOL navigationBarTranslucent;
+@property (nonatomic, strong) UINavigationBar *navBar;
 
 - (void)showLockScreenWithAnimation:(BOOL)animated;
+- (void)showLockScreenWithAnimation:(BOOL)animated withLogout:(BOOL)hasLogout andLogoutTitle:(NSString*)logoutTitle;
 - (void)showForEnablingPasscodeInViewController:(UIViewController *)viewController;
 - (void)showForChangingPasscodeInViewController:(UIViewController *)viewController;
 - (void)showForTurningOffPasscodeInViewController:(UIViewController *)viewController;
