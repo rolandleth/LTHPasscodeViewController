@@ -22,7 +22,7 @@ static CGFloat const kLockAnimationDuration = 0.15f;
 static CGFloat const kSlideAnimationDuration = 0.15f;
 // Set to 0 if you want to skip the check. If you don't, nothing happens,
 // just maxNumberOfAllowedFailedAttempts protocol method is checked for and called.
-static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
+static NSString *const kMaxNumberOfAllowedFailedAttempts = @"kMaxNumberOfAllowedFailedAttempts";
 
 #define DegreesToRadians(x) ((x) * M_PI / 180.0)
 // Gaps
@@ -120,6 +120,17 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	return NO;
 }
 
++ (int)maxNumberOfAllowedFailedAttempts {
+	return [[NSUserDefaults standardUserDefaults] integerForKey:kMaxNumberOfAllowedFailedAttempts];
+}
+
++ (void)setMaxNumberOfAllowedFailedAttempts:(int)maxNumberOfAllowedFailedAttempts {
+	if (maxNumberOfAllowedFailedAttempts > 0) {
+		[[NSUserDefaults standardUserDefaults] setInteger:maxNumberOfAllowedFailedAttempts forKey:kMaxNumberOfAllowedFailedAttempts];
+	} else {
+		[[NSUserDefaults standardUserDefaults] setInteger:10 forKey:kMaxNumberOfAllowedFailedAttempts];
+	}
+}
 
 + (void)deletePasscodeFromKeychain {
 	[SFHFKeychainUtils deleteItemForUsername: [[NSUserDefaults standardUserDefaults] objectForKey:kKeychainUsername]
@@ -800,8 +811,8 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	_passcodeTextField.text = @"";
 	_failedAttempts++;
 	
-	if (kMaxNumberOfAllowedFailedAttempts > 0 &&
-		_failedAttempts == kMaxNumberOfAllowedFailedAttempts &&
+	if ([[NSUserDefaults standardUserDefaults] integerForKey:kMaxNumberOfAllowedFailedAttempts] > 0 &&
+		_failedAttempts == [[NSUserDefaults standardUserDefaults] integerForKey:kMaxNumberOfAllowedFailedAttempts] &&
 		[self.delegate respondsToSelector: @selector(maxNumberOfFailedAttemptsReached)])
 		[self.delegate maxNumberOfFailedAttemptsReached];
 //	Or, if you prefer by notifications:
@@ -884,6 +895,9 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 		// Set default username & service name for passcode
 		[[NSUserDefaults standardUserDefaults] setObject:kKeychainUsername forKey:kKeychainUsername];
 		[[NSUserDefaults standardUserDefaults] setObject:kKeychainServiceName forKey:kKeychainServiceName];
+		
+		// Set default kMaxNumberOfAllowedFailedAttempts
+		[[NSUserDefaults standardUserDefaults] setInteger:10 forKey:kMaxNumberOfAllowedFailedAttempts];
 		
 		[[NSNotificationCenter defaultCenter] addObserver: self
 												 selector: @selector(applicationDidEnterBackground)
