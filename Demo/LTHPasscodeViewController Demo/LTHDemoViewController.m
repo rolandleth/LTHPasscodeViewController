@@ -38,12 +38,6 @@
 	}
 }
 
-
-- (void)passcodeViewControllerWasDismissed {
-	[self _refreshUI];
-}
-
-
 - (void)viewDidLoad {
     [super viewDidLoad];
 	self.title = @"Demo";
@@ -109,7 +103,6 @@
 //	[av show];
 }
 
-
 - (void)showLockViewForEnablingPasscode {
 	[[LTHPasscodeViewController sharedUser] showForEnablingPasscodeInViewController: self];
 }
@@ -127,6 +120,28 @@
 
 - (void)showLockViewForTurningPasscodeOff {
 	[[LTHPasscodeViewController sharedUser] showForTurningOffPasscodeInViewController: self];
+}
+
+# pragma mark - LTHPasscodeViewController Delegates -
+
+- (void)passcodeViewControllerWasDismissed {
+	NSLog(@"Passcode View Controller Was Dismissed");
+	[self _refreshUI];
+}
+
+- (void)maxNumberOfFailedAttemptsReached
+{
+	NSLog(@"Max Number of Failed Attemps Reached");
+}
+
+- (void)passcodeWasEnteredSuccessfully
+{
+	NSLog(@"Passcode Was Entered Successfully");
+}
+
+- (void)logoutButtonWasPressed
+{
+	NSLog(@"Logout Button Was Pressed");
 }
 
 

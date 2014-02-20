@@ -417,7 +417,16 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 
 
 #pragma mark - Displaying
-- (void)showLockScreenWithAnimation:(BOOL)animated {
+
+// Original method - display without navigation bar and logout button
+- (void)showLockScreenWithAnimation:(BOOL)animated
+{
+	[self.navBar removeFromSuperview];
+	self.navBar = nil;
+	[self showLockScreenWithAnimation:animated withLogout:NO andLogoutTitle:nil];
+}
+
+- (void)showLockScreenWithAnimation:(BOOL)animated withLogout:(BOOL)hasLogout andLogoutTitle:(NSString*)logoutTitle {
 	[self prepareAsLockScreen];
 	// In case the user leaves the app while the lockscreen is already active.
 	if (!_isCurrentlyOnScreen) {
@@ -476,6 +485,32 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 		} else {
 			self.view.center = newCenter;
 		}
+		
+		// Add nav bar & logout button if specified
+		if (hasLogout) {
+			
+			// Navigation Bar with custom UI
+			self.navBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, mainWindow.frame.origin.y, 320, 64)];
+            self.navBar.tintColor = self.navigationTintColor;
+			if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
+				self.navBar.barTintColor = self.navigationBarTintColor;
+				self.navBar.translucent  = self.navigationBarTranslucent;
+			}
+			if (self.navigationTitleColor) {
+				self.navBar.titleTextAttributes = @{UITextAttributeTextColor : self.navigationTitleColor};
+			}
+			
+			// Navigation item
+			UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithTitle:logoutTitle
+																		   style:UIBarButtonItemStyleDone target:self action:@selector(logoutPressed)];
+			UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:self.title];
+			item.leftBarButtonItem = leftButton;
+			item.hidesBackButton = YES;
+			
+			[self.navBar pushNavigationItem:item animated:NO];
+			[mainWindow addSubview:self.navBar];
+		}
+		
 		_isCurrentlyOnScreen = YES;
 	}
 }
@@ -483,6 +518,10 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 
 - (void)prepareNavigationControllerWithController:(UIViewController *)viewController {
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController: self];
+	
+	// Make sure nav bar for logout is off the screen
+	[self.navBar removeFromSuperview];
+	self.navBar = nil;
 	
 	// Customize navigation bar
 	// Make sure UITextAttributeTextColor is not set to nil
@@ -731,6 +770,10 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 		}
 	}
 	else _enterPasscodeLabel.text = NSLocalizedString(@"Enter your passcode", @"");
+	
+	// Make sure nav bar for logout is off the screen
+	[self.navBar removeFromSuperview];
+	self.navBar = nil;
 }
 
 
@@ -774,6 +817,12 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	_failedAttemptLabel.hidden = NO;
 }
 
+- (void)logoutPressed {
+	// Notify delegate that logout button was pressed
+	if ([self.delegate respondsToSelector: @selector(logoutButtonWasPressed)]) {
+		[self.delegate logoutButtonWasPressed];
+	}
+}
 
 #pragma mark - Notification Observers
 - (void)applicationDidEnterBackground {
