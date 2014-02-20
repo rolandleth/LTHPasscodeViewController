@@ -14,7 +14,7 @@
 - (void)passcodeViewControllerWasDismissed;
 - (void)maxNumberOfFailedAttemptsReached;
 - (void)passcodeWasEnteredSuccessfully;
-- (void)logoutAction;
+- (void)logoutButtonWasPressed;
 @end
 
 @interface LTHPasscodeViewController : UIViewController <UITextFieldDelegate>

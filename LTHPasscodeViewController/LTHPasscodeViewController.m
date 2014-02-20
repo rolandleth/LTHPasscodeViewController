@@ -819,8 +819,8 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 
 - (void)logoutPressed {
 	// Notify delegate that logout button was pressed
-	if ([self.delegate respondsToSelector: @selector(logoutAction)]) {
-		[self.delegate logoutAction];
+	if ([self.delegate respondsToSelector: @selector(logoutButtonWasPressed)]) {
+		[self.delegate logoutButtonWasPressed];
 	}
 }
 
