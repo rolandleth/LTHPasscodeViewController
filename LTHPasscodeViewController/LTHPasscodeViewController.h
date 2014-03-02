@@ -51,6 +51,8 @@
 + (CGFloat)timerDuration;
 + (void)setTimerDuration:(float) duration;
 + (CGFloat)timerStartTime;
++ (int)maxNumberOfAllowedFailedAttempts;
++ (void)setMaxNumberOfAllowedFailedAttempts:(int)maxNumberOfAllowedFailedAttempts;
 + (LTHPasscodeViewController *)sharedUser;
 
 @end

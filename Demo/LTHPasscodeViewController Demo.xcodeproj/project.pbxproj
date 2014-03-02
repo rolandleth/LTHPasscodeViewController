@@ -16,7 +16,6 @@
 		2AE8001C17D9503000DBDE63 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2AE8001B17D9503000DBDE63 /* Images.xcassets */; };
 		2AE8004117D9507E00DBDE63 /* LTHDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AE8004017D9507E00DBDE63 /* LTHDemoViewController.m */; };
 		2AF19593182C09D5005CE38A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2AF19588182C09D5005CE38A /* Localizable.strings */; };
-		2AF19594182C09D5005CE38A /* LTHNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF1958D182C09D5005CE38A /* LTHNavigationViewController.m */; };
 		2AF19595182C09D5005CE38A /* LTHPasscodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF1958F182C09D5005CE38A /* LTHPasscodeViewController.m */; };
 		2AF19596182C09D5005CE38A /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF19592182C09D5005CE38A /* SFHFKeychainUtils.m */; };
 /* End PBXBuildFile section */
@@ -38,8 +37,6 @@
 		2AF19589182C09D5005CE38A /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2AF1958A182C09D5005CE38A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2AF1958B182C09D5005CE38A /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
-		2AF1958C182C09D5005CE38A /* LTHNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTHNavigationViewController.h; sourceTree = "<group>"; };
-		2AF1958D182C09D5005CE38A /* LTHNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTHNavigationViewController.m; sourceTree = "<group>"; };
 		2AF1958E182C09D5005CE38A /* LTHPasscodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTHPasscodeViewController.h; sourceTree = "<group>"; };
 		2AF1958F182C09D5005CE38A /* LTHPasscodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTHPasscodeViewController.m; sourceTree = "<group>"; };
 		2AF19590182C09D5005CE38A /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -119,8 +116,6 @@
 			isa = PBXGroup;
 			children = (
 				2AF19588182C09D5005CE38A /* Localizable.strings */,
-				2AF1958C182C09D5005CE38A /* LTHNavigationViewController.h */,
-				2AF1958D182C09D5005CE38A /* LTHNavigationViewController.m */,
 				2AF1958E182C09D5005CE38A /* LTHPasscodeViewController.h */,
 				2AF1958F182C09D5005CE38A /* LTHPasscodeViewController.m */,
 				2AF19591182C09D5005CE38A /* SFHFKeychainUtils.h */,
@@ -202,7 +197,6 @@
 				2AE8004117D9507E00DBDE63 /* LTHDemoViewController.m in Sources */,
 				2AF19596182C09D5005CE38A /* SFHFKeychainUtils.m in Sources */,
 				2AE8001A17D9503000DBDE63 /* LTHAppDelegate.m in Sources */,
-				2AF19594182C09D5005CE38A /* LTHNavigationViewController.m in Sources */,
 				2AF19595182C09D5005CE38A /* LTHPasscodeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
