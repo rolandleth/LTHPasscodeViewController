@@ -87,26 +87,39 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 }
 
 
-+ (CGFloat)timerDuration {
-	return [[NSUserDefaults standardUserDefaults] floatForKey: kUserDefaultsKeyForTimerDuration];
++ (NSTimeInterval)timerDuration {
+	NSString *keychainValue = [SFHFKeychainUtils
+                               getPasswordForUsername: kUserDefaultsKeyForTimerDuration
+                               andServiceName: [[NSUserDefaults standardUserDefaults]
+                                                objectForKey: kKeychainServiceName]
+                               error: nil];
+	if (!keychainValue) return -1;
+	return keychainValue.doubleValue;
 }
 
-+ (void)setTimerDuration:(float) duration {
-    [[NSUserDefaults standardUserDefaults] setFloat:duration forKey:kUserDefaultsKeyForTimerDuration];
+
++ (void)setTimerDuration:(NSTimeInterval) duration {
+    [SFHFKeychainUtils storeUsername: kUserDefaultsKeyForTimerDuration
+						 andPassword: [NSString stringWithFormat: @"%.6f", duration]
+					  forServiceName: [[NSUserDefaults standardUserDefaults]
+                                       objectForKey:kKeychainServiceName]
+					  updateExisting: YES
+							   error: nil];
 }
 
-+ (CGFloat)timerStartTime {
+
++ (NSTimeInterval)timerStartTime {
     NSString *keychainValue = [SFHFKeychainUtils getPasswordForUsername: kKeychainTimerStart
 														 andServiceName: [[NSUserDefaults standardUserDefaults] objectForKey:kKeychainServiceName]
 																  error: nil];
 	if (!keychainValue) return -1;
-	return keychainValue.floatValue;
+	return keychainValue.doubleValue;
 }
 
 
 + (void)saveTimerStartTime {
 	[SFHFKeychainUtils storeUsername: kKeychainTimerStart
-						 andPassword: [NSString stringWithFormat: @"%f", [NSDate timeIntervalSinceReferenceDate]]
+						 andPassword: [NSString stringWithFormat: @"%.6f", [NSDate timeIntervalSinceReferenceDate]]
 					  forServiceName: [[NSUserDefaults standardUserDefaults] objectForKey:kKeychainServiceName]
 					  updateExisting: YES
 							   error: nil];
@@ -115,7 +128,8 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 
 + (BOOL)didPasscodeTimerEnd {
 	NSTimeInterval now = [NSDate timeIntervalSinceReferenceDate];
-	// startTime wasn't saved yet (first app use and it crashed, phone force closed, etc) if it returns -1.
+	// startTime wasn't saved yet (first app use and it crashed, phone force
+	// closed, etc) if it returns -1.
 	if (now - [self timerStartTime] >= [self timerDuration] || [self timerStartTime] == -1) return YES;
 	return NO;
 }

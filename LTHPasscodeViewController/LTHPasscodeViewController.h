@@ -48,9 +48,9 @@
 + (BOOL)didPasscodeTimerEnd;
 + (void)saveTimerStartTime;
 + (void)deletePasscodeFromKeychain;
-+ (CGFloat)timerDuration;
-+ (void)setTimerDuration:(float) duration;
-+ (CGFloat)timerStartTime;
++ (NSTimeInterval)timerDuration;
++ (void)setTimerDuration:(NSTimeInterval)duration;
++ (NSTimeInterval)timerStartTime;
 + (LTHPasscodeViewController *)sharedUser;
 
 @end
