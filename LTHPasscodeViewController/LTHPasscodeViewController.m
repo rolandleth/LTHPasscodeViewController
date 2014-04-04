@@ -844,7 +844,8 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 		if ([_passcodeTextField isFirstResponder]) [_passcodeTextField resignFirstResponder];
 		// Without animation because otherwise it won't come down fast enough,
 		// so inside iOS' multitasking view the app won't be covered by anything.
-		if ([LTHPasscodeViewController timerDuration] == 0) [self showLockScreenWithAnimation: NO];
+		if ([LTHPasscodeViewController timerDuration] <= 0)
+            [self showLockScreenWithAnimation: NO];
 		else {
 			_coverView.hidden = NO;
 			if (![[UIApplication sharedApplication].keyWindow viewWithTag: 99]) [[UIApplication sharedApplication].keyWindow addSubview: _coverView];
