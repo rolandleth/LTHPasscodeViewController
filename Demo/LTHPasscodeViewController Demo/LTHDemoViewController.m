@@ -36,6 +36,8 @@
 		_testPasscode.backgroundColor = [UIColor colorWithWhite: 0.8f alpha: 1.0f];
 		_turnOffPasscode.backgroundColor = [UIColor colorWithWhite: 0.8f alpha: 1.0f];
 	}
+    
+    _typeSwitch.on = [[LTHPasscodeViewController sharedUser] isSimple];
 }
 
 - (void)viewDidLoad {
@@ -49,7 +51,9 @@
 	_enablePasscode = [UIButton buttonWithType: UIButtonTypeCustom];
 	_testPasscode = [UIButton buttonWithType: UIButtonTypeCustom];
 	_turnOffPasscode = [UIButton buttonWithType: UIButtonTypeCustom];
-	
+    
+    _typeLabel = [[UILabel alloc] initWithFrame:(CGRect){230, 230, 60, 30}];
+	_typeSwitch = [[UISwitch alloc] initWithFrame:(CGRect){230, 260, 100, 100}];
 	_enablePasscode.frame = CGRectMake(100, 100, 100, 50);
 	_testPasscode.frame = CGRectMake(100, 200, 100, 50);
 	_changePasscode.frame = CGRectMake(100, 300, 100, 50);
@@ -60,6 +64,7 @@
 	[_changePasscode setTitle: @"Change" forState: UIControlStateNormal];
 	[_testPasscode setTitle: @"Test" forState: UIControlStateNormal];
 	[_enablePasscode setTitle: @"Enable" forState: UIControlStateNormal];
+    _typeLabel.text = @"Simple";
 	
 	[self _refreshUI];
 	
@@ -67,11 +72,14 @@
 	[_enablePasscode addTarget: self action: @selector(_enablePasscode) forControlEvents: UIControlEventTouchUpInside];
 	[_testPasscode addTarget: self action: @selector(_testPasscode) forControlEvents: UIControlEventTouchUpInside];
 	[_turnOffPasscode addTarget: self action: @selector(_turnOffPasscode) forControlEvents: UIControlEventTouchUpInside];
+    [_typeSwitch addTarget:self action:@selector(_switchPasscodeType:) forControlEvents:UIControlEventValueChanged];
 	
 	[self.view addSubview: _changePasscode];
 	[self.view addSubview: _turnOffPasscode];
 	[self.view addSubview: _testPasscode];
 	[self.view addSubview: _enablePasscode];
+    [self.view addSubview:_typeSwitch];
+    [self.view addSubview:_typeLabel];
 }
 
 
@@ -101,6 +109,11 @@
 //	[as showInView: self.view];
 //	UIAlertView *av = [[UIAlertView alloc] initWithTitle: @"aa" message: @"ss" delegate: nil cancelButtonTitle: @"c" otherButtonTitles: nil];
 //	[av show];
+}
+
+- (void)_switchPasscodeType:(UISwitch *)sender
+{
+    [[LTHPasscodeViewController sharedUser] setIsSimple:sender.isOn];
 }
 
 - (void)showLockViewForEnablingPasscode {

@@ -30,6 +30,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 // must have the same ratio as the font size difference between them.
 #define kHorizontalGap (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? kiPhoneHorizontalGap * kFontSizeModifier : kiPhoneHorizontalGap)
 #define kVerticalGap (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 60.0f : 25.0f)
+#define kPasscodeOverlayHeight (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 96.0f : 40.0f)
 #define kModifierForBottomVerticalGap (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 2.6f : 3.0f)
 // Text Sizes
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
@@ -65,6 +66,8 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	UITextField *_thirdDigitTextField;
 	UITextField *_fourthDigitTextField;
 	UITextField *_passcodeTextField;
+    UIView *_complexPasscodeOverlayView;
+    UIButton *_OKButton;
 	UILabel *_failedAttemptLabel;
 	UILabel *_enterPasscodeLabel;
 	int _failedAttempts;
@@ -73,6 +76,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	BOOL _isUserTurningPasscodeOff;
 	BOOL _isUserChangingPasscode;
 	BOOL _isUserEnablingPasscode;
+    BOOL _isUserSwitchingBetweenPasscodeModes; // simple/complex
 	BOOL _beingDisplayedAsLockScreen;
 	NSString *_tempPasscode;
 	BOOL _timerStartInSeconds;
@@ -169,67 +173,113 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	_failedAttemptLabel.textAlignment = NSTextAlignmentCenter;
 	[_animatingView addSubview: _failedAttemptLabel];
 	
-	_firstDigitTextField = [[UITextField alloc] initWithFrame:CGRectZero];
+    _firstDigitTextField = [[UITextField alloc] initWithFrame:CGRectZero];
     _firstDigitTextField.backgroundColor = kPasscodeBackgroundColor;
     _firstDigitTextField.textAlignment = NSTextAlignmentCenter;
-	_firstDigitTextField.text = kPasscodeCharacter;
-	_firstDigitTextField.textColor = kPasscodeTextColor;
-	_firstDigitTextField.font = kPasscodeFont;
-	_firstDigitTextField.secureTextEntry = NO;
+    _firstDigitTextField.text = kPasscodeCharacter;
+    _firstDigitTextField.textColor = kPasscodeTextColor;
+    _firstDigitTextField.font = kPasscodeFont;
+    _firstDigitTextField.secureTextEntry = NO;
     [_firstDigitTextField setBorderStyle:UITextBorderStyleNone];
-	_firstDigitTextField.userInteractionEnabled = NO;
+    _firstDigitTextField.userInteractionEnabled = NO;
     [_animatingView addSubview:_firstDigitTextField];
-	
-	_secondDigitTextField = [[UITextField alloc] initWithFrame:CGRectZero];
+    
+    _secondDigitTextField = [[UITextField alloc] initWithFrame:CGRectZero];
     _secondDigitTextField.backgroundColor = kPasscodeBackgroundColor;
     _secondDigitTextField.textAlignment = NSTextAlignmentCenter;
-	_secondDigitTextField.text = kPasscodeCharacter;
-	_secondDigitTextField.textColor = kPasscodeTextColor;
-	_secondDigitTextField.font = kPasscodeFont;
-	_secondDigitTextField.secureTextEntry = NO;
+    _secondDigitTextField.text = kPasscodeCharacter;
+    _secondDigitTextField.textColor = kPasscodeTextColor;
+    _secondDigitTextField.font = kPasscodeFont;
+    _secondDigitTextField.secureTextEntry = NO;
     [_secondDigitTextField setBorderStyle:UITextBorderStyleNone];
-	_secondDigitTextField.userInteractionEnabled = NO;
+    _secondDigitTextField.userInteractionEnabled = NO;
     [_animatingView addSubview:_secondDigitTextField];
-	
-	_thirdDigitTextField = [[UITextField alloc] initWithFrame:CGRectZero];
+    
+    _thirdDigitTextField = [[UITextField alloc] initWithFrame:CGRectZero];
     _thirdDigitTextField.backgroundColor = kPasscodeBackgroundColor;
     _thirdDigitTextField.textAlignment = NSTextAlignmentCenter;
-	_thirdDigitTextField.text = kPasscodeCharacter;
-	_thirdDigitTextField.textColor = kPasscodeTextColor;
-	_thirdDigitTextField.font = kPasscodeFont;
-	_thirdDigitTextField.secureTextEntry = NO;
+    _thirdDigitTextField.text = kPasscodeCharacter;
+    _thirdDigitTextField.textColor = kPasscodeTextColor;
+    _thirdDigitTextField.font = kPasscodeFont;
+    _thirdDigitTextField.secureTextEntry = NO;
     [_thirdDigitTextField setBorderStyle:UITextBorderStyleNone];
-	_thirdDigitTextField.userInteractionEnabled = NO;
+    _thirdDigitTextField.userInteractionEnabled = NO;
     [_animatingView addSubview:_thirdDigitTextField];
-	
-	_fourthDigitTextField = [[UITextField alloc] initWithFrame:CGRectZero];
+    
+    _fourthDigitTextField = [[UITextField alloc] initWithFrame:CGRectZero];
     _fourthDigitTextField.backgroundColor = kPasscodeBackgroundColor;
     _fourthDigitTextField.textAlignment = NSTextAlignmentCenter;
-	_fourthDigitTextField.text = kPasscodeCharacter;
-	_fourthDigitTextField.textColor = kPasscodeTextColor;
-	_fourthDigitTextField.font = kPasscodeFont;
-	_fourthDigitTextField.secureTextEntry = NO;
+    _fourthDigitTextField.text = kPasscodeCharacter;
+    _fourthDigitTextField.textColor = kPasscodeTextColor;
+    _fourthDigitTextField.font = kPasscodeFont;
+    _fourthDigitTextField.secureTextEntry = NO;
     [_fourthDigitTextField setBorderStyle:UITextBorderStyleNone];
-	_fourthDigitTextField.userInteractionEnabled = NO;
+    _fourthDigitTextField.userInteractionEnabled = NO;
     [_animatingView addSubview:_fourthDigitTextField];
+    
+    _firstDigitTextField.translatesAutoresizingMaskIntoConstraints = NO;
+    _secondDigitTextField.translatesAutoresizingMaskIntoConstraints = NO;
+    _thirdDigitTextField.translatesAutoresizingMaskIntoConstraints = NO;
+    _fourthDigitTextField.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    _complexPasscodeOverlayView = [[UIView alloc] initWithFrame:CGRectZero];
+    _complexPasscodeOverlayView.backgroundColor = [UIColor whiteColor];
+    _complexPasscodeOverlayView.translatesAutoresizingMaskIntoConstraints = NO;
+    [_animatingView addSubview:_complexPasscodeOverlayView];
+    
+    _OKButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_OKButton setTitle:NSLocalizedString(@"OK", nil) forState:UIControlStateNormal];
+    _OKButton.titleLabel.font = kLabelFont;
+    _OKButton.backgroundColor = kEnterPasscodeLabelBackgroundColor;
+    [_OKButton setTitleColor:kLabelTextColor forState:UIControlStateNormal];
+    [_OKButton setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
+    [_OKButton addTarget:self action:@selector(validateComplexPasscode) forControlEvents:UIControlEventTouchUpInside];
+    [_complexPasscodeOverlayView addSubview:_OKButton];
+
+    _OKButton.hidden = YES;
+    _OKButton.translatesAutoresizingMaskIntoConstraints = NO;
 	
 	_passcodeTextField = [[UITextField alloc] initWithFrame: CGRectZero];
-	_passcodeTextField.hidden = YES;
 	_passcodeTextField.delegate = self;
-	_passcodeTextField.keyboardType = UIKeyboardTypeNumberPad;
+    _passcodeTextField.secureTextEntry = YES;
+    _passcodeTextField.translatesAutoresizingMaskIntoConstraints = NO;
+
 	[_passcodeTextField becomeFirstResponder];
-    [_animatingView addSubview:_passcodeTextField];
 	
 	_enterPasscodeLabel.text = _isUserChangingPasscode ? NSLocalizedString(@"Enter your old passcode", @"") : NSLocalizedString(@"Enter your passcode", @"");
 	
 	_enterPasscodeLabel.translatesAutoresizingMaskIntoConstraints = NO;
 	_failedAttemptLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    _firstDigitTextField.translatesAutoresizingMaskIntoConstraints = NO;
-	_secondDigitTextField.translatesAutoresizingMaskIntoConstraints = NO;
-	_thirdDigitTextField.translatesAutoresizingMaskIntoConstraints = NO;
-	_fourthDigitTextField.translatesAutoresizingMaskIntoConstraints = NO;
-	
-	// MARK: Please read
+    
+    [self.view setNeedsUpdateConstraints];
+}
+
+- (void)updateViewConstraints
+{
+    [super updateViewConstraints];
+    
+    [self.view removeConstraints:self.view.constraints];
+
+    _firstDigitTextField.hidden = !self.isSimple;
+    _secondDigitTextField.hidden = !self.isSimple;
+    _thirdDigitTextField.hidden = !self.isSimple;
+    _fourthDigitTextField.hidden = !self.isSimple;
+    
+    _complexPasscodeOverlayView.hidden = self.isSimple;
+    _passcodeTextField.hidden = self.isSimple;
+	_passcodeTextField.keyboardType = self.isSimple ? UIKeyboardTypeNumberPad : UIKeyboardTypeDefault;
+    
+    if (self.isSimple) {
+        [_animatingView addSubview:_passcodeTextField];
+    }
+    else {
+        [_complexPasscodeOverlayView addSubview:_passcodeTextField];
+    
+        //if we come from simple state some constraints are added even translatesAutoresizingMaskIntoConstraints = NO, because no constraints are added manually in that case
+        [_passcodeTextField removeConstraints:_passcodeTextField.constraints];
+    }
+    
+    // MARK: Please read
 	// The controller works properly on all devices and orientations, but looks odd on iPhone's landscape.
 	// Usually, lockscreens on iPhone are kept portrait-only, though. It also doesn't fit inside a modal when landscape.
 	// That's why only portrait is selected for iPhone's supported orientations.
@@ -253,70 +303,142 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
     [self.view addConstraint: enterPasscodeConstraintCenterX];
     [self.view addConstraint: enterPasscodeConstraintCenterY];
 	
-	NSLayoutConstraint *firstDigitX = [NSLayoutConstraint constraintWithItem: _firstDigitTextField
-																   attribute: NSLayoutAttributeLeft
-																   relatedBy: NSLayoutRelationEqual
-																	  toItem: self.view
-																   attribute: NSLayoutAttributeCenterX
-																  multiplier: 1.0f
-																	constant: - kHorizontalGap * 1.5f - 2.0f];
-	NSLayoutConstraint *secondDigitX = [NSLayoutConstraint constraintWithItem: _secondDigitTextField
-																	attribute: NSLayoutAttributeLeft
-																	relatedBy: NSLayoutRelationEqual
-																	   toItem: self.view
-																	attribute: NSLayoutAttributeCenterX
-																   multiplier: 1.0f
-																	 constant: - kHorizontalGap * 2/3 - 2.0f];
-	NSLayoutConstraint *thirdDigitX = [NSLayoutConstraint constraintWithItem: _thirdDigitTextField
-																   attribute: NSLayoutAttributeLeft
-																   relatedBy: NSLayoutRelationEqual
-																	  toItem: self.view
-																   attribute: NSLayoutAttributeCenterX
-																  multiplier: 1.0f
-																	constant: kHorizontalGap * 1/6 - 2.0f];
-	NSLayoutConstraint *fourthDigitX = [NSLayoutConstraint constraintWithItem: _fourthDigitTextField
-																	attribute: NSLayoutAttributeLeft
-																	relatedBy: NSLayoutRelationEqual
-																	   toItem: self.view
-																	attribute: NSLayoutAttributeCenterX
-																   multiplier: 1.0f
-																	 constant: kHorizontalGap - 2.0f];
-	NSLayoutConstraint *firstDigitY = [NSLayoutConstraint constraintWithItem: _firstDigitTextField
-																   attribute: NSLayoutAttributeCenterY
-																   relatedBy: NSLayoutRelationEqual
-																	  toItem: _enterPasscodeLabel
-																   attribute: NSLayoutAttributeBottom
-																  multiplier: 1.0f
-																	constant: kVerticalGap];
-	NSLayoutConstraint *secondDigitY = [NSLayoutConstraint constraintWithItem: _secondDigitTextField
-																	attribute: NSLayoutAttributeCenterY
-																	relatedBy: NSLayoutRelationEqual
-																	   toItem: _enterPasscodeLabel
-																	attribute: NSLayoutAttributeBottom
-																   multiplier: 1.0f
-																	 constant: kVerticalGap];
-	NSLayoutConstraint *thirdDigitY = [NSLayoutConstraint constraintWithItem: _thirdDigitTextField
-																   attribute: NSLayoutAttributeCenterY
-																   relatedBy: NSLayoutRelationEqual
-																	  toItem: _enterPasscodeLabel
-																   attribute: NSLayoutAttributeBottom
-																  multiplier: 1.0f
-																	constant: kVerticalGap];
-	NSLayoutConstraint *fourthDigitY = [NSLayoutConstraint constraintWithItem: _fourthDigitTextField
-																	attribute: NSLayoutAttributeCenterY
-																	relatedBy: NSLayoutRelationEqual
-																	   toItem: _enterPasscodeLabel
-																	attribute: NSLayoutAttributeBottom
-																   multiplier: 1.0f
-																	 constant: kVerticalGap];
-	[self.view addConstraint:firstDigitX];
-	[self.view addConstraint:secondDigitX];
-	[self.view addConstraint:thirdDigitX];
-	[self.view addConstraint:fourthDigitX];
-	[self.view addConstraint:firstDigitY];
-	[self.view addConstraint:secondDigitY];
-	[self.view addConstraint:thirdDigitY];
-	[self.view addConstraint:fourthDigitY];
+    if (self.isSimple) {
+        NSLayoutConstraint *firstDigitX = [NSLayoutConstraint constraintWithItem: _firstDigitTextField
+                                                                       attribute: NSLayoutAttributeLeft
+                                                                       relatedBy: NSLayoutRelationEqual
+                                                                          toItem: self.view
+                                                                       attribute: NSLayoutAttributeCenterX
+                                                                      multiplier: 1.0f
+                                                                        constant: - kHorizontalGap * 1.5f - 2.0f];
+        NSLayoutConstraint *secondDigitX = [NSLayoutConstraint constraintWithItem: _secondDigitTextField
+                                                                        attribute: NSLayoutAttributeLeft
+                                                                        relatedBy: NSLayoutRelationEqual
+                                                                           toItem: self.view
+                                                                        attribute: NSLayoutAttributeCenterX
+                                                                       multiplier: 1.0f
+                                                                         constant: - kHorizontalGap * 2/3 - 2.0f];
+        NSLayoutConstraint *thirdDigitX = [NSLayoutConstraint constraintWithItem: _thirdDigitTextField
+                                                                       attribute: NSLayoutAttributeLeft
+                                                                       relatedBy: NSLayoutRelationEqual
+                                                                          toItem: self.view
+                                                                       attribute: NSLayoutAttributeCenterX
+                                                                      multiplier: 1.0f
+                                                                        constant: kHorizontalGap * 1/6 - 2.0f];
+        NSLayoutConstraint *fourthDigitX = [NSLayoutConstraint constraintWithItem: _fourthDigitTextField
+                                                                        attribute: NSLayoutAttributeLeft
+                                                                        relatedBy: NSLayoutRelationEqual
+                                                                           toItem: self.view
+                                                                        attribute: NSLayoutAttributeCenterX
+                                                                       multiplier: 1.0f
+                                                                         constant: kHorizontalGap - 2.0f];
+        NSLayoutConstraint *firstDigitY = [NSLayoutConstraint constraintWithItem: _firstDigitTextField
+                                                                       attribute: NSLayoutAttributeCenterY
+                                                                       relatedBy: NSLayoutRelationEqual
+                                                                          toItem: _enterPasscodeLabel
+                                                                       attribute: NSLayoutAttributeBottom
+                                                                      multiplier: 1.0f
+                                                                        constant: kVerticalGap];
+        NSLayoutConstraint *secondDigitY = [NSLayoutConstraint constraintWithItem: _secondDigitTextField
+                                                                        attribute: NSLayoutAttributeCenterY
+                                                                        relatedBy: NSLayoutRelationEqual
+                                                                           toItem: _enterPasscodeLabel
+                                                                        attribute: NSLayoutAttributeBottom
+                                                                       multiplier: 1.0f
+                                                                         constant: kVerticalGap];
+        NSLayoutConstraint *thirdDigitY = [NSLayoutConstraint constraintWithItem: _thirdDigitTextField
+                                                                       attribute: NSLayoutAttributeCenterY
+                                                                       relatedBy: NSLayoutRelationEqual
+                                                                          toItem: _enterPasscodeLabel
+                                                                       attribute: NSLayoutAttributeBottom
+                                                                      multiplier: 1.0f
+                                                                        constant: kVerticalGap];
+        NSLayoutConstraint *fourthDigitY = [NSLayoutConstraint constraintWithItem: _fourthDigitTextField
+                                                                        attribute: NSLayoutAttributeCenterY
+                                                                        relatedBy: NSLayoutRelationEqual
+                                                                           toItem: _enterPasscodeLabel
+                                                                        attribute: NSLayoutAttributeBottom
+                                                                       multiplier: 1.0f
+                                                                         constant: kVerticalGap];
+        [self.view addConstraint:firstDigitX];
+        [self.view addConstraint:secondDigitX];
+        [self.view addConstraint:thirdDigitX];
+        [self.view addConstraint:fourthDigitX];
+        [self.view addConstraint:firstDigitY];
+        [self.view addConstraint:secondDigitY];
+        [self.view addConstraint:thirdDigitY];
+        [self.view addConstraint:fourthDigitY];
+    } else {
+        NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_passcodeTextField, _OKButton);
+        
+        //TODO: specify different offsets through metrics
+        NSArray *constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"|-10-[_passcodeTextField]-5-[_OKButton]-10-|"
+                                                                       options:0
+                                                                       metrics:nil
+                                                                         views:viewsDictionary];
+        
+        [self.view addConstraints:constraints];
+        
+        constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-5-[_passcodeTextField]-5-|"
+                                                              options:0
+                                                              metrics:nil
+                                                                views:viewsDictionary];
+        
+        [self.view addConstraints:constraints];
+        
+        NSLayoutConstraint *buttonY = [NSLayoutConstraint constraintWithItem: _OKButton
+                                                                   attribute: NSLayoutAttributeCenterY
+                                                                   relatedBy: NSLayoutRelationEqual
+                                                                      toItem: _passcodeTextField
+                                                                   attribute: NSLayoutAttributeCenterY
+                                                                  multiplier: 1.0f
+                                                                    constant: 0.0f];
+        
+        [self.view addConstraint:buttonY];
+        
+        NSLayoutConstraint *buttonHeight = [NSLayoutConstraint constraintWithItem: _OKButton
+                                                                        attribute: NSLayoutAttributeHeight
+                                                                        relatedBy: NSLayoutRelationEqual
+                                                                           toItem: _passcodeTextField
+                                                                        attribute: NSLayoutAttributeHeight
+                                                                       multiplier: 1.0f
+                                                                         constant: 0.0f];
+        
+        [self.view addConstraint:buttonHeight];
+        
+        NSLayoutConstraint *overlayViewLeftConstraint = [NSLayoutConstraint constraintWithItem: _complexPasscodeOverlayView
+                                                                                     attribute: NSLayoutAttributeLeft
+                                                                                     relatedBy: NSLayoutRelationEqual
+                                                                                        toItem: self.view
+                                                                                     attribute: NSLayoutAttributeLeft
+                                                                                    multiplier: 1.0f
+                                                                                      constant: 0.0f];
+        
+        NSLayoutConstraint *overlayViewY = [NSLayoutConstraint constraintWithItem: _complexPasscodeOverlayView
+                                                                        attribute: NSLayoutAttributeCenterY
+                                                                        relatedBy: NSLayoutRelationEqual
+                                                                           toItem: _enterPasscodeLabel
+                                                                        attribute: NSLayoutAttributeBottom
+                                                                       multiplier: 1.0f
+                                                                         constant: kVerticalGap];
+        
+        NSLayoutConstraint *overlayViewHeight = [NSLayoutConstraint constraintWithItem: _complexPasscodeOverlayView
+                                                                             attribute: NSLayoutAttributeHeight
+                                                                             relatedBy: NSLayoutRelationEqual
+                                                                                toItem: nil
+                                                                             attribute: NSLayoutAttributeNotAnAttribute
+                                                                            multiplier: 1.0f
+                                                                              constant: kPasscodeOverlayHeight];
+        
+        NSLayoutConstraint *overlayViewWidth = [NSLayoutConstraint constraintWithItem: _complexPasscodeOverlayView
+                                                                            attribute: NSLayoutAttributeWidth
+                                                                            relatedBy: NSLayoutRelationEqual
+                                                                               toItem: _animatingView
+                                                                            attribute: NSLayoutAttributeWidth
+                                                                           multiplier: 1.0f
+                                                                             constant: 0.0f];
+        [self.view addConstraints:@[overlayViewLeftConstraint, overlayViewY, overlayViewHeight, overlayViewWidth]];
+    }
 	
     NSLayoutConstraint *failedAttemptLabelCenterX = [NSLayoutConstraint constraintWithItem: _failedAttemptLabel
 																				 attribute: NSLayoutAttributeCenterX
@@ -350,8 +472,15 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	[self.view addConstraint:failedAttemptLabelCenterY];
 	[self.view addConstraint:failedAttemptLabelWidth];
 	[self.view addConstraint:failedAttemptLabelHeight];
+    
+//    NSLog(@"constraints %@", self.view.constraints);
+//        NSLog(@"_passcodeTextField %@", _passcodeTextField.constraints);
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+//    NSLog(@"layout %@", [self.view performSelector:@selector(recursiveDescription)]);
+}
 
 - (void)cancelAndDismissMe {
 	_isCurrentlyOnScreen = NO;
@@ -361,6 +490,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	_isUserConfirmingPasscode = NO;
 	_isUserEnablingPasscode = NO;
 	_isUserTurningPasscodeOff = NO;
+    _isUserSwitchingBetweenPasscodeModes = NO;
 	[self resetUI];
 	
 	if ([self.delegate respondsToSelector: @selector(passcodeViewControllerWasDismissed)])
@@ -511,7 +641,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 				self.navBar.translucent  = self.navigationBarTranslucent;
 			}
 			if (self.navigationTitleColor) {
-				self.navBar.titleTextAttributes = @{UITextAttributeTextColor : self.navigationTitleColor};
+				self.navBar.titleTextAttributes = @{NSForegroundColorAttributeName : self.navigationTitleColor};
 			}
 			
 			// Navigation item
@@ -546,7 +676,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 		navController.navigationBar.translucent			= self.navigationBarTranslucent;
 	}
 	if (self.navigationTitleColor) {
-		navController.navigationBar.titleTextAttributes = @{UITextAttributeTextColor : self.navigationTitleColor};
+		navController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : self.navigationTitleColor};
 	}
 	
 	[viewController presentViewController: navController animated: YES completion: nil];
@@ -589,6 +719,8 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	_isUserChangingPasscode = NO;
 	_isUserConfirmingPasscode = NO;
 	_isUserEnablingPasscode = NO;
+    _isUserSwitchingBetweenPasscodeModes = NO;
+
 	[self resetUI];
 }
 
@@ -600,6 +732,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	_isUserChangingPasscode = YES;
 	_isUserConfirmingPasscode = NO;
 	_isUserEnablingPasscode = NO;
+
 	[self resetUI];
 }
 
@@ -611,6 +744,8 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	_isUserChangingPasscode = NO;
 	_isUserConfirmingPasscode = NO;
 	_isUserEnablingPasscode = NO;
+    _isUserSwitchingBetweenPasscodeModes = NO;
+    
 	[self resetUI];
 }
 
@@ -622,96 +757,123 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	_isUserChangingPasscode = NO;
 	_isUserConfirmingPasscode = NO;
 	_isUserEnablingPasscode = YES;
+    _isUserSwitchingBetweenPasscodeModes = NO;
+    
 	[self resetUI];
 }
 
 
 #pragma mark - UITextFieldDelegate
+
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
 	return !_isCurrentlyOnScreen;
 }
 
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-	if ([string isEqualToString: @"\n"]) return NO;
-	
-	NSString *typedString = [textField.text stringByReplacingCharactersInRange: range
-																	withString: string];
-	if (typedString.length >= 1) _firstDigitTextField.secureTextEntry = YES;
-	else _firstDigitTextField.secureTextEntry = NO;
-	if (typedString.length >= 2) _secondDigitTextField.secureTextEntry = YES;
-	else _secondDigitTextField.secureTextEntry = NO;
-	if (typedString.length >= 3) _thirdDigitTextField.secureTextEntry = YES;
-	else _thirdDigitTextField.secureTextEntry = NO;
-	if (typedString.length == 4) _fourthDigitTextField.secureTextEntry = YES;
-	else _fourthDigitTextField.secureTextEntry = NO;
-	
-	if (typedString.length == 4) {
-		NSString *savedPasscode = [SFHFKeychainUtils getPasswordForUsername: [[NSUserDefaults standardUserDefaults] objectForKey:kKeychainUsername]
-															 andServiceName: [[NSUserDefaults standardUserDefaults] objectForKey:kKeychainServiceName]
-																	  error: nil];
-		// Entering from Settings. If savedPasscode is empty, it means
-		// the user is setting a new Passcode now, or is changing his current Passcode.
-		if ((_isUserChangingPasscode  || savedPasscode.length == 0) && !_isUserTurningPasscodeOff) {
-			// Either the user is being asked for a new passcode, confirmation comes next,
-			// either he is setting up a new passcode, confirmation comes next, still.
-			// We need the !_isUserConfirmingPasscode condition, because if he's adding a new Passcode,
-			// then savedPasscode is still empty and the condition will always be true, not passing this point.
-			if ((_isUserBeingAskedForNewPasscode || savedPasscode.length == 0) && !_isUserConfirmingPasscode) {
-				_tempPasscode = typedString;
-				// The delay is to give time for the last bullet to appear
-				[self performSelector: @selector(askForConfirmationPasscode) withObject: nil afterDelay: 0.15f];
-			}
-			// User entered his Passcode correctly and we are at the confirming screen.
-			else if (_isUserConfirmingPasscode) {
-				// User entered the confirmation Passcode correctly
-				if ([typedString isEqualToString: _tempPasscode]) {
-					[self dismissMe];
-				}
-				// User entered the confirmation Passcode incorrectly, start over.
-				else {
-					[self performSelector: @selector(reAskForNewPasscode) withObject: nil afterDelay: 0.15f];
-				}
-			}
-			// Changing Passcode and the entered Passcode is correct.
-			else if ([typedString isEqualToString: savedPasscode]){
-				[self performSelector: @selector(askForNewPasscode) withObject: nil afterDelay: 0.15f];
-				_failedAttempts = 0;
-			}
-			// Acting as lockscreen and the entered Passcode is incorrect.
-			else {
-				[self performSelector: @selector(denyAccess) withObject: nil afterDelay: 0.15f];
-				return NO;
-			}
-		}
-		// App launch/Turning passcode off: Passcode OK -> dismiss, Passcode incorrect -> deny access.
-		else {
-			if ([typedString isEqualToString: savedPasscode]) {
-                if ([self.delegate respondsToSelector: @selector(passcodeWasEnteredSuccessfully)])
-                    [self.delegate performSelector: @selector(passcodeWasEnteredSuccessfully)];
-                // Or, if you prefer by notifications:
-//                	[[NSNotificationCenter defaultCenter] postNotificationName: @"passcodeWasEnteredSuccessfully"
-//                														object: self
-//                													  userInfo: nil];
-                [self dismissMe];
-            }
-			else {
-				[self performSelector: @selector(denyAccess) withObject: nil afterDelay: 0.15f];
-				return NO;
-			}
-		}
-	}
-	
-	if (typedString.length > 4) return NO;
+    
+    if ([string isEqualToString: @"\n"]) return NO;
+    
+    NSString *typedString = [textField.text stringByReplacingCharactersInRange: range
+                                                                    withString: string];
+    
+    if (self.isSimple) {
+
+        if (typedString.length >= 1) _firstDigitTextField.secureTextEntry = YES;
+        else _firstDigitTextField.secureTextEntry = NO;
+        if (typedString.length >= 2) _secondDigitTextField.secureTextEntry = YES;
+        else _secondDigitTextField.secureTextEntry = NO;
+        if (typedString.length >= 3) _thirdDigitTextField.secureTextEntry = YES;
+        else _thirdDigitTextField.secureTextEntry = NO;
+        if (typedString.length == 4) _fourthDigitTextField.secureTextEntry = YES;
+        else _fourthDigitTextField.secureTextEntry = NO;
+        
+        if (typedString.length == 4) {
+            return [self validatePasscode:typedString];
+        }
+        
+        if (typedString.length > 4) return NO;
+    } else {
+        _OKButton.hidden = [typedString length] == 0;
+    }
 	
 	return YES;
 }
 
-
 #pragma mark - Actions
+
+- (void)validateComplexPasscode
+{
+    NSLog(@"isValid %@", [self validatePasscode:_passcodeTextField.text]?@"YES":@"NO");
+}
+
+- (BOOL)validatePasscode:(NSString *)typedString
+{
+    NSString *savedPasscode = [SFHFKeychainUtils getPasswordForUsername: [[NSUserDefaults standardUserDefaults] objectForKey:kKeychainUsername]
+                                                         andServiceName: [[NSUserDefaults standardUserDefaults] objectForKey:kKeychainServiceName]
+                                                                  error: nil];
+    // Entering from Settings. If savedPasscode is empty, it means
+    // the user is setting a new Passcode now, or is changing his current Passcode.
+    if ((_isUserChangingPasscode  || savedPasscode.length == 0) && !_isUserTurningPasscodeOff) {
+        // Either the user is being asked for a new passcode, confirmation comes next,
+        // either he is setting up a new passcode, confirmation comes next, still.
+        // We need the !_isUserConfirmingPasscode condition, because if he's adding a new Passcode,
+        // then savedPasscode is still empty and the condition will always be true, not passing this point.
+        if ((_isUserBeingAskedForNewPasscode || savedPasscode.length == 0) && !_isUserConfirmingPasscode) {
+            _tempPasscode = typedString;
+            // The delay is to give time for the last bullet to appear
+            [self performSelector: @selector(askForConfirmationPasscode) withObject: nil afterDelay: 0.15f];
+        }
+        // User entered his Passcode correctly and we are at the confirming screen.
+        else if (_isUserConfirmingPasscode) {
+            // User entered the confirmation Passcode correctly
+            if ([typedString isEqualToString: _tempPasscode]) {
+                [self dismissMe];
+            }
+            // User entered the confirmation Passcode incorrectly, start over.
+            else {
+                [self performSelector: @selector(reAskForNewPasscode) withObject: nil afterDelay: 0.15f];
+            }
+        }
+        // Changing Passcode and the entered Passcode is correct.
+        else if ([typedString isEqualToString: savedPasscode]){
+            [self performSelector: @selector(askForNewPasscode) withObject: nil afterDelay: 0.15f];
+            _failedAttempts = 0;
+        }
+        // Acting as lockscreen and the entered Passcode is incorrect.
+        else {
+            [self performSelector: @selector(denyAccess) withObject: nil afterDelay: 0.15f];
+            return NO;
+        }
+    }
+    // App launch/Turning passcode off: Passcode OK -> dismiss, Passcode incorrect -> deny access.
+    else {
+        if ([typedString isEqualToString: savedPasscode]) {
+            if ([self.delegate respondsToSelector: @selector(passcodeWasEnteredSuccessfully)])
+                [self.delegate performSelector: @selector(passcodeWasEnteredSuccessfully)];
+            // Or, if you prefer by notifications:
+            //                	[[NSNotificationCenter defaultCenter] postNotificationName: @"passcodeWasEnteredSuccessfully"
+            //                														object: self
+            //                													  userInfo: nil];
+            [self dismissMe];
+        }
+        else {
+            [self performSelector: @selector(denyAccess) withObject: nil afterDelay: 0.15f];
+            return NO;
+        }
+    }
+    
+    return YES;
+}
+
 - (void)askForNewPasscode {
 	_isUserBeingAskedForNewPasscode = YES;
 	_isUserConfirmingPasscode = NO;
+    
+    if (_isUserSwitchingBetweenPasscodeModes) {
+        [self setIsSimple:!self.isSimple];
+    }
+    
 	_failedAttemptLabel.hidden = YES;
 	
 	CATransition *transition = [CATransition animation];
@@ -788,6 +950,8 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	// Make sure nav bar for logout is off the screen
 	[self.navBar removeFromSuperview];
 	self.navBar = nil;
+    
+    _OKButton.hidden = YES;
 }
 
 
@@ -812,6 +976,8 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 - (void)denyAccess {
 	[self resetTextFields];
 	_passcodeTextField.text = @"";
+    _OKButton.hidden = YES;
+    
 	_failedAttempts++;
 	
 	if (kMaxNumberOfAllowedFailedAttempts > 0 &&
@@ -836,6 +1002,19 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	if ([self.delegate respondsToSelector: @selector(logoutButtonWasPressed)]) {
 		[self.delegate logoutButtonWasPressed];
 	}
+}
+
+- (void)setIsSimple:(BOOL)isSimple
+{
+    if (!_isUserBeingAskedForNewPasscode && [LTHPasscodeViewController passcodeExistsInKeychain]) {
+        //user trying to change passcode type while having passcode already
+        _isUserSwitchingBetweenPasscodeModes = YES;
+        //display modified change passcode flow starting with input once passcode of current type and then 2 times new one of another type
+        [[LTHPasscodeViewController sharedUser] showForChangingPasscodeInViewController: self.delegate];
+    } else {
+        _isSimple = isSimple;
+        [self.view setNeedsUpdateConstraints];
+    }
 }
 
 #pragma mark - Notification Observers
@@ -895,7 +1074,8 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 - (id)init {
 	self = [super init];
 	if (self) {
-		
+        _isSimple = YES;
+
 		// Set default username & service name for passcode
 		[[NSUserDefaults standardUserDefaults] setObject:kKeychainUsername forKey:kKeychainUsername];
 		[[NSUserDefaults standardUserDefaults] setObject:kKeychainServiceName forKey:kKeychainServiceName];
