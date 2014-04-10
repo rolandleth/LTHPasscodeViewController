@@ -267,7 +267,8 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
     
     _complexPasscodeOverlayView.hidden = self.isSimple;
     _passcodeTextField.hidden = self.isSimple;
-	_passcodeTextField.keyboardType = self.isSimple ? UIKeyboardTypeNumberPad : UIKeyboardTypeDefault;
+	_passcodeTextField.keyboardType = self.isSimple ? UIKeyboardTypeNumberPad : UIKeyboardTypeASCIICapable;
+    [_passcodeTextField reloadInputViews];
     
     if (self.isSimple) {
         [_animatingView addSubview:_passcodeTextField];
