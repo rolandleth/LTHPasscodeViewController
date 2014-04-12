@@ -20,8 +20,9 @@
 @interface LTHPasscodeViewController : UIViewController <UITextFieldDelegate>
 
 @property (nonatomic, strong) UIView *coverView;
-@property (nonatomic, weak) id<LTHPasscodeViewControllerDelegate> delegate;
+@property (nonatomic, weak) UIViewController<LTHPasscodeViewControllerDelegate> *delegate;
 @property (assign) BOOL isCurrentlyOnScreen;
+@property (nonatomic, assign) BOOL isSimple; //YES by default
 
 // Customization
 @property (nonatomic, strong) UIColor *navigationBarTintColor;

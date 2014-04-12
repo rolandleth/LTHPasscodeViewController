@@ -14,6 +14,8 @@
 	UIButton *_enablePasscode;
 	UIButton *_testPasscode;
 	UIButton *_turnOffPasscode;
+    UILabel *_typeLabel;
+    UISwitch *_typeSwitch;
 }
 
 @end
