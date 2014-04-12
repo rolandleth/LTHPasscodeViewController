@@ -828,6 +828,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 		_failedAttemptLabel.text = [NSString stringWithFormat: NSLocalizedString(@"%i Passcode Failed Attempts", @""), _failedAttempts];
 	}
 	_failedAttemptLabel.layer.cornerRadius = kFailedAttemptLabelHeight * 0.65f;
+	_failedAttemptLabel.clipsToBounds = true;
 	_failedAttemptLabel.hidden = NO;
 }
 
