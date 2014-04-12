@@ -82,6 +82,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	BOOL _timerStartInSeconds;
 }
 
+@synthesize isSimple = _isSimple;
 
 #pragma mark - Class methods
 + (BOOL)passcodeExistsInKeychain {
@@ -535,6 +536,11 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 								  forServiceName: [[NSUserDefaults standardUserDefaults] objectForKey:kKeychainServiceName]
 								  updateExisting: YES
 										   error: nil];
+                //finalize type switching
+                if (_isUserSwitchingBetweenPasscodeModes) {
+                    _isUserConfirmingPasscode = NO;
+                    [self setIsSimple:!self.isSimple];
+                }
 			}
 		}
 	} completion: ^(BOOL finished) {
@@ -870,10 +876,9 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 - (void)askForNewPasscode {
 	_isUserBeingAskedForNewPasscode = YES;
 	_isUserConfirmingPasscode = NO;
-    
-    if (_isUserSwitchingBetweenPasscodeModes) {
-        [self setIsSimple:!self.isSimple];
-    }
+
+    //update layout considering type
+    [self.view setNeedsUpdateConstraints];
     
 	_failedAttemptLabel.hidden = YES;
 	
@@ -1007,15 +1012,26 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 
 - (void)setIsSimple:(BOOL)isSimple
 {
-    if (!_isUserBeingAskedForNewPasscode && [LTHPasscodeViewController passcodeExistsInKeychain]) {
+    if (!_isUserSwitchingBetweenPasscodeModes && !_isUserBeingAskedForNewPasscode && [LTHPasscodeViewController passcodeExistsInKeychain]) {
         //user trying to change passcode type while having passcode already
         _isUserSwitchingBetweenPasscodeModes = YES;
         //display modified change passcode flow starting with input once passcode of current type and then 2 times new one of another type
         [[LTHPasscodeViewController sharedUser] showForChangingPasscodeInViewController: self.delegate];
     } else {
+        _isUserSwitchingBetweenPasscodeModes = NO;
         _isSimple = isSimple;
         [self.view setNeedsUpdateConstraints];
     }
+}
+
+- (BOOL)isSimple
+{
+    //is in process of changing, but not finished -> we need to display UI accordingly
+    if (_isUserSwitchingBetweenPasscodeModes && (_isUserBeingAskedForNewPasscode || _isUserConfirmingPasscode)) {
+        return !_isSimple;
+    }
+    
+    return _isSimple;
 }
 
 #pragma mark - Notification Observers
