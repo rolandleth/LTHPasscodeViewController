@@ -9,13 +9,6 @@
 #import "LTHPasscodeViewController.h"
 #import <UIKit/UIKit.h>
 
-@interface LTHDemoViewController : UIViewController <LTHPasscodeViewControllerDelegate> {
-	UIButton *_changePasscode;
-	UIButton *_enablePasscode;
-	UIButton *_testPasscode;
-	UIButton *_turnOffPasscode;
-    UILabel *_typeLabel;
-    UISwitch *_typeSwitch;
-}
+@interface LTHDemoViewController : UIViewController
 
 @end

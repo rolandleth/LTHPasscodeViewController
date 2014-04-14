@@ -10,8 +10,18 @@
 #import "LTHPasscodeViewController.h"
 #import "LTHAppDelegate.h"
 
-@implementation LTHDemoViewController
+@interface LTHDemoViewController () <LTHPasscodeViewControllerDelegate>
 
+@property (nonatomic, strong) UIButton *changePasscode;
+@property (nonatomic, strong) UIButton *enablePasscode;
+@property (nonatomic, strong) UIButton *testPasscode;
+@property (nonatomic, strong) UIButton *turnOffPasscode;
+@property (nonatomic, strong) UILabel *typeLabel;
+@property (nonatomic, strong) UISwitch *typeSwitch;
+
+@end
+
+@implementation LTHDemoViewController
 
 - (void)_refreshUI {
 	if ([LTHPasscodeViewController passcodeExistsInKeychain]) {

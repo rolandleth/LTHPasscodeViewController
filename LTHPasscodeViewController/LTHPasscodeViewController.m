@@ -20,6 +20,7 @@ static CGFloat const kFontSizeModifier = 1.5f;
 static CGFloat const kiPhoneHorizontalGap = 40.0f;
 static CGFloat const kLockAnimationDuration = 0.15f;
 static CGFloat const kSlideAnimationDuration = 0.15f;
+static NSInteger const kCoverViewTag = 99;
 // Set to 0 if you want to skip the check. If you don't, nothing happens,
 // just maxNumberOfAllowedFailedAttempts protocol method is checked for and called.
 static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
@@ -59,29 +60,35 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 #define kPasscodeTextColor [UIColor colorWithWhite:0.31f alpha:1.0f]
 #define kFailedAttemptLabelTextColor [UIColor whiteColor]
 
-@implementation LTHPasscodeViewController {
-	UIView *_animatingView;
-	UITextField *_firstDigitTextField;
-	UITextField *_secondDigitTextField;
-	UITextField *_thirdDigitTextField;
-	UITextField *_fourthDigitTextField;
-	UITextField *_passcodeTextField;
-    UIView *_complexPasscodeOverlayView;
-    UIButton *_OKButton;
-	UILabel *_failedAttemptLabel;
-	UILabel *_enterPasscodeLabel;
-	int _failedAttempts;
-	BOOL _isUserConfirmingPasscode;
-	BOOL _isUserBeingAskedForNewPasscode;
-	BOOL _isUserTurningPasscodeOff;
-	BOOL _isUserChangingPasscode;
-	BOOL _isUserEnablingPasscode;
-    BOOL _isUserSwitchingBetweenPasscodeModes; // simple/complex
-	BOOL _beingDisplayedAsLockScreen;
-	NSString *_tempPasscode;
-	BOOL _timerStartInSeconds;
-}
+@interface LTHPasscodeViewController () <UITextFieldDelegate>
 
+@property (nonatomic, strong) UIView      *coverView;
+@property (nonatomic, strong) UIView      *animatingView;
+@property (nonatomic, strong) UIView      *complexPasscodeOverlayView;
+@property (nonatomic, strong) UITextField *passcodeTextField;
+@property (nonatomic, strong) UITextField *firstDigitTextField;
+@property (nonatomic, strong) UITextField *secondDigitTextField;
+@property (nonatomic, strong) UITextField *thirdDigitTextField;
+@property (nonatomic, strong) UITextField *fourthDigitTextField;
+@property (nonatomic, strong) UILabel     *failedAttemptLabel;
+@property (nonatomic, strong) UILabel     *enterPasscodeLabel;
+@property (nonatomic, strong) UIButton    *OKButton;
+@property (nonatomic, strong) NSString    *tempPasscode;
+@property (nonatomic, assign) NSInteger   failedAttempts;
+@property (nonatomic, assign) BOOL        isCurrentlyOnScreen;
+@property (nonatomic, assign) BOOL        isSimple; // YES by default
+@property (nonatomic, assign) BOOL        isUserConfirmingPasscode;
+@property (nonatomic, assign) BOOL        isUserBeingAskedForNewPasscode;
+@property (nonatomic, assign) BOOL        isUserTurningPasscodeOff;
+@property (nonatomic, assign) BOOL        isUserChangingPasscode;
+@property (nonatomic, assign) BOOL        isUserEnablingPasscode;
+@property (nonatomic, assign) BOOL        isUserSwitchingBetweenPasscodeModes; // simple/complex
+@property (nonatomic, assign) BOOL        beingDisplayedAsLockScreen;
+@property (nonatomic, assign) BOOL        timerStartInSeconds;
+
+@end
+
+@implementation LTHPasscodeViewController
 @synthesize isSimple = _isSimple;
 
 #pragma mark - Class methods
@@ -1011,12 +1018,11 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	}
 }
 
-- (void)setIsSimple:(BOOL)isSimple
-{
+- (void)setIsSimple:(BOOL)isSimple {
     if (!_isUserSwitchingBetweenPasscodeModes && !_isUserBeingAskedForNewPasscode && [LTHPasscodeViewController passcodeExistsInKeychain]) {
-        //user trying to change passcode type while having passcode already
+        // user trying to change passcode type while having passcode already
         _isUserSwitchingBetweenPasscodeModes = YES;
-        //display modified change passcode flow starting with input once passcode of current type and then 2 times new one of another type
+        // display modified change passcode flow starting with input once passcode of current type and then 2 times new one of another type
         [[LTHPasscodeViewController sharedUser] showForChangingPasscodeInViewController: self.delegate];
     } else {
         _isUserSwitchingBetweenPasscodeModes = NO;
@@ -1025,9 +1031,8 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
     }
 }
 
-- (BOOL)isSimple
-{
-    //is in process of changing, but not finished -> we need to display UI accordingly
+- (BOOL)isSimple {
+    // is in process of changing, but not finished -> we need to display UI accordingly
     if (_isUserSwitchingBetweenPasscodeModes && (_isUserBeingAskedForNewPasscode || _isUserConfirmingPasscode)) {
         return !_isSimple;
     }
@@ -1045,7 +1050,8 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
             [self showLockScreenWithAnimation: NO];
 		else {
 			_coverView.hidden = NO;
-			if (![[UIApplication sharedApplication].keyWindow viewWithTag: 99]) [[UIApplication sharedApplication].keyWindow addSubview: _coverView];
+			if (![[UIApplication sharedApplication].keyWindow viewWithTag: kCoverViewTag])
+				[[UIApplication sharedApplication].keyWindow addSubview: _coverView];
 		}
 	}
 }
@@ -1082,7 +1088,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	
 	static dispatch_once_t pred;
 	dispatch_once(&pred, ^{
-		sharedObject = [[LTHPasscodeViewController alloc] init]; // or some other init method
+		sharedObject = [[LTHPasscodeViewController alloc] init];
 	});
 	
 	return sharedObject;
@@ -1094,7 +1100,6 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	if (self) {
         _isSimple = YES;
 
-		// Set default username & service name for passcode
 		[[NSUserDefaults standardUserDefaults] setObject:kKeychainUsername forKey:kKeychainUsername];
 		[[NSUserDefaults standardUserDefaults] setObject:kKeychainServiceName forKey:kKeychainServiceName];
 		
@@ -1119,7 +1124,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 		_coverView.backgroundColor = kCoverViewBackgroundColor;
 		_coverView.frame = self.view.frame;
 		_coverView.userInteractionEnabled = NO;
-		_coverView.tag = 99;
+		_coverView.tag = kCoverViewTag;
 		_coverView.hidden = YES;
 		[[UIApplication sharedApplication].keyWindow addSubview: _coverView];
 	}
@@ -1127,8 +1132,6 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 }
 
 + (void)setUsername:(NSString*)username andServiceName:(NSString*)serviceName {
-	// Set custom username & service name for passcode
-	
 	if (username.length > 0) {
 		[[NSUserDefaults standardUserDefaults] setObject:username forKey:kKeychainUsername];
 	}
