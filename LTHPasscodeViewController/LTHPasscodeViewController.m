@@ -783,10 +783,9 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	return !_isCurrentlyOnScreen;
 }
 
-- (void)targetMethod:(NSTimer *)timer
+- (void)targetMethod:(id)object
 {
-    NSString *string = [[timer userInfo] objectForKey:@"parameter"];
-    
+    NSString *string = [object objectForKey:@"parameter"];
     [self validatePasscode:string];
 }
 
@@ -810,11 +809,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
         
         if (typedString.length == 4) {
         	// Make the last bullet show up
-            [NSTimer scheduledTimerWithTimeInterval:0.1
-                                             target:self
-                                           selector:@selector(targetMethod:)
-                                           userInfo:[NSDictionary dictionaryWithObjectsAndKeys:typedString, @"parameter", nil]
-                                            repeats:NO];
+             [self performSelector:@selector(targetMethod:) withObject:[NSDictionary dictionaryWithObjectsAndKeys:typedString, @"parameter", nil] afterDelay:0.1];
         }
         
         if (typedString.length > 4) return NO;
