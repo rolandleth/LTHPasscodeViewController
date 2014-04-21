@@ -783,12 +783,6 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	return !_isCurrentlyOnScreen;
 }
 
-- (void)targetMethod:(id)object
-{
-    NSString *string = [object objectForKey:@"parameter"];
-    [self validatePasscode:string];
-}
-
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     
     if ([string isEqualToString: @"\n"]) return NO;
@@ -809,8 +803,8 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
         
         if (typedString.length == 4) {
         	// Make the last bullet show up
-             [self performSelector:@selector(targetMethod:) withObject:[NSDictionary dictionaryWithObjectsAndKeys:typedString, @"parameter", nil] afterDelay:0.1];
-        }
+		[self performSelector:@selector(validatePasscode:) withObject:typedString afterDelay:0.1];        
+	}
         
         if (typedString.length > 4) return NO;
     } else {
