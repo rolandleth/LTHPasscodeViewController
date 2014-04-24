@@ -42,6 +42,7 @@ Rather than writing a big documentation, I heavily commented it as best as I cou
 [DigitalOcean Manager](https://itunes.apple.com/us/app/digitalocean-manager/id633128302?mt=8)  
 [LovelyHeroku](https://itunes.apple.com/us/app/lovelyheroku/id706287663?mt=8&uo=4)  
 [Flow Web Browser](https://itunes.apple.com/us/app/flow-web-browser-downloader/id705536564?mt=8)
+[Balance - Checkbook App](https://itunes.apple.com/US/app/id854362248)
 
 If you're using this control, I'd love hearing from you!  
 
