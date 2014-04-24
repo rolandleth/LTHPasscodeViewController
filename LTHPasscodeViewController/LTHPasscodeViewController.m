@@ -783,7 +783,6 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	return !_isCurrentlyOnScreen;
 }
 
-
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     
     if ([string isEqualToString: @"\n"]) return NO;
@@ -803,8 +802,9 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
         else _fourthDigitTextField.secureTextEntry = NO;
         
         if (typedString.length == 4) {
-            return [self validatePasscode:typedString];
-        }
+        	// Make the last bullet show up
+		[self performSelector:@selector(validatePasscode:) withObject:typedString afterDelay:0.1];        
+	}
         
         if (typedString.length > 4) return NO;
     } else {
