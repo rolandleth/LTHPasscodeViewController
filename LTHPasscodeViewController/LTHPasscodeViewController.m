@@ -778,7 +778,6 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 
 
 #pragma mark - UITextFieldDelegate
-
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
 	return !_isCurrentlyOnScreen;
 }
@@ -791,20 +790,21 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
                                                                     withString: string];
     
     if (self.isSimple) {
-
         if (typedString.length >= 1) _firstDigitTextField.secureTextEntry = YES;
         else _firstDigitTextField.secureTextEntry = NO;
         if (typedString.length >= 2) _secondDigitTextField.secureTextEntry = YES;
         else _secondDigitTextField.secureTextEntry = NO;
         if (typedString.length >= 3) _thirdDigitTextField.secureTextEntry = YES;
         else _thirdDigitTextField.secureTextEntry = NO;
-        if (typedString.length == 4) _fourthDigitTextField.secureTextEntry = YES;
+        if (typedString.length >= 4) _fourthDigitTextField.secureTextEntry = YES;
         else _fourthDigitTextField.secureTextEntry = NO;
         
         if (typedString.length == 4) {
         	// Make the last bullet show up
-		[self performSelector:@selector(validatePasscode:) withObject:typedString afterDelay:0.1];        
-	}
+			[self performSelector: @selector(validatePasscode:)
+					   withObject: typedString
+					   afterDelay: 0.15];
+		}
         
         if (typedString.length > 4) return NO;
     } else {
@@ -815,17 +815,15 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 }
 
 #pragma mark - Actions
-
-- (void)validateComplexPasscode
-{
-    NSLog(@"isValid %@", [self validatePasscode:_passcodeTextField.text]?@"YES":@"NO");
+- (void)validateComplexPasscode {
+    NSLog(@"isValid %@", [self validatePasscode:_passcodeTextField.text] ? @"YES" : @"NO");
 }
 
-- (BOOL)validatePasscode:(NSString *)typedString
-{
-    NSString *savedPasscode = [SFHFKeychainUtils getPasswordForUsername: [[NSUserDefaults standardUserDefaults] objectForKey:kKeychainUsername]
-                                                         andServiceName: [[NSUserDefaults standardUserDefaults] objectForKey:kKeychainServiceName]
-                                                                  error: nil];
+- (BOOL)validatePasscode:(NSString *)typedString {
+    NSString *savedPasscode =
+	[SFHFKeychainUtils getPasswordForUsername: [[NSUserDefaults standardUserDefaults] objectForKey:kKeychainUsername]
+							   andServiceName: [[NSUserDefaults standardUserDefaults] objectForKey:kKeychainServiceName]
+										error: nil];
     // Entering from Settings. If savedPasscode is empty, it means
     // the user is setting a new Passcode now, or is changing his current Passcode.
     if ((_isUserChangingPasscode  || savedPasscode.length == 0) && !_isUserTurningPasscodeOff) {
