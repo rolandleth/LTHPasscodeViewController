@@ -1,6 +1,6 @@
-/* 
-  Localizable.strings
-*/
+/*
+ LTHPasscodeViewController.strings
+ */
 "Enter Passcode" = "Insertar contraseña";
 
 "Enter your old passcode" = "Insertar contraseña antigua";

@@ -1,0 +1,26 @@
+/*
+ LTHPasscodeViewController.strings
+ */
+"Enter Passcode" = "Entrer votre mot de passe";
+
+"Enter your old passcode" = "Entrer votre ancien mot de passe";
+
+"Enter your passcode" = "Entrer votre mot de passe";
+
+"Enable Passcode" = "Enter votre mot de passe";
+
+"Change Passcode" = "Changer votre mot de passe";
+
+"Turn Off Passcode" = "Supprimer votre mot de passe";
+
+"Re-enter your passcode" = "Réentrer votre mot de passe";
+
+"Re-enter your new passcode" = "Réentrer votre nouveau mot de passe";
+
+"Enter your new passcode" = "Entrer votre nouveau mot de passe";
+
+"Passcodes did not match. Try again." = "Les mots de passe ne correspondent pas. Essayer à nouveau.";
+
+"1 Passcode Failed Attempt" = "1 échec";
+
+"%i Passcode Failed Attempts" = "%i échecs";
