@@ -934,8 +934,10 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 
 
 - (void)resetTextFields {
-	if (![_passcodeTextField isFirstResponder])
-		[_passcodeTextField becomeFirstResponder];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            if (![_passcodeTextField isFirstResponder])
+            [_passcodeTextField becomeFirstResponder];
+        }):
 	_firstDigitTextField.secureTextEntry = NO;
 	_secondDigitTextField.secureTextEntry = NO;
 	_thirdDigitTextField.secureTextEntry = NO;
