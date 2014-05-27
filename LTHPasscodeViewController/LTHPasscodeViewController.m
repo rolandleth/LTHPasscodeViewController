@@ -149,22 +149,6 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 
 #pragma mark - Overridden Getters
 
-- (NSString *)labelFontFamily {
-    if (!_labelFontFamily) {
-        return kDefaultFontFamily;
-    } else {
-        return _labelFontFamily;
-    }
-}
-
-- (NSString *)passcodeFontFamily {
-    if (!_passcodeFontFamily) {
-        return kDefaultFontFamily;
-    } else {
-        return _passcodeFontFamily;
-    }
-}
-
 - (UIFont *)labelFont {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         return [UIFont fontWithName:self.labelFontFamily size: kLabelFontSize * kFontSizeModifier];
@@ -221,10 +205,25 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
     }
 }
 
+#pragma mark - Overridden Setters
+
+- (void)setLabelFontFamily:(NSString *)labelFontFamily {
+    _labelFontFamily = labelFontFamily;
+    self.enterPasscodeLabel.font = self.labelFont;
+    self.failedAttemptLabel.font = self.labelFont;
+}
+
 #pragma mark - View life
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
+    //Setting default values.
+    if (!_passcodeFontFamily) {
+        [self setPasscodeFontFamily:kDefaultFontFamily];
+    }
+    if (!_labelFontFamily) {
+        [self setLabelFontFamily:kDefaultFontFamily];
+    }
     UIFont *digitsFont = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? [UIFont fontWithName:kDefaultFontFamily size: kPasscodeFontSize * kFontSizeModifier] : [UIFont fontWithName:kDefaultFontFamily size: kPasscodeFontSize]);
     
 	self.view.backgroundColor = kBackgroundColor;
@@ -329,12 +328,6 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	_failedAttemptLabel.translatesAutoresizingMaskIntoConstraints = NO;
     
     [self.view setNeedsUpdateConstraints];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    _enterPasscodeLabel.font = self.labelFont;
-    _failedAttemptLabel.font = self.labelFont;
 }
 
 - (void)updateViewConstraints
