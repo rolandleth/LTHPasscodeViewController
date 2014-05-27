@@ -39,12 +39,12 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 #define kCoverViewBackgroundColor [UIColor colorWithRed:0.97f green:0.97f blue:1.0f alpha:1.00f]
 #define kPasscodeBackgroundColor [UIColor clearColor]
 #define kFailedAttemptLabelBackgroundColor [UIColor colorWithRed:0.8f green:0.1f blue:0.2f alpha:1.000f]
+// Default Font Family
+#define kDefaultFontFamily @"AvenirNext-Regular"
 // Text Colors
 #define kLabelTextColor [UIColor colorWithWhite:0.31f alpha:1.0f]
 #define kPasscodeTextColor [UIColor colorWithWhite:0.31f alpha:1.0f]
 #define kFailedAttemptLabelTextColor [UIColor whiteColor]
-// Default Font Family
-#define kDefaultFontFamily @"AvenirNext-Regular"
 // Localization table name
 #define kLocalizationTableName @"LTHPasscodeViewController"
 
