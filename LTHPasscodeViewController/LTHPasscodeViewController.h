@@ -21,11 +21,13 @@
 @property (nonatomic, weak) UIViewController<LTHPasscodeViewControllerDelegate> *delegate;
 
 // Customization
-@property (nonatomic, strong) UIColor *navigationBarTintColor;
-@property (nonatomic, strong) UIColor *navigationTintColor;
-@property (nonatomic, strong) UIColor *navigationTitleColor;
-@property (nonatomic, assign) BOOL navigationBarTranslucent;
-@property (nonatomic, strong) UINavigationBar *navBar;
+@property (nonatomic, strong) UIColor           *navigationBarTintColor;
+@property (nonatomic, strong) UIColor           *navigationTintColor;
+@property (nonatomic, strong) UIColor           *navigationTitleColor;
+@property (nonatomic, strong) NSString          *labelFontFamily;
+@property (nonatomic, strong) NSString          *passcodeFontFamily;
+@property (nonatomic, assign) BOOL              navigationBarTranslucent;
+@property (nonatomic, strong) UINavigationBar   *navBar;
 
 // Used when displaying the lock. Shown without a navBar, added directly on UIWindow
 - (void)showLockScreenWithAnimation:(BOOL)animated;
