@@ -65,10 +65,10 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 @property (nonatomic, strong) UIFont      *labelFont;
 @property (nonatomic, strong) UIFont      *passcodeFont;
 @property (nonatomic, assign) NSInteger   failedAttempts;
-@property (nonatomic, assign) NSInteger   passcodeCharWidth;
-@property (nonatomic, assign) NSInteger   failedAttemptLabelHeight;
-@property (nonatomic, assign) NSInteger   failedAttemptLabelWidth;
-@property (nonatomic, assign) NSInteger   enterPasscodeLabelWidth;
+@property (nonatomic, assign) CGFloat     passcodeCharWidth;
+@property (nonatomic, assign) CGFloat     failedAttemptLabelHeight;
+@property (nonatomic, assign) CGFloat     failedAttemptLabelWidth;
+@property (nonatomic, assign) CGFloat     enterPasscodeLabelWidth;
 @property (nonatomic, assign) BOOL        isCurrentlyOnScreen;
 @property (nonatomic, assign) BOOL        isSimple; // YES by default
 @property (nonatomic, assign) BOOL        isUserConfirmingPasscode;
