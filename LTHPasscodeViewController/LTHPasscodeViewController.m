@@ -18,7 +18,7 @@ static CGFloat const kLabelFontSize = 15.0f;
 static CGFloat const kPasscodeFontSize = 33.0f;
 static CGFloat const kFontSizeModifier = 1.5f;
 static CGFloat const kiPhoneHorizontalGap = 40.0f;
-static CGFloat const kLockAnimationDuration = 0.15f;
+static CGFloat const kLockAnimationDuration = 0.25f;
 static CGFloat const kSlideAnimationDuration = 0.15f;
 static NSInteger const kCoverViewTag = 99;
 // Set to 0 if you want to skip the check. If you don't, nothing happens,
@@ -33,28 +33,12 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 #define kVerticalGap (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 60.0f : 25.0f)
 #define kPasscodeOverlayHeight (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 96.0f : 40.0f)
 #define kModifierForBottomVerticalGap (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 2.6f : 3.0f)
-// Text Sizes
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
-	#define kPasscodeCharWidth [kPasscodeCharacter sizeWithAttributes: @{NSFontAttributeName : kPasscodeFont}].width
-	#define kFailedAttemptLabelWidth (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? [_failedAttemptLabel.text sizeWithAttributes: @{NSFontAttributeName : kLabelFont}].width + 60.0f : [_failedAttemptLabel.text sizeWithAttributes: @{NSFontAttributeName : kLabelFont}].width + 30.0f)
-	#define kFailedAttemptLabelHeight [_failedAttemptLabel.text sizeWithAttributes: @{NSFontAttributeName : kLabelFont}].height
-	#define kEnterPasscodeLabelWidth [_enterPasscodeLabel.text sizeWithAttributes: @{NSFontAttributeName : kLabelFont}].width
-#else
-// Thanks to Kent Nguyen - https://github.com/kentnguyen
-	#define kPasscodeCharWidth [kPasscodeCharacter sizeWithFont:kPasscodeFont].width
-	#define kFailedAttemptLabelWidth (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? [_failedAttemptLabel.text sizeWithFont:kLabelFont].width + 60.0f : [_failedAttemptLabel.text sizeWithFont:kLabelFont].width + 30.0f)
-	#define kFailedAttemptLabelHeight [_failedAttemptLabel.text sizeWithFont:kLabelFont].height
-	#define kEnterPasscodeLabelWidth [_enterPasscodeLabel.text sizeWithFont:kLabelFont].width
-#endif
 // Backgrounds
 #define kEnterPasscodeLabelBackgroundColor [UIColor clearColor]
 #define kBackgroundColor [UIColor colorWithRed:0.97f green:0.97f blue:1.0f alpha:1.00f]
 #define kCoverViewBackgroundColor [UIColor colorWithRed:0.97f green:0.97f blue:1.0f alpha:1.00f]
 #define kPasscodeBackgroundColor [UIColor clearColor]
 #define kFailedAttemptLabelBackgroundColor [UIColor colorWithRed:0.8f green:0.1f blue:0.2f alpha:1.000f]
-// Fonts
-#define kLabelFont (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? [UIFont fontWithName: @"AvenirNext-Regular" size: kLabelFontSize * kFontSizeModifier] : [UIFont fontWithName: @"AvenirNext-Regular" size: kLabelFontSize])
-#define kPasscodeFont (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? [UIFont fontWithName: @"AvenirNext-Regular" size: kPasscodeFontSize * kFontSizeModifier] : [UIFont fontWithName: @"AvenirNext-Regular" size: kPasscodeFontSize])
 // Text Colors
 #define kLabelTextColor [UIColor colorWithWhite:0.31f alpha:1.0f]
 #define kPasscodeTextColor [UIColor colorWithWhite:0.31f alpha:1.0f]
@@ -77,7 +61,13 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 @property (nonatomic, strong) UILabel     *enterPasscodeLabel;
 @property (nonatomic, strong) UIButton    *OKButton;
 @property (nonatomic, strong) NSString    *tempPasscode;
+@property (nonatomic, strong) UIFont      *labelFont;
+@property (nonatomic, strong) UIFont      *passcodeFont;
 @property (nonatomic, assign) NSInteger   failedAttempts;
+@property (nonatomic, assign) NSInteger   passcodeCharWidth;
+@property (nonatomic, assign) NSInteger   failedAttemptLabelHeight;
+@property (nonatomic, assign) NSInteger   failedAttemptLabelWidth;
+@property (nonatomic, assign) NSInteger   enterPasscodeLabelWidth;
 @property (nonatomic, assign) BOOL        isCurrentlyOnScreen;
 @property (nonatomic, assign) BOOL        isSimple; // YES by default
 @property (nonatomic, assign) BOOL        isUserConfirmingPasscode;
@@ -156,11 +146,86 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 									   error: nil];
 }
 
+#pragma mark - Overridden Getters
+
+- (NSString *)labelFontFamily {
+    if (!_labelFontFamily) {
+        return @"AvenirNext-Regular";
+    } else {
+        return _labelFontFamily;
+    }
+}
+
+- (NSString *)passcodeFontFamily {
+    if (!_passcodeFontFamily) {
+        return @"AvenirNext-Regular";
+    } else {
+        return _passcodeFontFamily;
+    }
+}
+
+- (UIFont *)labelFont {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        return [UIFont fontWithName:self.labelFontFamily size: kLabelFontSize * kFontSizeModifier];
+    } else {
+        return [UIFont fontWithName:self.labelFontFamily size: kLabelFontSize];
+    }
+}
+
+- (UIFont *)passcodeFont {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        return [UIFont fontWithName:self.passcodeFontFamily size: kPasscodeFontSize * kFontSizeModifier];
+    } else {
+        return [UIFont fontWithName:self.passcodeFontFamily size: kPasscodeFontSize];
+    }
+}
+
+- (NSInteger)passcodeCharWidth {
+    if (__IPHONE_OS_VERSION_MIN_REQUIRED >= 70000) {
+        return [kPasscodeCharacter sizeWithAttributes: @{NSFontAttributeName : self.passcodeFont}].width;
+    } else {
+        return [kPasscodeCharacter sizeWithFont:self.passcodeFont].width;
+    }
+}
+
+- (NSInteger)failedAttemptLabelWidth {
+    if (__IPHONE_OS_VERSION_MIN_REQUIRED >= 70000) {
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            return [self.failedAttemptLabel.text sizeWithAttributes: @{NSFontAttributeName : self.labelFont}].width + 60.0f;
+        } else {
+            return [self.failedAttemptLabel.text sizeWithAttributes: @{NSFontAttributeName : self.labelFont}].width + 30.0f;
+        }
+    } else {
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            return [_failedAttemptLabel.text sizeWithFont:self.labelFont].width + 60.0f;
+        } else {
+            return [_failedAttemptLabel.text sizeWithFont:self.labelFont].width + 30.0f;
+        }
+    }
+}
+
+- (NSInteger)failedAttemptLabelHeight {
+    if (__IPHONE_OS_VERSION_MIN_REQUIRED >= 70000) {
+        return [self.failedAttemptLabel.text sizeWithAttributes: @{NSFontAttributeName : self.labelFont}].height;
+    } else {
+        return [self.failedAttemptLabel.text sizeWithFont:self.labelFont].height;
+    }
+}
+
+- (NSInteger)enterPasscodeLabelWidth {
+    if (__IPHONE_OS_VERSION_MIN_REQUIRED >= 70000) {
+        return [self.enterPasscodeLabel.text sizeWithAttributes: @{NSFontAttributeName : self.labelFont}].width;
+    } else {
+        return [self.enterPasscodeLabel.text sizeWithFont:self.labelFont].width;
+    }
+}
 
 #pragma mark - View life
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
+    UIFont *digitsFont = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? [UIFont fontWithName: @"AvenirNext-Regular" size: kPasscodeFontSize * kFontSizeModifier] : [UIFont fontWithName: @"AvenirNext-Regular" size: kPasscodeFontSize]);
+    
 	self.view.backgroundColor = kBackgroundColor;
 
 	_failedAttempts = 0;
@@ -170,7 +235,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	_enterPasscodeLabel = [[UILabel alloc] initWithFrame: CGRectZero];
 	_enterPasscodeLabel.backgroundColor = kEnterPasscodeLabelBackgroundColor;
 	_enterPasscodeLabel.textColor = kLabelTextColor;
-	_enterPasscodeLabel.font = kLabelFont;
+	_enterPasscodeLabel.font = self.labelFont;
 	_enterPasscodeLabel.textAlignment = NSTextAlignmentCenter;
 	[_animatingView addSubview: _enterPasscodeLabel];
 	
@@ -180,7 +245,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	_failedAttemptLabel.backgroundColor	= kFailedAttemptLabelBackgroundColor;
 	_failedAttemptLabel.hidden = YES;
 	_failedAttemptLabel.textColor = kFailedAttemptLabelTextColor;
-	_failedAttemptLabel.font = kLabelFont;
+	_failedAttemptLabel.font = self.labelFont;
 	_failedAttemptLabel.textAlignment = NSTextAlignmentCenter;
 	[_animatingView addSubview: _failedAttemptLabel];
 	
@@ -189,7 +254,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
     _firstDigitTextField.textAlignment = NSTextAlignmentCenter;
     _firstDigitTextField.text = kPasscodeCharacter;
     _firstDigitTextField.textColor = kPasscodeTextColor;
-    _firstDigitTextField.font = kPasscodeFont;
+    _firstDigitTextField.font = digitsFont;
     _firstDigitTextField.secureTextEntry = NO;
     [_firstDigitTextField setBorderStyle:UITextBorderStyleNone];
     _firstDigitTextField.userInteractionEnabled = NO;
@@ -200,7 +265,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
     _secondDigitTextField.textAlignment = NSTextAlignmentCenter;
     _secondDigitTextField.text = kPasscodeCharacter;
     _secondDigitTextField.textColor = kPasscodeTextColor;
-    _secondDigitTextField.font = kPasscodeFont;
+    _secondDigitTextField.font = digitsFont;
     _secondDigitTextField.secureTextEntry = NO;
     [_secondDigitTextField setBorderStyle:UITextBorderStyleNone];
     _secondDigitTextField.userInteractionEnabled = NO;
@@ -211,7 +276,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
     _thirdDigitTextField.textAlignment = NSTextAlignmentCenter;
     _thirdDigitTextField.text = kPasscodeCharacter;
     _thirdDigitTextField.textColor = kPasscodeTextColor;
-    _thirdDigitTextField.font = kPasscodeFont;
+    _thirdDigitTextField.font = digitsFont;
     _thirdDigitTextField.secureTextEntry = NO;
     [_thirdDigitTextField setBorderStyle:UITextBorderStyleNone];
     _thirdDigitTextField.userInteractionEnabled = NO;
@@ -222,7 +287,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
     _fourthDigitTextField.textAlignment = NSTextAlignmentCenter;
     _fourthDigitTextField.text = kPasscodeCharacter;
     _fourthDigitTextField.textColor = kPasscodeTextColor;
-    _fourthDigitTextField.font = kPasscodeFont;
+    _fourthDigitTextField.font = digitsFont;
     _fourthDigitTextField.secureTextEntry = NO;
     [_fourthDigitTextField setBorderStyle:UITextBorderStyleNone];
     _fourthDigitTextField.userInteractionEnabled = NO;
@@ -240,7 +305,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
     
     _OKButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_OKButton setTitle:NSLocalizedStringFromTable(@"OK", kLocalizationTableName, nil) forState:UIControlStateNormal];
-    _OKButton.titleLabel.font = kLabelFont;
+    _OKButton.titleLabel.font = self.labelFont;
     _OKButton.backgroundColor = kEnterPasscodeLabelBackgroundColor;
     [_OKButton setTitleColor:kLabelTextColor forState:UIControlStateNormal];
     [_OKButton setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
@@ -263,6 +328,12 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	_failedAttemptLabel.translatesAutoresizingMaskIntoConstraints = NO;
     
     [self.view setNeedsUpdateConstraints];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    _enterPasscodeLabel.font = self.labelFont;
+    _failedAttemptLabel.font = self.labelFont;
 }
 
 - (void)updateViewConstraints
@@ -472,14 +543,14 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 																				  toItem: nil
 																			   attribute: NSLayoutAttributeNotAnAttribute
 																			  multiplier: 1.0f
-																				constant: kFailedAttemptLabelWidth];
+																				constant: self.failedAttemptLabelWidth];
 	NSLayoutConstraint *failedAttemptLabelHeight = [NSLayoutConstraint constraintWithItem: _failedAttemptLabel
 																				attribute: NSLayoutAttributeHeight
 																				relatedBy: NSLayoutRelationEqual
 																				   toItem: nil
 																				attribute: NSLayoutAttributeNotAnAttribute
 																			   multiplier: 1.0f
-																				 constant: kFailedAttemptLabelHeight + 6.0f];
+																				 constant: self.failedAttemptLabelHeight + 6.0f];
 	[self.view addConstraint:failedAttemptLabelCenterX];
 	[self.view addConstraint:failedAttemptLabelCenterY];
 	[self.view addConstraint:failedAttemptLabelWidth];
@@ -519,7 +590,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	_isCurrentlyOnScreen = NO;
 	[self resetUI];
 	[_passcodeTextField resignFirstResponder];
-	[UIView animateWithDuration: kLockAnimationDuration animations: ^{
+	[UIView animateWithDuration: kLockAnimationDuration delay:0 options:UIViewAnimationOptionCurveEaseInOut animations: ^{
 		if (_beingDisplayedAsLockScreen) {
 			if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) {
 				self.view.center = CGPointMake(self.view.center.x * -1.f, self.view.center.y);
@@ -640,9 +711,9 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 									mainWindow.center.y + self.navigationController.navigationBar.frame.size.height / 2);
 		}
 		if (animated) {
-			[UIView animateWithDuration: kLockAnimationDuration animations: ^{
-				self.view.center = newCenter;
-			}];
+            [UIView animateWithDuration:kLockAnimationDuration delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+                self.view.center = newCenter;
+            } completion:nil];
 		} else {
 			self.view.center = newCenter;
 		}
@@ -1007,7 +1078,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	else {
 		_failedAttemptLabel.text = [NSString stringWithFormat: NSLocalizedStringFromTable(@"%i Passcode Failed Attempts", kLocalizationTableName, @""), _failedAttempts];
 	}
-	_failedAttemptLabel.layer.cornerRadius = kFailedAttemptLabelHeight * 0.65f;
+	_failedAttemptLabel.layer.cornerRadius = self.failedAttemptLabelHeight * 0.65f;
 	_failedAttemptLabel.clipsToBounds = true;
 	_failedAttemptLabel.hidden = NO;
 }
