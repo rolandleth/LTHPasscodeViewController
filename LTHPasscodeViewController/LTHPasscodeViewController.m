@@ -550,13 +550,13 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	[self.view addConstraint:failedAttemptLabelWidth];
 	[self.view addConstraint:failedAttemptLabelHeight];
     
-    //    NSLog(@"constraints %@", self.view.constraints);
-    //        NSLog(@"_passcodeTextField %@", _passcodeTextField.constraints);
+//    NSLog(@"constraints %@", self.view.constraints);
+//    NSLog(@"_passcodeTextField %@", _passcodeTextField.constraints);
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    //    NSLog(@"layout %@", [self.view performSelector:@selector(recursiveDescription)]);
+//    NSLog(@"layout %@", [self.view performSelector:@selector(recursiveDescription)]);
 }
 
 - (void)cancelAndDismissMe {
@@ -572,10 +572,10 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	
 	if ([self.delegate respondsToSelector: @selector(passcodeViewControllerWasDismissed)])
 		[self.delegate performSelector: @selector(passcodeViewControllerWasDismissed)];
-	// Or, if you prefer by notifications:
-    //	[[NSNotificationCenter defaultCenter] postNotificationName: @"dismissPasscodeViewController"
-    //														object: self
-    //													  userInfo: nil];
+//  Or, if you prefer by notifications:
+//	[[NSNotificationCenter defaultCenter] postNotificationName: @"dismissPasscodeViewController"
+//														object: self
+//													  userInfo: nil];
 	[self dismissViewControllerAnimated: YES completion: nil];
 }
 
@@ -584,7 +584,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	_isCurrentlyOnScreen = NO;
 	[self resetUI];
 	[_passcodeTextField resignFirstResponder];
-	[UIView animateWithDuration: kLockAnimationDuration delay:0 options:UIViewAnimationOptionCurveEaseInOut animations: ^{
+	[UIView animateWithDuration: kLockAnimationDuration animations: ^{
 		if (_beingDisplayedAsLockScreen) {
 			if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) {
 				self.view.center = CGPointMake(self.view.center.x * -1.f, self.view.center.y);
@@ -621,10 +621,10 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	} completion: ^(BOOL finished) {
 		if ([self.delegate respondsToSelector: @selector(passcodeViewControllerWasDismissed)])
 			[self.delegate performSelector: @selector(passcodeViewControllerWasDismissed)];
-		// Or, if you prefer by notifications:
-        //		[[NSNotificationCenter defaultCenter] postNotificationName: @"dismissPasscodeViewController"
-        //															object: self
-        //														  userInfo: nil];
+// Or, if you prefer by notifications:
+//		[[NSNotificationCenter defaultCenter] postNotificationName: @"dismissPasscodeViewController"
+//															object: self
+//														  userInfo: nil];
 		if (_beingDisplayedAsLockScreen) {
 			[self.view removeFromSuperview];
 			[self removeFromParentViewController];
@@ -667,7 +667,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 		// Usually not more than one window is needed, but your needs may vary; modify below.
 		// Also, in case the control doesn't work properly,
 		// try it with .keyWindow before anything else, it might work.
-        //		UIWindow *mainWindow = [UIApplication sharedApplication].keyWindow;
+//		UIWindow *mainWindow = [UIApplication sharedApplication].keyWindow;
 		UIWindow *mainWindow = [UIApplication sharedApplication].windows[0];
 		[mainWindow addSubview: self.view];
 		[[NSNotificationCenter defaultCenter] addObserver:self
@@ -705,9 +705,9 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 									mainWindow.center.y + self.navigationController.navigationBar.frame.size.height / 2);
 		}
 		if (animated) {
-            [UIView animateWithDuration:kLockAnimationDuration delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            [UIView animateWithDuration:kLockAnimationDuration animations:^{
                 self.view.center = newCenter;
-            } completion:nil];
+            }];
 		} else {
 			self.view.center = newCenter;
 		}
