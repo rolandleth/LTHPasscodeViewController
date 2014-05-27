@@ -227,7 +227,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
     UIFont *digitsFont = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? [UIFont fontWithName:kDefaultFontFamily size: kPasscodeFontSize * kFontSizeModifier] : [UIFont fontWithName:kDefaultFontFamily size: kPasscodeFontSize]);
     
 	self.view.backgroundColor = kBackgroundColor;
-
+    
 	_failedAttempts = 0;
 	_animatingView = [[UIView alloc] initWithFrame: self.view.frame];
 	[self.view addSubview: _animatingView];
@@ -311,7 +311,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
     [_OKButton setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
     [_OKButton addTarget:self action:@selector(validateComplexPasscode) forControlEvents:UIControlEventTouchUpInside];
     [_complexPasscodeOverlayView addSubview:_OKButton];
-
+    
     _OKButton.hidden = YES;
     _OKButton.translatesAutoresizingMaskIntoConstraints = NO;
 	
@@ -319,7 +319,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	_passcodeTextField.delegate = self;
     _passcodeTextField.secureTextEntry = YES;
     _passcodeTextField.translatesAutoresizingMaskIntoConstraints = NO;
-
+    
 	[_passcodeTextField becomeFirstResponder];
 	
 	_enterPasscodeLabel.text = _isUserChangingPasscode ? NSLocalizedStringFromTable(@"Enter your old passcode", kLocalizationTableName, @"") : NSLocalizedStringFromTable(@"Enter your passcode", kLocalizationTableName, @"");
@@ -335,7 +335,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
     [super updateViewConstraints];
     
     [self.view removeConstraints:self.view.constraints];
-
+    
     _firstDigitTextField.hidden = !self.isSimple;
     _secondDigitTextField.hidden = !self.isSimple;
     _thirdDigitTextField.hidden = !self.isSimple;
@@ -351,7 +351,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
     }
     else {
         [_complexPasscodeOverlayView addSubview:_passcodeTextField];
-    
+        
         //if we come from simple state some constraints are added even translatesAutoresizingMaskIntoConstraints = NO, because no constraints are added manually in that case
         [_passcodeTextField removeConstraints:_passcodeTextField.constraints];
     }
@@ -550,13 +550,13 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	[self.view addConstraint:failedAttemptLabelWidth];
 	[self.view addConstraint:failedAttemptLabelHeight];
     
-//    NSLog(@"constraints %@", self.view.constraints);
-//        NSLog(@"_passcodeTextField %@", _passcodeTextField.constraints);
+    //    NSLog(@"constraints %@", self.view.constraints);
+    //        NSLog(@"_passcodeTextField %@", _passcodeTextField.constraints);
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
-//    NSLog(@"layout %@", [self.view performSelector:@selector(recursiveDescription)]);
+    //    NSLog(@"layout %@", [self.view performSelector:@selector(recursiveDescription)]);
 }
 
 - (void)cancelAndDismissMe {
@@ -573,9 +573,9 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	if ([self.delegate respondsToSelector: @selector(passcodeViewControllerWasDismissed)])
 		[self.delegate performSelector: @selector(passcodeViewControllerWasDismissed)];
 	// Or, if you prefer by notifications:
-//	[[NSNotificationCenter defaultCenter] postNotificationName: @"dismissPasscodeViewController"
-//														object: self
-//													  userInfo: nil];
+    //	[[NSNotificationCenter defaultCenter] postNotificationName: @"dismissPasscodeViewController"
+    //														object: self
+    //													  userInfo: nil];
 	[self dismissViewControllerAnimated: YES completion: nil];
 }
 
@@ -622,9 +622,9 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 		if ([self.delegate respondsToSelector: @selector(passcodeViewControllerWasDismissed)])
 			[self.delegate performSelector: @selector(passcodeViewControllerWasDismissed)];
 		// Or, if you prefer by notifications:
-//		[[NSNotificationCenter defaultCenter] postNotificationName: @"dismissPasscodeViewController"
-//															object: self
-//														  userInfo: nil];
+        //		[[NSNotificationCenter defaultCenter] postNotificationName: @"dismissPasscodeViewController"
+        //															object: self
+        //														  userInfo: nil];
 		if (_beingDisplayedAsLockScreen) {
 			[self.view removeFromSuperview];
 			[self removeFromParentViewController];
@@ -667,7 +667,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 		// Usually not more than one window is needed, but your needs may vary; modify below.
 		// Also, in case the control doesn't work properly,
 		// try it with .keyWindow before anything else, it might work.
-//		UIWindow *mainWindow = [UIApplication sharedApplication].keyWindow;
+        //		UIWindow *mainWindow = [UIApplication sharedApplication].keyWindow;
 		UIWindow *mainWindow = [UIApplication sharedApplication].windows[0];
 		[mainWindow addSubview: self.view];
 		[[NSNotificationCenter defaultCenter] addObserver:self
@@ -802,7 +802,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	_isUserConfirmingPasscode = NO;
 	_isUserEnablingPasscode = NO;
     _isUserSwitchingBetweenPasscodeModes = NO;
-
+    
 	[self resetUI];
 }
 
@@ -814,7 +814,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	_isUserChangingPasscode = YES;
 	_isUserConfirmingPasscode = NO;
 	_isUserEnablingPasscode = NO;
-
+    
 	[self resetUI];
 }
 
@@ -949,7 +949,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 - (void)askForNewPasscode {
 	_isUserBeingAskedForNewPasscode = YES;
 	_isUserConfirmingPasscode = NO;
-
+    
     //update layout considering type
     [self.view setNeedsUpdateConstraints];
     
@@ -1063,10 +1063,10 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 		_failedAttempts == kMaxNumberOfAllowedFailedAttempts &&
 		[self.delegate respondsToSelector: @selector(maxNumberOfFailedAttemptsReached)])
 		[self.delegate maxNumberOfFailedAttemptsReached];
-//	Or, if you prefer by notifications:
-//	[[NSNotificationCenter defaultCenter] postNotificationName: @"maxNumberOfFailedAttemptsReached"
-//														object: self
-//													  userInfo: nil];
+    //	Or, if you prefer by notifications:
+    //	[[NSNotificationCenter defaultCenter] postNotificationName: @"maxNumberOfFailedAttemptsReached"
+    //														object: self
+    //													  userInfo: nil];
 	
 	if (_failedAttempts == 1) _failedAttemptLabel.text = NSLocalizedStringFromTable(@"1 Passcode Failed Attempt", kLocalizationTableName, @"");
 	else {
@@ -1165,7 +1165,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 	self = [super init];
 	if (self) {
         _isSimple = YES;
-
+        
 		[[NSUserDefaults standardUserDefaults] setObject:kKeychainUsername forKey:kKeychainUsername];
 		[[NSUserDefaults standardUserDefaults] setObject:kKeychainServiceName forKey:kKeychainServiceName];
 		
