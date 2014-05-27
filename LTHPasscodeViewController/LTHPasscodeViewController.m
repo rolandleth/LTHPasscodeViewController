@@ -43,7 +43,8 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 #define kLabelTextColor [UIColor colorWithWhite:0.31f alpha:1.0f]
 #define kPasscodeTextColor [UIColor colorWithWhite:0.31f alpha:1.0f]
 #define kFailedAttemptLabelTextColor [UIColor whiteColor]
-
+// Default Font Family
+#define kDefaultFontFamily @"AvenirNext-Regular"
 // Localization table name
 #define kLocalizationTableName @"LTHPasscodeViewController"
 
@@ -150,7 +151,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 
 - (NSString *)labelFontFamily {
     if (!_labelFontFamily) {
-        return @"AvenirNext-Regular";
+        return kDefaultFontFamily;
     } else {
         return _labelFontFamily;
     }
@@ -158,7 +159,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 
 - (NSString *)passcodeFontFamily {
     if (!_passcodeFontFamily) {
-        return @"AvenirNext-Regular";
+        return kDefaultFontFamily;
     } else {
         return _passcodeFontFamily;
     }
@@ -224,7 +225,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-    UIFont *digitsFont = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? [UIFont fontWithName: @"AvenirNext-Regular" size: kPasscodeFontSize * kFontSizeModifier] : [UIFont fontWithName: @"AvenirNext-Regular" size: kPasscodeFontSize]);
+    UIFont *digitsFont = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? [UIFont fontWithName:kDefaultFontFamily size: kPasscodeFontSize * kFontSizeModifier] : [UIFont fontWithName:kDefaultFontFamily size: kPasscodeFontSize]);
     
 	self.view.backgroundColor = kBackgroundColor;
 
