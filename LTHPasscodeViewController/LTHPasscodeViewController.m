@@ -181,7 +181,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
     }
 }
 
-- (NSInteger)passcodeCharWidth {
+- (CGFloat)passcodeCharWidth {
     if (__IPHONE_OS_VERSION_MIN_REQUIRED >= 70000) {
         return [kPasscodeCharacter sizeWithAttributes: @{NSFontAttributeName : self.passcodeFont}].width;
     } else {
@@ -189,7 +189,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
     }
 }
 
-- (NSInteger)failedAttemptLabelWidth {
+- (CGFloat)failedAttemptLabelWidth {
     if (__IPHONE_OS_VERSION_MIN_REQUIRED >= 70000) {
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             return [self.failedAttemptLabel.text sizeWithAttributes: @{NSFontAttributeName : self.labelFont}].width + 60.0f;
@@ -205,7 +205,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
     }
 }
 
-- (NSInteger)failedAttemptLabelHeight {
+- (CGFloat)failedAttemptLabelHeight {
     if (__IPHONE_OS_VERSION_MIN_REQUIRED >= 70000) {
         return [self.failedAttemptLabel.text sizeWithAttributes: @{NSFontAttributeName : self.labelFont}].height;
     } else {
@@ -213,7 +213,7 @@ static NSInteger const kMaxNumberOfAllowedFailedAttempts = 10;
     }
 }
 
-- (NSInteger)enterPasscodeLabelWidth {
+- (CGFloat)enterPasscodeLabelWidth {
     if (__IPHONE_OS_VERSION_MIN_REQUIRED >= 70000) {
         return [self.enterPasscodeLabel.text sizeWithAttributes: @{NSFontAttributeName : self.labelFont}].width;
     } else {
