@@ -414,6 +414,7 @@
     // if the user fails to confirm the passcode.
 	_failedAttemptLabel = [[UILabel alloc] initWithFrame: CGRectZero];
 	_failedAttemptLabel.text = @"1 Passcode Failed Attempt";
+    _failedAttemptLabel.numberOfLines = 0;
 	_failedAttemptLabel.backgroundColor	= _failedAttemptLabelBackgroundColor;
 	_failedAttemptLabel.hidden = YES;
 	_failedAttemptLabel.textColor = _failedAttemptLabelTextColor;
