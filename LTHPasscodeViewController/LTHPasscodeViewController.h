@@ -10,92 +10,325 @@
 
 @protocol LTHPasscodeViewControllerDelegate <NSObject>
 @optional
-- (void)passcodeViewControllerWasDismissed;
+/**
+ @brief Called when the passcode controller was dismissed.
+ */
+- (void)passcodeViewControllerWasDismissed DEPRECATED_MSG_ATTRIBUTE(" Please use passcodeViewControllerWillBeClosed. It is a better name, since it is called right before dismissing or popping the passcode view controller.");
+/**
+ @brief Called right before the passcode controller will be dismissed or popped.
+ */
+- (void)passcodeViewControllerWillClose;
+/**
+ @brief Called when the max number of failed attempts has been reached.
+ */
 - (void)maxNumberOfFailedAttemptsReached;
+/**
+ @brief Called when the passcode was entered successfully.
+ */
 - (void)passcodeWasEnteredSuccessfully;
+/**
+ @brief Called when the logout button was pressed.
+ */
 - (void)logoutButtonWasPressed;
+/**
+ @brief	  Handle here the retrieval of the duration that needs to pass while app is in background for the lock to be displayed.
+ @details Called when [LTHPasscodeViewController timerDuration] is called and [LTHPasscodeViewController useKeychain:NO] was used, but falls back to the Keychain anyway if not implemented.
+ @return The duration.
+ */
+- (NSTimeInterval)timerDuration;
+/**
+ @brief			 Handle here the saving of the duration that needs to pass while the app is in background for the lock to be displayed.
+ @details        Called when [LTHPasscodeViewController saveTimerDuration:] is called and [LTHPasscodeViewController useKeychain:NO] was used, but falls back to the Keychain anyway if not implemented.
+ @param duration The duration.
+ */
+- (void)saveTimerDuration:(NSTimeInterval)duration;
+/**
+ @brief   Handle here the retrieval of the time at which the timer started.
+ @details Called when [LTHPasscodeViewController timerStartTime] is called and [LTHPasscodeViewController useKeychain:NO] was used, but falls back to the Keychain anyway if not implemented.
+ @return The time at which the timer started.
+ */
+- (NSTimeInterval)timerStartTime;
+/**
+ @brief    Handle here the saving of the current time.
+ @details  Called when [LTHPasscodeViewController saveTimerStartTime] is called and [LTHPasscodeViewController useKeychain:NO] was used, but falls back to the Keychain anyway if not implemented.
+ */
+- (void)saveTimerStartTime;
+/**
+ @brief      Handle here the check if the timer has ended and the lock has to be displayed.
+ @details    Called when [LTHPasscodeViewController didPasscodeTimerEnd] is called and [LTHPasscodeViewController useKeychain:NO] was used, but falls back to the Keychain anyway if not implemented.
+ @return YES if the timer ended and the lock has to be displayed.
+ */
+- (BOOL)didPasscodeTimerEnd;
+/**
+ @brief   Handle here the passcode deletion.
+ @details Called when [LTHPasscodeViewController deletePasscode] is called and [LTHPasscodeViewController useKeychain:NO] was used, but falls back to the Keychain anyway if not implemented.
+ */
+- (void)deletePasscode;
+/**
+ @brief   Handle here the saving of the passcode.
+ @details Called if [LTHPasscodeViewController useKeychain:NO] was used, but falls back to the Keychain anyway if not implemented.
+ @param passcode The passcode.
+ */
+- (void)savePasscode:(NSString *)passcode;
+/**
+ @brief   Retrieve here the saved passcode.
+ @details Called if [LTHPasscodeViewController useKeychain:NO] was used, but falls back to the Keychain anyway if not implemented.
+ @return The passcode.
+ */
+- (NSString *)passcode;
 @end
 
 @interface LTHPasscodeViewController : UIViewController
-
-@property (nonatomic, weak) UIViewController<LTHPasscodeViewControllerDelegate> *delegate;
-
-// Customization
-@property (nonatomic, strong) UIColor *navigationBarTintColor;
-@property (nonatomic, strong) UIColor *navigationTintColor;
-@property (nonatomic, strong) UIColor *navigationTitleColor;
-@property (nonatomic, assign) BOOL navigationBarTranslucent;
-@property (nonatomic, strong) UINavigationBar *navBar;
-
-// Used when displaying the lock. Shown without a navBar, added directly on UIWindow
-- (void)showLockScreenWithAnimation:(BOOL)animated;
 /**
- @brief				Used when displaying the lock. Added directly on UIWindow
- @param hasLogout   Show a logout button. If set to YES, a navBar will be shown, if set to NO, no navBar will be shown
- @param logoutTitle Logout button's title.
+ @brief   The delegate.
+ */
+@property (nonatomic, weak) id<LTHPasscodeViewControllerDelegate> delegate;
+/**
+ @brief The gap between the passcode digits.
+ */
+@property (nonatomic, assign) CGFloat   horizontalGap;
+/**
+ @brief The gap between the top label and the passcode digits/field.
+ */
+@property (nonatomic, assign) CGFloat   verticalGap;
+/**
+ @brief The gap between the passcode digits and the failed label.
+ */
+@property (nonatomic, assign) CGFloat   failedAttemptLabelGap;
+/**
+ @brief The height for the complex passcode overlay.
+ */
+@property (nonatomic, assign) CGFloat   passcodeOverlayHeight;
+/**
+ @brief The font size for the top label.
+ */
+@property (nonatomic, assign) CGFloat   labelFontSize;
+/**
+ @brief The font size for the passcode digits.
+ */
+@property (nonatomic, assign) CGFloat   passcodeFontSize;
+/**
+ @brief The font for the top label.
+ */
+@property (nonatomic, strong) UIFont    *labelFont;
+/**
+ @brief The font for the passcode digits.
+ */
+@property (nonatomic, strong) UIFont    *passcodeFont;
+/**
+ @brief The background color for the top label.
+ */
+@property (nonatomic, strong) UIColor   *enterPasscodeLabelBackgroundColor;
+/**
+ @brief The background color for the view.
+ */
+@property (nonatomic, strong) UIColor   *backgroundColor;
+/**
+ @brief The background color for the cover view that appears on top of the app, visible in the multitasking.
+ */
+@property (nonatomic, strong) UIColor   *coverViewBackgroundColor;
+/**
+ @brief The background color for the passcode digits.
+ */
+@property (nonatomic, strong) UIColor   *passcodeBackgroundColor;
+/**
+ @brief The background color for the failed attempt label.
+ */
+@property (nonatomic, strong) UIColor   *failedAttemptLabelBackgroundColor;
+/**
+ @brief The text color for the top label.
+ */
+@property (nonatomic, strong) UIColor   *labelTextColor;
+/**
+ @brief The text color for the passcode digits.
+ */
+@property (nonatomic, strong) UIColor   *passcodeTextColor;
+/**
+ @brief The text color for the failed attempt label.
+ */
+@property (nonatomic, strong) UIColor   *failedAttemptLabelTextColor;
+/**
+ @brief The tint color to apply to the navigation items and bar button items.
+ */
+@property (nonatomic, strong) UIColor   *navigationBarTintColor;
+/**
+ @brief The tint color to apply to the navigation bar background.
+ */
+@property (nonatomic, strong) UIColor   *navigationTintColor;
+/**
+ @brief The color for te navigation bar's title.
+ */
+@property (nonatomic, strong) UIColor   *navigationTitleColor;
+/**
+ @brief The string to be used as username for the passcode in the Keychain.
+ */
+@property (nonatomic, strong) NSString  *keychainPasscodeUsername;
+/**
+ @brief The string to be used as username for the timer start time in the Keychain.
+ */
+@property (nonatomic, strong) NSString  *keychainTimerStartUsername;
+/**
+ @brief The string to be used as username for the timer duration in the Keychain.
+ */
+@property (nonatomic, strong) NSString  *keychainTimerDurationUsername;
+/**
+ @brief The string to be used as service name for all the Keychain entries.
+ */
+@property (nonatomic, strong) NSString  *keychainServiceName;
+/**
+ @brief The character for the passcode digit.
+ */
+@property (nonatomic, strong) NSString  *passcodeCharacter;
+/**
+ @brief The table name for NSLocalizedStringFromTable.
+ */
+@property (nonatomic, strong) NSString  *localizationTableName;
+/**
+ @brief The tag for the cover view.
+ */
+@property (nonatomic, assign) NSInteger coverViewTag;
+/**
+ @brief The duration of the lock animation.
+ */
+@property (nonatomic, assign) CGFloat   lockAnimationDuration;
+/**
+ @brief The duration of the slide animation.
+ */
+@property (nonatomic, assign) CGFloat   slideAnimationDuration;
+/**
+ @brief The maximum number of failed attempts allowed.
+ */
+@property (nonatomic, assign) NSInteger maxNumberOfAllowedFailedAttempts;
+/**
+ @brief The navigation bar, if one was used.
+ */
+@property (nonatomic, strong) UINavigationBar *navBar;
+/**
+ @brief A Boolean value that indicates whether the navigation bar is translucent (YES) or not (NO).
+ */
+@property (nonatomic, assign) BOOL navigationBarTranslucent;
+/**
+ @brief A Boolean value that indicates whether the back bar button is hidden (YES) or not (NO). Default is YES.
+ */
+@property (nonatomic, assign) BOOL hidesBackButton;
+
+/**
+ @brief				Used for displaying the lock. The passcode view is added directly on the keyWindow.
+ @param hasLogout   Set to YES for a navBar with a Logout button, set to NO for no navBar.
+ @param logoutTitle The title of the Logout button.
  */
 - (void)showLockScreenWithAnimation:(BOOL)animated withLogout:(BOOL)hasLogout andLogoutTitle:(NSString*)logoutTitle;
 /**
- @brief				   Used when enabling/changing/disabling the passcode.
- @param	viewController Shown as a modal, with navBar.
+ @brief   Used for displaying the lock. Added directly on UIWindow.
  */
-- (void)showForEnablingPasscodeInViewController:(UIViewController *)viewController;
-- (void)showForChangingPasscodeInViewController:(UIViewController *)viewController;
-- (void)showForTurningOffPasscodeInViewController:(UIViewController *)viewController;
-
+- (void)showLockScreenWithAnimation:(BOOL)animated DEPRECATED_MSG_ATTRIBUTE(" Please use showLockScreenWithAnimation:withLogout:andLogoutTitle:");
 /**
- @brief These should have been private, but since I didn't do that from the start,
- consider them helper methods, should they serve you in any way.
- I don't want to break backwards compatibility.
+ @brief				   Used for enabling the passcode.
+ @details              The back bar button is hidden by default. Set `hidesBackButton` to NO if you want it to be visible.
+ @param	viewController The view controller where the passcode view controller will be displayed.
  */
-- (void)prepareAsLockScreen;
-- (void)prepareForChangingPasscode;
-- (void)prepareForTurningOffPasscode;
-- (void)prepareForEnablingPasscode;
-- (void)dismissMe;
-- (void)resetUI;
+- (void)showForEnablingPasscodeInViewController:(UIViewController *)viewController DEPRECATED_MSG_ATTRIBUTE(" Please use showForEnablingPasscodeInViewController:asModal:");
 /**
- @return YES if the passcode is simple (4 digits), NO if the passcode is complex
+ @brief				   Used for changing the passcode.
+ @details              The back bar button is hidden by default. Set `hidesBackButton` to NO if you want it to be visible.
+ @param	viewController The view controller where the passcode view controller will be displayed.
+ */
+- (void)showForChangingPasscodeInViewController:(UIViewController *)viewController DEPRECATED_MSG_ATTRIBUTE(" Please use showForDisablingPasscodeInViewController:asModal:");
+/**
+ @brief				   Used for disabling the passcode.
+ @details              The back bar button is hidden by default. Set `hidesBackButton` to NO if you want it to be visible.
+ @param	viewController The view controller where the passcode view controller will be displayed.
+ */
+- (void)showForTurningOffPasscodeInViewController:(UIViewController *)viewController DEPRECATED_MSG_ATTRIBUTE(" Please use showForDisablingPasscodeInViewController:asModal:");
+/**
+ @brief				   Used for enabling the passcode.
+ @details              The back bar button is hidden by default. Set `hidesBackButton` to NO if you want it to be visible.
+ @param	viewController The view controller where the passcode view controller will be displayed.
+ @param asModal        Set to YES to present as a modal, or to NO to push on the current nav stack.
+ */
+- (void)showForEnablingPasscodeInViewController:(UIViewController *)viewController asModal:(BOOL)isModal;
+/**
+ @brief				   Used for changing the passcode.
+ @details              The back bar button is hidden by default. Set `hidesBackButton` to NO if you want it to be visible.
+ @param	viewController The view controller where the passcode view controller will be displayed.
+ @param asModal        Set to YES to present as a modal, or to NO to push on the current nav stack.
+ */
+- (void)showForChangingPasscodeInViewController:(UIViewController *)viewController asModal:(BOOL)isModal;
+/**
+ @brief				   Used for disabling the passcode.
+ @details              The back bar button is hidden by default. Set `hidesBackButton` to NO if you want it to be visible.
+ @param	viewController The view controller where the passcode view controller will be displayed.
+ @param asModal        Set to YES to present as a modal, or to NO to push on the current nav stack.
+ */
+- (void)showForDisablingPasscodeInViewController:(UIViewController *)viewController asModal:(BOOL)isModal;
+/**
+ @brief  Returns a Boolean value that indicates whether a simple, 4 digit (YES) or a complex passcode will be used (NO).
+ @return YES if the passcode is simple, NO if the passcode is complex
  */
 - (BOOL)isSimple;
-- (void)setIsSimple:(BOOL)isSimple;
 /**
- @brief				Saves the passcode in the keychain, with the following data:
- @param username    Username used for storing the passcode.
- @param serviceName Service name used for storing the passcode.
+ @brief   Starting with next version, this will be just a setter, without the current logic inside. Everything was moved inside `-setIsSimple:inViewController:asModal:`
+ @details `fromParentViewController` and `asModal` are needed because the delegate is of type id, and the passcode needs to be presented somewhere and with a specific style - modal or pushed.
  */
-+ (void)setUsername:(NSString*)username andServiceName:(NSString*)serviceName;
+- (void)setIsSimple:(BOOL)isSimple DEPRECATED_MSG_ATTRIBUTE(" Please use -setIsSimple:inViewController:asModal:");
 /**
- @return YES if the passcode is enabled.
+ @brief                 Sets if the passcode should be simple (4 digits) or complex.
+ @param isSimple        Set to YES for a simple passcode, and to NO for a complex passcode.
+ @param viewController  The view controller where the passcode view controller will be displayed.
+ @param isModal         Set to YES to present as a modal, or to NO to push on the current nav stack.
  */
-+ (BOOL)passcodeExistsInKeychain;
+- (void)setIsSimple:(BOOL)isSimple inViewController:(UIViewController *)viewController asModal:(BOOL)isModal;
 /**
- @brief			 Saves in the keychain the time that needs to pass for the lock to be displayed.
- @param duration The time that needs to pass for the lock to be displayed.
+ @brief   Returns a Boolean value that indicates whether a passcode exists (YES) or not (NO).
+ @return  YES if a passcode is enabled. This also means it is enabled, unless custom logic was added to the library.
  */
-+ (void)setTimerDuration:(NSTimeInterval)duration;
++ (BOOL)passcodeExistsInKeychain DEPRECATED_MSG_ATTRIBUTE(" Please use -doesPasscodeExist");
 /**
- @brief	 Retrieves from the keychain the time that needs to pass for the lock to be displayed.
- @return The time that needs to pass for the lock to be displayed.
+ @brief  Returns a Boolean value that indicates whether a passcode exists (YES) or not (NO).
+ @return YES if a passcode is enabled. This also means it is enabled, unless custom logic was added to the library.
+ */
++ (BOOL)doesPasscodeExist;
+/**
+ @brief	 Retrieves from the keychain the duration while app is in background after which the lock has to be displayed.
+ @return The duration.
  */
 + (NSTimeInterval)timerDuration;
 /**
- @return YES if the timer ended and the lock has to be displayed.
+ @brief			 Saves in the keychain the duration that needs to pass while app is in background  for the lock to be displayed.
+ @param duration The duration.
  */
-+ (BOOL)didPasscodeTimerEnd;
-/**
- @brief Saves current time, as `timeIntervalSinceReferenceDate`.
- */
-+ (void)saveTimerStartTime;
++ (void)saveTimerDuration:(NSTimeInterval)duration;
 /**
  @brief  Retrieves from the keychain the time at which the timer started.
  @return The time, as `timeIntervalSinceReferenceDate`, at which the timer started.
  */
 + (NSTimeInterval)timerStartTime;
 /**
+ @brief Saves the current time, as `timeIntervalSinceReferenceDate`.
+ */
++ (void)saveTimerStartTime;
+/**
+ @brief  Returns a Boolean value that indicates whether the timer has ended (YES) and the lock has to be displayed or not (NO).
+ @return YES if the timer ended and the lock has to be displayed.
+ */
++ (BOOL)didPasscodeTimerEnd;
+/**
  @brief Removes the passcode from the keychain.
  */
-+ (void)deletePasscodeFromKeychain;
-+ (LTHPasscodeViewController *)sharedUser;
++ (void)deletePasscodeFromKeychain DEPRECATED_MSG_ATTRIBUTE(" Please use -deleteFromPasscode");
+/**
+ @brief Removes the passcode from the keychain.
+ */
++ (void)deletePasscode;
+/**
+ @brief             Call this if you want to save and read the passcode and timers to and from somewhere else rather than the Keychain.
+ @attention         All the protocol methods will fall back to the Keychain if not implemented, even if calling this method with NO. This allows for flexibility over what and where you save.
+ @param useKeychain Set to NO if you want to save and read the passcode and timers to and from somewhere else rather than the Keychain. Default is YES.
+ */
++ (void)useKeychain:(BOOL)useKeychain;
+/**
+ @brief  Returns the shared instance of the passcode view controller.
+ */
++ (instancetype)sharedUser;
 
 @end

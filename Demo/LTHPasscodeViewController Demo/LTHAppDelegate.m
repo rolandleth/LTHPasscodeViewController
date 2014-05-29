@@ -10,10 +10,15 @@
 #import "LTHDemoViewController.h"
 #import "LTHPasscodeViewController.h"
 
+// Just to test that setting the passcode delegate here works.
+// You can uncomment below and comment it inside LTHDemoViewController.
+@interface LTHAppDelegate () <LTHPasscodeViewControllerDelegate>
+
+@end
+
 @implementation LTHAppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor blackColor];
@@ -25,12 +30,14 @@
 //	[navController addChildViewController: demoController];
 	self.window.rootViewController = navController;
 	[self.window makeKeyAndVisible];
-	
-	if ([LTHPasscodeViewController passcodeExistsInKeychain]) {
-		// Init the singleton
-		[LTHPasscodeViewController sharedUser];
+    
+//    [LTHPasscodeViewController sharedUser].delegate = self;
+	[LTHPasscodeViewController useKeychain:NO];
+	if ([LTHPasscodeViewController doesPasscodeExist]) {
 		if ([LTHPasscodeViewController didPasscodeTimerEnd])
-			[[LTHPasscodeViewController sharedUser] showLockScreenWithAnimation: YES];
+			[[LTHPasscodeViewController sharedUser] showLockScreenWithAnimation:YES
+                                                                     withLogout:NO
+                                                                 andLogoutTitle:nil];
 	}
 	
     return YES;
