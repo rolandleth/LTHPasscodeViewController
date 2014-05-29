@@ -35,17 +35,10 @@ Drag the contents of `LTHPasscodeViewController` to your project, or add `pod 'L
 * Show the lock screen:
 
 ```objc
-<<<<<<< HEAD
 - (void)showLockScreenWithAnimation:(BOOL)animated withLogout:(BOOL)hasLogout andLogoutTitle:(NSString*)logoutTitle;
 
 // Example:
 [[LTHPasscodeViewController sharedUser] showLockscreenWithAnimation:YES withLogout:NO andLogoutTitle:nil];
-=======
-- (void)showLockScreenWithAnimation:(BOOL)animated;
-
-// Example:
-[[LTHPasscodeViewController sharedUser] showLockScreenWithAnimation: YES]
->>>>>>> FETCH_HEAD
 // Displayed with a slide up animation, which, combined with 
 // the keyboard sliding down animation, creates an "unlocking" impression.
 ```
