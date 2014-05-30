@@ -331,4 +331,6 @@
  */
 + (instancetype)sharedUser;
 
+- (void)addClueLogo;
+
 @end

@@ -37,7 +37,6 @@
 
 @property (nonatomic, strong) UILabel     *failedAttemptLabel;
 @property (nonatomic, strong) UILabel     *enterPasscodeLabel;
-@property (nonatomic, strong) UIButton    *OKButton;
 
 @property (nonatomic, strong) NSString    *tempPasscode;
 @property (nonatomic, assign) NSInteger   failedAttempts;
@@ -262,7 +261,6 @@
 	[self _setupViews];
     [self _setupLabels];
     [self _setupDigitFields];
-    [self _setupOKButton];
 	
 	_passcodeTextField = [[UITextField alloc] initWithFrame: CGRectZero];
 	_passcodeTextField.delegate = self;
@@ -422,7 +420,7 @@
 	_failedAttemptLabel.textAlignment = NSTextAlignmentCenter;
 	[_animatingView addSubview: _failedAttemptLabel];
     
-    _enterPasscodeLabel.text = _isUserChangingPasscode ? NSLocalizedStringFromTable(@"Enter your old passcode", _localizationTableName, @"") : NSLocalizedStringFromTable(@"Enter your passcode", _localizationTableName, @"");
+    _enterPasscodeLabel.text = _isUserChangingPasscode ? LocalizedString(@"PASSCODE_ENTER_YOUR_OLD_PASSCODE") : LocalizedString(@"PASSCODE_ENTER_YOUR_PASSCODE");
     _enterPasscodeLabel.translatesAutoresizingMaskIntoConstraints = NO;
 	_failedAttemptLabel.translatesAutoresizingMaskIntoConstraints = NO;
 }
@@ -478,25 +476,6 @@
     _thirdDigitTextField.translatesAutoresizingMaskIntoConstraints = NO;
     _fourthDigitTextField.translatesAutoresizingMaskIntoConstraints = NO;
 }
-
-
-- (void)_setupOKButton {
-    _OKButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_OKButton setTitle:NSLocalizedStringFromTable(@"OK", _localizationTableName, nil)
-               forState:UIControlStateNormal];
-    _OKButton.titleLabel.font = _labelFont;
-    _OKButton.backgroundColor = _enterPasscodeLabelBackgroundColor;
-    [_OKButton setTitleColor:_labelTextColor forState:UIControlStateNormal];
-    [_OKButton setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
-    [_OKButton addTarget:self
-                  action:@selector(_validateComplexPasscode)
-        forControlEvents:UIControlEventTouchUpInside];
-    [_complexPasscodeOverlayView addSubview:_OKButton];
-    
-    _OKButton.hidden = YES;
-    _OKButton.translatesAutoresizingMaskIntoConstraints = NO;
-}
-
 
 - (void)updateViewConstraints {
     [super updateViewConstraints];
@@ -624,85 +603,6 @@
         [self.view addConstraint:secondDigitY];
         [self.view addConstraint:thirdDigitY];
         [self.view addConstraint:fourthDigitY];
-    }
-    else {
-        NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_passcodeTextField, _OKButton);
-        
-        //TODO: specify different offsets through metrics
-        NSArray *constraints =
-        [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-10-[_passcodeTextField]-5-[_OKButton]-10-|"
-                                                options:0
-                                                metrics:nil
-                                                  views:viewsDictionary];
-        
-        [self.view addConstraints:constraints];
-        
-        constraints =
-        [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-5-[_passcodeTextField]-5-|"
-                                                options:0
-                                                metrics:nil
-                                                  views:viewsDictionary];
-        
-        [self.view addConstraints:constraints];
-        
-        NSLayoutConstraint *buttonY =
-        [NSLayoutConstraint constraintWithItem: _OKButton
-                                     attribute: NSLayoutAttributeCenterY
-                                     relatedBy: NSLayoutRelationEqual
-                                        toItem: _passcodeTextField
-                                     attribute: NSLayoutAttributeCenterY
-                                    multiplier: 1.0f
-                                      constant: 0.0f];
-        
-        [self.view addConstraint:buttonY];
-        
-        NSLayoutConstraint *buttonHeight =
-        [NSLayoutConstraint constraintWithItem: _OKButton
-                                     attribute: NSLayoutAttributeHeight
-                                     relatedBy: NSLayoutRelationEqual
-                                        toItem: _passcodeTextField
-                                     attribute: NSLayoutAttributeHeight
-                                    multiplier: 1.0f
-                                      constant: 0.0f];
-        
-        [self.view addConstraint:buttonHeight];
-        
-        NSLayoutConstraint *overlayViewLeftConstraint =
-        [NSLayoutConstraint constraintWithItem: _complexPasscodeOverlayView
-                                     attribute: NSLayoutAttributeLeft
-                                     relatedBy: NSLayoutRelationEqual
-                                        toItem: self.view
-                                     attribute: NSLayoutAttributeLeft
-                                    multiplier: 1.0f
-                                      constant: 0.0f];
-        
-        NSLayoutConstraint *overlayViewY =
-        [NSLayoutConstraint constraintWithItem: _complexPasscodeOverlayView
-                                     attribute: NSLayoutAttributeCenterY
-                                     relatedBy: NSLayoutRelationEqual
-                                        toItem: _enterPasscodeLabel
-                                     attribute: NSLayoutAttributeBottom
-                                    multiplier: 1.0f
-                                      constant: _verticalGap];
-        
-        NSLayoutConstraint *overlayViewHeight =
-        [NSLayoutConstraint constraintWithItem: _complexPasscodeOverlayView
-                                     attribute: NSLayoutAttributeHeight
-                                     relatedBy: NSLayoutRelationEqual
-                                        toItem: nil
-                                     attribute: NSLayoutAttributeNotAnAttribute
-                                    multiplier: 1.0f
-                                      constant: _passcodeOverlayHeight];
-        
-        NSLayoutConstraint *overlayViewWidth =
-        [NSLayoutConstraint constraintWithItem: _complexPasscodeOverlayView
-                                     attribute: NSLayoutAttributeWidth
-                                     relatedBy: NSLayoutRelationEqual
-                                        toItem: _animatingView
-                                     attribute: NSLayoutAttributeWidth
-                                    multiplier: 1.0f
-                                      constant: 0.0f];
-        [self.view addConstraints:@[overlayViewLeftConstraint, overlayViewY, overlayViewHeight, overlayViewWidth]];
     }
 	
     NSLayoutConstraint *failedAttemptLabelCenterX =
@@ -906,7 +806,7 @@
 	_displayedAsModal = isModal;
 	[self _prepareForEnablingPasscode];
 	[self _prepareNavigationControllerWithController:viewController];
-	self.title = NSLocalizedStringFromTable(@"Enable Passcode", _localizationTableName, @"");
+	self.title = LocalizedString(@"PASSCODE_ENABLE_PASSCODE");
 }
 
 
@@ -915,7 +815,7 @@
 	_displayedAsModal = isModal;
 	[self _prepareForChangingPasscode];
 	[self _prepareNavigationControllerWithController:viewController];
-	self.title = NSLocalizedStringFromTable(@"Change Passcode", _localizationTableName, @"");
+	self.title = LocalizedString(@"PASSCODE_CHANGE_PASSCODE");
 }
 
 
@@ -924,7 +824,7 @@
 	_displayedAsModal = isModal;
 	[self _prepareForTurningOffPasscode];
 	[self _prepareNavigationControllerWithController:viewController];
-	self.title = NSLocalizedStringFromTable(@"Turn Off Passcode", _localizationTableName, @"");
+	self.title = LocalizedString(@"PASSCODE_DISABLE_PASSCODE");
 }
 
 
@@ -1015,7 +915,6 @@
         
         if (typedString.length > 4) return NO;
     }
-    else _OKButton.hidden = [typedString length] == 0;
 	
 	return YES;
 }
@@ -1155,7 +1054,6 @@
 - (void)_denyAccess {
 	[self _resetTextFields];
 	_passcodeTextField.text = @"";
-    _OKButton.hidden = YES;
     
 	_failedAttempts++;
 	
@@ -1170,11 +1068,10 @@
 //													  userInfo: nil];
 	
 	if (_failedAttempts == 1) {
-        _failedAttemptLabel.text =
-        NSLocalizedStringFromTable(@"1 Passcode Failed Attempt", _localizationTableName, @"");
+        _failedAttemptLabel.text = LocalizedString(@"PASSCODE_1_FAILED_ATTEMPT");
     }
 	else {
-		_failedAttemptLabel.text = [NSString stringWithFormat: NSLocalizedStringFromTable(@"%i Passcode Failed Attempts", _localizationTableName, @""), _failedAttempts];
+		_failedAttemptLabel.text = [NSString stringWithFormat:LocalizedString(@"PASSCODE_N_FAILED_ATTEMPTS"), _failedAttempts];
 	}
 	_failedAttemptLabel.layer.cornerRadius = kFailedAttemptLabelHeight * 0.65f;
 	_failedAttemptLabel.clipsToBounds = true;
@@ -1208,26 +1105,25 @@
 	_passcodeTextField.text = @"";
 	if (_isUserConfirmingPasscode) {
 		if (_isUserEnablingPasscode) {
-            _enterPasscodeLabel.text = NSLocalizedStringFromTable(@"Re-enter your passcode", _localizationTableName, @"");
+            _enterPasscodeLabel.text = LocalizedString(@"PASSCODE_RE-ENTER_YOUR_PASSCODE");
         }
 		else if (_isUserChangingPasscode) {
-            _enterPasscodeLabel.text = NSLocalizedStringFromTable(@"Re-enter your new passcode", _localizationTableName, @"");
+            _enterPasscodeLabel.text = LocalizedString(@"PASSCODE_RE-ENTER_YOUR_NEW_PASSCODE");
         }
 	}
 	else if (_isUserBeingAskedForNewPasscode) {
 		if (_isUserEnablingPasscode || _isUserChangingPasscode) {
-			_enterPasscodeLabel.text = NSLocalizedStringFromTable(@"Enter your new passcode", _localizationTableName, @"");
+			_enterPasscodeLabel.text = LocalizedString(@"PASSCODE_ENTER_YOUR_NEW_PASSCODE");
 		}
 	}
 	else {
-        _enterPasscodeLabel.text = NSLocalizedStringFromTable(@"Enter your passcode", _localizationTableName, @"");
+        _enterPasscodeLabel.text = LocalizedString(@"PASSCODE_ENTER_YOUR_PASSCODE");
     }
 	
 	// Make sure nav bar for logout is off the screen
 	[self.navBar removeFromSuperview];
 	self.navBar = nil;
     
-    _OKButton.hidden = YES;
 }
 
 
@@ -1239,10 +1135,10 @@
 	NSString *savedPasscode = [SFHFKeychainUtils getPasswordForUsername: _keychainPasscodeUsername
 														 andServiceName: _keychainServiceName
 																  error: nil];
-	_enterPasscodeLabel.text = savedPasscode.length == 0 ? NSLocalizedStringFromTable(@"Enter your passcode", _localizationTableName, @"") : NSLocalizedStringFromTable(@"Enter your new passcode", _localizationTableName, @"");
+	_enterPasscodeLabel.text = savedPasscode.length == 0 ? LocalizedString(@"PASSCODE_ENTER_YOUR_PASSCODE") : LocalizedString(@"PASSCODE_ENTER_YOUR_NEW_PASSCODE");
 	
 	_failedAttemptLabel.hidden = NO;
-	_failedAttemptLabel.text = NSLocalizedStringFromTable(@"Passcodes did not match. Try again.", _localizationTableName, @"");
+	_failedAttemptLabel.text = LocalizedString(@"PASSCODE_DID_NOT_MATCH");
 	_failedAttemptLabel.backgroundColor = [UIColor clearColor];
 	_failedAttemptLabel.layer.borderWidth = 0;
 	_failedAttemptLabel.layer.borderColor = [UIColor clearColor].CGColor;
@@ -1426,12 +1322,11 @@
     _failedAttemptLabelTextColor = [UIColor whiteColor];
     
     // Keychain & misc
-    _keychainPasscodeUsername = @"demoPasscode";
-    _keychainTimerStartUsername = @"demoPasscodeTimerStart";
-    _keychainServiceName = @"demoServiceName";
+    _keychainPasscodeUsername = @"cluePasscode";
+    _keychainTimerStartUsername = @"cluePasscodeTimerStart";
+    _keychainServiceName = @"clueServiceName";
     _keychainTimerDurationUsername = @"passcodeTimerDuration";
     _passcodeCharacter = @"\u2014"; // A longer "-";
-    _localizationTableName = @"LTHPasscodeViewController";
 }
 
 
@@ -1575,5 +1470,17 @@ UIInterfaceOrientationMask UIInterfaceOrientationMaskFromOrientation(UIInterface
     return 1 << orientation;
 }
 
+# pragma mark - Custom added methods
+
+- (void)addClueLogo {
+	
+	UIImageView *iv = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"passcode_logo"]];
+	
+	CGRect frame = iv.frame;
+	frame.origin.x = 160.0f - frame.size.width/2;
+	frame.origin.y = 48.0f;
+	iv.frame = frame;
+	[self.view addSubview:iv];
+}
 
 @end
