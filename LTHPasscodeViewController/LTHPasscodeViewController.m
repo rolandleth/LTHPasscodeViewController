@@ -283,7 +283,7 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     if (!_displayedAsModal && !_displayedAsLockScreen) {
-        [self textFieldShouldEndEditing:_passcodeTextField];
+        [_passcodeTextField resignFirstResponder];
     }
 }
 
