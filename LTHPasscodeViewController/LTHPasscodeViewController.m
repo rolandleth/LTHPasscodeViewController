@@ -1392,7 +1392,7 @@
     _maxNumberOfAllowedFailedAttempts = 0;
     _usesKeychain = YES;
     _displayedAsModal = YES;
-    _hidesBackButton = YES;
+    _hidesBackButton = NO;
     
     // Gaps
     _iPadFontSizeModifier = 1.5;
