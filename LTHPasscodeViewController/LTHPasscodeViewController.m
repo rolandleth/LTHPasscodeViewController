@@ -843,10 +843,6 @@
 
 
 - (void)_prepareNavigationControllerWithController:(UIViewController *)viewController {
-	self.navigationItem.rightBarButtonItem =
-	[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-												  target:self
-												  action:@selector(_cancelAndDismissMe)];
 	
 	if (!_displayedAsModal) {
 		[viewController.navigationController pushViewController:self
@@ -854,6 +850,12 @@
         self.navigationItem.hidesBackButton = _hidesBackButton;
 		return;
 	}
+	
+	self.navigationItem.rightBarButtonItem =
+	[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+												  target:self
+												  action:@selector(_cancelAndDismissMe)];
+	
 	UINavigationController *navController =
 	[[UINavigationController alloc] initWithRootViewController:self];
 	
