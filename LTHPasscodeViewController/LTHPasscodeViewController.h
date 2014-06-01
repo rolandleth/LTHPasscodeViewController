@@ -11,11 +11,11 @@
 @protocol LTHPasscodeViewControllerDelegate <NSObject>
 @optional
 /**
- @brief Called when the passcode controller was dismissed.
+ @brief Called when the passcode view controller was dismissed.
  */
 - (void)passcodeViewControllerWasDismissed DEPRECATED_MSG_ATTRIBUTE(" Please use passcodeViewControllerWillBeClosed. It is a better name, since it is called right before dismissing or popping the passcode view controller.");
 /**
- @brief Called right before the passcode controller will be dismissed or popped.
+ @brief Called right before the passcode view controller will be dismissed or popped.
  */
 - (void)passcodeViewControllerWillClose;
 /**
@@ -32,47 +32,47 @@
 - (void)logoutButtonWasPressed;
 /**
  @brief	  Handle here the retrieval of the duration that needs to pass while app is in background for the lock to be displayed.
- @details Called when [LTHPasscodeViewController timerDuration] is called and [LTHPasscodeViewController useKeychain:NO] was used, but falls back to the Keychain anyway if not implemented.
+ @details Called when @c +timerDuration is called and @c +useKeychain:NO was used, but falls back to the Keychain anyway if not implemented.
  @return The duration.
  */
 - (NSTimeInterval)timerDuration;
 /**
  @brief			 Handle here the saving of the duration that needs to pass while the app is in background for the lock to be displayed.
- @details        Called when [LTHPasscodeViewController saveTimerDuration:] is called and [LTHPasscodeViewController useKeychain:NO] was used, but falls back to the Keychain anyway if not implemented.
+ @details        Called when @c +saveTimerDuration: is called and @c +useKeychain:NO was used, but falls back to the Keychain anyway if not implemented.
  @param duration The duration.
  */
 - (void)saveTimerDuration:(NSTimeInterval)duration;
 /**
  @brief   Handle here the retrieval of the time at which the timer started.
- @details Called when [LTHPasscodeViewController timerStartTime] is called and [LTHPasscodeViewController useKeychain:NO] was used, but falls back to the Keychain anyway if not implemented.
+ @details Called when @c +timerStartTime is called and @c +useKeychain:NO was used, but falls back to the Keychain anyway if not implemented.
  @return The time at which the timer started.
  */
 - (NSTimeInterval)timerStartTime;
 /**
  @brief    Handle here the saving of the current time.
- @details  Called when [LTHPasscodeViewController saveTimerStartTime] is called and [LTHPasscodeViewController useKeychain:NO] was used, but falls back to the Keychain anyway if not implemented.
+ @details  Called when @c +saveTimerStartTime is called and @c +useKeychain:NO was used, but falls back to the Keychain anyway if not implemented.
  */
 - (void)saveTimerStartTime;
 /**
  @brief      Handle here the check if the timer has ended and the lock has to be displayed.
- @details    Called when [LTHPasscodeViewController didPasscodeTimerEnd] is called and [LTHPasscodeViewController useKeychain:NO] was used, but falls back to the Keychain anyway if not implemented.
- @return YES if the timer ended and the lock has to be displayed.
+ @details    Called when @c +didPasscodeTimerEnd is called and @c +useKeychain:NO was used, but falls back to the Keychain anyway if not implemented.
+ @return @c YES if the timer ended and the lock has to be displayed.
  */
 - (BOOL)didPasscodeTimerEnd;
 /**
  @brief   Handle here the passcode deletion.
- @details Called when [LTHPasscodeViewController deletePasscode] is called and [LTHPasscodeViewController useKeychain:NO] was used, but falls back to the Keychain anyway if not implemented.
+ @details Called when @c +deletePasscode or @c +deletePasscodeAndClose are called and @c +useKeychain:NO was used, but falls back to the Keychain anyway if not implemented.
  */
 - (void)deletePasscode;
 /**
  @brief   Handle here the saving of the passcode.
- @details Called if [LTHPasscodeViewController useKeychain:NO] was used, but falls back to the Keychain anyway if not implemented.
+ @details Called if @c +useKeychain:NO was used, but falls back to the Keychain anyway if not implemented.
  @param passcode The passcode.
  */
 - (void)savePasscode:(NSString *)passcode;
 /**
  @brief   Retrieve here the saved passcode.
- @details Called if [LTHPasscodeViewController useKeychain:NO] was used, but falls back to the Keychain anyway if not implemented.
+ @details Called if @c +useKeychain:NO was used, but falls back to the Keychain anyway if not implemented.
  @return The passcode.
  */
 - (NSString *)passcode;
@@ -204,88 +204,88 @@
  */
 @property (nonatomic, strong) UINavigationBar *navBar;
 /**
- @brief A Boolean value that indicates whether the navigation bar is translucent (YES) or not (NO).
+ @brief A Boolean value that indicates whether the navigation bar is translucent (@c YES) or not (@c NO).
  */
 @property (nonatomic, assign) BOOL navigationBarTranslucent;
 /**
- @brief A Boolean value that indicates whether the back bar button is hidden (YES) or not (NO). Default is YES.
+ @brief A Boolean value that indicates whether the back bar button is hidden (@c YES) or not (@c NO). Default is @c YES.
  */
 @property (nonatomic, assign) BOOL hidesBackButton;
 
 /**
  @brief				Used for displaying the lock. The passcode view is added directly on the keyWindow.
- @param hasLogout   Set to YES for a navBar with a Logout button, set to NO for no navBar.
+ @param hasLogout   Set to @c YES for a navBar with a Logout button, set to @c NO for no navBar.
  @param logoutTitle The title of the Logout button.
  */
 - (void)showLockScreenWithAnimation:(BOOL)animated withLogout:(BOOL)hasLogout andLogoutTitle:(NSString*)logoutTitle;
 /**
- @brief   Used for displaying the lock. Added directly on UIWindow.
+ @brief   Used for displaying the lock. Added directly on @c UIWindow.
  */
 - (void)showLockScreenWithAnimation:(BOOL)animated DEPRECATED_MSG_ATTRIBUTE(" Please use showLockScreenWithAnimation:withLogout:andLogoutTitle:");
 /**
  @brief				   Used for enabling the passcode.
- @details              The back bar button is hidden by default. Set `hidesBackButton` to NO if you want it to be visible.
+ @details              The back bar button is hidden by default. Set @c hidesBackButton to @c NO if you want it to be visible.
  @param	viewController The view controller where the passcode view controller will be displayed.
  */
 - (void)showForEnablingPasscodeInViewController:(UIViewController *)viewController DEPRECATED_MSG_ATTRIBUTE(" Please use showForEnablingPasscodeInViewController:asModal:");
 /**
  @brief				   Used for changing the passcode.
- @details              The back bar button is hidden by default. Set `hidesBackButton` to NO if you want it to be visible.
+ @details              The back bar button is hidden by default. Set @c hidesBackButton to @c NO if you want it to be visible.
  @param	viewController The view controller where the passcode view controller will be displayed.
  */
 - (void)showForChangingPasscodeInViewController:(UIViewController *)viewController DEPRECATED_MSG_ATTRIBUTE(" Please use showForDisablingPasscodeInViewController:asModal:");
 /**
  @brief				   Used for disabling the passcode.
- @details              The back bar button is hidden by default. Set `hidesBackButton` to NO if you want it to be visible.
+ @details              The back bar button is hidden by default. Set @c hidesBackButton to @c NO if you want it to be visible.
  @param	viewController The view controller where the passcode view controller will be displayed.
  */
 - (void)showForTurningOffPasscodeInViewController:(UIViewController *)viewController DEPRECATED_MSG_ATTRIBUTE(" Please use showForDisablingPasscodeInViewController:asModal:");
 /**
  @brief				   Used for enabling the passcode.
- @details              The back bar button is hidden by default. Set `hidesBackButton` to NO if you want it to be visible.
+ @details              The back bar button is hidden by default. Set @c hidesBackButton to @c NO if you want it to be visible.
  @param	viewController The view controller where the passcode view controller will be displayed.
- @param asModal        Set to YES to present as a modal, or to NO to push on the current nav stack.
+ @param asModal        Set to @c YES to present as a modal, or to @c NO to push on the current nav stack.
  */
 - (void)showForEnablingPasscodeInViewController:(UIViewController *)viewController asModal:(BOOL)isModal;
 /**
  @brief				   Used for changing the passcode.
- @details              The back bar button is hidden by default. Set `hidesBackButton` to NO if you want it to be visible.
+ @details              The back bar button is hidden by default. Set @c hidesBackButton to @c NO if you want it to be visible.
  @param	viewController The view controller where the passcode view controller will be displayed.
- @param asModal        Set to YES to present as a modal, or to NO to push on the current nav stack.
+ @param asModal        Set to @c YES to present as a modal, or to @c NO to push on the current nav stack.
  */
 - (void)showForChangingPasscodeInViewController:(UIViewController *)viewController asModal:(BOOL)isModal;
 /**
  @brief				   Used for disabling the passcode.
- @details              The back bar button is hidden by default. Set `hidesBackButton` to NO if you want it to be visible.
+ @details              The back bar button is hidden by default. Set @c hidesBackButton to @c NO if you want it to be visible.
  @param	viewController The view controller where the passcode view controller will be displayed.
- @param asModal        Set to YES to present as a modal, or to NO to push on the current nav stack.
+ @param asModal        Set to @c YES to present as a modal, or to @c NO to push on the current nav stack.
  */
 - (void)showForDisablingPasscodeInViewController:(UIViewController *)viewController asModal:(BOOL)isModal;
 /**
- @brief  Returns a Boolean value that indicates whether a simple, 4 digit (YES) or a complex passcode will be used (NO).
- @return YES if the passcode is simple, NO if the passcode is complex
+ @brief  Returns a Boolean value that indicates whether a simple, 4 digit (@c YES) or a complex passcode will be used (@c NO).
+ @return @c YES if the passcode is simple, @c NO if the passcode is complex
  */
 - (BOOL)isSimple;
 /**
- @brief   Starting with next version, this will be just a setter, without the current logic inside. Everything was moved inside `-setIsSimple:inViewController:asModal:`
- @details `fromParentViewController` and `asModal` are needed because the delegate is of type id, and the passcode needs to be presented somewhere and with a specific style - modal or pushed.
+ @brief   Starting with next version, this will be just a setter, without the current logic inside. Everything was moved inside @c -setIsSimple:inViewController:asModal:
+ @details @c fromParentViewController and @c asModal are needed because the delegate is of type id, and the passcode needs to be presented somewhere and with a specific style - modal or pushed.
  */
 - (void)setIsSimple:(BOOL)isSimple DEPRECATED_MSG_ATTRIBUTE(" Please use -setIsSimple:inViewController:asModal:");
 /**
  @brief                 Sets if the passcode should be simple (4 digits) or complex.
- @param isSimple        Set to YES for a simple passcode, and to NO for a complex passcode.
+ @param isSimple        Set to @c YES for a simple passcode, and to @c NO for a complex passcode.
  @param viewController  The view controller where the passcode view controller will be displayed.
- @param isModal         Set to YES to present as a modal, or to NO to push on the current nav stack.
+ @param isModal         Set to @c YES to present as a modal, or to @c NO to push on the current nav stack.
  */
 - (void)setIsSimple:(BOOL)isSimple inViewController:(UIViewController *)viewController asModal:(BOOL)isModal;
 /**
- @brief   Returns a Boolean value that indicates whether a passcode exists (YES) or not (NO).
- @return  YES if a passcode is enabled. This also means it is enabled, unless custom logic was added to the library.
+ @brief   Returns a Boolean value that indicates whether a passcode exists (@c YES) or not (@c NO).
+ @return  @c YES if a passcode is enabled. This also means it is enabled, unless custom logic was added to the library.
  */
 + (BOOL)passcodeExistsInKeychain DEPRECATED_MSG_ATTRIBUTE(" Please use -doesPasscodeExist");
 /**
- @brief  Returns a Boolean value that indicates whether a passcode exists (YES) or not (NO).
- @return YES if a passcode is enabled. This also means it is enabled, unless custom logic was added to the library.
+ @brief  Returns a Boolean value that indicates whether a passcode exists (@c YES) or not (@c NO).
+ @return @c YES if a passcode is enabled. This also means it is enabled, unless custom logic was added to the library.
  */
 + (BOOL)doesPasscodeExist;
 /**
@@ -300,16 +300,16 @@
 + (void)saveTimerDuration:(NSTimeInterval)duration;
 /**
  @brief  Retrieves from the keychain the time at which the timer started.
- @return The time, as `timeIntervalSinceReferenceDate`, at which the timer started.
+ @return The time, as @c timeIntervalSinceReferenceDate, at which the timer started.
  */
 + (NSTimeInterval)timerStartTime;
 /**
- @brief Saves the current time, as `timeIntervalSinceReferenceDate`.
+ @brief Saves the current time, as @c timeIntervalSinceReferenceDate.
  */
 + (void)saveTimerStartTime;
 /**
- @brief  Returns a Boolean value that indicates whether the timer has ended (YES) and the lock has to be displayed or not (NO).
- @return YES if the timer ended and the lock has to be displayed.
+ @brief  Returns a Boolean value that indicates whether the timer has ended (@c YES) and the lock has to be displayed or not (@c NO).
+ @return @c YES if the timer ended and the lock has to be displayed.
  */
 + (BOOL)didPasscodeTimerEnd;
 /**
@@ -321,9 +321,13 @@
  */
 + (void)deletePasscode;
 /**
+ @brief Removes the passcode from the keychain and closes the passcode view controller.
+ */
++ (void)deletePasscodeAndClose;
+/**
  @brief             Call this if you want to save and read the passcode and timers to and from somewhere else rather than the Keychain.
- @attention         All the protocol methods will fall back to the Keychain if not implemented, even if calling this method with NO. This allows for flexibility over what and where you save.
- @param useKeychain Set to NO if you want to save and read the passcode and timers to and from somewhere else rather than the Keychain. Default is YES.
+ @attention         All the protocol methods will fall back to the Keychain if not implemented, even if calling this method with @c NO. This allows for flexibility over what and where you save.
+ @param useKeychain Set to @c NO if you want to save and read the passcode and timers to and from somewhere else rather than the Keychain. Default is @c YES.
  */
 + (void)useKeychain:(BOOL)useKeychain;
 /**

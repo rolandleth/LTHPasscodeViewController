@@ -23,6 +23,7 @@
 
 @implementation LTHDemoViewController
 
+
 - (void)_refreshUI {
 	if ([LTHPasscodeViewController doesPasscodeExist]) {
 		_enablePasscode.enabled = NO;
@@ -56,7 +57,8 @@
 	self.view.backgroundColor = [UIColor whiteColor];
 	
 	[LTHPasscodeViewController sharedUser].delegate = self;
-	
+	[LTHPasscodeViewController sharedUser].maxNumberOfAllowedFailedAttempts = 3;
+    
 	_changePasscode = [UIButton buttonWithType: UIButtonTypeCustom];
 	_enablePasscode = [UIButton buttonWithType: UIButtonTypeCustom];
 	_testPasscode = [UIButton buttonWithType: UIButtonTypeCustom];
@@ -157,18 +159,16 @@
 	[self _refreshUI];
 }
 
-- (void)maxNumberOfFailedAttemptsReached
-{
+- (void)maxNumberOfFailedAttemptsReached {
+    [LTHPasscodeViewController deletePasscodeAndClose];
 	NSLog(@"Max Number of Failed Attemps Reached");
 }
 
-- (void)passcodeWasEnteredSuccessfully
-{
+- (void)passcodeWasEnteredSuccessfully {
 	NSLog(@"Passcode Was Entered Successfully");
 }
 
-- (void)logoutButtonWasPressed
-{
+- (void)logoutButtonWasPressed {
 	NSLog(@"Logout Button Was Pressed");
 }
 

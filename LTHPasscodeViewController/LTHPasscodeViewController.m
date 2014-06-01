@@ -109,6 +109,12 @@
 }
 
 
++ (void)deletePasscodeAndClose {
+	[[LTHPasscodeViewController sharedUser] _deletePasscode];
+    [[LTHPasscodeViewController sharedUser] _dismissMe];
+}
+
+
 + (void)deletePasscode {
 	[[LTHPasscodeViewController sharedUser] _deletePasscode];
 }
