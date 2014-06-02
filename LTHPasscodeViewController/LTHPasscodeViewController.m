@@ -13,16 +13,21 @@
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
 #define kPasscodeCharWidth [_passcodeCharacter sizeWithAttributes: @{NSFontAttributeName : _passcodeFont}].width
-#define kFailedAttemptLabelWidth (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? [_failedAttemptLabel.text sizeWithAttributes: @{NSFontAttributeName : _labelFont}].width + 60.0f : [_failedAttemptLabel.text sizeWithAttributes: @{NSFontAttributeName : _labelFont}].width + 30.0f)
-#define kFailedAttemptLabelHeight [_failedAttemptLabel.text sizeWithAttributes: @{NSFontAttributeName : _labelFont}].height
 #define kEnterPasscodeLabelWidth [_enterPasscodeLabel.text sizeWithAttributes: @{NSFontAttributeName : _labelFont}].width
 #else
 // Thanks to Kent Nguyen - https://github.com/kentnguyen
 #define kPasscodeCharWidth [_passcodeCharacter sizeWithFont:_passcodeFont].width
-#define kFailedAttemptLabelWidth (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? [_failedAttemptLabel.text sizeWithFont:_labelFont].width + 60.0f : [_failedAttemptLabel.text sizeWithFont:_labelFont].width + 30.0f)
-#define kFailedAttemptLabelHeight [_failedAttemptLabel.text sizeWithFont:_labelFont].height
 #define kEnterPasscodeLabelWidth [_enterPasscodeLabel.text sizeWithFont:_labelFont].width
 #endif
+
+static const CGFloat kTopSpacing4Inch = 80.0f;
+static const CGFloat kTopSpacing35Inch = 60.0f;
+static const CGFloat kVerticalGap4Inch = 54.0f;
+static const CGFloat kVerticalGap35Inch = 20.0f;
+static const CGFloat kDigitHorizontalGap = 40.0f;
+static const CGFloat kFailedAttemptLabelYOffset = -216.0f;
+static const CGFloat kFailedAttemptLabelHeight = 22.0f;
+static const CGFloat kFailedAttemptLabelWidth = 320.0f;
 
 @interface LTHPasscodeViewController () <UITextFieldDelegate>
 @property (nonatomic, strong) UIView      *coverView;
@@ -41,14 +46,9 @@
 @property (nonatomic, strong) NSString    *tempPasscode;
 @property (nonatomic, assign) NSInteger   failedAttempts;
 
-@property (nonatomic, assign) CGFloat     modifierForBottomVerticalGap;
-@property (nonatomic, assign) CGFloat     iPadFontSizeModifier;
-@property (nonatomic, assign) CGFloat     iPhoneHorizontalGap;
-
 @property (nonatomic, assign) BOOL        usesKeychain;
 @property (nonatomic, assign) BOOL        displayedAsModal;
 @property (nonatomic, assign) BOOL        displayedAsLockScreen;
-@property (nonatomic, assign) BOOL        isCurrentlyOnScreen;
 @property (nonatomic, assign) BOOL        isSimple;// YES by default
 @property (nonatomic, assign) BOOL        isUserConfirmingPasscode;
 @property (nonatomic, assign) BOOL        isUserBeingAskedForNewPasscode;
@@ -77,32 +77,6 @@
 	return [[LTHPasscodeViewController sharedUser] _passcode];
 }
 
-
-+ (NSTimeInterval)timerDuration {
-	return [[LTHPasscodeViewController sharedUser] _timerDuration];
-}
-
-
-+ (void)saveTimerDuration:(NSTimeInterval)duration {
-    [[LTHPasscodeViewController sharedUser] _saveTimerDuration:duration];
-}
-
-
-+ (NSTimeInterval)timerStartTime {
-    return [[LTHPasscodeViewController sharedUser] _timerStartTime];
-}
-
-
-+ (void)saveTimerStartTime {
-	[[LTHPasscodeViewController sharedUser] _saveTimerStartTime];
-}
-
-
-+ (BOOL)didPasscodeTimerEnd {
-	return [[LTHPasscodeViewController sharedUser] _didPasscodeTimerEnd];
-}
-
-
 + (void)deletePasscodeFromKeychain {
 	[[LTHPasscodeViewController sharedUser] _deletePasscode];
 }
@@ -127,85 +101,6 @@
 - (BOOL)_doesPasscodeExist {
 	return [self _passcode].length != 0;
 }
-
-
-- (NSTimeInterval)_timerDuration {
-    if (!_usesKeychain &&
-        [self.delegate respondsToSelector:@selector(timerDuration)]) {
-        return [self.delegate timerDuration];
-    }
-    
-	NSString *keychainValue =
-    [SFHFKeychainUtils getPasswordForUsername:_keychainTimerDurationUsername
-                               andServiceName:_keychainServiceName
-                                        error:nil];
-	if (!keychainValue) return -1;
-	return keychainValue.doubleValue;
-}
-
-
-- (void)_saveTimerDuration:(NSTimeInterval) duration {
-    if (!_usesKeychain &&
-        [self.delegate respondsToSelector:@selector(saveTimerDuration:)]) {
-        [self.delegate saveTimerDuration:duration];
-        
-        return;
-    }
-    
-    [SFHFKeychainUtils storeUsername:_keychainTimerDurationUsername
-						 andPassword:[NSString stringWithFormat: @"%.6f", duration]
-					  forServiceName:_keychainServiceName
-					  updateExisting:YES
-							   error:nil];
-}
-
-
-- (NSTimeInterval)_timerStartTime {
-    if (!_usesKeychain &&
-        [self.delegate respondsToSelector:@selector(timerStartTime)]) {
-        return [self.delegate timerStartTime];
-    }
-    
-    NSString *keychainValue =
-    [SFHFKeychainUtils getPasswordForUsername:_keychainTimerStartUsername
-                               andServiceName:_keychainServiceName
-                                        error:nil];
-	if (!keychainValue) return -1;
-	return keychainValue.doubleValue;
-}
-
-
-- (void)_saveTimerStartTime {
-    if (!_usesKeychain &&
-        [self.delegate respondsToSelector:@selector(saveTimerStartTime)]) {
-        [self.delegate saveTimerStartTime];
-        
-        return;
-    }
-    
-	[SFHFKeychainUtils storeUsername:_keychainTimerStartUsername
-						 andPassword:[NSString stringWithFormat: @"%.6f",
-                                      [NSDate timeIntervalSinceReferenceDate]]
-					  forServiceName:_keychainServiceName
-					  updateExisting:YES
-							   error:nil];
-}
-
-
-- (BOOL)_didPasscodeTimerEnd {
-    if (!_usesKeychain &&
-        [self.delegate respondsToSelector:@selector(didPasscodeTimerEnd)]) {
-        return [self.delegate didPasscodeTimerEnd];
-    }
-    
-	NSTimeInterval now = [NSDate timeIntervalSinceReferenceDate];
-	// startTime wasn't saved yet (first app use and it crashed, phone force
-	// closed, etc) if it returns -1.
-	if (now - [self _timerStartTime] >= [self _timerDuration] ||
-        [self _timerStartTime] == -1) return YES;
-	return NO;
-}
-
 
 - (void)_deletePasscode {
     if (!_usesKeychain &&
@@ -274,7 +169,6 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-//    NSLog(@"layout %@", [self.view performSelector:@selector(recursiveDescription)]);
 }
 
 
@@ -416,13 +310,14 @@
 	_failedAttemptLabel.backgroundColor	= _failedAttemptLabelBackgroundColor;
 	_failedAttemptLabel.hidden = YES;
 	_failedAttemptLabel.textColor = _failedAttemptLabelTextColor;
-	_failedAttemptLabel.font = _labelFont;
+	_failedAttemptLabel.font = _failedAttemptLabelFont;
 	_failedAttemptLabel.textAlignment = NSTextAlignmentCenter;
 	[_animatingView addSubview: _failedAttemptLabel];
     
-    _enterPasscodeLabel.text = _isUserChangingPasscode ? LocalizedString(@"PASSCODE_ENTER_YOUR_OLD_PASSCODE") : LocalizedString(@"PASSCODE_ENTER_YOUR_PASSCODE");
     _enterPasscodeLabel.translatesAutoresizingMaskIntoConstraints = NO;
 	_failedAttemptLabel.translatesAutoresizingMaskIntoConstraints = NO;
+	
+	[self _resetUI];
 }
 
 
@@ -510,7 +405,10 @@
 	// That's why only portrait is selected for iPhone's supported orientations.
 	// Modify this to fit your needs.
 	
-	CGFloat yOffsetFromCenter = -self.view.frame.size.height * 0.24;
+	
+	CGFloat verticalGap = is4InchDevice() ? kVerticalGap4Inch : kVerticalGap35Inch;
+	CGFloat topSpacing = is4InchDevice() ? kTopSpacing4Inch : kTopSpacing35Inch;
+	
 	NSLayoutConstraint *enterPasscodeConstraintCenterX =
     [NSLayoutConstraint constraintWithItem: _enterPasscodeLabel
                                  attribute: NSLayoutAttributeCenterX
@@ -521,15 +419,15 @@
                                   constant: 0.0f];
 	NSLayoutConstraint *enterPasscodeConstraintCenterY =
     [NSLayoutConstraint constraintWithItem: _enterPasscodeLabel
-                                 attribute: NSLayoutAttributeCenterY
+                                 attribute: NSLayoutAttributeTop
                                  relatedBy: NSLayoutRelationEqual
                                     toItem: self.view
-                                 attribute: NSLayoutAttributeCenterY
+                                 attribute: NSLayoutAttributeTop
                                 multiplier: 1.0f
-                                  constant: yOffsetFromCenter];
+                                  constant: topSpacing];
     [self.view addConstraint: enterPasscodeConstraintCenterX];
     [self.view addConstraint: enterPasscodeConstraintCenterY];
-	
+		
     if (self.isSimple) {
         NSLayoutConstraint *firstDigitX =
         [NSLayoutConstraint constraintWithItem: _firstDigitTextField
@@ -538,7 +436,7 @@
                                         toItem: self.view
                                      attribute: NSLayoutAttributeCenterX
                                     multiplier: 1.0f
-                                      constant: - _horizontalGap * 1.5f - 2.0f];
+                                      constant: - kDigitHorizontalGap * 1.5f - 2.0f];
         NSLayoutConstraint *secondDigitX =
         [NSLayoutConstraint constraintWithItem: _secondDigitTextField
                                      attribute: NSLayoutAttributeLeft
@@ -546,7 +444,7 @@
                                         toItem: self.view
                                      attribute: NSLayoutAttributeCenterX
                                     multiplier: 1.0f
-                                      constant: - _horizontalGap * 2/3 - 2.0f];
+                                      constant: - kDigitHorizontalGap * 2/3 - 2.0f];
         NSLayoutConstraint *thirdDigitX =
         [NSLayoutConstraint constraintWithItem: _thirdDigitTextField
                                      attribute: NSLayoutAttributeLeft
@@ -554,7 +452,7 @@
                                         toItem: self.view
                                      attribute: NSLayoutAttributeCenterX
                                     multiplier: 1.0f
-                                      constant: _horizontalGap * 1/6 - 2.0f];
+                                      constant: kDigitHorizontalGap * 1/6 - 2.0f];
         NSLayoutConstraint *fourthDigitX =
         [NSLayoutConstraint constraintWithItem: _fourthDigitTextField
                                      attribute: NSLayoutAttributeLeft
@@ -562,39 +460,39 @@
                                         toItem: self.view
                                      attribute: NSLayoutAttributeCenterX
                                     multiplier: 1.0f
-                                      constant: _horizontalGap - 2.0f];
+                                      constant: kDigitHorizontalGap - 2.0f];
         NSLayoutConstraint *firstDigitY =
         [NSLayoutConstraint constraintWithItem: _firstDigitTextField
-                                     attribute: NSLayoutAttributeCenterY
+                                     attribute: NSLayoutAttributeTop
                                      relatedBy: NSLayoutRelationEqual
                                         toItem: _enterPasscodeLabel
                                      attribute: NSLayoutAttributeBottom
                                     multiplier: 1.0f
-                                      constant: _verticalGap];
+                                      constant: verticalGap];
         NSLayoutConstraint *secondDigitY =
         [NSLayoutConstraint constraintWithItem: _secondDigitTextField
-                                     attribute: NSLayoutAttributeCenterY
+                                     attribute: NSLayoutAttributeTop
                                      relatedBy: NSLayoutRelationEqual
                                         toItem: _enterPasscodeLabel
                                      attribute: NSLayoutAttributeBottom
                                     multiplier: 1.0f
-                                      constant: _verticalGap];
+                                      constant: verticalGap];
         NSLayoutConstraint *thirdDigitY =
         [NSLayoutConstraint constraintWithItem: _thirdDigitTextField
-                                     attribute: NSLayoutAttributeCenterY
+                                     attribute: NSLayoutAttributeTop
                                      relatedBy: NSLayoutRelationEqual
                                         toItem: _enterPasscodeLabel
                                      attribute: NSLayoutAttributeBottom
                                     multiplier: 1.0f
-                                      constant: _verticalGap];
+                                      constant: verticalGap];
         NSLayoutConstraint *fourthDigitY =
         [NSLayoutConstraint constraintWithItem: _fourthDigitTextField
-                                     attribute: NSLayoutAttributeCenterY
+                                     attribute: NSLayoutAttributeTop
                                      relatedBy: NSLayoutRelationEqual
                                         toItem: _enterPasscodeLabel
                                      attribute: NSLayoutAttributeBottom
                                     multiplier: 1.0f
-                                      constant: _verticalGap];
+                                      constant: verticalGap];
         [self.view addConstraint:firstDigitX];
         [self.view addConstraint:secondDigitX];
         [self.view addConstraint:thirdDigitX];
@@ -615,12 +513,12 @@
                                   constant: 0.0f];
 	NSLayoutConstraint *failedAttemptLabelCenterY =
     [NSLayoutConstraint constraintWithItem: _failedAttemptLabel
-                                 attribute: NSLayoutAttributeCenterY
+                                 attribute: NSLayoutAttributeBottom
                                  relatedBy: NSLayoutRelationEqual
-                                    toItem: _enterPasscodeLabel
+                                    toItem: self.view
                                  attribute: NSLayoutAttributeBottom
                                 multiplier: 1.0f
-                                  constant: _failedAttemptLabelGap];
+                                  constant: kFailedAttemptLabelYOffset];
 	NSLayoutConstraint *failedAttemptLabelWidth =
     [NSLayoutConstraint constraintWithItem: _failedAttemptLabel
                                  attribute: NSLayoutAttributeWidth
@@ -642,8 +540,6 @@
 	[self.view addConstraint:failedAttemptLabelWidth];
 	[self.view addConstraint:failedAttemptLabelHeight];
     
-//    NSLog(@"constraints %@", self.view.constraints);
-//    NSLog(@"_passcodeTextField %@", _passcodeTextField.constraints);
 }
 
 
@@ -691,7 +587,7 @@
 		else if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) {
 			self.view.center = CGPointMake(self.view.center.x, self.view.center.y * -1.f);
 			newCenter = CGPointMake(mainWindow.center.x,
-									mainWindow.center.y - self.navigationController.navigationBar.frame.size.height / 2);
+									mainWindow.center.y - self.navigationController.navigationBar.frame.size.height / 2 + 22.0f);
 		}
 		else {
 			self.view.center = CGPointMake(self.view.center.x, self.view.center.y * 2.f);
@@ -1073,8 +969,6 @@
 	else {
 		_failedAttemptLabel.text = [NSString stringWithFormat:LocalizedString(@"PASSCODE_N_FAILED_ATTEMPTS"), _failedAttempts];
 	}
-	_failedAttemptLabel.layer.cornerRadius = kFailedAttemptLabelHeight * 0.65f;
-	_failedAttemptLabel.clipsToBounds = true;
 	_failedAttemptLabel.hidden = NO;
 }
 
@@ -1095,6 +989,31 @@
 	_fourthDigitTextField.secureTextEntry = NO;
 }
 
+- (void)setLabelText {
+	
+	if (_isUserChangingPasscode) {
+		if (_isUserBeingAskedForNewPasscode) {
+			_enterPasscodeLabel.text = LocalizedString(@"PASSCODE_ENTER_YOUR_NEW_PASSCODE");
+		}
+		else if (_isUserConfirmingPasscode) {
+			_enterPasscodeLabel.text = LocalizedString(@"PASSCODE_RE-ENTER_YOUR_NEW_PASSCODE");
+		}
+		else {
+			_enterPasscodeLabel.text = LocalizedString(@"PASSCODE_ENTER_YOUR_OLD_PASSCODE");
+		}
+	}
+	else if (_isUserEnablingPasscode) {
+		if (_isUserConfirmingPasscode) {
+			_enterPasscodeLabel.text = LocalizedString(@"PASSCODE_RE-ENTER_YOUR_NEW_PASSCODE");
+		}
+		else {
+			_enterPasscodeLabel.text = LocalizedString(@"PASSCODE_ENTER_YOUR_NEW_PASSCODE");
+		}
+	}
+	else {
+		_enterPasscodeLabel.text = LocalizedString(@"PASSCODE_ENTER_YOUR_PASSCODE");
+	}
+}
 
 - (void)_resetUI {
 	[self _resetTextFields];
@@ -1103,29 +1022,14 @@
 	_failedAttempts = 0;
 	_failedAttemptLabel.hidden = YES;
 	_passcodeTextField.text = @"";
-	if (_isUserConfirmingPasscode) {
-		if (_isUserEnablingPasscode) {
-            _enterPasscodeLabel.text = LocalizedString(@"PASSCODE_RE-ENTER_YOUR_PASSCODE");
-        }
-		else if (_isUserChangingPasscode) {
-            _enterPasscodeLabel.text = LocalizedString(@"PASSCODE_RE-ENTER_YOUR_NEW_PASSCODE");
-        }
-	}
-	else if (_isUserBeingAskedForNewPasscode) {
-		if (_isUserEnablingPasscode || _isUserChangingPasscode) {
-			_enterPasscodeLabel.text = LocalizedString(@"PASSCODE_ENTER_YOUR_NEW_PASSCODE");
-		}
-	}
-	else {
-        _enterPasscodeLabel.text = LocalizedString(@"PASSCODE_ENTER_YOUR_PASSCODE");
-    }
+	
+	[self setLabelText];
 	
 	// Make sure nav bar for logout is off the screen
 	[self.navBar removeFromSuperview];
 	self.navBar = nil;
     
 }
-
 
 - (void)_resetUIForReEnteringNewPasscode {
 	[self _resetTextFields];
@@ -1139,10 +1043,10 @@
 	
 	_failedAttemptLabel.hidden = NO;
 	_failedAttemptLabel.text = LocalizedString(@"PASSCODE_DID_NOT_MATCH");
-	_failedAttemptLabel.backgroundColor = [UIColor clearColor];
+	_failedAttemptLabel.backgroundColor = _failedAttemptLabelBackgroundColor;
 	_failedAttemptLabel.layer.borderWidth = 0;
 	_failedAttemptLabel.layer.borderColor = [UIColor clearColor].CGColor;
-	_failedAttemptLabel.textColor = _labelTextColor;
+	_failedAttemptLabel.textColor = _failedAttemptLabelTextColor;
 }
 
 
@@ -1173,66 +1077,6 @@
     
     return _isSimple;
 }
-
-#pragma mark - Notification Observers
-- (void)_applicationDidEnterBackground {
-	if ([self _doesPasscodeExist]) {
-		if ([_passcodeTextField isFirstResponder]) [_passcodeTextField resignFirstResponder];
-		// Without animation because otherwise it won't come down fast enough,
-		// so inside iOS' multitasking view the app won't be covered by anything.
-		if ([self _timerDuration] <= 0) {
-            // This is here and the rest in willEnterForeground because when self is pushed
-            // instead of presented as a modal,
-            // the app would be visible from the multitasking view.
-            if (_isCurrentlyOnScreen && !_displayedAsModal) return;
-            
-            [self showLockScreenWithAnimation:NO
-                                   withLogout:NO
-                               andLogoutTitle:nil];
-        }
-		else {
-			_coverView.hidden = NO;
-			if (![[UIApplication sharedApplication].keyWindow viewWithTag: _coverViewTag])
-				[[UIApplication sharedApplication].keyWindow addSubview: _coverView];
-		}
-	}
-}
-
-
-- (void)_applicationDidBecomeActive {
-	_coverView.hidden = YES;
-}
-
-
-- (void)_applicationWillEnterForeground {
-	if ([self _doesPasscodeExist] &&
-		[self _didPasscodeTimerEnd]) {
-        // This is here instead of didEnterBackground because when self is pushed
-        // instead of presented as a modal,
-        // the app would be visible from the multitasking view.
-        if (!_displayedAsModal && !_displayedAsLockScreen && _isCurrentlyOnScreen) {
-            [_passcodeTextField resignFirstResponder];
-            [self.navigationController popViewControllerAnimated:NO];
-            // This is like this because it screws up the navigation stack otherwise
-            [self performSelector:@selector(showLockScreenWithAnimation:)
-                       withObject:@(NO)
-                       afterDelay:0.0];
-        }
-        else {
-            [self showLockScreenWithAnimation:NO
-                                   withLogout:NO
-                               andLogoutTitle:nil];
-        }
-	}
-}
-
-
-- (void)_applicationWillResignActive {
-	if ([self _doesPasscodeExist]) {
-		[self _saveTimerStartTime];
-	}
-}
-
 
 #pragma mark - Init
 + (instancetype)sharedUser {
@@ -1278,6 +1122,9 @@
 	_isSimple = YES;
 	[self _loadDefaults];
 	[self _addObservers];
+	if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
+		[self setEdgesForExtendedLayout:UIRectEdgeAll];
+	}
 }
 
 
@@ -1289,37 +1136,26 @@
     _usesKeychain = YES;
     _displayedAsModal = YES;
     _hidesBackButton = NO;
-    
-    // Gaps
-    _iPadFontSizeModifier = 1.5;
-    _iPhoneHorizontalGap = 40.0;
-    _horizontalGap = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? _iPhoneHorizontalGap * _iPadFontSizeModifier : _iPhoneHorizontalGap;
-    _verticalGap = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 60.0f : 25.0f;
-    _modifierForBottomVerticalGap = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 2.6f : 3.0f;
-    _failedAttemptLabelGap = _verticalGap * _modifierForBottomVerticalGap - 2.0f;
-    _passcodeOverlayHeight = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 96.0f : 40.0f;
-    
+        
     // Fonts
-    _labelFontSize = 15.0;
+    _labelFontSize = 44.0;
+	_failedAttemptLabelFontSize = 16.0f;
     _passcodeFontSize = 33.0;
-    _labelFont = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ?
-    [UIFont fontWithName: @"AvenirNext-Regular" size:_labelFontSize * _iPadFontSizeModifier] :
-    [UIFont fontWithName: @"AvenirNext-Regular" size:_labelFontSize];
-    _passcodeFont = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ?
-    [UIFont fontWithName: @"AvenirNext-Regular" size: _passcodeFontSize * _iPadFontSizeModifier] :
-    [UIFont fontWithName: @"AvenirNext-Regular" size: _passcodeFontSize];
+    _labelFont = [UIFont bw_lightMrEavesFontWithSize:_labelFontSize];
+	_failedAttemptLabelFont = [UIFont bw_regularMrEavesFontWithSize:_failedAttemptLabelFontSize];
+    _passcodeFont = [UIFont bw_lightMrEavesFontWithSize:_labelFontSize];
     
     // Colors
-    _backgroundColor =  [UIColor colorWithRed:0.97f green:0.97f blue:1.0f alpha:1.00f];
+    _backgroundColor =  [Appearance backgroundColor];
     _passcodeBackgroundColor = [UIColor clearColor];
-    _coverViewBackgroundColor = [UIColor colorWithRed:0.97f green:0.97f blue:1.0f alpha:1.00f];
-    _failedAttemptLabelBackgroundColor =  [UIColor colorWithRed:0.8f green:0.1f blue:0.2f alpha:1.000f];
+    _coverViewBackgroundColor = [Appearance backgroundColor];
+    _failedAttemptLabelBackgroundColor =  [Appearance redThemeColor];
     _enterPasscodeLabelBackgroundColor = [UIColor clearColor];
     
     // Text Colors
-    _labelTextColor = [UIColor colorWithWhite:0.31f alpha:1.0f];
+    _labelTextColor = [Appearance redThemeColor];
     _passcodeTextColor = [UIColor colorWithWhite:0.31f alpha:1.0f];
-    _failedAttemptLabelTextColor = [UIColor whiteColor];
+    _failedAttemptLabelTextColor = [Appearance backgroundColor];
     
     // Keychain & misc
     _keychainPasscodeUsername = @"cluePasscode";
@@ -1331,26 +1167,6 @@
 
 
 - (void)_addObservers {
-    [[NSNotificationCenter defaultCenter]
-     addObserver: self
-     selector: @selector(_applicationDidEnterBackground)
-     name: UIApplicationDidEnterBackgroundNotification
-     object: nil];
-    [[NSNotificationCenter defaultCenter]
-     addObserver: self
-     selector: @selector(_applicationWillResignActive)
-     name: UIApplicationWillResignActiveNotification
-     object: nil];
-    [[NSNotificationCenter defaultCenter]
-     addObserver: self
-     selector: @selector(_applicationDidBecomeActive)
-     name: UIApplicationDidBecomeActiveNotification
-     object: nil];
-    [[NSNotificationCenter defaultCenter]
-     addObserver: self
-     selector: @selector(_applicationWillEnterForeground)
-     name: UIApplicationWillEnterForegroundNotification
-     object: nil];
     [[NSNotificationCenter defaultCenter]
      addObserver:self
      selector:@selector(statusBarFrameOrOrientationChanged:)
@@ -1478,7 +1294,7 @@ UIInterfaceOrientationMask UIInterfaceOrientationMaskFromOrientation(UIInterface
 	
 	CGRect frame = iv.frame;
 	frame.origin.x = 160.0f - frame.size.width/2;
-	frame.origin.y = 48.0f;
+	frame.origin.y = 30.0f;
 	iv.frame = frame;
 	[self.view addSubview:iv];
 }

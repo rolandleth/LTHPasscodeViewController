@@ -31,29 +31,6 @@
  */
 - (void)logoutButtonWasPressed;
 /**
- @brief	  Handle here the retrieval of the duration that needs to pass while app is in background for the lock to be displayed.
- @details Called when [LTHPasscodeViewController timerDuration] is called and [LTHPasscodeViewController useKeychain:NO] was used, but falls back to the Keychain anyway if not implemented.
- @return The duration.
- */
-- (NSTimeInterval)timerDuration;
-/**
- @brief			 Handle here the saving of the duration that needs to pass while the app is in background for the lock to be displayed.
- @details        Called when [LTHPasscodeViewController saveTimerDuration:] is called and [LTHPasscodeViewController useKeychain:NO] was used, but falls back to the Keychain anyway if not implemented.
- @param duration The duration.
- */
-- (void)saveTimerDuration:(NSTimeInterval)duration;
-/**
- @brief   Handle here the retrieval of the time at which the timer started.
- @details Called when [LTHPasscodeViewController timerStartTime] is called and [LTHPasscodeViewController useKeychain:NO] was used, but falls back to the Keychain anyway if not implemented.
- @return The time at which the timer started.
- */
-- (NSTimeInterval)timerStartTime;
-/**
- @brief    Handle here the saving of the current time.
- @details  Called when [LTHPasscodeViewController saveTimerStartTime] is called and [LTHPasscodeViewController useKeychain:NO] was used, but falls back to the Keychain anyway if not implemented.
- */
-- (void)saveTimerStartTime;
-/**
  @brief      Handle here the check if the timer has ended and the lock has to be displayed.
  @details    Called when [LTHPasscodeViewController didPasscodeTimerEnd] is called and [LTHPasscodeViewController useKeychain:NO] was used, but falls back to the Keychain anyway if not implemented.
  @return YES if the timer ended and the lock has to be displayed.
@@ -84,25 +61,13 @@
  */
 @property (nonatomic, weak) id<LTHPasscodeViewControllerDelegate> delegate;
 /**
- @brief The gap between the passcode digits.
- */
-@property (nonatomic, assign) CGFloat   horizontalGap;
-/**
- @brief The gap between the top label and the passcode digits/field.
- */
-@property (nonatomic, assign) CGFloat   verticalGap;
-/**
- @brief The gap between the passcode digits and the failed label.
- */
-@property (nonatomic, assign) CGFloat   failedAttemptLabelGap;
-/**
- @brief The height for the complex passcode overlay.
- */
-@property (nonatomic, assign) CGFloat   passcodeOverlayHeight;
-/**
  @brief The font size for the top label.
  */
 @property (nonatomic, assign) CGFloat   labelFontSize;
+/**
+ @brief The font size for the failed attempt label.
+ */
+@property (nonatomic, assign) CGFloat   failedAttemptLabelFontSize;
 /**
  @brief The font size for the passcode digits.
  */
@@ -111,6 +76,10 @@
  @brief The font for the top label.
  */
 @property (nonatomic, strong) UIFont    *labelFont;
+/**
+ @brief The font for the failed attempt label.
+ */
+@property (nonatomic, strong) UIFont    *failedAttemptLabelFont;
 /**
  @brief The font for the passcode digits.
  */
@@ -211,6 +180,10 @@
  @brief A Boolean value that indicates whether the back bar button is hidden (YES) or not (NO). Default is YES.
  */
 @property (nonatomic, assign) BOOL hidesBackButton;
+/**
+ @brief A Boolean value that indicates whether the view controller is currently on screen.
+ */
+@property (nonatomic, assign) BOOL isCurrentlyOnScreen;
 
 /**
  @brief				Used for displaying the lock. The passcode view is added directly on the keyWindow.
@@ -288,30 +261,6 @@
  @return YES if a passcode is enabled. This also means it is enabled, unless custom logic was added to the library.
  */
 + (BOOL)doesPasscodeExist;
-/**
- @brief	 Retrieves from the keychain the duration while app is in background after which the lock has to be displayed.
- @return The duration.
- */
-+ (NSTimeInterval)timerDuration;
-/**
- @brief			 Saves in the keychain the duration that needs to pass while app is in background  for the lock to be displayed.
- @param duration The duration.
- */
-+ (void)saveTimerDuration:(NSTimeInterval)duration;
-/**
- @brief  Retrieves from the keychain the time at which the timer started.
- @return The time, as `timeIntervalSinceReferenceDate`, at which the timer started.
- */
-+ (NSTimeInterval)timerStartTime;
-/**
- @brief Saves the current time, as `timeIntervalSinceReferenceDate`.
- */
-+ (void)saveTimerStartTime;
-/**
- @brief  Returns a Boolean value that indicates whether the timer has ended (YES) and the lock has to be displayed or not (NO).
- @return YES if the timer ended and the lock has to be displayed.
- */
-+ (BOOL)didPasscodeTimerEnd;
 /**
  @brief Removes the passcode from the keychain.
  */
