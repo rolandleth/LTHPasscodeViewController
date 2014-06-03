@@ -1131,7 +1131,7 @@ static const CGFloat kFailedAttemptLabelWidth = 320.0f;
 - (void)_loadDefaults {
     _coverViewTag = 994499;
     _lockAnimationDuration = 0.25;
-    _slideAnimationDuration = 0.15;
+    _slideAnimationDuration = 0.15f;
     _maxNumberOfAllowedFailedAttempts = 0;
     _usesKeychain = YES;
     _displayedAsModal = YES;
@@ -1266,13 +1266,13 @@ CGFloat UIInterfaceOrientationAngleOfOrientation(UIInterfaceOrientation orientat
 	
     switch (orientation) {
         case UIInterfaceOrientationPortraitUpsideDown:
-            angle = M_PI;
+            angle = (float)M_PI;
             break;
         case UIInterfaceOrientationLandscapeLeft:
-            angle = -M_PI_2;
+            angle = -(float)M_PI_2;
             break;
         case UIInterfaceOrientationLandscapeRight:
-            angle = M_PI_2;
+            angle = (float)M_PI_2;
             break;
         default:
             angle = 0.0;
