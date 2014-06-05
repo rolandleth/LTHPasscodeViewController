@@ -7,7 +7,7 @@
 //
 
 #import "LTHPasscodeViewController.h"
-#import "SFHFKeychainUtils.h"
+#import "LTHKeychainUtils.h"
 
 #define DegreesToRadians(x) ((x) * M_PI / 180.0)
 
@@ -143,7 +143,7 @@
     }
     
 	NSString *keychainValue =
-    [SFHFKeychainUtils getPasswordForUsername:_keychainTimerDurationUsername
+    [LTHKeychainUtils getPasswordForUsername:_keychainTimerDurationUsername
                                andServiceName:_keychainServiceName
                                         error:nil];
 	if (!keychainValue) return -1;
@@ -159,7 +159,7 @@
         return;
     }
     
-    [SFHFKeychainUtils storeUsername:_keychainTimerDurationUsername
+    [LTHKeychainUtils storeUsername:_keychainTimerDurationUsername
 						 andPassword:[NSString stringWithFormat: @"%.6f", duration]
 					  forServiceName:_keychainServiceName
 					  updateExisting:YES
@@ -174,7 +174,7 @@
     }
     
     NSString *keychainValue =
-    [SFHFKeychainUtils getPasswordForUsername:_keychainTimerStartUsername
+    [LTHKeychainUtils getPasswordForUsername:_keychainTimerStartUsername
                                andServiceName:_keychainServiceName
                                         error:nil];
 	if (!keychainValue) return -1;
@@ -190,7 +190,7 @@
         return;
     }
     
-	[SFHFKeychainUtils storeUsername:_keychainTimerStartUsername
+	[LTHKeychainUtils storeUsername:_keychainTimerStartUsername
 						 andPassword:[NSString stringWithFormat: @"%.6f",
                                       [NSDate timeIntervalSinceReferenceDate]]
 					  forServiceName:_keychainServiceName
@@ -222,7 +222,7 @@
         return;
     }
     
-	[SFHFKeychainUtils deleteItemForUsername:_keychainPasscodeUsername
+	[LTHKeychainUtils deleteItemForUsername:_keychainPasscodeUsername
 							  andServiceName:_keychainServiceName
 									   error:nil];
 }
@@ -236,7 +236,7 @@
         return;
     }
     
-    [SFHFKeychainUtils storeUsername:_keychainPasscodeUsername
+    [LTHKeychainUtils storeUsername:_keychainPasscodeUsername
                          andPassword:passcode
                       forServiceName:_keychainServiceName
                       updateExisting:YES
@@ -250,7 +250,7 @@
 		return [self.delegate passcode];
 	}
 	
-	return [SFHFKeychainUtils getPasswordForUsername:_keychainPasscodeUsername
+	return [LTHKeychainUtils getPasswordForUsername:_keychainPasscodeUsername
 									  andServiceName:_keychainServiceName
 											   error:nil];
 }
@@ -1240,7 +1240,7 @@
 	_passcodeTextField.text = @"";
 	// If there's no passcode saved in Keychain,
     // the user is adding one for the first time, otherwise he's changing his passcode.
-	NSString *savedPasscode = [SFHFKeychainUtils getPasswordForUsername: _keychainPasscodeUsername
+	NSString *savedPasscode = [LTHKeychainUtils getPasswordForUsername: _keychainPasscodeUsername
 														 andServiceName: _keychainServiceName
 																  error: nil];
 	_enterPasscodeLabel.text = savedPasscode.length == 0 ? NSLocalizedStringFromTable(@"Enter your passcode", _localizationTableName, @"") : NSLocalizedStringFromTable(@"Enter your new passcode", _localizationTableName, @"");

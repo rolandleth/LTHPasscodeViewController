@@ -29,8 +29,10 @@
 
 #import <UIKit/UIKit.h>
 
-
-@interface SFHFKeychainUtils : NSObject {
+/**
+ Renamed it to LTHKeychainUtils because it could have conflicted with SFHFKeychainUtils already present in the project. This version is ARC-compliant, but all the rights and thanks go to Buzz Andersen for SFHFKeychainUtils.
+ */
+@interface LTHKeychainUtils : NSObject {
 	
 }
 
