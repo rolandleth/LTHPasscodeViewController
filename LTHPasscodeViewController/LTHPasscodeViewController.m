@@ -266,6 +266,7 @@
 	[self.view addSubview: _animatingView];
     
 	[self _setupViews];
+    [self _setupStrings];
     [self _setupLabels];
     [self _setupDigitFields];
     [self _setupOKButton];
@@ -404,6 +405,25 @@
     _complexPasscodeOverlayView.backgroundColor = [UIColor whiteColor];
     _complexPasscodeOverlayView.translatesAutoresizingMaskIntoConstraints = NO;
     [_animatingView addSubview:_complexPasscodeOverlayView];
+}
+
+- (void)_setupStrings {
+    if (!self.enterOldPasscodeString)
+        self.enterOldPasscodeString = @"Enter your old passcode";
+    if (!self.enterPasscodeString)
+        self.enterPasscodeString = @"Enter your passcode";
+    if (!self.enablePasscodeString)
+        self.enablePasscodeString = @"Enable Passcode";
+    if (!self.changePasscodeString)
+        self.changePasscodeString = @"Change Passcode";
+    if (!self.turnOffPasscodeString)
+        self.turnOffPasscodeString = @"Turn Off Passcode";
+    if (!self.reenterPasscodeString)
+        self.reenterPasscodeString = @"Re-enter your passcode";
+    if (!self.reenterNewPasscodeString)
+        self.reenterNewPasscodeString = @"Re-enter your new passcode";
+    if (!self.enterNewPasscodeString)
+        self.enterNewPasscodeString = @"Enter your new passcode.";
 }
 
 
@@ -1201,7 +1221,11 @@
 		}
 	}
 	else {
-        _enterPasscodeLabel.text = NSLocalizedStringFromTable(self.enterPasscodeString, _localizationTableName, @"");
+        if (_isUserChangingPasscode) {
+            _enterPasscodeLabel.text = NSLocalizedStringFromTable(self.enterOldPasscodeString, _localizationTableName, @"");
+        } else {
+            _enterPasscodeLabel.text = NSLocalizedStringFromTable(self.enterPasscodeString, _localizationTableName, @"");
+        }
     }
 	
 	// Make sure nav bar for logout is off the screen
