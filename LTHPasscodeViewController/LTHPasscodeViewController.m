@@ -435,54 +435,31 @@
 
 
 - (void)_setupDigitFields {
-    _firstDigitTextField = [[UITextField alloc] initWithFrame:CGRectZero];
-    _firstDigitTextField.backgroundColor = _passcodeBackgroundColor;
-    _firstDigitTextField.textAlignment = NSTextAlignmentCenter;
-    _firstDigitTextField.text = _passcodeCharacter;
-    _firstDigitTextField.textColor = _passcodeTextColor;
-    _firstDigitTextField.font = _passcodeFont;
-    _firstDigitTextField.secureTextEntry = NO;
-    [_firstDigitTextField setBorderStyle:UITextBorderStyleNone];
-    _firstDigitTextField.userInteractionEnabled = NO;
+    _firstDigitTextField = [self _makeDigitField];
     [_animatingView addSubview:_firstDigitTextField];
     
-    _secondDigitTextField = [[UITextField alloc] initWithFrame:CGRectZero];
-    _secondDigitTextField.backgroundColor = _passcodeBackgroundColor;
-    _secondDigitTextField.textAlignment = NSTextAlignmentCenter;
-    _secondDigitTextField.text = _passcodeCharacter;
-    _secondDigitTextField.textColor = _passcodeTextColor;
-    _secondDigitTextField.font = _passcodeFont;
-    _secondDigitTextField.secureTextEntry = NO;
-    [_secondDigitTextField setBorderStyle:UITextBorderStyleNone];
-    _secondDigitTextField.userInteractionEnabled = NO;
+    _secondDigitTextField = [self _makeDigitField];
     [_animatingView addSubview:_secondDigitTextField];
     
-    _thirdDigitTextField = [[UITextField alloc] initWithFrame:CGRectZero];
-    _thirdDigitTextField.backgroundColor = _passcodeBackgroundColor;
-    _thirdDigitTextField.textAlignment = NSTextAlignmentCenter;
-    _thirdDigitTextField.text = _passcodeCharacter;
-    _thirdDigitTextField.textColor = _passcodeTextColor;
-    _thirdDigitTextField.font = _passcodeFont;
-    _thirdDigitTextField.secureTextEntry = NO;
-    [_thirdDigitTextField setBorderStyle:UITextBorderStyleNone];
-    _thirdDigitTextField.userInteractionEnabled = NO;
+    _thirdDigitTextField = [self _makeDigitField];
     [_animatingView addSubview:_thirdDigitTextField];
     
-    _fourthDigitTextField = [[UITextField alloc] initWithFrame:CGRectZero];
-    _fourthDigitTextField.backgroundColor = _passcodeBackgroundColor;
-    _fourthDigitTextField.textAlignment = NSTextAlignmentCenter;
-    _fourthDigitTextField.text = _passcodeCharacter;
-    _fourthDigitTextField.textColor = _passcodeTextColor;
-    _fourthDigitTextField.font = _passcodeFont;
-    _fourthDigitTextField.secureTextEntry = NO;
-    [_fourthDigitTextField setBorderStyle:UITextBorderStyleNone];
-    _fourthDigitTextField.userInteractionEnabled = NO;
+    _fourthDigitTextField = [self _makeDigitField];
     [_animatingView addSubview:_fourthDigitTextField];
-    
-    _firstDigitTextField.translatesAutoresizingMaskIntoConstraints = NO;
-    _secondDigitTextField.translatesAutoresizingMaskIntoConstraints = NO;
-    _thirdDigitTextField.translatesAutoresizingMaskIntoConstraints = NO;
-    _fourthDigitTextField.translatesAutoresizingMaskIntoConstraints = NO;
+}
+
+-(UITextField *)_makeDigitField{
+    UITextField *field = [[UITextField alloc] initWithFrame:CGRectZero];
+    field.backgroundColor = _passcodeBackgroundColor;
+    field.textAlignment = NSTextAlignmentCenter;
+    field.text = _passcodeCharacter;
+    field.textColor = _passcodeTextColor;
+    field.font = _passcodeFont;
+    field.secureTextEntry = NO;
+    field.userInteractionEnabled = NO;
+    field.translatesAutoresizingMaskIntoConstraints = NO;
+    [field setBorderStyle:UITextBorderStyleNone];
+    return field;
 }
 
 
