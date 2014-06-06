@@ -198,6 +198,10 @@
 /**
  @brief
  */
+@property (nonatomic, strong) NSString *enterNewPasscodeString;
+/**
+ @brief
+ */
 @property (nonatomic, strong) NSString *enablePasscodeString;
 /**
  @brief
