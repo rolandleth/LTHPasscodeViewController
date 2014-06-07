@@ -1371,6 +1371,16 @@
 
 
 - (void)_loadDefaults {
+    [self _loadMiscDefaults];
+    [self _loadStringDefaults];
+    [self _loadGapDefaults];
+    [self _loadFontDefaults];
+    [self _loadColorDefaults];
+    [self _loadKeychainDefaults];
+}
+
+
+- (void)_loadMiscDefaults {
     _coverViewTag = 994499;
     _lockAnimationDuration = 0.25;
     _slideAnimationDuration = 0.15;
@@ -1378,47 +1388,12 @@
     _usesKeychain = YES;
     _displayedAsModal = YES;
     _hidesBackButton = YES;
-    
-    // Gaps
-    _iPadFontSizeModifier = 1.5;
-    _iPhoneHorizontalGap = 40.0;
-    _horizontalGap = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? _iPhoneHorizontalGap * _iPadFontSizeModifier : _iPhoneHorizontalGap;
-    _verticalGap = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 60.0f : 25.0f;
-    _modifierForBottomVerticalGap = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 2.6f : 3.0f;
-    _failedAttemptLabelGap = _verticalGap * _modifierForBottomVerticalGap - 2.0f;
-    _passcodeOverlayHeight = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 96.0f : 40.0f;
-    
-    // Fonts
-    _labelFontSize = 15.0;
-    _passcodeFontSize = 33.0;
-    _labelFont = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ?
-    [UIFont fontWithName: @"AvenirNext-Regular" size:_labelFontSize * _iPadFontSizeModifier] :
-    [UIFont fontWithName: @"AvenirNext-Regular" size:_labelFontSize];
-    _passcodeFont = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ?
-    [UIFont fontWithName: @"AvenirNext-Regular" size: _passcodeFontSize * _iPadFontSizeModifier] :
-    [UIFont fontWithName: @"AvenirNext-Regular" size: _passcodeFontSize];
-    
-    // Colors
-    _backgroundColor =  [UIColor colorWithRed:0.97f green:0.97f blue:1.0f alpha:1.00f];
-    _passcodeBackgroundColor = [UIColor clearColor];
-    _coverViewBackgroundColor = [UIColor colorWithRed:0.97f green:0.97f blue:1.0f alpha:1.00f];
-    _failedAttemptLabelBackgroundColor =  [UIColor colorWithRed:0.8f green:0.1f blue:0.2f alpha:1.000f];
-    _enterPasscodeLabelBackgroundColor = [UIColor clearColor];
-    
-    // Text Colors
-    _labelTextColor = [UIColor colorWithWhite:0.31f alpha:1.0f];
-    _passcodeTextColor = [UIColor colorWithWhite:0.31f alpha:1.0f];
-    _failedAttemptLabelTextColor = [UIColor whiteColor];
-    
-    // Keychain & misc
-    _keychainPasscodeUsername = @"demoPasscode";
-    _keychainTimerStartUsername = @"demoPasscodeTimerStart";
-    _keychainServiceName = @"demoServiceName";
-    _keychainTimerDurationUsername = @"passcodeTimerDuration";
     _passcodeCharacter = @"\u2014"; // A longer "-";
     _localizationTableName = @"LTHPasscodeViewController";
-    
-    // Strings
+}
+
+
+- (void)_loadStringDefaults {
     self.enterOldPasscodeString = @"Enter your old passcode";
     self.enterPasscodeString = @"Enter your passcode";
     self.enablePasscodeString = @"Enable Passcode";
@@ -1427,6 +1402,52 @@
     self.reenterPasscodeString = @"Re-enter your passcode";
     self.reenterNewPasscodeString = @"Re-enter your new passcode";
     self.enterNewPasscodeString = @"Enter your new passcode.";
+}
+
+
+- (void)_loadGapDefaults {
+    _iPadFontSizeModifier = 1.5;
+    _iPhoneHorizontalGap = 40.0;
+    _horizontalGap = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? _iPhoneHorizontalGap * _iPadFontSizeModifier : _iPhoneHorizontalGap;
+    _verticalGap = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 60.0f : 25.0f;
+    _modifierForBottomVerticalGap = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 2.6f : 3.0f;
+    _failedAttemptLabelGap = _verticalGap * _modifierForBottomVerticalGap - 2.0f;
+    _passcodeOverlayHeight = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 96.0f : 40.0f;
+}
+
+
+- (void)_loadFontDefaults {
+    _labelFontSize = 15.0;
+    _passcodeFontSize = 33.0;
+    _labelFont = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ?
+    [UIFont fontWithName: @"AvenirNext-Regular" size:_labelFontSize * _iPadFontSizeModifier] :
+    [UIFont fontWithName: @"AvenirNext-Regular" size:_labelFontSize];
+    _passcodeFont = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ?
+    [UIFont fontWithName: @"AvenirNext-Regular" size: _passcodeFontSize * _iPadFontSizeModifier] :
+    [UIFont fontWithName: @"AvenirNext-Regular" size: _passcodeFontSize];
+}
+
+
+- (void)_loadColorDefaults {
+    // Backgrounds
+    _backgroundColor =  [UIColor colorWithRed:0.97f green:0.97f blue:1.0f alpha:1.00f];
+    _passcodeBackgroundColor = [UIColor clearColor];
+    _coverViewBackgroundColor = [UIColor colorWithRed:0.97f green:0.97f blue:1.0f alpha:1.00f];
+    _failedAttemptLabelBackgroundColor =  [UIColor colorWithRed:0.8f green:0.1f blue:0.2f alpha:1.000f];
+    _enterPasscodeLabelBackgroundColor = [UIColor clearColor];
+    
+    // Text
+    _labelTextColor = [UIColor colorWithWhite:0.31f alpha:1.0f];
+    _passcodeTextColor = [UIColor colorWithWhite:0.31f alpha:1.0f];
+    _failedAttemptLabelTextColor = [UIColor whiteColor];
+}
+
+
+- (void)_loadKeychainDefaults {
+    _keychainPasscodeUsername = @"demoPasscode";
+    _keychainTimerStartUsername = @"demoPasscodeTimerStart";
+    _keychainServiceName = @"demoServiceName";
+    _keychainTimerDurationUsername = @"passcodeTimerDuration";
 }
 
 
