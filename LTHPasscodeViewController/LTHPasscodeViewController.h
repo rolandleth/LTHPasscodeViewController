@@ -188,6 +188,38 @@
  */
 @property (nonatomic, assign) NSInteger coverViewTag;
 /**
+ @brief The string displayed when entering your old passcode (while changing).
+ */
+@property (nonatomic, strong) NSString *enterOldPasscodeString;
+/**
+ @brief The string displayed when entering your passcode.
+ */
+@property (nonatomic, strong) NSString *enterPasscodeString;
+/**
+ @brief The string displayed when entering your new passcode (while changing).
+ */
+@property (nonatomic, strong) NSString *enterNewPasscodeString;
+/**
+ @brief The string displayed when enabling your passcode.
+ */
+@property (nonatomic, strong) NSString *enablePasscodeString;
+/**
+ @brief The string displayed when changing your passcode.
+ */
+@property (nonatomic, strong) NSString *changePasscodeString;
+/**
+ @brief The string displayed when disabling your passcode.
+ */
+@property (nonatomic, strong) NSString *turnOffPasscodeString;
+/**
+ @brief The string displayed when reentering your passcode.
+ */
+@property (nonatomic, strong) NSString *reenterPasscodeString;
+/**
+ @brief The string displayed when reentering your new passcode (while changing).
+ */
+@property (nonatomic, strong) NSString *reenterNewPasscodeString;
+/**
  @brief The duration of the lock animation.
  */
 @property (nonatomic, assign) CGFloat   lockAnimationDuration;

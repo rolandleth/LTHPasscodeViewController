@@ -428,7 +428,7 @@
 	_failedAttemptLabel.textAlignment = NSTextAlignmentCenter;
 	[_animatingView addSubview: _failedAttemptLabel];
     
-    _enterPasscodeLabel.text = _isUserChangingPasscode ? NSLocalizedStringFromTable(@"Enter your old passcode", _localizationTableName, @"") : NSLocalizedStringFromTable(@"Enter your passcode", _localizationTableName, @"");
+    _enterPasscodeLabel.text = _isUserChangingPasscode ? NSLocalizedStringFromTable(self.enterOldPasscodeString, _localizationTableName, @"") : NSLocalizedStringFromTable(self.enterPasscodeString, _localizationTableName, @"");
     _enterPasscodeLabel.translatesAutoresizingMaskIntoConstraints = NO;
 	_failedAttemptLabel.translatesAutoresizingMaskIntoConstraints = NO;
 }
@@ -887,7 +887,7 @@
 	_displayedAsModal = isModal;
 	[self _prepareForEnablingPasscode];
 	[self _prepareNavigationControllerWithController:viewController];
-	self.title = NSLocalizedStringFromTable(@"Enable Passcode", _localizationTableName, @"");
+	self.title = NSLocalizedStringFromTable(self.enablePasscodeString, _localizationTableName, @"");
 }
 
 
@@ -896,7 +896,7 @@
 	_displayedAsModal = isModal;
 	[self _prepareForChangingPasscode];
 	[self _prepareNavigationControllerWithController:viewController];
-	self.title = NSLocalizedStringFromTable(@"Change Passcode", _localizationTableName, @"");
+	self.title = NSLocalizedStringFromTable(self.changePasscodeString, _localizationTableName, @"");
 }
 
 
@@ -905,7 +905,7 @@
 	_displayedAsModal = isModal;
 	[self _prepareForTurningOffPasscode];
 	[self _prepareNavigationControllerWithController:viewController];
-	self.title = NSLocalizedStringFromTable(@"Turn Off Passcode", _localizationTableName, @"");
+	self.title = NSLocalizedStringFromTable(self.turnOffPasscodeString, _localizationTableName, @"");
 }
 
 
@@ -1189,19 +1189,23 @@
 	_passcodeTextField.text = @"";
 	if (_isUserConfirmingPasscode) {
 		if (_isUserEnablingPasscode) {
-            _enterPasscodeLabel.text = NSLocalizedStringFromTable(@"Re-enter your passcode", _localizationTableName, @"");
+            _enterPasscodeLabel.text = NSLocalizedStringFromTable(self.reenterPasscodeString, _localizationTableName, @"");
         }
 		else if (_isUserChangingPasscode) {
-            _enterPasscodeLabel.text = NSLocalizedStringFromTable(@"Re-enter your new passcode", _localizationTableName, @"");
+            _enterPasscodeLabel.text = NSLocalizedStringFromTable(self.reenterNewPasscodeString, _localizationTableName, @"");
         }
 	}
 	else if (_isUserBeingAskedForNewPasscode) {
 		if (_isUserEnablingPasscode || _isUserChangingPasscode) {
-			_enterPasscodeLabel.text = NSLocalizedStringFromTable(@"Enter your new passcode", _localizationTableName, @"");
+			_enterPasscodeLabel.text = NSLocalizedStringFromTable(self.enterNewPasscodeString, _localizationTableName, @"");
 		}
 	}
 	else {
-        _enterPasscodeLabel.text = NSLocalizedStringFromTable(@"Enter your passcode", _localizationTableName, @"");
+        if (_isUserChangingPasscode) {
+            _enterPasscodeLabel.text = NSLocalizedStringFromTable(self.enterOldPasscodeString, _localizationTableName, @"");
+        } else {
+            _enterPasscodeLabel.text = NSLocalizedStringFromTable(self.enterPasscodeString, _localizationTableName, @"");
+        }
     }
 	
 	// Make sure nav bar for logout is off the screen
@@ -1220,7 +1224,7 @@
 	NSString *savedPasscode = [LTHKeychainUtils getPasswordForUsername: _keychainPasscodeUsername
 														 andServiceName: _keychainServiceName
 																  error: nil];
-	_enterPasscodeLabel.text = savedPasscode.length == 0 ? NSLocalizedStringFromTable(@"Enter your passcode", _localizationTableName, @"") : NSLocalizedStringFromTable(@"Enter your new passcode", _localizationTableName, @"");
+	_enterPasscodeLabel.text = savedPasscode.length == 0 ? NSLocalizedStringFromTable(self.enterPasscodeString, _localizationTableName, @"") : NSLocalizedStringFromTable(self.enterNewPasscodeString, _localizationTableName, @"");
 	
 	_failedAttemptLabel.hidden = NO;
 	_failedAttemptLabel.text = NSLocalizedStringFromTable(@"Passcodes did not match. Try again.", _localizationTableName, @"");
@@ -1413,6 +1417,16 @@
     _keychainTimerDurationUsername = @"passcodeTimerDuration";
     _passcodeCharacter = @"\u2014"; // A longer "-";
     _localizationTableName = @"LTHPasscodeViewController";
+    
+    // Strings
+    self.enterOldPasscodeString = @"Enter your old passcode";
+    self.enterPasscodeString = @"Enter your passcode";
+    self.enablePasscodeString = @"Enable Passcode";
+    self.changePasscodeString = @"Change Passcode";
+    self.turnOffPasscodeString = @"Turn Off Passcode";
+    self.reenterPasscodeString = @"Re-enter your passcode";
+    self.reenterNewPasscodeString = @"Re-enter your new passcode";
+    self.enterNewPasscodeString = @"Enter your new passcode.";
 }
 
 
