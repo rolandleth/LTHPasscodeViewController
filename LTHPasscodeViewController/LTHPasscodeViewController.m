@@ -69,59 +69,59 @@
 }
 
 
-+ (BOOL)doesPasscodeExist {
-	return [[LTHPasscodeViewController sharedUser] _doesPasscodeExist];
+- (BOOL)doesPasscodeExist {
+	return [self _doesPasscodeExist];
 }
 
 
-+ (NSString *)passcode {
-	return [[LTHPasscodeViewController sharedUser] _passcode];
+- (NSString *)passcode {
+	return [self _passcode];
 }
 
 
-+ (NSTimeInterval)timerDuration {
-	return [[LTHPasscodeViewController sharedUser] _timerDuration];
+- (NSTimeInterval)timerDuration {
+	return [self _timerDuration];
 }
 
 
-+ (void)saveTimerDuration:(NSTimeInterval)duration {
-    [[LTHPasscodeViewController sharedUser] _saveTimerDuration:duration];
+- (void)saveTimerDuration:(NSTimeInterval)duration {
+    [self _saveTimerDuration:duration];
 }
 
 
-+ (NSTimeInterval)timerStartTime {
-    return [[LTHPasscodeViewController sharedUser] _timerStartTime];
+- (NSTimeInterval)timerStartTime {
+    return [self _timerStartTime];
 }
 
 
-+ (void)saveTimerStartTime {
-	[[LTHPasscodeViewController sharedUser] _saveTimerStartTime];
+- (void)saveTimerStartTime {
+	[self _saveTimerStartTime];
 }
 
 
-+ (BOOL)didPasscodeTimerEnd {
-	return [[LTHPasscodeViewController sharedUser] _didPasscodeTimerEnd];
+- (BOOL)didPasscodeTimerEnd {
+	return [self _didPasscodeTimerEnd];
 }
 
 
-+ (void)deletePasscodeFromKeychain {
-	[[LTHPasscodeViewController sharedUser] _deletePasscode];
+- (void)deletePasscodeFromKeychain {
+	[self _deletePasscode];
 }
 
 
-+ (void)deletePasscodeAndClose {
-	[[LTHPasscodeViewController sharedUser] _deletePasscode];
-    [[LTHPasscodeViewController sharedUser] _dismissMe];
+- (void)deletePasscodeAndClose {
+	[self _deletePasscode];
+    [self _dismissMe];
 }
 
 
-+ (void)deletePasscode {
-	[[LTHPasscodeViewController sharedUser] _deletePasscode];
+- (void)deletePasscode {
+	[self _deletePasscode];
 }
 
 
-+ (void)useKeychain:(BOOL)useKeychain {
-    [[LTHPasscodeViewController sharedUser] _useKeychain:useKeychain];
+- (void)useKeychain:(BOOL)useKeychain {
+    [self _useKeychain:useKeychain];
 }
 
 
