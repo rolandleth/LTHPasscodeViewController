@@ -1265,6 +1265,8 @@
 
 #pragma mark - Notification Observers
 - (void)_applicationDidEnterBackground {
+    // Gives app enough time to display passcode lock.
+    [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
 	if ([self _doesPasscodeExist]) {
 		if ([_passcodeTextField isFirstResponder]) [_passcodeTextField resignFirstResponder];
 		// Without animation because otherwise it won't come down fast enough,
