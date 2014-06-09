@@ -64,7 +64,7 @@
 
 
 #pragma mark - Public, class methods
-+ (BOOL)passcodeExistsInKeychain {
+- (BOOL)passcodeExistsInKeychain {
 	return [self doesPasscodeExist];
 }
 

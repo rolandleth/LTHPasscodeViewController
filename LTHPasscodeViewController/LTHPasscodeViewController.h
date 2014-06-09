@@ -314,54 +314,54 @@
  @brief   Returns a Boolean value that indicates whether a passcode exists (@c YES) or not (@c NO).
  @return  @c YES if a passcode is enabled. This also means it is enabled, unless custom logic was added to the library.
  */
-+ (BOOL)passcodeExistsInKeychain DEPRECATED_MSG_ATTRIBUTE(" Please use -doesPasscodeExist");
+- (BOOL)passcodeExistsInKeychain DEPRECATED_MSG_ATTRIBUTE(" Please use -doesPasscodeExist");
 /**
  @brief  Returns a Boolean value that indicates whether a passcode exists (@c YES) or not (@c NO).
  @return @c YES if a passcode is enabled. This also means it is enabled, unless custom logic was added to the library.
  */
-+ (BOOL)doesPasscodeExist;
+- (BOOL)doesPasscodeExist;
 /**
  @brief	 Retrieves from the keychain the duration while app is in background after which the lock has to be displayed.
  @return The duration.
  */
-+ (NSTimeInterval)timerDuration;
+- (NSTimeInterval)timerDuration;
 /**
  @brief			 Saves in the keychain the duration that needs to pass while app is in background  for the lock to be displayed.
  @param duration The duration.
  */
-+ (void)saveTimerDuration:(NSTimeInterval)duration;
+- (void)saveTimerDuration:(NSTimeInterval)duration;
 /**
  @brief  Retrieves from the keychain the time at which the timer started.
  @return The time, as @c timeIntervalSinceReferenceDate, at which the timer started.
  */
-+ (NSTimeInterval)timerStartTime;
+- (NSTimeInterval)timerStartTime;
 /**
  @brief Saves the current time, as @c timeIntervalSinceReferenceDate.
  */
-+ (void)saveTimerStartTime;
+- (void)saveTimerStartTime;
 /**
  @brief  Returns a Boolean value that indicates whether the timer has ended (@c YES) and the lock has to be displayed or not (@c NO).
  @return @c YES if the timer ended and the lock has to be displayed.
  */
-+ (BOOL)didPasscodeTimerEnd;
+- (BOOL)didPasscodeTimerEnd;
 /**
  @brief Removes the passcode from the keychain.
  */
-+ (void)deletePasscodeFromKeychain DEPRECATED_MSG_ATTRIBUTE(" Please use -deleteFromPasscode");
+- (void)deletePasscodeFromKeychain DEPRECATED_MSG_ATTRIBUTE(" Please use -deleteFromPasscode");
 /**
  @brief Removes the passcode from the keychain.
  */
-+ (void)deletePasscode;
+- (void)deletePasscode;
 /**
  @brief Removes the passcode from the keychain and closes the passcode view controller.
  */
-+ (void)deletePasscodeAndClose;
+- (void)deletePasscodeAndClose;
 /**
  @brief             Call this if you want to save and read the passcode and timers to and from somewhere else rather than the Keychain.
  @attention         All the protocol methods will fall back to the Keychain if not implemented, even if calling this method with @c NO. This allows for flexibility over what and where you save.
  @param useKeychain Set to @c NO if you want to save and read the passcode and timers to and from somewhere else rather than the Keychain. Default is @c YES.
  */
-+ (void)useKeychain:(BOOL)useKeychain;
+- (void)useKeychain:(BOOL)useKeychain;
 /**
  @brief  Returns the shared instance of the passcode view controller.
  */
