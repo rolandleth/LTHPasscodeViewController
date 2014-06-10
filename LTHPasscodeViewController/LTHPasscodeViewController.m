@@ -1331,7 +1331,7 @@
     
 	static dispatch_once_t pred;
 	dispatch_once(&pred, ^{
-		sharedObject = [[LTHPasscodeViewController alloc] init];
+		sharedObject = [[self alloc] init];
 	});
 	
 	return sharedObject;
