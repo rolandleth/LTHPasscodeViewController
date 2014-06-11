@@ -114,6 +114,10 @@
     [self _dismissMe];
 }
 
+- (void)close {
+    [self _dismissMe];
+}
+
 
 - (void)deletePasscode {
 	[self _deletePasscode];

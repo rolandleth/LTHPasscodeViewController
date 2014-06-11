@@ -357,6 +357,10 @@
  */
 - (void)deletePasscodeAndClose;
 /**
+ @brief Closes the passcode view controller.
+ */
+- (void)close;
+/**
  @brief             Call this if you want to save and read the passcode and timers to and from somewhere else rather than the Keychain.
  @attention         All the protocol methods will fall back to the Keychain if not implemented, even if calling this method with @c NO. This allows for flexibility over what and where you save.
  @param useKeychain Set to @c NO if you want to save and read the passcode and timers to and from somewhere else rather than the Keychain. Default is @c YES.
