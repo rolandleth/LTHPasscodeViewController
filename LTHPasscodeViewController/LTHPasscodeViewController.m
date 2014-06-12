@@ -835,6 +835,8 @@
 		[viewController.navigationController pushViewController:self
 													   animated:YES];
         self.navigationItem.hidesBackButton = _hidesBackButton;
+        [self rotateAccordingToStatusBarOrientationAndSupportedOrientations];
+        
 		return;
 	}
 	UINavigationController *navController =
