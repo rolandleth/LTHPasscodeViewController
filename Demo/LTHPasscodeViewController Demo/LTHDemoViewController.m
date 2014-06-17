@@ -25,7 +25,7 @@
 
 
 - (void)_refreshUI {
-	if ([LTHPasscodeViewController doesPasscodeExist]) {
+	if ([[LTHPasscodeViewController sharedUser] doesPasscodeExist]) {
 		_enablePasscode.enabled = NO;
 		_changePasscode.enabled = YES;
 		_turnOffPasscode.enabled = YES;
@@ -160,7 +160,7 @@
 }
 
 - (void)maxNumberOfFailedAttemptsReached {
-    [LTHPasscodeViewController deletePasscodeAndClose];
+    [[LTHPasscodeViewController sharedUser] deletePasscodeAndClose];
 	NSLog(@"Max Number of Failed Attemps Reached");
 }
 
