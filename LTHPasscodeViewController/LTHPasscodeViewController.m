@@ -64,11 +64,6 @@
 
 
 #pragma mark - Public, class methods
-+ (BOOL)passcodeExistsInKeychain {
-	return [self doesPasscodeExist];
-}
-
-
 + (BOOL)doesPasscodeExist {
 	return [[LTHPasscodeViewController sharedUser] _doesPasscodeExist];
 }
@@ -101,11 +96,6 @@
 
 + (BOOL)didPasscodeTimerEnd {
 	return [[LTHPasscodeViewController sharedUser] _didPasscodeTimerEnd];
-}
-
-
-+ (void)deletePasscodeFromKeychain {
-	[[LTHPasscodeViewController sharedUser] _deletePasscode];
 }
 
 
@@ -308,11 +298,8 @@
     if ([self.delegate respondsToSelector: @selector(passcodeViewControllerWillClose)]) {
 		[self.delegate performSelector: @selector(passcodeViewControllerWillClose)];
     }
-	else if ([self.delegate respondsToSelector: @selector(passcodeViewControllerWasDismissed)]) {
-		[self.delegate performSelector: @selector(passcodeViewControllerWasDismissed)];
-    }
 // Or, if you prefer by notifications:
-//	[[NSNotificationCenter defaultCenter] postNotificationName: @"dismissPasscodeViewController"
+//	[[NSNotificationCenter defaultCenter] postNotificationName: @"passcodeViewControllerWillClose"
 //														object: self
 //													  userInfo: nil];
 	if (_displayedAsModal) [self dismissViewControllerAnimated:YES completion:nil];
@@ -321,6 +308,7 @@
 
 
 - (void)_dismissMe {
+    _failedAttempts = 0;
 	_isCurrentlyOnScreen = NO;
 	[self _resetUI];
 	[_passcodeTextField resignFirstResponder];
@@ -360,11 +348,8 @@
         if ([self.delegate respondsToSelector: @selector(passcodeViewControllerWillClose)]) {
             [self.delegate performSelector: @selector(passcodeViewControllerWillClose)];
         }
-        else if ([self.delegate respondsToSelector: @selector(passcodeViewControllerWasDismissed)]) {
-			[self.delegate performSelector: @selector(passcodeViewControllerWasDismissed)];
-        }
 // Or, if you prefer by notifications:
-//		[[NSNotificationCenter defaultCenter] postNotificationName: @"dismissPasscodeViewController"
+//		[[NSNotificationCenter defaultCenter] postNotificationName: @"passcodeViewControllerWillClose"
 //															object: self
 //														  userInfo: nil];
 		if (_displayedAsLockScreen) {
@@ -731,13 +716,6 @@
 
 
 #pragma mark - Displaying
-- (void)showLockScreenWithAnimation:(BOOL)animated {
-	[self.navBar removeFromSuperview];
-	self.navBar = nil;
-	[self showLockScreenWithAnimation:animated withLogout:NO andLogoutTitle:nil];
-}
-
-
 - (void)showLockScreenWithAnimation:(BOOL)animated withLogout:(BOOL)hasLogout andLogoutTitle:(NSString*)logoutTitle {
 	[self _prepareAsLockScreen];
 	// In case the user leaves the app while the lockscreen is already active.
@@ -863,24 +841,6 @@
 								 animated:YES
 							   completion:nil];
 	[self rotateAccordingToStatusBarOrientationAndSupportedOrientations];
-}
-
-
-- (void)showForEnablingPasscodeInViewController:(UIViewController *)viewController {
-	[self showForEnablingPasscodeInViewController:viewController
-										  asModal:YES];
-}
-
-
-- (void)showForChangingPasscodeInViewController:(UIViewController *)viewController {
-	[self showForChangingPasscodeInViewController:viewController
-										  asModal:YES];
-}
-
-
-- (void)showForTurningOffPasscodeInViewController:(UIViewController *)viewController {
-	[self showForDisablingPasscodeInViewController:viewController
-                                           asModal:YES];
 }
 
 
@@ -1186,8 +1146,8 @@
 	[self _resetTextFields];
 	_failedAttemptLabel.backgroundColor	= _failedAttemptLabelBackgroundColor;
 	_failedAttemptLabel.textColor = _failedAttemptLabelTextColor;
-	_failedAttempts = 0;
-	_failedAttemptLabel.hidden = YES;
+    if (_failedAttempts == 0) _failedAttemptLabel.hidden = YES;
+	
 	_passcodeTextField.text = @"";
 	if (_isUserConfirmingPasscode) {
 		if (_isUserEnablingPasscode) {
@@ -1258,7 +1218,8 @@
 - (BOOL)isSimple {
     // Is in process of changing, but not finished ->
     // we need to display UI accordingly
-    if (_isUserSwitchingBetweenPasscodeModes && (_isUserBeingAskedForNewPasscode || _isUserConfirmingPasscode)) {
+    if (_isUserSwitchingBetweenPasscodeModes &&
+        (_isUserBeingAskedForNewPasscode || _isUserConfirmingPasscode)) {
         return !_isSimple;
     }
     
@@ -1305,7 +1266,7 @@
             [_passcodeTextField resignFirstResponder];
             [self.navigationController popViewControllerAnimated:NO];
             // This is like this because it screws up the navigation stack otherwise
-            [self performSelector:@selector(showLockScreenWithAnimation:)
+            [self performSelector:@selector(showLockScreenWithAnimation:withLogout:andLogoutTitle:)
                        withObject:@(NO)
                        afterDelay:0.0];
         }

@@ -11,10 +11,6 @@
 @protocol LTHPasscodeViewControllerDelegate <NSObject>
 @optional
 /**
- @brief Called when the passcode view controller was dismissed.
- */
-- (void)passcodeViewControllerWasDismissed DEPRECATED_MSG_ATTRIBUTE(" Please use passcodeViewControllerWillBeClosed. It is a better name, since it is called right before dismissing or popping the passcode view controller.");
-/**
  @brief Called right before the passcode view controller will be dismissed or popped.
  */
 - (void)passcodeViewControllerWillClose;
@@ -251,28 +247,6 @@
  */
 - (void)showLockScreenWithAnimation:(BOOL)animated withLogout:(BOOL)hasLogout andLogoutTitle:(NSString*)logoutTitle;
 /**
- @brief   Used for displaying the lock. Added directly on @c UIWindow.
- */
-- (void)showLockScreenWithAnimation:(BOOL)animated DEPRECATED_MSG_ATTRIBUTE(" Please use showLockScreenWithAnimation:withLogout:andLogoutTitle:");
-/**
- @brief				   Used for enabling the passcode.
- @details              The back bar button is hidden by default. Set @c hidesBackButton to @c NO if you want it to be visible.
- @param	viewController The view controller where the passcode view controller will be displayed.
- */
-- (void)showForEnablingPasscodeInViewController:(UIViewController *)viewController DEPRECATED_MSG_ATTRIBUTE(" Please use showForEnablingPasscodeInViewController:asModal:");
-/**
- @brief				   Used for changing the passcode.
- @details              The back bar button is hidden by default. Set @c hidesBackButton to @c NO if you want it to be visible.
- @param	viewController The view controller where the passcode view controller will be displayed.
- */
-- (void)showForChangingPasscodeInViewController:(UIViewController *)viewController DEPRECATED_MSG_ATTRIBUTE(" Please use showForDisablingPasscodeInViewController:asModal:");
-/**
- @brief				   Used for disabling the passcode.
- @details              The back bar button is hidden by default. Set @c hidesBackButton to @c NO if you want it to be visible.
- @param	viewController The view controller where the passcode view controller will be displayed.
- */
-- (void)showForTurningOffPasscodeInViewController:(UIViewController *)viewController DEPRECATED_MSG_ATTRIBUTE(" Please use showForDisablingPasscodeInViewController:asModal:");
-/**
  @brief				   Used for enabling the passcode.
  @details              The back bar button is hidden by default. Set @c hidesBackButton to @c NO if you want it to be visible.
  @param	viewController The view controller where the passcode view controller will be displayed.
@@ -299,22 +273,13 @@
  */
 - (BOOL)isSimple;
 /**
- @brief   Starting with next version, this will be just a setter, without the current logic inside. Everything was moved inside @c -setIsSimple:inViewController:asModal:
- @details @c fromParentViewController and @c asModal are needed because the delegate is of type id, and the passcode needs to be presented somewhere and with a specific style - modal or pushed.
- */
-- (void)setIsSimple:(BOOL)isSimple DEPRECATED_MSG_ATTRIBUTE(" Please use -setIsSimple:inViewController:asModal:");
-/**
  @brief                 Sets if the passcode should be simple (4 digits) or complex.
  @param isSimple        Set to @c YES for a simple passcode, and to @c NO for a complex passcode.
  @param viewController  The view controller where the passcode view controller will be displayed.
  @param isModal         Set to @c YES to present as a modal, or to @c NO to push on the current nav stack.
+ @details               @c inViewController and @c asModal are needed because the delegate is of type id, and the passcode needs to be presented somewhere and with a specific style - modal or pushed.
  */
 - (void)setIsSimple:(BOOL)isSimple inViewController:(UIViewController *)viewController asModal:(BOOL)isModal;
-/**
- @brief   Returns a Boolean value that indicates whether a passcode exists (@c YES) or not (@c NO).
- @return  @c YES if a passcode is enabled. This also means it is enabled, unless custom logic was added to the library.
- */
-+ (BOOL)passcodeExistsInKeychain DEPRECATED_MSG_ATTRIBUTE(" Please use -doesPasscodeExist");
 /**
  @brief  Returns a Boolean value that indicates whether a passcode exists (@c YES) or not (@c NO).
  @return @c YES if a passcode is enabled. This also means it is enabled, unless custom logic was added to the library.
@@ -344,10 +309,6 @@
  @return @c YES if the timer ended and the lock has to be displayed.
  */
 + (BOOL)didPasscodeTimerEnd;
-/**
- @brief Removes the passcode from the keychain.
- */
-+ (void)deletePasscodeFromKeychain DEPRECATED_MSG_ATTRIBUTE(" Please use -deleteFromPasscode");
 /**
  @brief Removes the passcode from the keychain.
  */
