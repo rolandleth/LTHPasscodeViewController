@@ -1364,7 +1364,7 @@
     self.turnOffPasscodeString = @"Turn Off Passcode";
     self.reenterPasscodeString = @"Re-enter your passcode";
     self.reenterNewPasscodeString = @"Re-enter your new passcode";
-    self.enterNewPasscodeString = @"Enter your new passcode.";
+    self.enterNewPasscodeString = @"Enter your new passcode";
 }
 
 
