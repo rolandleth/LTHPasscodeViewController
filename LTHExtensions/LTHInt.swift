@@ -1,5 +1,5 @@
 //
-//  LTHInt(Extension).swift
+//  LTHInt.swift
 //  LTHExtensions
 //
 //  Created by Roland Leth on 4/6/14.
@@ -22,10 +22,10 @@ extension Int {
     }
     
     var degreesToRadians: Float {
-    return asFloat * 0.0174532925199432958
+    return toFloat * 0.0174532925199432958
     }
     
-    var asFloat: Float {
+    var toFloat: Float {
     return Float(self)
     }
     
@@ -34,7 +34,7 @@ extension Int {
     }
     
     func times(task: () -> ()) {
-        for i in 0..self {
+        for _ in 0..self {
             task()
         }
     }

@@ -9,23 +9,6 @@
 import UIKit
 import Foundation
 
-@infix func +<K, V> (left: Dictionary<K, V>, right: Dictionary<K, V>) -> Dictionary<K, V> {
-    var l = left
-    
-    for (k, v) in right {
-        l[k] = v
-    }
-    
-    return l
-}
-
-@infix func +<T> (left: T[], right: T) -> T[] {
-    var l = left
-    l << right
-    
-    return l
-}
-
 @infix func * (left: Character, right: Int) -> String {
     var newString = ""
     right.times {
@@ -34,26 +17,15 @@ import Foundation
     return newString
 }
 
-@infix func * (left: String, right: Int) -> String {
-    var newString = ""
-    right.times {
-        newString += String(left)
+// Thanks to http://airspeedvelocity.net/2014/06/10/implementing-rubys-operator-in-swift/
+@assignment func ||= <T>(inout lhs: T?, rhs: @auto_closure () -> T) {
+    if !lhs {
+        lhs = rhs()
     }
-    return newString
 }
 
-@assignment func +=<K, V> (inout left: Dictionary<K, V>, right: Dictionary<K, V>) {
-    left = left + right
-}
-
-@assignment func <<<K, V> (inout left: Dictionary<K, V>, right: Dictionary<K, V>) {
-    left += right
-}
-
-@assignment func <<<T> (inout left: T[], right: T) {
-    left.append(right)
-}
-
-@assignment func <<<T: UIView> (inout left: T, right: T) {
-    left.addSubview(right)
+@assignment func ||= <T: LogicValue>(inout lhs: T, rhs: @auto_closure () -> T) {
+    if !lhs {
+        lhs = rhs()
+    }
 }

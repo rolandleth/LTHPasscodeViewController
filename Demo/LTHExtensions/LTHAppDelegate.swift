@@ -20,19 +20,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window.makeKeyAndVisible()
         
         p("")
-        p("=== UIView ===")
-        var view = UIView(frame: CGRectMake(1, 1, 1, 1))
-        var view1 = UIView(frame: CGRectMake(2, 2, 2, 2))
-        view << view1
-        p("view[0] - \(view[0])")
-        
-        p("")
         p("=== String ===")
-        var s = "123"
+        var s = "12"
         p("s - \(s)")
+        s << "3"
+        p("s << \"3\" - \(s)")
+        println("s.toFloat - \(s.toFloat)")
+        println("s.toDouble - \(s.toDouble)")
+        println("s.toInt - \(s.toInt)")
+        println("s.toBool - \(s.toBool)")
         println("s[2] - \(s[2])")
         println("s.length - \(s.length)")
         println("s * 2 - \(s * 2)")
+        let font = "AvenirNext-Regular".uifont()
+        p("\"AvenirNext\".uifont() - \(font)")
         var s1 = "12"
         p("s.containsString(\"12\") - \(s.containsString(s1))")
         s1 = "13"
@@ -50,12 +51,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         p("")
         p("=== Int ===")
+        var i: Int?
+        p("i - \(i)")
+        i ||= 2
+        p("i ||= 2 - \(i)")
+        i ||= 3
+        p("i ||= 3 - \(i)")
         println("2.isEven - \(2.isEven)")
         println("2.isOdd - \(2.isOdd)")
         println("2.squared - \(2.squared)")
-        println("2.asFloat - \(2.asFloat)")
-        println("2.times{ println(\"12345\") }:")
-        2.times{ println("12345") }
+        println("2.toFloat - \(2.toFloat)")
+        print("2.times{ print(\"12345 \") } - ")
+        2.times{ print("12345 ") }
+        println()
         
         p("")
         p("=== Float ===")
@@ -68,10 +76,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         println("a - \(a)")
         a << 2
         println("a << 2 - \(a)")
-        a += 3
-        println("a += 3 - \(a)")
-        a = a + 4
-        println("a = a + 4 - \(a)")
+        a << [3, 4]
+        println("a << [3, 4] - \(a)")
+        a = a + 5
+        println("a = a + 5 - \(a)")
+        a = a + [6, 7]
+        println("a = a + [6, 7] - \(a)")
         println("a.first - \(a.first)")
         println("a.last - \(a.last)")
         
@@ -85,6 +95,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         println("d += [3, 3] - \(d)")
         d = d + [4: 4]
         println("d = d + [4, 4] - \(d)")
+        
+        p("")
+        p("=== UIView ===")
+        var view = UIView(frame: CGRectMake(1, 1, 1, 1))
+        var view1 = UIView(frame: CGRectMake(2, 2, 2, 2))
+        p("Adding variables to UIKit classes still fails with exit code 254")
+//        view.x = 11
+//        view.y = 11
+//        view.width = 11
+//        view.height = 11
+//        p("view.x - \(view.x)")
+//        p("view.y - \(view.y)")
+//        p("view.height - \(view.height)")
+//        p("view.width - \(view.width)")
+        view << view1
+        p("view[0] - \(view[0])")
+        
+        p("")
+        p("=== UIButton ===")
+        p("Adding variables to UIKit classes still fails with exit code 254")
+        p("")
+//        p("UIButton.custom - \(UIButton().custom)")
         
         return true
     }

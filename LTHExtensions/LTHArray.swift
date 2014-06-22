@@ -1,5 +1,5 @@
 //
-//  LTHArray(Extension).swift
+//  LTHArray.swift
 //  LTHExtensions
 //
 //  Created by Roland Leth on 4/6/14.
@@ -14,6 +14,7 @@ extension Array {
         if isEmpty {
             return nil
         }
+            
         return self[0]
     }
     
@@ -21,6 +22,22 @@ extension Array {
         if isEmpty {
             return nil
         }
+            
         return self[count - 1]
     }
+}
+
+@infix func + <T>(left: T[], right: T) -> T[] {
+    var l = left
+    l << right
+    
+    return l
+}
+
+@assignment func << <T>(inout left: T[], right: T) {
+    left += right
+}
+
+@assignment func << <T>(inout left: T[], right: T[]) {
+    left += right
 }

@@ -7,27 +7,31 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2A14DA0E194C59BB00215FFF /* LTHArray(Extension).swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A14DA06194C59BB00215FFF /* LTHArray(Extension).swift */; };
-		2A14DA0F194C59BB00215FFF /* LTHFloat(Extension).swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A14DA07194C59BB00215FFF /* LTHFloat(Extension).swift */; };
+		2A14DA0E194C59BB00215FFF /* LTHArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A14DA06194C59BB00215FFF /* LTHArray.swift */; };
+		2A14DA0F194C59BB00215FFF /* LTHFloat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A14DA07194C59BB00215FFF /* LTHFloat.swift */; };
 		2A14DA10194C59BB00215FFF /* LTHHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A14DA08194C59BB00215FFF /* LTHHelpers.swift */; };
-		2A14DA11194C59BB00215FFF /* LTHImage(Extension).swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A14DA09194C59BB00215FFF /* LTHImage(Extension).swift */; };
-		2A14DA12194C59BB00215FFF /* LTHInt(Extension).swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A14DA0A194C59BB00215FFF /* LTHInt(Extension).swift */; };
+		2A14DA11194C59BB00215FFF /* LTHImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A14DA09194C59BB00215FFF /* LTHImage.swift */; };
+		2A14DA12194C59BB00215FFF /* LTHInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A14DA0A194C59BB00215FFF /* LTHInt.swift */; };
 		2A14DA13194C59BB00215FFF /* LTHOperatorOverloads.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A14DA0B194C59BB00215FFF /* LTHOperatorOverloads.swift */; };
-		2A14DA14194C59BB00215FFF /* LTHString(Extension).swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A14DA0C194C59BB00215FFF /* LTHString(Extension).swift */; };
-		2A14DA15194C59BB00215FFF /* LTHUIView(Extension).swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A14DA0D194C59BB00215FFF /* LTHUIView(Extension).swift */; };
+		2A14DA14194C59BB00215FFF /* LTHString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A14DA0C194C59BB00215FFF /* LTHString.swift */; };
+		2A14DA15194C59BB00215FFF /* LTHUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A14DA0D194C59BB00215FFF /* LTHUIView.swift */; };
+		2ADB95FD195708A9002C0A70 /* LTHDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADB95FC195708A9002C0A70 /* LTHDictionary.swift */; };
+		2ADB95FF19576B6E002C0A70 /* LTHButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADB95FE19576B6E002C0A70 /* LTHButton.swift */; };
 		2AFD52F3193F6B270098C4DF /* LTHAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AFD52F2193F6B270098C4DF /* LTHAppDelegate.swift */; };
 		2AFD52F5193F6B270098C4DF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2AFD52F4193F6B270098C4DF /* Images.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		2A14DA06194C59BB00215FFF /* LTHArray(Extension).swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LTHArray(Extension).swift"; sourceTree = "<group>"; };
-		2A14DA07194C59BB00215FFF /* LTHFloat(Extension).swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LTHFloat(Extension).swift"; sourceTree = "<group>"; };
+		2A14DA06194C59BB00215FFF /* LTHArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LTHArray.swift; sourceTree = "<group>"; };
+		2A14DA07194C59BB00215FFF /* LTHFloat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LTHFloat.swift; sourceTree = "<group>"; };
 		2A14DA08194C59BB00215FFF /* LTHHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LTHHelpers.swift; sourceTree = "<group>"; };
-		2A14DA09194C59BB00215FFF /* LTHImage(Extension).swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LTHImage(Extension).swift"; sourceTree = "<group>"; };
-		2A14DA0A194C59BB00215FFF /* LTHInt(Extension).swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LTHInt(Extension).swift"; sourceTree = "<group>"; };
+		2A14DA09194C59BB00215FFF /* LTHImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LTHImage.swift; sourceTree = "<group>"; };
+		2A14DA0A194C59BB00215FFF /* LTHInt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LTHInt.swift; sourceTree = "<group>"; };
 		2A14DA0B194C59BB00215FFF /* LTHOperatorOverloads.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LTHOperatorOverloads.swift; sourceTree = "<group>"; };
-		2A14DA0C194C59BB00215FFF /* LTHString(Extension).swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LTHString(Extension).swift"; sourceTree = "<group>"; };
-		2A14DA0D194C59BB00215FFF /* LTHUIView(Extension).swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LTHUIView(Extension).swift"; sourceTree = "<group>"; };
+		2A14DA0C194C59BB00215FFF /* LTHString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LTHString.swift; sourceTree = "<group>"; };
+		2A14DA0D194C59BB00215FFF /* LTHUIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LTHUIView.swift; sourceTree = "<group>"; };
+		2ADB95FC195708A9002C0A70 /* LTHDictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LTHDictionary.swift; sourceTree = "<group>"; };
+		2ADB95FE19576B6E002C0A70 /* LTHButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LTHButton.swift; sourceTree = "<group>"; };
 		2AFD52ED193F6B270098C4DF /* LTHExtensions.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LTHExtensions.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2AFD52F1193F6B270098C4DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2AFD52F2193F6B270098C4DF /* LTHAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LTHAppDelegate.swift; sourceTree = "<group>"; };
@@ -48,14 +52,16 @@
 		2A14DA05194C59BB00215FFF /* LTHExtensions */ = {
 			isa = PBXGroup;
 			children = (
-				2A14DA06194C59BB00215FFF /* LTHArray(Extension).swift */,
-				2A14DA07194C59BB00215FFF /* LTHFloat(Extension).swift */,
+				2A14DA06194C59BB00215FFF /* LTHArray.swift */,
+				2ADB95FE19576B6E002C0A70 /* LTHButton.swift */,
+				2ADB95FC195708A9002C0A70 /* LTHDictionary.swift */,
+				2A14DA07194C59BB00215FFF /* LTHFloat.swift */,
 				2A14DA08194C59BB00215FFF /* LTHHelpers.swift */,
-				2A14DA09194C59BB00215FFF /* LTHImage(Extension).swift */,
-				2A14DA0A194C59BB00215FFF /* LTHInt(Extension).swift */,
+				2A14DA09194C59BB00215FFF /* LTHImage.swift */,
+				2A14DA0A194C59BB00215FFF /* LTHInt.swift */,
 				2A14DA0B194C59BB00215FFF /* LTHOperatorOverloads.swift */,
-				2A14DA0C194C59BB00215FFF /* LTHString(Extension).swift */,
-				2A14DA0D194C59BB00215FFF /* LTHUIView(Extension).swift */,
+				2A14DA0C194C59BB00215FFF /* LTHString.swift */,
+				2A14DA0D194C59BB00215FFF /* LTHUIView.swift */,
 			);
 			name = LTHExtensions;
 			path = ../../LTHExtensions;
@@ -163,15 +169,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2A14DA0F194C59BB00215FFF /* LTHFloat(Extension).swift in Sources */,
+				2A14DA0F194C59BB00215FFF /* LTHFloat.swift in Sources */,
 				2A14DA13194C59BB00215FFF /* LTHOperatorOverloads.swift in Sources */,
-				2A14DA15194C59BB00215FFF /* LTHUIView(Extension).swift in Sources */,
-				2A14DA14194C59BB00215FFF /* LTHString(Extension).swift in Sources */,
-				2A14DA12194C59BB00215FFF /* LTHInt(Extension).swift in Sources */,
+				2A14DA15194C59BB00215FFF /* LTHUIView.swift in Sources */,
+				2A14DA14194C59BB00215FFF /* LTHString.swift in Sources */,
+				2ADB95FF19576B6E002C0A70 /* LTHButton.swift in Sources */,
+				2ADB95FD195708A9002C0A70 /* LTHDictionary.swift in Sources */,
+				2A14DA12194C59BB00215FFF /* LTHInt.swift in Sources */,
 				2AFD52F3193F6B270098C4DF /* LTHAppDelegate.swift in Sources */,
 				2A14DA10194C59BB00215FFF /* LTHHelpers.swift in Sources */,
-				2A14DA0E194C59BB00215FFF /* LTHArray(Extension).swift in Sources */,
-				2A14DA11194C59BB00215FFF /* LTHImage(Extension).swift in Sources */,
+				2A14DA0E194C59BB00215FFF /* LTHArray.swift in Sources */,
+				2A14DA11194C59BB00215FFF /* LTHImage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

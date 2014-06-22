@@ -1,5 +1,5 @@
 //
-//  LTHImage(Extension).swift
+//  LTHImage.swift
 //  LTHExtensions
 //
 //  Created by Roland Leth on 4/6/14.

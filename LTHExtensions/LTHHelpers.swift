@@ -9,10 +9,10 @@
 import Foundation
 import UIKit
 
-func psl<T> (toPrint: T) {
+func psl <T>(toPrint: T) {
     print(toPrint)
 }
 
-func p<T> (toPrint: T) {
+func p <T>(toPrint: T) {
     println(toPrint)
 }
