@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "LTHPasscodeViewController"
-  s.version      = "0.0.1"
+  s.version      = "3.1.3.1"
   s.summary      = "A short description of LTHPasscodeViewController."
 
   s.description  = <<-DESC
@@ -28,7 +28,7 @@ Pod::Spec.new do |s|
                    * Finally, don't worry about the indent, CocoaPods strips it!
                    DESC
 
-  s.homepage     = "https://github.com/sbhhbs/LTHPasscodeViewController"
+  s.homepage     = "https://github.com/upwlabs/LTHPasscodeViewController"
   # s.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
 
 
@@ -65,7 +65,7 @@ Pod::Spec.new do |s|
   #
 
   # s.platform     = :ios
-  s.platform     = :ios, "7.0"
+  s.platform     = :ios, "6.0"
 
   #  When using multiple platforms
   # s.ios.deployment_target = "5.0"
