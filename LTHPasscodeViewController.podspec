@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "LTHPasscodeViewController"
-  s.version      = "3.1.3.1"
+  s.version      = "3.1.3.2"
   s.summary      = "A short description of LTHPasscodeViewController."
 
   s.description  = <<-DESC
@@ -78,7 +78,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/sbhhbs/LTHPasscodeViewController", :commit => "be5b818d425fea20dc827ad0b0fd9b6bc7912a75" }
+  s.source       = { :git => "https://github.com/upwlabs/LTHPasscodeViewController", :HEAD }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
