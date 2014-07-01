@@ -1016,12 +1016,11 @@
     }
     // App launch/Turning passcode off: Passcode OK -> dismiss, Passcode incorrect -> deny access.
     else {
-    	[self _dismissMe];
         if ([typedString isEqualToString: savedPasscode]) {
+            [self _dismissMe];
             if ([self.delegate respondsToSelector: @selector(passcodeWasEnteredSuccessfully)]) {
                 [self.delegate performSelector: @selector(passcodeWasEnteredSuccessfully)];
             }
-
         }
         else {
             [self performSelector: @selector(_denyAccess)
