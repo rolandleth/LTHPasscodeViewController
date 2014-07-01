@@ -78,7 +78,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/upwlabs/LTHPasscodeViewController", :HEAD }
+  s.source       = { :git => "https://github.com/upwlabs/LTHPasscodeViewController", :commit => "caa94e2" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
