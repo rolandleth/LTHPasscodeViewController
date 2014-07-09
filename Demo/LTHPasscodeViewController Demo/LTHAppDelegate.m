@@ -32,12 +32,12 @@
 	[self.window makeKeyAndVisible];
     
 //    [LTHPasscodeViewController sharedUser].delegate = self;
-	[LTHPasscodeViewController useKeychain:NO];
-	if ([LTHPasscodeViewController doesPasscodeExist]) {
-		if ([LTHPasscodeViewController didPasscodeTimerEnd])
-			[[LTHPasscodeViewController sharedUser] showLockScreenWithAnimation:YES
-                                                                     withLogout:NO
-                                                                 andLogoutTitle:nil];
+//    [LTHPasscodeViewController useKeychain:YES];
+	if ([LTHPasscodeViewController doesPasscodeExist] &&
+        [LTHPasscodeViewController didPasscodeTimerEnd]) {
+        [[LTHPasscodeViewController sharedUser] showLockScreenWithAnimation:YES
+                                                                 withLogout:NO
+                                                             andLogoutTitle:nil];
 	}
 	
     return YES;
