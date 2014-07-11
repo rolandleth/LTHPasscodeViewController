@@ -8,6 +8,7 @@
 
 #import "LTHPasscodeViewController.h"
 #import "SFHFKeychainUtils.h"
+#import "BWAnalytics.h"
 
 #define DegreesToRadians(x) ((x) * M_PI / 180.0)
 
@@ -113,6 +114,8 @@ static const CGFloat kFailedAttemptLabelWidth = 320.0f;
 	[SFHFKeychainUtils deleteItemForUsername:_keychainPasscodeUsername
 							  andServiceName:_keychainServiceName
 									   error:nil];
+	
+	[[BWAnalytics sharedInstance] trackEventWithCategory:kEventCategoryConfiguration action:kEventActionDisabledPasscode];
 }
 
 
@@ -129,6 +132,8 @@ static const CGFloat kFailedAttemptLabelWidth = 320.0f;
                       forServiceName:_keychainServiceName
                       updateExisting:YES
                                error:nil];
+	
+	[[BWAnalytics sharedInstance] trackEventWithCategory:kEventCategoryConfiguration action:kEventActionChangedOrEnabledPasscode];
 }
 
 
@@ -166,11 +171,10 @@ static const CGFloat kFailedAttemptLabelWidth = 320.0f;
     [self.view setNeedsUpdateConstraints];
 }
 
-
 - (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+	[super viewDidAppear:animated];
+	[[BWAnalytics sharedInstance] trackViewNamed:kViewNamePasscodeView];
 }
-
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
