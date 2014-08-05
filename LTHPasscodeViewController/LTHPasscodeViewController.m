@@ -378,7 +378,6 @@ static const CGFloat kFailedAttemptLabelWidth = 320.0f;
 
 - (void)updateViewConstraints {
     [super updateViewConstraints];
-    [self.view removeConstraints:self.view.constraints];
     
     _firstDigitTextField.hidden = !self.isSimple;
     _secondDigitTextField.hidden = !self.isSimple;
