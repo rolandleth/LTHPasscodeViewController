@@ -568,8 +568,8 @@ static const CGFloat kFailedAttemptLabelWidth = 320.0f;
 		// Usually not more than one window is needed, but your needs may vary; modify below.
 		// Also, in case the control doesn't work properly,
 		// try it with .keyWindow before anything else, it might work.
-//		UIWindow *mainWindow = [UIApplication sharedApplication].keyWindow;
-		UIWindow *mainWindow = [UIApplication sharedApplication].windows[0];
+		UIWindow *mainWindow = [UIApplication sharedApplication].keyWindow;
+//		UIWindow *mainWindow = [UIApplication sharedApplication].windows[0];
 		[mainWindow addSubview: self.view];
 		[mainWindow.rootViewController addChildViewController: self];
 		// All this hassle because a view added to UIWindow does not rotate automatically
