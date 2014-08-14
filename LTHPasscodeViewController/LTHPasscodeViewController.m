@@ -264,7 +264,6 @@
 	_passcodeTextField.delegate = self;
     _passcodeTextField.secureTextEntry = YES;
     _passcodeTextField.translatesAutoresizingMaskIntoConstraints = NO;
-	[_passcodeTextField becomeFirstResponder];
     
     [self.view setNeedsUpdateConstraints];
 }
@@ -273,6 +272,8 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 //    NSLog(@"layout %@", [self.view performSelector:@selector(recursiveDescription)]);
+    [_passcodeTextField becomeFirstResponder];
+
 }
 
 
