@@ -760,8 +760,10 @@
 			newCenter = CGPointMake(mainWindow.center.x,
 									mainWindow.center.y + self.navigationController.navigationBar.frame.size.height / 2);
 		}
-        if (![UIApplication sharedApplication].statusBarHidden) {
-            newCenter.y += [[UIApplication sharedApplication] statusBarFrame].size.height;
+        
+        if (![[UIApplication sharedApplication] isStatusBarHidden]) {
+            newCenter.y += MIN([[UIApplication sharedApplication] statusBarFrame].size.height,
+                               [[UIApplication sharedApplication] statusBarFrame].size.width);
         }
         
 		if (animated) {
