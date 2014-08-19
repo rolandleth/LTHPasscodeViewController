@@ -130,6 +130,9 @@
 /**
  @brief The background color for the failed attempt label.
  */
+
+@property (nonatomic, assign, readonly) BOOL  isCurrentlyOnScreen;
+
 @property (nonatomic, strong) UIColor   *failedAttemptLabelBackgroundColor;
 /**
  @brief The text color for the top label.

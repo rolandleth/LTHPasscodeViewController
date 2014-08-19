@@ -1022,14 +1022,10 @@
     // App launch/Turning passcode off: Passcode OK -> dismiss, Passcode incorrect -> deny access.
     else {
         if ([typedString isEqualToString: savedPasscode]) {
+            [self _dismissMe];
             if ([self.delegate respondsToSelector: @selector(passcodeWasEnteredSuccessfully)]) {
                 [self.delegate performSelector: @selector(passcodeWasEnteredSuccessfully)];
             }
-//Or, if you prefer by notifications:
-//            [[NSNotificationCenter defaultCenter] postNotificationName: @"passcodeWasEnteredSuccessfully"
-//                                                                object: self
-//                                                              userInfo: nil];
-            [self _dismissMe];
         }
         else {
             [self performSelector: @selector(_denyAccess)
