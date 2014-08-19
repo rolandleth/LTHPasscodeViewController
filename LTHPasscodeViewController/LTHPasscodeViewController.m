@@ -761,6 +761,11 @@
 									mainWindow.center.y + self.navigationController.navigationBar.frame.size.height / 2);
 		}
         
+        if (![[UIApplication sharedApplication] isStatusBarHidden]) {
+            newCenter.y += MIN([[UIApplication sharedApplication] statusBarFrame].size.height,
+                               [[UIApplication sharedApplication] statusBarFrame].size.width);
+        }
+        
 		if (animated) {
 			[UIView animateWithDuration: _lockAnimationDuration animations: ^{
 				self.view.center = newCenter;

@@ -4,6 +4,18 @@ Simple to use iOS 7 style Passcode - the one you get in Settings when changing y
 # How to use
 Drag the contents of `LTHPasscodeViewController` to your project, or add `pod 'LTHPasscodeViewController'` to your podspec file.
 
+Example, called in `application:didFinishLaunchingWithOptions`:
+
+```objc
+[LTHPasscodeViewController useKeychain:NO];
+if ([LTHPasscodeViewController doesPasscodeExist]) {
+	if ([LTHPasscodeViewController didPasscodeTimerEnd])
+		[[LTHPasscodeViewController sharedUser] showLockScreenWithAnimation:YES
+                                                                 withLogout:NO
+                                                             andLogoutTitle:nil];
+}
+```
+
 * Supports simple (4 digit) and complex passcodes.
 * Data us saved in the Keychain, by default. Supports custom saving, by calling `[LTHPasscodeViewController useKeychain:NO]` after initializing and implementing a few protocol methods (the same names the library uses for the same job):
 
