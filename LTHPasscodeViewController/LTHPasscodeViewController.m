@@ -273,7 +273,6 @@
     [super viewDidAppear:animated];
 //    NSLog(@"layout %@", [self.view performSelector:@selector(recursiveDescription)]);
     [_passcodeTextField becomeFirstResponder];
-
 }
 
 
@@ -434,7 +433,8 @@
     [_animatingView addSubview:_fourthDigitTextField];
 }
 
--(UITextField *)_makeDigitField{
+
+- (UITextField *)_makeDigitField{
     UITextField *field = [[UITextField alloc] initWithFrame:CGRectZero];
     field.backgroundColor = _passcodeBackgroundColor;
     field.textAlignment = NSTextAlignmentCenter;
@@ -734,7 +734,6 @@
 //		UIWindow *mainWindow = [UIApplication sharedApplication].keyWindow;
 		UIWindow *mainWindow = [UIApplication sharedApplication].windows[0];
 		[mainWindow addSubview: self.view];
-		[mainWindow.rootViewController addChildViewController: self];
 		// All this hassle because a view added to UIWindow does not rotate automatically
 		// and if we would have added the view anywhere else, it wouldn't display properly
 		// (having a modal on screen when the user leaves the app, for example).
@@ -760,11 +759,15 @@
 			newCenter = CGPointMake(mainWindow.center.x,
 									mainWindow.center.y + self.navigationController.navigationBar.frame.size.height / 2);
 		}
-        
-        if (![[UIApplication sharedApplication] isStatusBarHidden]) {
-            newCenter.y += MIN([[UIApplication sharedApplication] statusBarFrame].size.height,
-                               [[UIApplication sharedApplication] statusBarFrame].size.width);
-        }
+		
+		if ([[[UIDevice currentDevice] systemVersion] compare:@"8"
+													  options:NSNumericSearch] == NSOrderedAscending) {
+			[mainWindow.rootViewController addChildViewController: self];
+			if (![[UIApplication sharedApplication] isStatusBarHidden]) {
+				newCenter.y += MIN([[UIApplication sharedApplication] statusBarFrame].size.height,
+								   [[UIApplication sharedApplication] statusBarFrame].size.width);
+			}
+		}
         
 		if (animated) {
 			[UIView animateWithDuration: _lockAnimationDuration animations: ^{
@@ -778,7 +781,9 @@
 		// Add nav bar & logout button if specified
 		if (hasLogout) {
 			// Navigation Bar with custom UI
-			self.navBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, mainWindow.frame.origin.y, 320, 64)];
+			self.navBar =
+			[[UINavigationBar alloc] initWithFrame:CGRectMake(0, mainWindow.frame.origin.y,
+															  mainWindow.frame.size.width, 64)];
             self.navBar.tintColor = self.navigationTintColor;
 			if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
 				self.navBar.barTintColor = self.navigationBarTintColor;
