@@ -269,9 +269,15 @@
 }
 
 
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	[_passcodeTextField becomeFirstResponder];
+}
+
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [_passcodeTextField becomeFirstResponder];
+	if (!_passcodeTextField.isFirstResponder) [_passcodeTextField becomeFirstResponder];
 }
 
 
@@ -733,6 +739,7 @@
 //		UIWindow *mainWindow = [UIApplication sharedApplication].keyWindow;
 		UIWindow *mainWindow = [UIApplication sharedApplication].windows[0];
 		[mainWindow addSubview: self.view];
+//		[mainWindow.rootViewController addChildViewController: self];
 		// All this hassle because a view added to UIWindow does not rotate automatically
 		// and if we would have added the view anywhere else, it wouldn't display properly
 		// (having a modal on screen when the user leaves the app, for example).
@@ -757,16 +764,6 @@
 			self.view.center = CGPointMake(self.view.center.x, self.view.center.y * 2.f);
 			newCenter = CGPointMake(mainWindow.center.x,
 									mainWindow.center.y + self.navigationController.navigationBar.frame.size.height / 2);
-		}
-		// The iPad and iOS 8 don't need this hack
-		if ([[[UIDevice currentDevice] systemVersion] compare:@"8"
-													  options:NSNumericSearch] == NSOrderedAscending) {
-			[mainWindow.rootViewController addChildViewController: self];
-			if (![[UIApplication sharedApplication] isStatusBarHidden] &&
-				[UIDevice currentDevice].userInterfaceIdiom != UIUserInterfaceIdiomPad) {
-				newCenter.y += MIN([[UIApplication sharedApplication] statusBarFrame].size.height,
-								   [[UIApplication sharedApplication] statusBarFrame].size.width);
-			}
 		}
         
 		if (animated) {
