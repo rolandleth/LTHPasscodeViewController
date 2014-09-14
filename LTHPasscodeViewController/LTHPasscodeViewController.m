@@ -19,7 +19,7 @@
 #else
 // Thanks to Kent Nguyen - https://github.com/kentnguyen
 #define kPasscodeCharWidth [_passcodeCharacter sizeWithFont:_passcodeFont].width
-#define kFailedAttemptLabelWidth (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? [_failedAttemptLabel.text sizeWithFont:_labelFont].width + 60.0f : [_failedAttemptLabel.text sizeWithFont:_labelFont].width + 30.0f)
+#define kFailedAttemptLabelWidth (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? [_failedAttemptLabel.text sizeWithFont:_labelFont].width + 60.0f : [_failedAttemptLabel.text sizeWithFont:_labelFont].width + 20.0f)
 #define kFailedAttemptLabelHeight [_failedAttemptLabel.text sizeWithFont:_labelFont].height
 #define kEnterPasscodeLabelWidth [_enterPasscodeLabel.text sizeWithFont:_labelFont].width
 #endif
@@ -271,7 +271,6 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-//    NSLog(@"layout %@", [self.view performSelector:@selector(recursiveDescription)]);
     [_passcodeTextField becomeFirstResponder];
 }
 
@@ -502,18 +501,18 @@
 	
 	CGFloat yOffsetFromCenter = -self.view.frame.size.height * 0.24;
 	NSLayoutConstraint *enterPasscodeConstraintCenterX =
-    [NSLayoutConstraint constraintWithItem: _enterPasscodeLabel
-                                 attribute: NSLayoutAttributeCenterX
-                                 relatedBy: NSLayoutRelationEqual
-                                    toItem: self.view
-                                 attribute: NSLayoutAttributeCenterX
-                                multiplier: 1.0f
-                                  constant: 0.0f];
+	[NSLayoutConstraint constraintWithItem: _enterPasscodeLabel
+								 attribute: NSLayoutAttributeCenterX
+								 relatedBy: NSLayoutRelationEqual
+									toItem: _animatingView
+								 attribute: NSLayoutAttributeCenterX
+								multiplier: 1.0f
+								  constant: 0.0f];
 	NSLayoutConstraint *enterPasscodeConstraintCenterY =
     [NSLayoutConstraint constraintWithItem: _enterPasscodeLabel
                                  attribute: NSLayoutAttributeCenterY
                                  relatedBy: NSLayoutRelationEqual
-                                    toItem: self.view
+                                    toItem: _animatingView
                                  attribute: NSLayoutAttributeCenterY
                                 multiplier: 1.0f
                                   constant: yOffsetFromCenter];
@@ -525,7 +524,7 @@
         [NSLayoutConstraint constraintWithItem: _firstDigitTextField
                                      attribute: NSLayoutAttributeLeft
                                      relatedBy: NSLayoutRelationEqual
-                                        toItem: self.view
+                                        toItem: _animatingView
                                      attribute: NSLayoutAttributeCenterX
                                     multiplier: 1.0f
                                       constant: - _horizontalGap * 1.5f - 2.0f];
@@ -533,7 +532,7 @@
         [NSLayoutConstraint constraintWithItem: _secondDigitTextField
                                      attribute: NSLayoutAttributeLeft
                                      relatedBy: NSLayoutRelationEqual
-                                        toItem: self.view
+                                        toItem: _animatingView
                                      attribute: NSLayoutAttributeCenterX
                                     multiplier: 1.0f
                                       constant: - _horizontalGap * 2/3 - 2.0f];
@@ -541,7 +540,7 @@
         [NSLayoutConstraint constraintWithItem: _thirdDigitTextField
                                      attribute: NSLayoutAttributeLeft
                                      relatedBy: NSLayoutRelationEqual
-                                        toItem: self.view
+                                        toItem: _animatingView
                                      attribute: NSLayoutAttributeCenterX
                                     multiplier: 1.0f
                                       constant: _horizontalGap * 1/6 - 2.0f];
@@ -549,7 +548,7 @@
         [NSLayoutConstraint constraintWithItem: _fourthDigitTextField
                                      attribute: NSLayoutAttributeLeft
                                      relatedBy: NSLayoutRelationEqual
-                                        toItem: self.view
+                                        toItem: _animatingView
                                      attribute: NSLayoutAttributeCenterX
                                     multiplier: 1.0f
                                       constant: _horizontalGap - 2.0f];
@@ -678,7 +677,7 @@
     [NSLayoutConstraint constraintWithItem: _failedAttemptLabel
                                  attribute: NSLayoutAttributeCenterX
                                  relatedBy: NSLayoutRelationEqual
-                                    toItem: self.view
+                                    toItem: _animatingView
                                  attribute: NSLayoutAttributeCenterX
                                 multiplier: 1.0f
                                   constant: 0.0f];
@@ -759,11 +758,12 @@
 			newCenter = CGPointMake(mainWindow.center.x,
 									mainWindow.center.y + self.navigationController.navigationBar.frame.size.height / 2);
 		}
-		
+		// The iPad and iOS 8 don't need this hack
 		if ([[[UIDevice currentDevice] systemVersion] compare:@"8"
 													  options:NSNumericSearch] == NSOrderedAscending) {
 			[mainWindow.rootViewController addChildViewController: self];
-			if (![[UIApplication sharedApplication] isStatusBarHidden]) {
+			if (![[UIApplication sharedApplication] isStatusBarHidden] &&
+				[UIDevice currentDevice].userInterfaceIdiom != UIUserInterfaceIdiomPad) {
 				newCenter.y += MIN([[UIApplication sharedApplication] statusBarFrame].size.height,
 								   [[UIApplication sharedApplication] statusBarFrame].size.width);
 			}
@@ -1240,7 +1240,8 @@
 #pragma mark - Notification Observers
 - (void)_applicationDidEnterBackground {
 	if ([self _doesPasscodeExist]) {
-		if ([_passcodeTextField isFirstResponder]) [_passcodeTextField resignFirstResponder];
+		if ([_passcodeTextField isFirstResponder])
+			[_passcodeTextField resignFirstResponder];
 		// Without animation because otherwise it won't come down fast enough,
 		// so inside iOS' multitasking view the app won't be covered by anything.
 		if ([self _timerDuration] <= 0) {
