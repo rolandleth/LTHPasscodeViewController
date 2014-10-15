@@ -20,6 +20,10 @@ if ([LTHPasscodeViewController doesPasscodeExist]) {
 * Data us saved in the Keychain, by default. Supports custom saving, by calling `[LTHPasscodeViewController useKeychain:NO]` after initializing and implementing a few protocol methods (the same names the library uses for the same job):
 
 ```objc
+- (void)passcodeViewControllerWillClose;
+- (void)maxNumberOfFailedAttemptsReached;
+- (void)passcodeWasEnteredSuccessfully;
+- (void)logoutButtonWasPressed;
 - (NSTimeInterval)timerDuration;
 - (void)saveTimerDuration:(NSTimeInterval)duration;
 - (NSTimeInterval)timerStartTime;
