@@ -216,6 +216,10 @@
  */
 @property (nonatomic, strong) NSString *reenterNewPasscodeString;
 /**
+ @brief The string displayed while user unlocks with Touch ID.
+ */
+@property (nonatomic, strong) NSString *touchIDString;
+/**
  @brief The duration of the lock animation.
  */
 @property (nonatomic, assign) CGFloat   lockAnimationDuration;
@@ -239,6 +243,10 @@
  @brief A Boolean value that indicates whether the back bar button is hidden (@c YES) or not (@c NO). Default is @c YES.
  */
 @property (nonatomic, assign) BOOL hidesBackButton;
+/**
+ @brief A Boolean value that indicates whether Touch ID can be used (@c YES) or not (@c NO). Default is @c YES.
+ */
+@property (nonatomic, assign) BOOL allowUnlockWithTouchID;
 
 /**
  @brief				Used for displaying the lock. The passcode view is added directly on the keyWindow.

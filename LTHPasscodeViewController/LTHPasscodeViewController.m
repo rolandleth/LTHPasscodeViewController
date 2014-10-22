@@ -8,6 +8,7 @@
 
 #import "LTHPasscodeViewController.h"
 #import "LTHKeychainUtils.h"
+#import <LocalAuthentication/LocalAuthentication.h>
 
 #define DegreesToRadians(x) ((x) * M_PI / 180.0)
 #define LTHiOS8 ([[[UIDevice currentDevice] systemVersion] compare:@"8.0" \
@@ -60,6 +61,8 @@ options:NSNumericSearch] != NSOrderedAscending)
 @property (nonatomic, assign) BOOL        isUserEnablingPasscode;
 @property (nonatomic, assign) BOOL        isUserSwitchingBetweenPasscodeModes;// simple/complex
 @property (nonatomic, assign) BOOL        timerStartInSeconds;
+
+@property (nonatomic, strong) LAContext   *context;
 @end
 
 @implementation LTHPasscodeViewController
@@ -245,6 +248,39 @@ options:NSNumericSearch] != NSOrderedAscending)
 	return [LTHKeychainUtils getPasswordForUsername:_keychainPasscodeUsername
 									  andServiceName:_keychainServiceName
 											   error:nil];
+}
+
+- (void)_setupFingerPrint {
+    if (!self.context) {
+        self.context = [[LAContext alloc] init];
+        
+        NSError *error = nil;
+        if ([self.context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error]) {
+            if (error) {
+                return;
+            }
+            // Authenticate User
+            [self.context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
+                         localizedReason:NSLocalizedStringFromTable(self.touchIDString, _localizationTableName, @"")
+                                   reply:^(BOOL success, NSError *error) {
+                                       
+                                       if (error) {
+                                           [self performSelectorOnMainThread:@selector(_resetUI) withObject:nil waitUntilDone:NO];
+                                           self.context = nil;
+                                           return;
+                                       }
+                                       
+                                       if (success) {
+                                           [self performSelectorOnMainThread:@selector(_dismissMe) withObject:nil waitUntilDone:NO];
+                                       } else {
+                                           [self performSelectorOnMainThread:@selector(_resetUI) withObject:nil waitUntilDone:NO];
+                                       }
+                                       
+                                       self.context = nil;
+                                       
+                                   }];
+        }
+    }
 }
 
 
@@ -737,6 +773,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 - (void)showLockScreenWithAnimation:(BOOL)animated withLogout:(BOOL)hasLogout andLogoutTitle:(NSString*)logoutTitle {
 	[self _prepareAsLockScreen];
+    
 	// In case the user leaves the app while the lockscreen is already active.
 	if (!_isCurrentlyOnScreen) {
 		// Usually, the app's window is the first on the stack. I'm doing this because if an alertView or actionSheet
@@ -913,6 +950,7 @@ options:NSNumericSearch] != NSOrderedAscending)
     _isUserSwitchingBetweenPasscodeModes = NO;
     
 	[self _resetUI];
+    [self _setupFingerPrint];
 }
 
 
@@ -1380,6 +1418,7 @@ options:NSNumericSearch] != NSOrderedAscending)
     _usesKeychain = YES;
     _displayedAsModal = YES;
     _hidesBackButton = YES;
+    _allowUnlockWithTouchID = YES;
     _passcodeCharacter = @"\u2014"; // A longer "-";
     _localizationTableName = @"LTHPasscodeViewController";
 }
@@ -1394,6 +1433,7 @@ options:NSNumericSearch] != NSOrderedAscending)
     self.reenterPasscodeString = @"Re-enter your passcode";
     self.reenterNewPasscodeString = @"Re-enter your new passcode";
     self.enterNewPasscodeString = @"Enter your new passcode";
+    self.touchIDString = @"Unlock using Touch ID";
 }
 
 
