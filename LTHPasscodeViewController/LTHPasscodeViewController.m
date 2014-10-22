@@ -251,7 +251,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 }
 
 - (void)_setupFingerPrint {
-    if (!self.context) {
+    if (!self.context && _allowUnlockWithTouchID) {
         self.context = [[LAContext alloc] init];
         
         NSError *error = nil;
