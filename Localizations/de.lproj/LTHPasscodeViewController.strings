@@ -24,3 +24,5 @@
 "1 Passcode Failed Attempt" = "1 fehlgeschlagener Eingabeversuch";
 
 "%i Passcode Failed Attempts" = "%i fehlgeschlagene Eingabeversuche";
+
+"Unlock using Touch ID" = "Entsperrren mit Touch ID";
