@@ -105,8 +105,13 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 
 + (void)deletePasscodeAndClose {
-	[[LTHPasscodeViewController sharedUser] _deletePasscode];
-    [[LTHPasscodeViewController sharedUser] _dismissMe];
+	[LTHPasscodeViewController deletePasscode];
+    [LTHPasscodeViewController close];
+}
+
+
++ (void)close {
+    [[LTHPasscodeViewController sharedUser] _close];
 }
 
 
@@ -121,6 +126,12 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 
 #pragma mark - Private methods
+- (void)_close {
+    if (_displayedAsLockScreen) [self _dismissMe];
+    else [self _cancelAndDismissMe];
+}
+
+
 - (void)_useKeychain:(BOOL)useKeychain {
     _usesKeychain = useKeychain;
 }
