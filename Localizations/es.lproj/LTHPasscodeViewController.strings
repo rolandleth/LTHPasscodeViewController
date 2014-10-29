@@ -1,11 +1,11 @@
 /*
  LTHPasscodeViewController.strings
  */
-"Enter Passcode" = "Insertar contraseña";
+"Enter Passcode" = "Introduzca contraseña";
 
-"Enter your old passcode" = "Insertar contraseña antigua";
+"Enter your old passcode" = "Introduzca su contraseña antigua";
 
-"Enter your passcode" = "Inserte su contraseña";
+"Enter your passcode" = "Introduzca su contraseña";
 
 "Enable Passcode" = "Activar contraseña";
 
@@ -13,14 +13,16 @@
 
 "Turn Off Passcode" = "Desactivar contraseña";
 
-"Re-enter your passcode" = "Repetir contraseña";
+"Re-enter your passcode" = "Vuelva a introducir su contraseña";
 
-"Re-enter your new passcode" = "Repetir contraseña nueva";
+"Re-enter your new passcode" = "Vuelva a introducir su nueva contraseña";
 
-"Enter your new passcode" = "Inserte su contraseña nueva";
+"Enter your new passcode" = "Introduzca su nueva contraseña";
 
-"Passcodes did not match. Try again." = "Contraseña no son iguales. Por favor tratalo otra vez.";
+"Passcodes did not match. Try again." = "Las contraseñas no coinciden. Inténtelo de nuevo.";
 
-"1 Passcode Failed Attempt" = "1 inteto de entrada falló";
+"1 Passcode Failed Attempt" = "1 intento fallido";
 
-"%i Passcode Failed Attempts" = "%i intentos de entrada fallaron";
+"%i Passcode Failed Attempts" = "%i intentos fallidos";
+
+"Unlock using Touch ID" = "Desbloquea usando Touch ID";
