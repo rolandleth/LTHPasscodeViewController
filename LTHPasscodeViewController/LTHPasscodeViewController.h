@@ -173,6 +173,10 @@
  */
 @property (nonatomic, strong) NSString  *keychainServiceName;
 /**
+ @brief The string to be used as access group name for all the Keychain entries.
+ */
+@property (nonatomic, strong) NSString  *keychainAccessGroup;
+/**
  @brief The character for the passcode digit.
  */
 @property (nonatomic, strong) NSString  *passcodeCharacter;

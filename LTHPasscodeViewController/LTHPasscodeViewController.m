@@ -150,8 +150,9 @@ options:NSNumericSearch] != NSOrderedAscending)
     
 	NSString *keychainValue =
     [LTHKeychainUtils getPasswordForUsername:_keychainTimerDurationUsername
-                               andServiceName:_keychainServiceName
-                                        error:nil];
+                              andServiceName:_keychainServiceName
+                              andAccessGroup:_keychainAccessGroup
+                                       error:nil];
 	if (!keychainValue) return -1;
 	return keychainValue.doubleValue;
 }
@@ -166,10 +167,11 @@ options:NSNumericSearch] != NSOrderedAscending)
     }
     
     [LTHKeychainUtils storeUsername:_keychainTimerDurationUsername
-						 andPassword:[NSString stringWithFormat: @"%.6f", duration]
-					  forServiceName:_keychainServiceName
-					  updateExisting:YES
-							   error:nil];
+                        andPassword:[NSString stringWithFormat: @"%.6f", duration]
+                     forServiceName:_keychainServiceName
+                     andAccessGroup:_keychainAccessGroup
+                     updateExisting:YES
+                              error:nil];
 }
 
 
@@ -181,7 +183,8 @@ options:NSNumericSearch] != NSOrderedAscending)
     
     NSString *keychainValue =
     [LTHKeychainUtils getPasswordForUsername:_keychainTimerStartUsername
-                               andServiceName:_keychainServiceName
+                              andServiceName:_keychainServiceName
+                              andAccessGroup:_keychainAccessGroup
                                         error:nil];
 	if (!keychainValue) return -1;
 	return keychainValue.doubleValue;
@@ -197,9 +200,10 @@ options:NSNumericSearch] != NSOrderedAscending)
     }
     
 	[LTHKeychainUtils storeUsername:_keychainTimerStartUsername
-						 andPassword:[NSString stringWithFormat: @"%.6f",
-                                      [NSDate timeIntervalSinceReferenceDate]]
+                        andPassword:[NSString stringWithFormat: @"%.6f",
+                                     [NSDate timeIntervalSinceReferenceDate]]
 					  forServiceName:_keychainServiceName
+                      andAccessGroup:_keychainAccessGroup
 					  updateExisting:YES
 							   error:nil];
 }
@@ -229,8 +233,9 @@ options:NSNumericSearch] != NSOrderedAscending)
     }
     
 	[LTHKeychainUtils deleteItemForUsername:_keychainPasscodeUsername
-							  andServiceName:_keychainServiceName
-									   error:nil];
+                             andServiceName:_keychainServiceName
+                             andAccessGroup:_keychainAccessGroup
+                                      error:nil];
 }
 
 
@@ -243,10 +248,11 @@ options:NSNumericSearch] != NSOrderedAscending)
     }
     
     [LTHKeychainUtils storeUsername:_keychainPasscodeUsername
-                         andPassword:passcode
-                      forServiceName:_keychainServiceName
-                      updateExisting:YES
-                               error:nil];
+                        andPassword:passcode
+                     forServiceName:_keychainServiceName
+                     andAccessGroup:_keychainAccessGroup
+                     updateExisting:YES
+                              error:nil];
 }
 
 
@@ -257,8 +263,9 @@ options:NSNumericSearch] != NSOrderedAscending)
 	}
 	
 	return [LTHKeychainUtils getPasswordForUsername:_keychainPasscodeUsername
-									  andServiceName:_keychainServiceName
-											   error:nil];
+                                     andServiceName:_keychainServiceName
+                                     andAccessGroup:_keychainAccessGroup
+                                              error:nil];
 }
 
 - (void)_setupFingerPrint {
@@ -1291,8 +1298,9 @@ options:NSNumericSearch] != NSOrderedAscending)
 	// If there's no passcode saved in Keychain,
     // the user is adding one for the first time, otherwise he's changing his passcode.
 	NSString *savedPasscode = [LTHKeychainUtils getPasswordForUsername: _keychainPasscodeUsername
-														 andServiceName: _keychainServiceName
-																  error: nil];
+														andServiceName: _keychainServiceName
+														andAccessGroup: _keychainAccessGroup
+																 error: nil];
 	_enterPasscodeLabel.text = savedPasscode.length == 0 ? NSLocalizedStringFromTable(self.enterPasscodeString, _localizationTableName, @"") : NSLocalizedStringFromTable(self.enterNewPasscodeString, _localizationTableName, @"");
 	
 	_failedAttemptLabel.hidden = NO;
@@ -1528,6 +1536,7 @@ options:NSNumericSearch] != NSOrderedAscending)
     _keychainTimerStartUsername = @"demoPasscodeTimerStart";
     _keychainServiceName = @"demoServiceName";
     _keychainTimerDurationUsername = @"passcodeTimerDuration";
+    _keychainAccessGroup = nil;
 }
 
 
