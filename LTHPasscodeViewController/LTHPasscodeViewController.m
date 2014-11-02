@@ -374,6 +374,7 @@ options:NSNumericSearch] != NSOrderedAscending)
             if (LTHiOS8) {
                 self.view.center = CGPointMake(self.view.center.x, self.view.center.y * 2.f);
             }
+#ifndef LTH_APP_EXTENSION
             else {
                 if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) {
                     self.view.center = CGPointMake(self.view.center.x * -1.f, self.view.center.y);
@@ -388,6 +389,7 @@ options:NSNumericSearch] != NSOrderedAscending)
                     self.view.center = CGPointMake(self.view.center.x, self.view.center.y * 2.f);
                 }
             }
+#endif
 		}
 		else {
 			// Delete from Keychain
@@ -453,6 +455,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 #pragma mark - UI setup
 - (void)_setupViews {
+#ifndef LTH_APP_EXTENSION
     _coverView = [[UIView alloc] initWithFrame: CGRectZero];
     _coverView.backgroundColor = _coverViewBackgroundColor;
     _coverView.frame = self.view.frame;
@@ -460,6 +463,7 @@ options:NSNumericSearch] != NSOrderedAscending)
     _coverView.tag = _coverViewTag;
     _coverView.hidden = YES;
     [[UIApplication sharedApplication].keyWindow addSubview: _coverView];
+#endif
     
     _complexPasscodeOverlayView = [[UIView alloc] initWithFrame:CGRectZero];
     _complexPasscodeOverlayView.backgroundColor = [UIColor whiteColor];
@@ -794,11 +798,13 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 
 #pragma mark - Displaying
+#ifndef LTH_APP_EXTENSION
 - (void)showLockscreenWithoutAnimation {
 	[self showLockScreenWithAnimation:NO withLogout:NO andLogoutTitle:nil];
 }
+#endif
 
-
+#ifndef LTH_APP_EXTENSION
 - (void)showLockScreenWithAnimation:(BOOL)animated withLogout:(BOOL)hasLogout andLogoutTitle:(NSString*)logoutTitle {
 	[self _prepareAsLockScreen];
     
@@ -894,6 +900,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 		_isCurrentlyOnScreen = YES;
 	}
 }
+#endif
 
 
 - (void)_prepareNavigationControllerWithController:(UIViewController *)viewController {
@@ -1327,6 +1334,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 }
 
 #pragma mark - Notification Observers
+#ifndef LTH_APP_EXTENSION
 - (void)_applicationDidEnterBackground {
 	if ([self _doesPasscodeExist]) {
 		if ([_passcodeTextField isFirstResponder])
@@ -1350,13 +1358,17 @@ options:NSNumericSearch] != NSOrderedAscending)
 		}
 	}
 }
+#endif
 
 
+#ifndef LTH_APP_EXTENSION
 - (void)_applicationDidBecomeActive {
 	_coverView.hidden = YES;
 }
+#endif
 
 
+#ifndef LTH_APP_EXTENSION
 - (void)_applicationWillEnterForeground {
 	if ([self _doesPasscodeExist] &&
 		[self _didPasscodeTimerEnd]) {
@@ -1378,14 +1390,16 @@ options:NSNumericSearch] != NSOrderedAscending)
         }
 	}
 }
+#endif
 
 
+#ifndef LTH_APP_EXTENSION
 - (void)_applicationWillResignActive {
 	if ([self _doesPasscodeExist]) {
 		[self _saveTimerStartTime];
 	}
 }
-
+#endif
 
 #pragma mark - Init
 + (instancetype)sharedUser {
@@ -1518,6 +1532,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 
 - (void)_addObservers {
+#ifndef LTH_APP_EXTENSION
     [[NSNotificationCenter defaultCenter]
      addObserver: self
      selector: @selector(_applicationDidEnterBackground)
@@ -1551,6 +1566,7 @@ options:NSNumericSearch] != NSOrderedAscending)
          name:UIApplicationDidChangeStatusBarFrameNotification
          object:nil];
     }
+#endif
 }
 
 
@@ -1578,6 +1594,7 @@ options:NSNumericSearch] != NSOrderedAscending)
     if (LTHiOS8) {
         _animatingView.frame = self.view.frame;
     }
+#ifndef LTH_APP_EXTENSION
     else {
         if (UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
             _animatingView.frame = CGRectMake(0, 0, [UIApplication sharedApplication].keyWindow.frame.size.width, [UIApplication sharedApplication].keyWindow.frame.size.height);
@@ -1586,6 +1603,7 @@ options:NSNumericSearch] != NSOrderedAscending)
             _animatingView.frame = CGRectMake(0, 0, [UIApplication sharedApplication].keyWindow.frame.size.height, [UIApplication sharedApplication].keyWindow.frame.size.width);
         }
     }
+#endif
 }
 
 
@@ -1594,8 +1612,14 @@ options:NSNumericSearch] != NSOrderedAscending)
 // then presenting it inside a modal in another orientation would display
 // the view in the first orientation.
 - (UIInterfaceOrientation)desiredOrientation {
+#ifndef LTH_APP_EXTENSION
     UIInterfaceOrientation statusBarOrientation =
     [[UIApplication sharedApplication] statusBarOrientation];
+#else
+#warning need to find a way to detect all 4 orientations
+    UIInterfaceOrientation statusBarOrientation = (self.view.frame.size.width == ([[UIScreen mainScreen] bounds].size.width*([[UIScreen mainScreen] bounds].size.width<[[UIScreen mainScreen] bounds].size.height))+([[UIScreen mainScreen] bounds].size.height*([[UIScreen mainScreen] bounds].size.width>[[UIScreen mainScreen] bounds].size.height))) ?
+    UIInterfaceOrientationPortrait : UIInterfaceOrientationLandscapeLeft;
+#endif
     UIInterfaceOrientationMask statusBarOrientationAsMask = UIInterfaceOrientationMaskFromOrientation(statusBarOrientation);
     if(self.supportedInterfaceOrientations & statusBarOrientationAsMask) {
         return statusBarOrientation;
@@ -1637,6 +1661,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 }
 
 
+#ifndef LTH_APP_EXTENSION
 + (CGFloat)getStatusBarHeight {
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
     if (UIInterfaceOrientationIsLandscape(orientation)) {
@@ -1646,7 +1671,7 @@ options:NSNumericSearch] != NSOrderedAscending)
         return [UIApplication sharedApplication].statusBarFrame.size.height;
     }
 }
-
+#endif
 
 CGFloat UIInterfaceOrientationAngleOfOrientation(UIInterfaceOrientation orientation) {
     CGFloat angle;

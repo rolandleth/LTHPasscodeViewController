@@ -254,7 +254,9 @@
  @param hasLogout   Set to @c YES for a navBar with a Logout button, set to @c NO for no navBar.
  @param logoutTitle The title of the Logout button.
  */
+#ifndef LTH_APP_EXTENSION
 - (void)showLockScreenWithAnimation:(BOOL)animated withLogout:(BOOL)hasLogout andLogoutTitle:(NSString*)logoutTitle;
+#endif
 /**
  @brief				   Used for displaying the lock. The passcode view is added in the specified viewController.
  @param	viewController The view controller where the passcode view controller will be displayed.
