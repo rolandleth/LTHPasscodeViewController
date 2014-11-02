@@ -127,7 +127,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 #pragma mark - Private methods
 - (void)_close {
-    if (_displayedAsLockScreen) [self _dismissMe];
+    if (_displayedAsLockScreen) [self _dismissMe:nil];
     else [self _cancelAndDismissMe];
 }
 
@@ -282,7 +282,7 @@ options:NSNumericSearch] != NSOrderedAscending)
                                        }
                                        
                                        if (success) {
-                                           [self performSelectorOnMainThread:@selector(_dismissMe) withObject:nil waitUntilDone:NO];
+                                           [self performSelectorOnMainThread:@selector(_dismissMe:) withObject:[NSNumber numberWithBool:YES] waitUntilDone:NO];
                                        } else {
                                            [self performSelectorOnMainThread:@selector(_resetUI) withObject:nil waitUntilDone:NO];
                                        }
@@ -348,20 +348,23 @@ options:NSNumericSearch] != NSOrderedAscending)
     _isUserSwitchingBetweenPasscodeModes = NO;
 	[self _resetUI];
 	[_passcodeTextField resignFirstResponder];
-	
+
+    if ([self.delegate respondsToSelector: @selector(passcodeViewControllerWillClose:)]) {
+        [self.delegate performSelector: @selector(passcodeViewControllerWillClose:) withObject:[NSNumber numberWithBool:NO]];
+    }
     if ([self.delegate respondsToSelector: @selector(passcodeViewControllerWillClose)]) {
 		[self.delegate performSelector: @selector(passcodeViewControllerWillClose)];
     }
 // Or, if you prefer by notifications:
 //	[[NSNotificationCenter defaultCenter] postNotificationName: @"passcodeViewControllerWillClose"
-//														object: self
+//														object: [NSNumber numberWithBool:NO]
 //													  userInfo: nil];
 	if (_displayedAsModal) [self dismissViewControllerAnimated:YES completion:nil];
 	else if (!_displayedAsLockScreen) [self.navigationController popViewControllerAnimated:YES];
 }
 
 
-- (void)_dismissMe {
+- (void)_dismissMe:(NSNumber *)success {
     _failedAttempts = 0;
 	_isCurrentlyOnScreen = NO;
 	[self _resetUI];
@@ -404,16 +407,28 @@ options:NSNumericSearch] != NSOrderedAscending)
 			}
 		}
 	} completion: ^(BOOL finished) {
+        if ([self.delegate respondsToSelector: @selector(passcodeViewControllerWillClose:)]) {
+            [self.delegate performSelector: @selector(passcodeViewControllerWillClose:) withObject:success];
+        }
         if ([self.delegate respondsToSelector: @selector(passcodeViewControllerWillClose)]) {
             [self.delegate performSelector: @selector(passcodeViewControllerWillClose)];
         }
 // Or, if you prefer by notifications:
 //		[[NSNotificationCenter defaultCenter] postNotificationName: @"passcodeViewControllerWillClose"
-//															object: self
+//															object: success
 //														  userInfo: nil];
 		if (_displayedAsLockScreen) {
+			if (_displayedAsModal) {
+				[self dismissViewControllerAnimated:YES
+										 completion:nil];
+			}
 			[self.view removeFromSuperview];
 			[self removeFromParentViewController];
+			if ([success boolValue]) {
+				if ([self.delegate respondsToSelector: @selector(passcodeWasEnteredSuccessfully)]) {
+					[self.delegate performSelector: @selector(passcodeWasEnteredSuccessfully)];
+				}
+			}
 		}
         else if (_displayedAsModal) {
             [self dismissViewControllerAnimated:YES
@@ -423,14 +438,16 @@ options:NSNumericSearch] != NSOrderedAscending)
             [self.navigationController popViewControllerAnimated:NO];
         }
 	}];
-	[[NSNotificationCenter defaultCenter]
-     removeObserver: self
-     name: UIApplicationDidChangeStatusBarOrientationNotification
-     object: nil];
-	[[NSNotificationCenter defaultCenter]
-     removeObserver: self
-     name: UIApplicationDidChangeStatusBarFrameNotification
-     object: nil];
+	if (!LTHiOS8) {
+		[[NSNotificationCenter defaultCenter]
+         removeObserver: self
+         name: UIApplicationDidChangeStatusBarOrientationNotification
+     	 object: nil];
+		[[NSNotificationCenter defaultCenter]
+         removeObserver: self
+         name: UIApplicationDidChangeStatusBarFrameNotification
+         object: nil];
+    }
 }
 
 
@@ -920,6 +937,15 @@ options:NSNumericSearch] != NSOrderedAscending)
 }
 
 
+- (void)showLockScreenInViewController:(UIViewController *)viewController asModal:(BOOL)isModal
+{
+	_displayedAsModal = isModal;
+	[self _prepareAsLockScreen];
+	[self _prepareNavigationControllerWithController:viewController];
+	self.title = NSLocalizedStringFromTable(self.enterPasscodeString, _localizationTableName, @"");
+}
+
+
 - (void)showForEnablingPasscodeInViewController:(UIViewController *)viewController
 										asModal:(BOOL)isModal {
 	_displayedAsModal = isModal;
@@ -1066,7 +1092,7 @@ options:NSNumericSearch] != NSOrderedAscending)
         else if (_isUserConfirmingPasscode) {
             // User entered the confirmation Passcode correctly
             if ([typedString isEqualToString: _tempPasscode]) {
-                [self _dismissMe];
+                [self _dismissMe:nil];
             }
             // User entered the confirmation Passcode incorrectly, start over.
             else {
@@ -1097,10 +1123,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 //            [[NSNotificationCenter defaultCenter] postNotificationName: @"passcodeWasEnteredSuccessfully"
 //                                                                object: self
 //                                                              userInfo: nil];
-            [self _dismissMe];
-            if ([self.delegate respondsToSelector: @selector(passcodeWasEnteredSuccessfully)]) {
-                [self.delegate performSelector: @selector(passcodeWasEnteredSuccessfully)];
-            }
+            [self _dismissMe:[NSNumber numberWithBool:YES]];
         }
         else {
             [self performSelector: @selector(_denyAccess)
@@ -1515,16 +1538,19 @@ options:NSNumericSearch] != NSOrderedAscending)
      selector: @selector(_applicationWillEnterForeground)
      name: UIApplicationWillEnterForegroundNotification
      object: nil];
-    [[NSNotificationCenter defaultCenter]
-     addObserver:self
-     selector:@selector(statusBarFrameOrOrientationChanged:)
-     name:UIApplicationDidChangeStatusBarOrientationNotification
-     object:nil];
-    [[NSNotificationCenter defaultCenter]
-     addObserver:self
-     selector:@selector(statusBarFrameOrOrientationChanged:)
-     name:UIApplicationDidChangeStatusBarFrameNotification
-     object:nil];
+    // From iOS8, we use viewDidLayoutSubviews to handle orientation changes
+    if (!LTHiOS8) {
+        [[NSNotificationCenter defaultCenter]
+         addObserver:self
+         selector:@selector(statusBarFrameOrOrientationChanged:)
+         name:UIApplicationDidChangeStatusBarOrientationNotification
+         object:nil];
+        [[NSNotificationCenter defaultCenter]
+         addObserver:self
+         selector:@selector(statusBarFrameOrOrientationChanged:)
+         name:UIApplicationDidChangeStatusBarFrameNotification
+         object:nil];
+    }
 }
 
 
@@ -1645,6 +1671,19 @@ CGFloat UIInterfaceOrientationAngleOfOrientation(UIInterfaceOrientation orientat
 
 UIInterfaceOrientationMask UIInterfaceOrientationMaskFromOrientation(UIInterfaceOrientation orientation) {
     return 1 << orientation;
+}
+
+
+// Handle interface rotation for iOS8+ (compatible with App Extensions)
+- (void)viewDidLayoutSubviews
+{
+    if (LTHiOS8)
+    {
+        [super viewDidLayoutSubviews];
+        
+        [self rotateAccordingToStatusBarOrientationAndSupportedOrientations];
+        _animatingView.frame = self.view.frame;
+    }
 }
 
 

@@ -14,6 +14,7 @@
  @brief Called right before the passcode view controller will be dismissed or popped.
  */
 - (void)passcodeViewControllerWillClose;
+- (void)passcodeViewControllerWillClose:(NSNumber *)passcodeWasEnteredSuccessfully;
 /**
  @brief Called when the max number of failed attempts has been reached.
  */
@@ -254,6 +255,12 @@
  @param logoutTitle The title of the Logout button.
  */
 - (void)showLockScreenWithAnimation:(BOOL)animated withLogout:(BOOL)hasLogout andLogoutTitle:(NSString*)logoutTitle;
+/**
+ @brief				   Used for displaying the lock. The passcode view is added in the specified viewController.
+ @param	viewController The view controller where the passcode view controller will be displayed.
+ @param asModal        Set to @c YES to present as a modal, or to @c NO to push on the current nav stack.
+ */
+- (void)showLockScreenInViewController:(UIViewController *)viewController asModal:(BOOL)isModal;
 /**
  @brief				   Used for enabling the passcode.
  @details              The back bar button is hidden by default. Set @c hidesBackButton to @c NO if you want it to be visible.
