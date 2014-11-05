@@ -276,20 +276,33 @@ options:NSNumericSearch] != NSOrderedAscending)
                 return;
             }
             // Authenticate User
+            
+            
             [self.context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
                          localizedReason:NSLocalizedStringFromTable(self.touchIDString, _localizationTableName, @"")
                                    reply:^(BOOL success, NSError *error) {
                                        
                                        if (error) {
-                                           [self performSelectorOnMainThread:@selector(_resetUI) withObject:nil waitUntilDone:NO];
+                                           dispatch_async(dispatch_get_main_queue(), ^{
+                                               [self _resetUI];
+                                           });
                                            self.context = nil;
                                            return;
                                        }
                                        
                                        if (success) {
-                                           [self performSelectorOnMainThread:@selector(_dismissMe) withObject:nil waitUntilDone:NO];
-                                       } else {
-                                           [self performSelectorOnMainThread:@selector(_resetUI) withObject:nil waitUntilDone:NO];
+                                           dispatch_async(dispatch_get_main_queue(), ^{
+                                               [self _dismissMe];
+                                               
+                                               if ([self.delegate respondsToSelector: @selector(passcodeWasEnteredSuccessfully)]) {
+                                                   [self.delegate performSelector: @selector(passcodeWasEnteredSuccessfully)];
+                                               }
+                                           });
+                                       }
+                                       else {
+                                           dispatch_async(dispatch_get_main_queue(), ^{
+                                               [self _resetUI];
+                                           });
                                        }
                                        
                                        self.context = nil;
