@@ -8,7 +8,9 @@
 
 #import "LTHPasscodeViewController.h"
 #import "LTHKeychainUtils.h"
+#if !(TARGET_IPHONE_SIMULATOR)
 #import <LocalAuthentication/LocalAuthentication.h>
+#endif
 
 #define DegreesToRadians(x) ((x) * M_PI / 180.0)
 #define LTHiOS8 ([[[UIDevice currentDevice] systemVersion] compare:@"8.0" \
@@ -62,7 +64,9 @@ options:NSNumericSearch] != NSOrderedAscending)
 @property (nonatomic, assign) BOOL        isUserSwitchingBetweenPasscodeModes;// simple/complex
 @property (nonatomic, assign) BOOL        timerStartInSeconds;
 
+#if !(TARGET_IPHONE_SIMULATOR)
 @property (nonatomic, strong) LAContext   *context;
+#endif
 @end
 
 @implementation LTHPasscodeViewController
@@ -261,6 +265,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 											   error:nil];
 }
 
+#if !(TARGET_IPHONE_SIMULATOR)
 - (void)_setupFingerPrint {
     if (!self.context && _allowUnlockWithTouchID) {
         self.context = [[LAContext alloc] init];
@@ -293,7 +298,7 @@ options:NSNumericSearch] != NSOrderedAscending)
         }
     }
 }
-
+#endif
 
 #pragma mark - View life
 - (void)viewDidLoad {
@@ -961,7 +966,9 @@ options:NSNumericSearch] != NSOrderedAscending)
     _isUserSwitchingBetweenPasscodeModes = NO;
     
 	[self _resetUI];
+    #if !(TARGET_IPHONE_SIMULATOR)
     [self _setupFingerPrint];
+    #endif
 }
 
 
