@@ -14,6 +14,7 @@
  @brief Called right before the passcode view controller will be dismissed or popped.
  */
 - (void)passcodeViewControllerWillClose;
+- (void)passcodeViewControllerWillClose:(NSNumber *)passcodeWasEnteredSuccessfully;
 /**
  @brief Called when the max number of failed attempts has been reached.
  */
@@ -72,6 +73,18 @@
  @return The passcode.
  */
 - (NSString *)passcode;
+/**
+ @brief   Retrieve here the saved preference for allowing the use of Touch ID.
+ @details Called if @c +useKeychain:NO was used, but falls back to the Keychain anyway if not implemented.
+ @return allowUnlockWithTouchID boolean.
+ */
+- (BOOL)allowUnlockWithTouchID;
+/**
+ @brief   Handle here the saving of the preference for allowing the use of Touch ID.
+ @details Called if @c +useKeychain:NO was used, but falls back to the Keychain anyway if not implemented.
+ @param allowUnlockWithTouchID The boolean for the preference for allowing the use of Touch ID.
+ */
+- (void)saveAllowUnlockWithTouchID:(BOOL)allowUnlockWithTouchID;
 @end
 
 @interface LTHPasscodeViewController : UIViewController
@@ -168,9 +181,17 @@
  */
 @property (nonatomic, strong) NSString  *keychainTimerDurationUsername;
 /**
+ @brief The string to be used as username for allow Touch ID unlock in the Keychain.
+ */
+@property (nonatomic, strong) NSString  *keychainAllowUnlockWithTouchID;
+/**
  @brief The string to be used as service name for all the Keychain entries.
  */
 @property (nonatomic, strong) NSString  *keychainServiceName;
+/**
+ @brief The string to be used as access group name for all the Keychain entries.
+ */
+@property (nonatomic, strong) NSString  *keychainAccessGroup;
 /**
  @brief The character for the passcode digit.
  */
@@ -253,7 +274,15 @@
  @param hasLogout   Set to @c YES for a navBar with a Logout button, set to @c NO for no navBar.
  @param logoutTitle The title of the Logout button.
  */
+#ifndef LTH_APP_EXTENSION
 - (void)showLockScreenWithAnimation:(BOOL)animated withLogout:(BOOL)hasLogout andLogoutTitle:(NSString*)logoutTitle;
+#endif
+/**
+ @brief				   Used for displaying the lock. The passcode view is added in the specified viewController.
+ @param	viewController The view controller where the passcode view controller will be displayed.
+ @param asModal        Set to @c YES to present as a modal, or to @c NO to push on the current nav stack.
+ */
+- (void)showLockScreenInViewController:(UIViewController *)viewController asModal:(BOOL)isModal;
 /**
  @brief				   Used for enabling the passcode.
  @details              The back bar button is hidden by default. Set @c hidesBackButton to @c NO if you want it to be visible.

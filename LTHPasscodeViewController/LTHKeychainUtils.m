@@ -39,7 +39,7 @@ static NSString *SFHFKeychainUtilsErrorDomain = @"SFHFKeychainUtilsErrorDomain";
 @implementation LTHKeychainUtils
 
 
-+ (NSString *) getPasswordForUsername: (NSString *) username andServiceName: (NSString *) serviceName error: (NSError **) error {
++ (NSString *) getPasswordForUsername: (NSString *) username andServiceName: (NSString *) serviceName andAccessGroup: (NSString *)accessGroup error: (NSError **) error {
 	
 	if (!username || !serviceName) {
 		if (error != nil) {
@@ -55,6 +55,12 @@ static NSString *SFHFKeychainUtilsErrorDomain = @"SFHFKeychainUtilsErrorDomain";
 	NSArray *keys = [[NSArray alloc] initWithObjects: (__bridge_transfer NSString *) kSecClass, kSecAttrAccount, kSecAttrService, nil];
 	NSArray *objects = [[NSArray alloc] initWithObjects: (__bridge_transfer NSString *) kSecClassGenericPassword, username, serviceName, nil];
 	NSMutableDictionary *query = [[NSMutableDictionary alloc] initWithObjects: objects forKeys: keys];
+#if !TARGET_IPHONE_SIMULATOR
+	if (accessGroup)
+	{
+		[query setObject:accessGroup forKey: (__bridge_transfer NSString *) kSecAttrAccessGroup];
+	}
+#endif
 	// First do a query for attributes, in case we already have a Keychain item with no password data set.
 	// One likely way such an incorrect item could have come about is due to the previous (incorrect)
 	// version of this code (which set the password as a generic attribute instead of password data).
@@ -114,7 +120,7 @@ static NSString *SFHFKeychainUtilsErrorDomain = @"SFHFKeychainUtilsErrorDomain";
 	return password;
 }
 
-+ (BOOL) storeUsername: (NSString *) username andPassword: (NSString *) password forServiceName: (NSString *) serviceName updateExisting: (BOOL) updateExisting error: (NSError **) error
++ (BOOL) storeUsername: (NSString *) username andPassword: (NSString *) password forServiceName: (NSString *) serviceName andAccessGroup: (NSString *)accessGroup updateExisting: (BOOL) updateExisting error: (NSError **) error
 
 {
 	if (!username || !password || !serviceName)
@@ -130,7 +136,7 @@ static NSString *SFHFKeychainUtilsErrorDomain = @"SFHFKeychainUtilsErrorDomain";
     // See if we already have a password entered for these credentials.
 	
 	NSError *getError = nil;
-	NSString *existingPassword = [self getPasswordForUsername: username andServiceName: serviceName error:&getError];
+	NSString *existingPassword = [self getPasswordForUsername: username andServiceName: serviceName andAccessGroup:accessGroup error:&getError];
 	
 	if ([getError code] == -1999)
 	{
@@ -139,7 +145,7 @@ static NSString *SFHFKeychainUtilsErrorDomain = @"SFHFKeychainUtilsErrorDomain";
 		// Delete the existing item before moving on entering a correct one.
 		getError = nil;
 		
-		[self deleteItemForUsername: username andServiceName: serviceName error: &getError];
+		[self deleteItemForUsername: username andServiceName: serviceName andAccessGroup:accessGroup error: &getError];
 		
 		if ([getError code] != noErr)
 		{
@@ -179,7 +185,13 @@ static NSString *SFHFKeychainUtilsErrorDomain = @"SFHFKeychainUtilsErrorDomain";
 			
 			NSArray *objects = [[NSArray alloc] initWithObjects: (__bridge_transfer NSString *) kSecClassGenericPassword,serviceName,serviceName,username,nil];
 			
-			NSDictionary *query = [[NSDictionary alloc] initWithObjects: objects forKeys: keys];
+			NSMutableDictionary *query = [[NSMutableDictionary alloc] initWithObjects: objects forKeys: keys];
+#if !TARGET_IPHONE_SIMULATOR
+			if (accessGroup)
+			{
+				[query setObject:accessGroup forKey:(__bridge_transfer NSString *) kSecAttrAccessGroup];
+			}
+#endif
 			
 			status = SecItemUpdate((__bridge CFDictionaryRef) query, (__bridge CFDictionaryRef) [NSDictionary dictionaryWithObject: [password dataUsingEncoding: NSUTF8StringEncoding] forKey: (__bridge_transfer NSString *) kSecValueData]);
 		}
@@ -195,7 +207,13 @@ static NSString *SFHFKeychainUtilsErrorDomain = @"SFHFKeychainUtilsErrorDomain";
 		
 		NSArray *objects = [[NSArray alloc] initWithObjects: (__bridge_transfer NSString *) kSecClassGenericPassword,serviceName,serviceName,username,[password dataUsingEncoding: NSUTF8StringEncoding],nil];
 		
-		NSDictionary *query = [[NSDictionary alloc] initWithObjects: objects forKeys: keys];
+		NSMutableDictionary *query = [[NSMutableDictionary alloc] initWithObjects: objects forKeys: keys];
+#if !TARGET_IPHONE_SIMULATOR
+		if (accessGroup)
+		{
+			[query setObject:accessGroup forKey:(__bridge_transfer NSString *) kSecAttrAccessGroup];
+		}
+#endif
 		
 		status = SecItemAdd((__bridge CFDictionaryRef) query, NULL);
 	}
@@ -208,7 +226,7 @@ static NSString *SFHFKeychainUtilsErrorDomain = @"SFHFKeychainUtilsErrorDomain";
 	return YES;
 }
 
-+ (BOOL) deleteItemForUsername: (NSString *) username andServiceName: (NSString *) serviceName error: (NSError **) error
++ (BOOL) deleteItemForUsername: (NSString *) username andServiceName: (NSString *) serviceName andAccessGroup: (NSString *)accessGroup error: (NSError **) error
 {
 	if (!username || !serviceName)
 	{
@@ -224,7 +242,13 @@ static NSString *SFHFKeychainUtilsErrorDomain = @"SFHFKeychainUtilsErrorDomain";
 	}
 	NSArray *keys = [[NSArray alloc] initWithObjects: (__bridge_transfer NSString *) kSecClass, kSecAttrAccount, kSecAttrService, kSecReturnAttributes, nil];
 	NSArray *objects = [[NSArray alloc] initWithObjects: (__bridge_transfer NSString *) kSecClassGenericPassword, username, serviceName, kCFBooleanTrue, nil];
-	NSDictionary *query = [[NSDictionary alloc] initWithObjects: objects forKeys: keys];
+    NSMutableDictionary *query = [[NSMutableDictionary alloc] initWithObjects: objects forKeys: keys];
+#if !TARGET_IPHONE_SIMULATOR
+	if (accessGroup)
+	{
+		[query setObject:accessGroup forKey:(__bridge_transfer NSString *) kSecAttrAccessGroup];
+	}
+#endif
 	OSStatus status = SecItemDelete((__bridge CFDictionaryRef) query);
 	
 	if (error != nil && status != noErr)

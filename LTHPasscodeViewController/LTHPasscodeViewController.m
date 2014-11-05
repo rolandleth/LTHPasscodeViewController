@@ -131,7 +131,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 #pragma mark - Private methods
 - (void)_close {
-    if (_displayedAsLockScreen) [self _dismissMe];
+    if (_displayedAsLockScreen) [self _dismissMe:nil];
     else [self _cancelAndDismissMe];
 }
 
@@ -154,8 +154,9 @@ options:NSNumericSearch] != NSOrderedAscending)
     
 	NSString *keychainValue =
     [LTHKeychainUtils getPasswordForUsername:_keychainTimerDurationUsername
-                               andServiceName:_keychainServiceName
-                                        error:nil];
+                              andServiceName:_keychainServiceName
+                              andAccessGroup:_keychainAccessGroup
+                                       error:nil];
 	if (!keychainValue) return -1;
 	return keychainValue.doubleValue;
 }
@@ -170,10 +171,11 @@ options:NSNumericSearch] != NSOrderedAscending)
     }
     
     [LTHKeychainUtils storeUsername:_keychainTimerDurationUsername
-						 andPassword:[NSString stringWithFormat: @"%.6f", duration]
-					  forServiceName:_keychainServiceName
-					  updateExisting:YES
-							   error:nil];
+                        andPassword:[NSString stringWithFormat: @"%.6f", duration]
+                     forServiceName:_keychainServiceName
+                     andAccessGroup:_keychainAccessGroup
+                     updateExisting:YES
+                              error:nil];
 }
 
 
@@ -185,7 +187,8 @@ options:NSNumericSearch] != NSOrderedAscending)
     
     NSString *keychainValue =
     [LTHKeychainUtils getPasswordForUsername:_keychainTimerStartUsername
-                               andServiceName:_keychainServiceName
+                              andServiceName:_keychainServiceName
+                              andAccessGroup:_keychainAccessGroup
                                         error:nil];
 	if (!keychainValue) return -1;
 	return keychainValue.doubleValue;
@@ -201,11 +204,51 @@ options:NSNumericSearch] != NSOrderedAscending)
     }
     
 	[LTHKeychainUtils storeUsername:_keychainTimerStartUsername
-						 andPassword:[NSString stringWithFormat: @"%.6f",
-                                      [NSDate timeIntervalSinceReferenceDate]]
+                        andPassword:[NSString stringWithFormat: @"%.6f",
+                                     [NSDate timeIntervalSinceReferenceDate]]
 					  forServiceName:_keychainServiceName
+                      andAccessGroup:_keychainAccessGroup
 					  updateExisting:YES
 							   error:nil];
+}
+
+- (void)setAllowUnlockWithTouchID:(BOOL)setAllowUnlockWithTouchID
+{
+    _allowUnlockWithTouchID = setAllowUnlockWithTouchID;
+    [self _saveAllowUnlockWithTouchID];
+}
+
+- (BOOL)_allowUnlockWithTouchID {
+    if (!_usesKeychain &&
+        [self.delegate respondsToSelector:@selector(allowUnlockWithTouchID)]) {
+        return [self.delegate allowUnlockWithTouchID];
+    }
+    
+    NSString *keychainValue =
+    [LTHKeychainUtils getPasswordForUsername:_keychainAllowUnlockWithTouchID
+                              andServiceName:_keychainServiceName
+                              andAccessGroup:_keychainAccessGroup
+                                       error:nil];
+    if (!keychainValue) return YES;
+    return keychainValue.boolValue;
+}
+
+
+- (void)_saveAllowUnlockWithTouchID {
+    if (!_usesKeychain &&
+        [self.delegate respondsToSelector:@selector(saveAllowUnlockWithTouchID:)]) {
+        [self.delegate saveAllowUnlockWithTouchID:_allowUnlockWithTouchID];
+        
+        return;
+    }
+    
+    [LTHKeychainUtils storeUsername:_keychainAllowUnlockWithTouchID
+                        andPassword:[NSString stringWithFormat: @"%d",
+                                     _allowUnlockWithTouchID]
+                     forServiceName:_keychainServiceName
+                     andAccessGroup:_keychainAccessGroup
+                     updateExisting:YES
+                              error:nil];
 }
 
 
@@ -233,8 +276,9 @@ options:NSNumericSearch] != NSOrderedAscending)
     }
     
 	[LTHKeychainUtils deleteItemForUsername:_keychainPasscodeUsername
-							  andServiceName:_keychainServiceName
-									   error:nil];
+                             andServiceName:_keychainServiceName
+                             andAccessGroup:_keychainAccessGroup
+                                      error:nil];
 }
 
 
@@ -247,10 +291,11 @@ options:NSNumericSearch] != NSOrderedAscending)
     }
     
     [LTHKeychainUtils storeUsername:_keychainPasscodeUsername
-                         andPassword:passcode
-                      forServiceName:_keychainServiceName
-                      updateExisting:YES
-                               error:nil];
+                        andPassword:passcode
+                     forServiceName:_keychainServiceName
+                     andAccessGroup:_keychainAccessGroup
+                     updateExisting:YES
+                              error:nil];
 }
 
 
@@ -261,8 +306,9 @@ options:NSNumericSearch] != NSOrderedAscending)
 	}
 	
 	return [LTHKeychainUtils getPasswordForUsername:_keychainPasscodeUsername
-									  andServiceName:_keychainServiceName
-											   error:nil];
+                                     andServiceName:_keychainServiceName
+                                     andAccessGroup:_keychainAccessGroup
+                                              error:nil];
 }
 
 #if !(TARGET_IPHONE_SIMULATOR)
@@ -287,7 +333,7 @@ options:NSNumericSearch] != NSOrderedAscending)
                                        }
                                        
                                        if (success) {
-                                           [self performSelectorOnMainThread:@selector(_dismissMe) withObject:nil waitUntilDone:NO];
+                                           [self performSelectorOnMainThread:@selector(_dismissMe:) withObject:[NSNumber numberWithBool:YES] waitUntilDone:NO];
                                        } else {
                                            [self performSelectorOnMainThread:@selector(_resetUI) withObject:nil waitUntilDone:NO];
                                        }
@@ -353,20 +399,23 @@ options:NSNumericSearch] != NSOrderedAscending)
     _isUserSwitchingBetweenPasscodeModes = NO;
 	[self _resetUI];
 	[_passcodeTextField resignFirstResponder];
-	
+
+    if ([self.delegate respondsToSelector: @selector(passcodeViewControllerWillClose:)]) {
+        [self.delegate performSelector: @selector(passcodeViewControllerWillClose:) withObject:[NSNumber numberWithBool:NO]];
+    }
     if ([self.delegate respondsToSelector: @selector(passcodeViewControllerWillClose)]) {
 		[self.delegate performSelector: @selector(passcodeViewControllerWillClose)];
     }
 // Or, if you prefer by notifications:
 //	[[NSNotificationCenter defaultCenter] postNotificationName: @"passcodeViewControllerWillClose"
-//														object: self
+//														object: [NSNumber numberWithBool:NO]
 //													  userInfo: nil];
 	if (_displayedAsModal) [self dismissViewControllerAnimated:YES completion:nil];
 	else if (!_displayedAsLockScreen) [self.navigationController popViewControllerAnimated:YES];
 }
 
 
-- (void)_dismissMe {
+- (void)_dismissMe:(NSNumber *)success {
     _failedAttempts = 0;
 	_isCurrentlyOnScreen = NO;
 	[self _resetUI];
@@ -376,6 +425,7 @@ options:NSNumericSearch] != NSOrderedAscending)
             if (LTHiOS8) {
                 self.view.center = CGPointMake(self.view.center.x, self.view.center.y * 2.f);
             }
+#ifndef LTH_APP_EXTENSION
             else {
                 if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) {
                     self.view.center = CGPointMake(self.view.center.x * -1.f, self.view.center.y);
@@ -390,6 +440,7 @@ options:NSNumericSearch] != NSOrderedAscending)
                     self.view.center = CGPointMake(self.view.center.x, self.view.center.y * 2.f);
                 }
             }
+#endif
 		}
 		else {
 			// Delete from Keychain
@@ -409,16 +460,28 @@ options:NSNumericSearch] != NSOrderedAscending)
 			}
 		}
 	} completion: ^(BOOL finished) {
+        if ([self.delegate respondsToSelector: @selector(passcodeViewControllerWillClose:)]) {
+            [self.delegate performSelector: @selector(passcodeViewControllerWillClose:) withObject:success];
+        }
         if ([self.delegate respondsToSelector: @selector(passcodeViewControllerWillClose)]) {
             [self.delegate performSelector: @selector(passcodeViewControllerWillClose)];
         }
 // Or, if you prefer by notifications:
 //		[[NSNotificationCenter defaultCenter] postNotificationName: @"passcodeViewControllerWillClose"
-//															object: self
+//															object: success
 //														  userInfo: nil];
 		if (_displayedAsLockScreen) {
+			if (_displayedAsModal) {
+				[self dismissViewControllerAnimated:YES
+										 completion:nil];
+			}
 			[self.view removeFromSuperview];
 			[self removeFromParentViewController];
+			if ([success boolValue]) {
+				if ([self.delegate respondsToSelector: @selector(passcodeWasEnteredSuccessfully)]) {
+					[self.delegate performSelector: @selector(passcodeWasEnteredSuccessfully)];
+				}
+			}
 		}
         else if (_displayedAsModal) {
             [self dismissViewControllerAnimated:YES
@@ -428,19 +491,22 @@ options:NSNumericSearch] != NSOrderedAscending)
             [self.navigationController popViewControllerAnimated:NO];
         }
 	}];
-	[[NSNotificationCenter defaultCenter]
-     removeObserver: self
-     name: UIApplicationDidChangeStatusBarOrientationNotification
-     object: nil];
-	[[NSNotificationCenter defaultCenter]
-     removeObserver: self
-     name: UIApplicationDidChangeStatusBarFrameNotification
-     object: nil];
+	if (!LTHiOS8) {
+		[[NSNotificationCenter defaultCenter]
+         removeObserver: self
+         name: UIApplicationDidChangeStatusBarOrientationNotification
+     	 object: nil];
+		[[NSNotificationCenter defaultCenter]
+         removeObserver: self
+         name: UIApplicationDidChangeStatusBarFrameNotification
+         object: nil];
+    }
 }
 
 
 #pragma mark - UI setup
 - (void)_setupViews {
+#ifndef LTH_APP_EXTENSION
     _coverView = [[UIView alloc] initWithFrame: CGRectZero];
     _coverView.backgroundColor = _coverViewBackgroundColor;
     _coverView.frame = self.view.frame;
@@ -448,6 +514,7 @@ options:NSNumericSearch] != NSOrderedAscending)
     _coverView.tag = _coverViewTag;
     _coverView.hidden = YES;
     [[UIApplication sharedApplication].keyWindow addSubview: _coverView];
+#endif
     
     _complexPasscodeOverlayView = [[UIView alloc] initWithFrame:CGRectZero];
     _complexPasscodeOverlayView.backgroundColor = [UIColor whiteColor];
@@ -782,11 +849,13 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 
 #pragma mark - Displaying
+#ifndef LTH_APP_EXTENSION
 - (void)showLockscreenWithoutAnimation {
 	[self showLockScreenWithAnimation:NO withLogout:NO andLogoutTitle:nil];
 }
+#endif
 
-
+#ifndef LTH_APP_EXTENSION
 - (void)showLockScreenWithAnimation:(BOOL)animated withLogout:(BOOL)hasLogout andLogoutTitle:(NSString*)logoutTitle {
 	[self _prepareAsLockScreen];
     
@@ -882,6 +951,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 		_isCurrentlyOnScreen = YES;
 	}
 }
+#endif
 
 
 - (void)_prepareNavigationControllerWithController:(UIViewController *)viewController {
@@ -922,6 +992,18 @@ options:NSNumericSearch] != NSOrderedAscending)
 								 animated:YES
 							   completion:nil];
 	[self rotateAccordingToStatusBarOrientationAndSupportedOrientations];
+}
+
+
+- (void)showLockScreenInViewController:(UIViewController *)viewController asModal:(BOOL)isModal
+{
+    // We need to refresh the value for App Extension
+    _allowUnlockWithTouchID = [self _allowUnlockWithTouchID];
+    
+	_displayedAsModal = isModal;
+	[self _prepareAsLockScreen];
+	[self _prepareNavigationControllerWithController:viewController];
+	self.title = NSLocalizedStringFromTable(self.enterPasscodeString, _localizationTableName, @"");
 }
 
 
@@ -1073,7 +1155,7 @@ options:NSNumericSearch] != NSOrderedAscending)
         else if (_isUserConfirmingPasscode) {
             // User entered the confirmation Passcode correctly
             if ([typedString isEqualToString: _tempPasscode]) {
-                [self _dismissMe];
+                [self _dismissMe:nil];
             }
             // User entered the confirmation Passcode incorrectly, start over.
             else {
@@ -1104,10 +1186,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 //            [[NSNotificationCenter defaultCenter] postNotificationName: @"passcodeWasEnteredSuccessfully"
 //                                                                object: self
 //                                                              userInfo: nil];
-            [self _dismissMe];
-            if ([self.delegate respondsToSelector: @selector(passcodeWasEnteredSuccessfully)]) {
-                [self.delegate performSelector: @selector(passcodeWasEnteredSuccessfully)];
-            }
+            [self _dismissMe:[NSNumber numberWithBool:YES]];
         }
         else {
             [self performSelector: @selector(_denyAccess)
@@ -1268,8 +1347,9 @@ options:NSNumericSearch] != NSOrderedAscending)
 	// If there's no passcode saved in Keychain,
     // the user is adding one for the first time, otherwise he's changing his passcode.
 	NSString *savedPasscode = [LTHKeychainUtils getPasswordForUsername: _keychainPasscodeUsername
-														 andServiceName: _keychainServiceName
-																  error: nil];
+														andServiceName: _keychainServiceName
+														andAccessGroup: _keychainAccessGroup
+																 error: nil];
 	_enterPasscodeLabel.text = savedPasscode.length == 0 ? NSLocalizedStringFromTable(self.enterPasscodeString, _localizationTableName, @"") : NSLocalizedStringFromTable(self.enterNewPasscodeString, _localizationTableName, @"");
 	
 	_failedAttemptLabel.hidden = NO;
@@ -1311,6 +1391,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 }
 
 #pragma mark - Notification Observers
+#ifndef LTH_APP_EXTENSION
 - (void)_applicationDidEnterBackground {
 	if ([self _doesPasscodeExist]) {
 		if ([_passcodeTextField isFirstResponder])
@@ -1334,13 +1415,17 @@ options:NSNumericSearch] != NSOrderedAscending)
 		}
 	}
 }
+#endif
 
 
+#ifndef LTH_APP_EXTENSION
 - (void)_applicationDidBecomeActive {
 	_coverView.hidden = YES;
 }
+#endif
 
 
+#ifndef LTH_APP_EXTENSION
 - (void)_applicationWillEnterForeground {
 	if ([self _doesPasscodeExist] &&
 		[self _didPasscodeTimerEnd]) {
@@ -1362,14 +1447,16 @@ options:NSNumericSearch] != NSOrderedAscending)
         }
 	}
 }
+#endif
 
 
+#ifndef LTH_APP_EXTENSION
 - (void)_applicationWillResignActive {
 	if ([self _doesPasscodeExist]) {
 		[self _saveTimerStartTime];
 	}
 }
-
+#endif
 
 #pragma mark - Init
 + (instancetype)sharedUser {
@@ -1419,12 +1506,12 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 
 - (void)_loadDefaults {
+    [self _loadKeychainDefaults];
     [self _loadMiscDefaults];
     [self _loadStringDefaults];
     [self _loadGapDefaults];
     [self _loadFontDefaults];
     [self _loadColorDefaults];
-    [self _loadKeychainDefaults];
 }
 
 
@@ -1436,9 +1523,9 @@ options:NSNumericSearch] != NSOrderedAscending)
     _usesKeychain = YES;
     _displayedAsModal = YES;
     _hidesBackButton = YES;
-    _allowUnlockWithTouchID = YES;
     _passcodeCharacter = @"\u2014"; // A longer "-";
     _localizationTableName = @"LTHPasscodeViewController";
+    _allowUnlockWithTouchID = [self _allowUnlockWithTouchID];
 }
 
 
@@ -1498,10 +1585,13 @@ options:NSNumericSearch] != NSOrderedAscending)
     _keychainTimerStartUsername = @"demoPasscodeTimerStart";
     _keychainServiceName = @"demoServiceName";
     _keychainTimerDurationUsername = @"passcodeTimerDuration";
+    _keychainAllowUnlockWithTouchID = @"allowUnlockWithTouchID";
+    _keychainAccessGroup = nil;
 }
 
 
 - (void)_addObservers {
+#ifndef LTH_APP_EXTENSION
     [[NSNotificationCenter defaultCenter]
      addObserver: self
      selector: @selector(_applicationDidEnterBackground)
@@ -1522,16 +1612,20 @@ options:NSNumericSearch] != NSOrderedAscending)
      selector: @selector(_applicationWillEnterForeground)
      name: UIApplicationWillEnterForegroundNotification
      object: nil];
-    [[NSNotificationCenter defaultCenter]
-     addObserver:self
-     selector:@selector(statusBarFrameOrOrientationChanged:)
-     name:UIApplicationDidChangeStatusBarOrientationNotification
-     object:nil];
-    [[NSNotificationCenter defaultCenter]
-     addObserver:self
-     selector:@selector(statusBarFrameOrOrientationChanged:)
-     name:UIApplicationDidChangeStatusBarFrameNotification
-     object:nil];
+    // From iOS8, we use viewDidLayoutSubviews to handle orientation changes
+    if (!LTHiOS8) {
+        [[NSNotificationCenter defaultCenter]
+         addObserver:self
+         selector:@selector(statusBarFrameOrOrientationChanged:)
+         name:UIApplicationDidChangeStatusBarOrientationNotification
+         object:nil];
+        [[NSNotificationCenter defaultCenter]
+         addObserver:self
+         selector:@selector(statusBarFrameOrOrientationChanged:)
+         name:UIApplicationDidChangeStatusBarFrameNotification
+         object:nil];
+    }
+#endif
 }
 
 
@@ -1559,6 +1653,7 @@ options:NSNumericSearch] != NSOrderedAscending)
     if (LTHiOS8) {
         _animatingView.frame = self.view.frame;
     }
+#ifndef LTH_APP_EXTENSION
     else {
         if (UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
             _animatingView.frame = CGRectMake(0, 0, [UIApplication sharedApplication].keyWindow.frame.size.width, [UIApplication sharedApplication].keyWindow.frame.size.height);
@@ -1567,6 +1662,7 @@ options:NSNumericSearch] != NSOrderedAscending)
             _animatingView.frame = CGRectMake(0, 0, [UIApplication sharedApplication].keyWindow.frame.size.height, [UIApplication sharedApplication].keyWindow.frame.size.width);
         }
     }
+#endif
 }
 
 
@@ -1575,8 +1671,14 @@ options:NSNumericSearch] != NSOrderedAscending)
 // then presenting it inside a modal in another orientation would display
 // the view in the first orientation.
 - (UIInterfaceOrientation)desiredOrientation {
+#ifndef LTH_APP_EXTENSION
     UIInterfaceOrientation statusBarOrientation =
     [[UIApplication sharedApplication] statusBarOrientation];
+#else
+#warning need to find a way to detect all 4 orientations
+    UIInterfaceOrientation statusBarOrientation = (self.view.frame.size.width == ([[UIScreen mainScreen] bounds].size.width*([[UIScreen mainScreen] bounds].size.width<[[UIScreen mainScreen] bounds].size.height))+([[UIScreen mainScreen] bounds].size.height*([[UIScreen mainScreen] bounds].size.width>[[UIScreen mainScreen] bounds].size.height))) ?
+    UIInterfaceOrientationPortrait : UIInterfaceOrientationLandscapeLeft;
+#endif
     UIInterfaceOrientationMask statusBarOrientationAsMask = UIInterfaceOrientationMaskFromOrientation(statusBarOrientation);
     if(self.supportedInterfaceOrientations & statusBarOrientationAsMask) {
         return statusBarOrientation;
@@ -1618,6 +1720,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 }
 
 
+#ifndef LTH_APP_EXTENSION
 + (CGFloat)getStatusBarHeight {
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
     if (UIInterfaceOrientationIsLandscape(orientation)) {
@@ -1627,7 +1730,7 @@ options:NSNumericSearch] != NSOrderedAscending)
         return [UIApplication sharedApplication].statusBarFrame.size.height;
     }
 }
-
+#endif
 
 CGFloat UIInterfaceOrientationAngleOfOrientation(UIInterfaceOrientation orientation) {
     CGFloat angle;
@@ -1652,6 +1755,19 @@ CGFloat UIInterfaceOrientationAngleOfOrientation(UIInterfaceOrientation orientat
 
 UIInterfaceOrientationMask UIInterfaceOrientationMaskFromOrientation(UIInterfaceOrientation orientation) {
     return 1 << orientation;
+}
+
+
+// Handle interface rotation for iOS8+ (compatible with App Extensions)
+- (void)viewDidLayoutSubviews
+{
+    if (LTHiOS8)
+    {
+        [super viewDidLayoutSubviews];
+        
+        [self rotateAccordingToStatusBarOrientationAndSupportedOrientations];
+        _animatingView.frame = self.view.frame;
+    }
 }
 
 
