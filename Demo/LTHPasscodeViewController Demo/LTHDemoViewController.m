@@ -18,6 +18,8 @@
 @property (nonatomic, strong) UIButton *turnOffPasscode;
 @property (nonatomic, strong) UILabel  *typeLabel;
 @property (nonatomic, strong) UISwitch *typeSwitch;
+@property (nonatomic, strong) UILabel *touchIDLabel;
+@property (nonatomic, strong) UISwitch *touchIDSwitch;
 @end
 
 
@@ -49,6 +51,7 @@
 	}
     
     _typeSwitch.on = [[LTHPasscodeViewController sharedUser] isSimple];
+    _touchIDSwitch.on = [[LTHPasscodeViewController sharedUser] allowUnlockWithTouchID];
 }
 
 - (void)viewDidLoad {
@@ -66,6 +69,8 @@
     
     _typeLabel = [[UILabel alloc] initWithFrame:(CGRect){230, 230, 60, 30}];
 	_typeSwitch = [[UISwitch alloc] initWithFrame:(CGRect){230, 260, 100, 100}];
+    _touchIDLabel = [[UILabel alloc] initWithFrame:(CGRect){230, 330, 60, 30}];
+    _touchIDSwitch = [[UISwitch alloc] initWithFrame:(CGRect){230, 360, 100, 100}];
 	_enablePasscode.frame = CGRectMake(100, 100, 100, 50);
 	_testPasscode.frame = CGRectMake(100, 200, 100, 50);
 	_changePasscode.frame = CGRectMake(100, 300, 100, 50);
@@ -77,6 +82,7 @@
 	[_testPasscode setTitle: @"Test" forState: UIControlStateNormal];
 	[_enablePasscode setTitle: @"Enable" forState: UIControlStateNormal];
     _typeLabel.text = @"Simple";
+    _touchIDLabel.text = @"TouchID";
 	
 	[self _refreshUI];
 	
@@ -85,6 +91,7 @@
 	[_testPasscode addTarget: self action: @selector(_testPasscode) forControlEvents: UIControlEventTouchUpInside];
 	[_turnOffPasscode addTarget: self action: @selector(_turnOffPasscode) forControlEvents: UIControlEventTouchUpInside];
     [_typeSwitch addTarget:self action:@selector(_switchPasscodeType:) forControlEvents:UIControlEventValueChanged];
+    [_touchIDSwitch addTarget:self action:@selector(_switchTouchIDType:) forControlEvents:UIControlEventValueChanged];
 	
 	[self.view addSubview: _changePasscode];
 	[self.view addSubview: _turnOffPasscode];
@@ -92,6 +99,8 @@
 	[self.view addSubview: _enablePasscode];
     [self.view addSubview:_typeSwitch];
     [self.view addSubview:_typeLabel];
+    [self.view addSubview:_touchIDSwitch];
+    [self.view addSubview:_touchIDLabel];
 }
 
 
@@ -127,6 +136,10 @@
     [[LTHPasscodeViewController sharedUser] setIsSimple:sender.isOn
                                        inViewController:self
                                                 asModal:YES];
+}
+
+- (void)_switchTouchIDType:(UISwitch *)sender {
+    [[LTHPasscodeViewController sharedUser] setAllowUnlockWithTouchID:sender.isOn];
 }
 
 - (void)showLockViewForEnablingPasscode {

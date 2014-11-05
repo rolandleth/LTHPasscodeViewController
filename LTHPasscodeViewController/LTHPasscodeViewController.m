@@ -208,6 +208,45 @@ options:NSNumericSearch] != NSOrderedAscending)
 							   error:nil];
 }
 
+- (void)setAllowUnlockWithTouchID:(BOOL)setAllowUnlockWithTouchID
+{
+    _allowUnlockWithTouchID = setAllowUnlockWithTouchID;
+    [self _saveAllowUnlockWithTouchID];
+}
+
+- (BOOL)_allowUnlockWithTouchID {
+    if (!_usesKeychain &&
+        [self.delegate respondsToSelector:@selector(allowUnlockWithTouchID)]) {
+        return [self.delegate allowUnlockWithTouchID];
+    }
+    
+    NSString *keychainValue =
+    [LTHKeychainUtils getPasswordForUsername:_keychainAllowUnlockWithTouchID
+                              andServiceName:_keychainServiceName
+                              andAccessGroup:_keychainAccessGroup
+                                       error:nil];
+    if (!keychainValue) return YES;
+    return keychainValue.boolValue;
+}
+
+
+- (void)_saveAllowUnlockWithTouchID {
+    if (!_usesKeychain &&
+        [self.delegate respondsToSelector:@selector(saveAllowUnlockWithTouchID:)]) {
+        [self.delegate saveAllowUnlockWithTouchID:_allowUnlockWithTouchID];
+        
+        return;
+    }
+    
+    [LTHKeychainUtils storeUsername:_keychainAllowUnlockWithTouchID
+                        andPassword:[NSString stringWithFormat: @"%d",
+                                     _allowUnlockWithTouchID]
+                     forServiceName:_keychainServiceName
+                     andAccessGroup:_keychainAccessGroup
+                     updateExisting:YES
+                              error:nil];
+}
+
 
 - (BOOL)_didPasscodeTimerEnd {
     if (!_usesKeychain &&
@@ -953,6 +992,9 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 - (void)showLockScreenInViewController:(UIViewController *)viewController asModal:(BOOL)isModal
 {
+    // We need to refresh the value for App Extension
+    _allowUnlockWithTouchID = [self _allowUnlockWithTouchID];
+    
 	_displayedAsModal = isModal;
 	[self _prepareAsLockScreen];
 	[self _prepareNavigationControllerWithController:viewController];
@@ -1457,12 +1499,12 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 
 - (void)_loadDefaults {
+    [self _loadKeychainDefaults];
     [self _loadMiscDefaults];
     [self _loadStringDefaults];
     [self _loadGapDefaults];
     [self _loadFontDefaults];
     [self _loadColorDefaults];
-    [self _loadKeychainDefaults];
 }
 
 
@@ -1474,9 +1516,9 @@ options:NSNumericSearch] != NSOrderedAscending)
     _usesKeychain = YES;
     _displayedAsModal = YES;
     _hidesBackButton = YES;
-    _allowUnlockWithTouchID = YES;
     _passcodeCharacter = @"\u2014"; // A longer "-";
     _localizationTableName = @"LTHPasscodeViewController";
+    _allowUnlockWithTouchID = [self _allowUnlockWithTouchID];
 }
 
 
@@ -1536,6 +1578,7 @@ options:NSNumericSearch] != NSOrderedAscending)
     _keychainTimerStartUsername = @"demoPasscodeTimerStart";
     _keychainServiceName = @"demoServiceName";
     _keychainTimerDurationUsername = @"passcodeTimerDuration";
+    _keychainAllowUnlockWithTouchID = @"allowUnlockWithTouchID";
     _keychainAccessGroup = nil;
 }
 
