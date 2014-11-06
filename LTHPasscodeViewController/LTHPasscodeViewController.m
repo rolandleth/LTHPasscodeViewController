@@ -1378,7 +1378,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 
 - (void)_applicationWillResignActive {
-	if ([self _doesPasscodeExist]) {
+	if ([self _doesPasscodeExist] && !([self isCurrentlyOnScreen] && [self displayedAsLockScreen])) {
 		[self _saveTimerStartTime];
 	}
 }
