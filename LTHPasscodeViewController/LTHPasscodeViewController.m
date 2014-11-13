@@ -74,37 +74,37 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 #pragma mark - Public, class methods
 + (BOOL)doesPasscodeExist {
-	return [[LTHPasscodeViewController sharedUser] _doesPasscodeExist];
+	return [[self sharedUser] _doesPasscodeExist];
 }
 
 
 + (NSString *)passcode {
-	return [[LTHPasscodeViewController sharedUser] _passcode];
+	return [[self sharedUser] _passcode];
 }
 
 
 + (NSTimeInterval)timerDuration {
-	return [[LTHPasscodeViewController sharedUser] _timerDuration];
+	return [[self sharedUser] _timerDuration];
 }
 
 
 + (void)saveTimerDuration:(NSTimeInterval)duration {
-    [[LTHPasscodeViewController sharedUser] _saveTimerDuration:duration];
+    [[self sharedUser] _saveTimerDuration:duration];
 }
 
 
 + (NSTimeInterval)timerStartTime {
-    return [[LTHPasscodeViewController sharedUser] _timerStartTime];
+    return [[self sharedUser] _timerStartTime];
 }
 
 
 + (void)saveTimerStartTime {
-	[[LTHPasscodeViewController sharedUser] _saveTimerStartTime];
+	[[self sharedUser] _saveTimerStartTime];
 }
 
 
 + (BOOL)didPasscodeTimerEnd {
-	return [[LTHPasscodeViewController sharedUser] _didPasscodeTimerEnd];
+	return [[self sharedUser] _didPasscodeTimerEnd];
 }
 
 
@@ -115,17 +115,17 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 
 + (void)close {
-    [[LTHPasscodeViewController sharedUser] _close];
+    [[self sharedUser] _close];
 }
 
 
 + (void)deletePasscode {
-	[[LTHPasscodeViewController sharedUser] _deletePasscode];
+	[[self sharedUser] _deletePasscode];
 }
 
 
 + (void)useKeychain:(BOOL)useKeychain {
-    [[LTHPasscodeViewController sharedUser] _useKeychain:useKeychain];
+    [[self sharedUser] _useKeychain:useKeychain];
 }
 
 
@@ -1390,7 +1390,7 @@ options:NSNumericSearch] != NSOrderedAscending)
     
 	static dispatch_once_t pred;
 	dispatch_once(&pred, ^{
-		sharedObject = [[LTHPasscodeViewController alloc] init];
+		sharedObject = [[self alloc] init];
 	});
 	
 	return sharedObject;
