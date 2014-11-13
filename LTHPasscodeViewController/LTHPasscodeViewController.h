@@ -53,6 +53,11 @@
  @return The passcode.
  */
 - (NSString *)passcode;
+/**
+ @brief   "I Forgot My Password" tapped
+ @details Called if "I Forgot My Password" button was tappeg.
+ */
+- (void)iWishIRememberedMyPasscode;
 @end
 
 @interface LTHPasscodeViewController : UIViewController

@@ -22,13 +22,12 @@
 #endif
 
 static const CGFloat kTopSpacing4Inch = 80.0f;
-static const CGFloat kTopSpacing35Inch = 60.0f;
+static const CGFloat kTopSpacing35Inch = 30.0f;
 static const CGFloat kVerticalGap4Inch = 54.0f;
-static const CGFloat kVerticalGap35Inch = 20.0f;
+static const CGFloat kVerticalGap35Inch = 5.0f;
 static const CGFloat kDigitHorizontalGap = 40.0f;
 static const CGFloat kFailedAttemptLabelYOffset = -216.0f;
 static const CGFloat kFailedAttemptLabelHeight = 22.0f;
-static const CGFloat kFailedAttemptLabelWidth = 320.0f;
 
 @interface LTHPasscodeViewController () <UITextFieldDelegate>
 @property (nonatomic, strong) UIView      *coverView;
@@ -43,6 +42,7 @@ static const CGFloat kFailedAttemptLabelWidth = 320.0f;
 
 @property (nonatomic, strong) UILabel     *failedAttemptLabel;
 @property (nonatomic, strong) UILabel     *enterPasscodeLabel;
+@property (nonatomic, strong) UIButton    *forgottenPasswordButton;
 
 @property (nonatomic, strong) NSString    *tempPasscode;
 @property (nonatomic, assign) NSInteger   failedAttempts;
@@ -317,9 +317,16 @@ static const CGFloat kFailedAttemptLabelWidth = 320.0f;
 	_failedAttemptLabel.font = _failedAttemptLabelFont;
 	_failedAttemptLabel.textAlignment = NSTextAlignmentCenter;
 	[_animatingView addSubview: _failedAttemptLabel];
+
+    _forgottenPasswordButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_forgottenPasswordButton addTarget:self action:@selector(handleForgottenPasswordTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [_forgottenPasswordButton setTitleColor:[Appearance limeThemeColor] forState:UIControlStateNormal];
+    _forgottenPasswordButton.titleLabel.font = [UIFont bw_lightItalicMrEavesFontWithSize:22.f];
+    [_animatingView addSubview:_forgottenPasswordButton];
     
     _enterPasscodeLabel.translatesAutoresizingMaskIntoConstraints = NO;
 	_failedAttemptLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    _forgottenPasswordButton.translatesAutoresizingMaskIntoConstraints = NO;
 	
 	[self _resetUI];
 }
@@ -525,11 +532,11 @@ static const CGFloat kFailedAttemptLabelWidth = 320.0f;
 	NSLayoutConstraint *failedAttemptLabelWidth =
     [NSLayoutConstraint constraintWithItem: _failedAttemptLabel
                                  attribute: NSLayoutAttributeWidth
-                                 relatedBy: NSLayoutRelationGreaterThanOrEqual
-                                    toItem: nil
-                                 attribute: NSLayoutAttributeNotAnAttribute
+                                 relatedBy: NSLayoutRelationEqual
+                                    toItem: self.view
+                                 attribute: NSLayoutAttributeWidth
                                 multiplier: 1.0f
-                                  constant: kFailedAttemptLabelWidth];
+                                  constant: 0.0f];
 	NSLayoutConstraint *failedAttemptLabelHeight =
     [NSLayoutConstraint constraintWithItem: _failedAttemptLabel
                                  attribute: NSLayoutAttributeHeight
@@ -542,6 +549,37 @@ static const CGFloat kFailedAttemptLabelWidth = 320.0f;
 	[self.view addConstraint:failedAttemptLabelCenterY];
 	[self.view addConstraint:failedAttemptLabelWidth];
 	[self.view addConstraint:failedAttemptLabelHeight];
+
+    NSLayoutConstraint *forgottenPasswordButtonX =
+    [NSLayoutConstraint constraintWithItem:_forgottenPasswordButton
+                                 attribute:NSLayoutAttributeCenterX
+                                 relatedBy:NSLayoutRelationEqual
+                                    toItem:self.view
+                                 attribute:NSLayoutAttributeCenterX
+                                multiplier:1.f
+                                  constant:0.f];
+    NSLayoutConstraint *forgottenPasswordButtonY =
+    [NSLayoutConstraint constraintWithItem:_forgottenPasswordButton
+                                 attribute:NSLayoutAttributeBottom
+                                 relatedBy:NSLayoutRelationEqual
+                                    toItem:_failedAttemptLabel
+                                 attribute:NSLayoutAttributeTop
+                                multiplier:1.f
+                                  constant:-10.f];
+    NSLayoutConstraint *forgottenPasswordButtonWidth =
+    [NSLayoutConstraint constraintWithItem:_forgottenPasswordButton
+                                 attribute:NSLayoutAttributeWidth
+                                 relatedBy:NSLayoutRelationEqual
+                                    toItem:self.view
+                                 attribute:NSLayoutAttributeWidth
+                                multiplier:1.f
+                                  constant:0.f];
+
+    [self.view addConstraints:@[
+                                forgottenPasswordButtonX,
+                                forgottenPasswordButtonY,
+                                forgottenPasswordButtonWidth,
+                                ]];
     
 }
 
@@ -1016,6 +1054,8 @@ static const CGFloat kFailedAttemptLabelWidth = 320.0f;
 	else {
 		_enterPasscodeLabel.text = LocalizedString(@"PASSCODE_ENTER_YOUR_PASSCODE");
 	}
+
+    [_forgottenPasswordButton setTitle:LocalizedString(@"PASSCODE_FORGOTTEN_PASSWORD") forState:UIControlStateNormal];
 }
 
 - (void)_resetUI {
@@ -1025,6 +1065,8 @@ static const CGFloat kFailedAttemptLabelWidth = 320.0f;
 	_failedAttempts = 0;
 	_failedAttemptLabel.hidden = YES;
 	_passcodeTextField.text = @"";
+
+    _forgottenPasswordButton.hidden = !_displayedAsLockScreen;
 	
 	[self setLabelText];
 	
@@ -1079,6 +1121,14 @@ static const CGFloat kFailedAttemptLabelWidth = 320.0f;
     }
     
     return _isSimple;
+}
+
+#pragma mark - Action actions, geez
+
+- (IBAction)handleForgottenPasswordTapped:(id)sender {
+    if ([self.delegate respondsToSelector:@selector(iWishIRememberedMyPasscode)]) {
+        [self.delegate iWishIRememberedMyPasscode];
+    }
 }
 
 #pragma mark - Init
