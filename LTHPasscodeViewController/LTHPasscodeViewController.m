@@ -109,8 +109,8 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 
 + (void)deletePasscodeAndClose {
-	[LTHPasscodeViewController deletePasscode];
-    [LTHPasscodeViewController close];
+	[self deletePasscode];
+    [self close];
 }
 
 
