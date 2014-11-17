@@ -34,6 +34,8 @@
 		2AE8002217D9503000DBDE63 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		2AE8003F17D9507E00DBDE63 /* LTHDemoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTHDemoViewController.h; sourceTree = "<group>"; };
 		2AE8004017D9507E00DBDE63 /* LTHDemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTHDemoViewController.m; sourceTree = "<group>"; };
+		2AF06FCB1A19F89E00C6F836 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/LTHPasscodeViewController.strings"; sourceTree = "<group>"; };
+		2AF06FCC1A19F89E00C6F836 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		2AF1958E182C09D5005CE38A /* LTHPasscodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTHPasscodeViewController.h; sourceTree = "<group>"; };
 		2AF1958F182C09D5005CE38A /* LTHPasscodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTHPasscodeViewController.m; sourceTree = "<group>"; };
 		2AF19591182C09D5005CE38A /* LTHKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTHKeychainUtils.h; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 				fr,
 				ru,
 				ko,
+				"pt-PT",
 			);
 			mainGroup = 2AE8FFFD17D9503000DBDE63;
 			productRefGroup = 2AE8000717D9503000DBDE63 /* Products */;
@@ -225,6 +228,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				2AE8001317D9503000DBDE63 /* en */,
+				2AF06FCC1A19F89E00C6F836 /* pt-PT */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -240,6 +244,7 @@
 				7D06D124191B842B00D399E8 /* ro */,
 				7D06D125191B842B00D399E8 /* ru */,
 				73D3C16F1A09415700503F0A /* ko */,
+				2AF06FCB1A19F89E00C6F836 /* pt-PT */,
 			);
 			name = LTHPasscodeViewController.strings;
 			sourceTree = "<group>";
