@@ -88,6 +88,10 @@
  */
 @property (nonatomic, assign) CGFloat   verticalGap;
 /**
+ @brief The offset between the top label and middle position.
+ */
+@property (nonatomic, assign) CGFloat   verticalOffset;
+/**
  @brief The gap between the passcode digits and the failed label.
  */
 @property (nonatomic, assign) CGFloat   failedAttemptLabelGap;
@@ -119,6 +123,10 @@
  @brief The background color for the view.
  */
 @property (nonatomic, strong) UIColor   *backgroundColor;
+/**
+ @brief The background image for the coverview.
+ */
+@property (nonatomic, strong) UIImage   *backgroundImage;
 /**
  @brief The background color for the cover view that appears on top of the app, visible in the multitasking.
  */
