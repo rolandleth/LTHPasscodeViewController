@@ -63,6 +63,8 @@ options:NSNumericSearch] != NSOrderedAscending)
 @property (nonatomic, assign) BOOL        isUserEnablingPasscode;
 @property (nonatomic, assign) BOOL        isUserSwitchingBetweenPasscodeModes;// simple/complex
 @property (nonatomic, assign) BOOL        timerStartInSeconds;
+@property (nonatomic, assign) BOOL        isUsingTouchID;
+@property (nonatomic, assign) BOOL        useFallbackPasscode;
 
 #if !(TARGET_IPHONE_SIMULATOR)
 @property (nonatomic, strong) LAContext   *context;
@@ -275,15 +277,20 @@ options:NSNumericSearch] != NSOrderedAscending)
             if (error) {
                 return;
             }
+            
+            _isUsingTouchID = YES;
+            [_passcodeTextField resignFirstResponder];
+            _animatingView.hidden = YES;
+
             // Authenticate User
-            
-            
             [self.context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
                          localizedReason:NSLocalizedStringFromTable(self.touchIDString, _localizationTableName, @"")
                                    reply:^(BOOL success, NSError *error) {
                                        
                                        if (error) {
                                            dispatch_async(dispatch_get_main_queue(), ^{
+                                               _useFallbackPasscode = YES;
+                                               _animatingView.hidden = NO;
                                                [self _resetUI];
                                            });
                                            self.context = nil;
@@ -301,6 +308,8 @@ options:NSNumericSearch] != NSOrderedAscending)
                                        }
                                        else {
                                            dispatch_async(dispatch_get_main_queue(), ^{
+                                               _useFallbackPasscode = YES;
+                                               _animatingView.hidden = NO;
                                                [self _resetUI];
                                            });
                                        }
@@ -345,13 +354,21 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-	[_passcodeTextField becomeFirstResponder];
+    if (!_isUsingTouchID) {
+        [_passcodeTextField becomeFirstResponder];
+    }
 }
 
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-	if (!_passcodeTextField.isFirstResponder) [_passcodeTextField becomeFirstResponder];
+    if (!_passcodeTextField.isFirstResponder && (!_isUsingTouchID)) {
+        [_passcodeTextField becomeFirstResponder];
+    }
+    if (_isUsingTouchID) {
+        [_passcodeTextField resignFirstResponder];
+        _animatingView.hidden = _isUsingTouchID;
+    }
 }
 
 
@@ -1032,7 +1049,9 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 #pragma mark - UITextFieldDelegate
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
-    if (!_displayedAsLockScreen && !_displayedAsModal) return YES;
+    if ((!_displayedAsLockScreen && !_displayedAsModal) || (_isUsingTouchID || !_useFallbackPasscode)) {
+        return YES;
+    }
 	return !_isCurrentlyOnScreen;
 }
 
@@ -1125,6 +1144,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 //                                                                object: self
 //                                                              userInfo: nil];
             [self _dismissMe];
+            _useFallbackPasscode = NO;
             if ([self.delegate respondsToSelector: @selector(passcodeWasEnteredSuccessfully)]) {
                 [self.delegate performSelector: @selector(passcodeWasEnteredSuccessfully)];
             }
@@ -1238,7 +1258,9 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 
 - (void)_resetTextFields {
-	if (![_passcodeTextField isFirstResponder]) [_passcodeTextField becomeFirstResponder];
+    if (![_passcodeTextField isFirstResponder] && (!_isUsingTouchID || _useFallbackPasscode)) {
+        [_passcodeTextField becomeFirstResponder];
+    }
 	_firstDigitTextField.secureTextEntry = NO;
 	_secondDigitTextField.secureTextEntry = NO;
 	_thirdDigitTextField.secureTextEntry = NO;
@@ -1333,8 +1355,10 @@ options:NSNumericSearch] != NSOrderedAscending)
 #pragma mark - Notification Observers
 - (void)_applicationDidEnterBackground {
 	if ([self _doesPasscodeExist]) {
-		if ([_passcodeTextField isFirstResponder])
+        if ([_passcodeTextField isFirstResponder]) {
+            _useFallbackPasscode = NO;
 			[_passcodeTextField resignFirstResponder];
+        }
 		// Without animation because otherwise it won't come down fast enough,
 		// so inside iOS' multitasking view the app won't be covered by anything.
 		if ([self _timerDuration] <= 0) {
@@ -1357,6 +1381,10 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 
 - (void)_applicationDidBecomeActive {
+    if(_isUsingTouchID && !_useFallbackPasscode) {
+        _animatingView.hidden = YES;
+        [_passcodeTextField resignFirstResponder];
+    }
 	_coverView.hidden = YES;
 }
 
@@ -1364,6 +1392,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 - (void)_applicationWillEnterForeground {
 	if ([self _doesPasscodeExist] &&
 		[self _didPasscodeTimerEnd]) {
+        _useFallbackPasscode = NO;
         // This is here instead of didEnterBackground because when self is pushed
         // instead of presented as a modal,
         // the app would be visible from the multitasking view.
@@ -1386,6 +1415,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 - (void)_applicationWillResignActive {
 	if ([self _doesPasscodeExist] && !([self isCurrentlyOnScreen] && [self displayedAsLockScreen])) {
+        _useFallbackPasscode = NO;
 		[self _saveTimerStartTime];
 	}
 }
