@@ -316,7 +316,14 @@ options:NSNumericSearch] != NSOrderedAscending)
 #pragma mark - View life
 - (void)viewDidLoad {
     [super viewDidLoad];
-	self.view.backgroundColor = _backgroundColor;
+    self.view.backgroundColor = _backgroundColor;
+    
+    if(_backgroundImage != nil) {
+        NSLog(@"Adding image background");
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:self.view.frame];
+        imageView.image = _backgroundImage;
+        [self.view addSubview:imageView];
+    }
     
 	_failedAttempts = 0;
 	_animatingView = [[UIView alloc] initWithFrame: self.view.frame];
@@ -578,7 +585,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 	// That's why only portrait is selected for iPhone's supported orientations.
 	// Modify this to fit your needs.
 	
-	CGFloat yOffsetFromCenter = -self.view.frame.size.height * 0.24;
+	CGFloat yOffsetFromCenter = -self.view.frame.size.height * 0.24 + _verticalOffset;
 	NSLayoutConstraint *enterPasscodeConstraintCenterX =
 	[NSLayoutConstraint constraintWithItem: _enterPasscodeLabel
 								 attribute: NSLayoutAttributeCenterX
@@ -1493,7 +1500,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 - (void)_loadColorDefaults {
     // Backgrounds
-    _backgroundColor =  [UIColor colorWithRed:0.97f green:0.97f blue:1.0f alpha:1.00f];
+    _backgroundColor = [UIColor colorWithRed:0.97f green:0.97f blue:1.0f alpha:1.00f];
     _passcodeBackgroundColor = [UIColor clearColor];
     _coverViewBackgroundColor = [UIColor colorWithRed:0.97f green:0.97f blue:1.0f alpha:1.00f];
     _failedAttemptLabelBackgroundColor =  [UIColor colorWithRed:0.8f green:0.1f blue:0.2f alpha:1.000f];
