@@ -328,12 +328,9 @@ options:NSNumericSearch] != NSOrderedAscending)
     [super viewDidLoad];
     self.view.backgroundColor = _backgroundColor;
     
-    if(_backgroundImage != nil) {
-        NSLog(@"Adding image background");
-        _backgroundImageView = [[UIImageView alloc] initWithFrame:self.view.frame];
-        _backgroundImageView.image = _backgroundImage;
-        [self.view addSubview:_backgroundImageView];
-    }
+    _backgroundImageView = [[UIImageView alloc] initWithFrame:self.view.frame];
+    [self.view addSubview:_backgroundImageView];
+    _backgroundImageView.image = _backgroundImage;
     
 	_failedAttempts = 0;
 	_animatingView = [[UIView alloc] initWithFrame: self.view.frame];
