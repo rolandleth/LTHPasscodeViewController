@@ -362,10 +362,11 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    if (!_passcodeTextField.isFirstResponder && (!_isUsingTouchID)) {
+    if (!_passcodeTextField.isFirstResponder && (!_isUsingTouchID || _isUserChangingPasscode || _isUserBeingAskedForNewPasscode || _isUserConfirmingPasscode || _isUserEnablingPasscode || _isUserSwitchingBetweenPasscodeModes || _isUserTurningPasscodeOff)) {
         [_passcodeTextField becomeFirstResponder];
+        _animatingView.hidden = NO;
     }
-    if (_isUsingTouchID) {
+    if (_isUsingTouchID && !_isUserChangingPasscode && !_isUserBeingAskedForNewPasscode && !_isUserConfirmingPasscode && !_isUserEnablingPasscode && !_isUserSwitchingBetweenPasscodeModes && !_isUserTurningPasscodeOff) {
         [_passcodeTextField resignFirstResponder];
         _animatingView.hidden = _isUsingTouchID;
     }
