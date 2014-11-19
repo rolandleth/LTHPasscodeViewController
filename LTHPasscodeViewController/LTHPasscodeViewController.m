@@ -33,6 +33,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 @property (nonatomic, strong) UIView      *coverView;
 @property (nonatomic, strong) UIView      *animatingView;
 @property (nonatomic, strong) UIView      *complexPasscodeOverlayView;
+@property (nonatomic, strong) UIImageView *backgroundImageView;
 
 @property (nonatomic, strong) UITextField *passcodeTextField;
 @property (nonatomic, strong) UITextField *firstDigitTextField;
@@ -329,9 +330,9 @@ options:NSNumericSearch] != NSOrderedAscending)
     
     if(_backgroundImage != nil) {
         NSLog(@"Adding image background");
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:self.view.frame];
-        imageView.image = _backgroundImage;
-        [self.view addSubview:imageView];
+        _backgroundImageView = [[UIImageView alloc] initWithFrame:self.view.frame];
+        _backgroundImageView.image = _backgroundImage;
+        [self.view addSubview:_backgroundImageView];
     }
     
 	_failedAttempts = 0;
@@ -354,6 +355,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
+    _backgroundImageView.image = _backgroundImage;
     if (!_isUsingTouchID) {
         [_passcodeTextField becomeFirstResponder];
     }
