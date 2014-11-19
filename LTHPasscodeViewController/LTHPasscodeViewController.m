@@ -33,6 +33,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 @property (nonatomic, strong) UIView      *coverView;
 @property (nonatomic, strong) UIView      *animatingView;
 @property (nonatomic, strong) UIView      *complexPasscodeOverlayView;
+@property (nonatomic, strong) UIImageView *backgroundImageView;
 
 @property (nonatomic, strong) UITextField *passcodeTextField;
 @property (nonatomic, strong) UITextField *firstDigitTextField;
@@ -54,6 +55,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 @property (nonatomic, assign) BOOL        usesKeychain;
 @property (nonatomic, assign) BOOL        displayedAsModal;
 @property (nonatomic, assign) BOOL        displayedAsLockScreen;
+@property (nonatomic, assign) BOOL        isUsingNavbar;
 @property (nonatomic, assign) BOOL        isCurrentlyOnScreen;
 @property (nonatomic, assign) BOOL        isSimple;// YES by default
 @property (nonatomic, assign) BOOL        isUserConfirmingPasscode;
@@ -327,12 +329,9 @@ options:NSNumericSearch] != NSOrderedAscending)
     [super viewDidLoad];
     self.view.backgroundColor = _backgroundColor;
     
-    if(_backgroundImage != nil) {
-        NSLog(@"Adding image background");
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:self.view.frame];
-        imageView.image = _backgroundImage;
-        [self.view addSubview:imageView];
-    }
+    _backgroundImageView = [[UIImageView alloc] initWithFrame:self.view.frame];
+    [self.view addSubview:_backgroundImageView];
+    _backgroundImageView.image = _backgroundImage;
     
 	_failedAttempts = 0;
 	_animatingView = [[UIView alloc] initWithFrame: self.view.frame];
@@ -354,6 +353,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
+    _backgroundImageView.image = _backgroundImage;
     if (!_isUsingTouchID) {
         [_passcodeTextField becomeFirstResponder];
     }
@@ -362,10 +362,11 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    if (!_passcodeTextField.isFirstResponder && (!_isUsingTouchID)) {
+    if (!_passcodeTextField.isFirstResponder && (!_isUsingTouchID || _isUserChangingPasscode || _isUserBeingAskedForNewPasscode || _isUserConfirmingPasscode || _isUserEnablingPasscode || _isUserSwitchingBetweenPasscodeModes || _isUserTurningPasscodeOff)) {
         [_passcodeTextField becomeFirstResponder];
+        _animatingView.hidden = NO;
     }
-    if (_isUsingTouchID) {
+    if (_isUsingTouchID && !_isUserChangingPasscode && !_isUserBeingAskedForNewPasscode && !_isUserConfirmingPasscode && !_isUserEnablingPasscode && !_isUserSwitchingBetweenPasscodeModes && !_isUserTurningPasscodeOff) {
         [_passcodeTextField resignFirstResponder];
         _animatingView.hidden = _isUsingTouchID;
     }
@@ -887,6 +888,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 		
 		// Add nav bar & logout button if specified
 		if (hasLogout) {
+            _isUsingNavbar = hasLogout;
 			// Navigation Bar with custom UI
 			self.navBar =
 			[[UINavigationBar alloc] initWithFrame:CGRectMake(0, mainWindow.frame.origin.y,
@@ -1297,8 +1299,11 @@ options:NSNumericSearch] != NSOrderedAscending)
     }
 	
 	// Make sure nav bar for logout is off the screen
-	[self.navBar removeFromSuperview];
-	self.navBar = nil;
+    if (!_isUsingNavbar) {
+        [self.navBar removeFromSuperview];
+        self.navBar = nil;
+    }
+    _isUsingNavbar = NO;
     
     _OKButton.hidden = YES;
 }
