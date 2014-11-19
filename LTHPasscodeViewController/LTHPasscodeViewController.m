@@ -55,6 +55,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 @property (nonatomic, assign) BOOL        usesKeychain;
 @property (nonatomic, assign) BOOL        displayedAsModal;
 @property (nonatomic, assign) BOOL        displayedAsLockScreen;
+@property (nonatomic, assign) BOOL        isUsingNavbar;
 @property (nonatomic, assign) BOOL        isCurrentlyOnScreen;
 @property (nonatomic, assign) BOOL        isSimple;// YES by default
 @property (nonatomic, assign) BOOL        isUserConfirmingPasscode;
@@ -887,6 +888,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 		
 		// Add nav bar & logout button if specified
 		if (hasLogout) {
+            _isUsingNavbar = hasLogout;
 			// Navigation Bar with custom UI
 			self.navBar =
 			[[UINavigationBar alloc] initWithFrame:CGRectMake(0, mainWindow.frame.origin.y,
@@ -1297,8 +1299,11 @@ options:NSNumericSearch] != NSOrderedAscending)
     }
 	
 	// Make sure nav bar for logout is off the screen
-	[self.navBar removeFromSuperview];
-	self.navBar = nil;
+    if (!_isUsingNavbar) {
+        [self.navBar removeFromSuperview];
+        self.navBar = nil;
+    }
+    _isUsingNavbar = NO;
     
     _OKButton.hidden = YES;
 }
