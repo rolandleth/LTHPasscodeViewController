@@ -44,7 +44,7 @@ extension String {
 	}
 	
 	func containsString(string: String) -> Bool {
-		return NSString(string: self).containsString(string)
+		return self.rangeOfString(string) != nil
 	}
 	
 	static func documentPath(pathComponent: String) -> String? {
