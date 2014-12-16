@@ -416,8 +416,8 @@ static const CGFloat kFailedAttemptLabelHeight = 22.0f;
 	// Modify this to fit your needs.
 	
 	
-	CGFloat verticalGap = is4InchDevice() ? kVerticalGap4Inch : kVerticalGap35Inch;
-	CGFloat topSpacing = is4InchDevice() ? kTopSpacing4Inch : kTopSpacing35Inch;
+	CGFloat verticalGap = is4InchDevice() ? kVerticalGap4Inch : self.displayedAsLockScreen ? kVerticalGap35Inch : kVerticalGap35Inch + 15.0f;
+	CGFloat topSpacing = is4InchDevice() ? kTopSpacing4Inch :self.displayedAsLockScreen ? kTopSpacing35Inch : kTopSpacing35Inch + 30.0f;
 	
 	NSLayoutConstraint *enterPasscodeConstraintCenterX =
     [NSLayoutConstraint constraintWithItem: _enterPasscodeLabel
