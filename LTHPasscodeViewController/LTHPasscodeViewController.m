@@ -353,6 +353,8 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
+	[self _addObservers];
+	
     _backgroundImageView.image = _backgroundImage;
     if (!_isUsingTouchID) {
         [_passcodeTextField becomeFirstResponder];
@@ -1469,7 +1471,6 @@ options:NSNumericSearch] != NSOrderedAscending)
 - (void)_commonInit {
 	_isSimple = YES;
 	[self _loadDefaults];
-	[self _addObservers];
 }
 
 
