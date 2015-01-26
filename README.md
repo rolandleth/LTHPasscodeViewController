@@ -69,12 +69,7 @@ Feel free to [contact me](mailto:roland@rolandleth.com), or open an issue if any
 ![Screenshot](http://rolandleth.com/assets/ios7-style-passcode/screenshot.png)   ![Screenshot](http://rolandleth.com/assets/ios7-style-passcode/change-passcode-screenshot.png)
 
 # Apps using this control
-[Expenses Planner](https://itunes.apple.com/us/app/expenses-planner-reminders/id669431471?mt=8)  
-[DigitalOcean Manager](https://itunes.apple.com/us/app/digitalocean-manager/id633128302?mt=8)  
-[LovelyHeroku](https://itunes.apple.com/us/app/lovelyheroku/id706287663?mt=8&uo=4)  
-[Flow Web Browser](https://itunes.apple.com/us/app/flow-web-browser-downloader/id705536564?mt=8)  
-[Balance - Checkbook App](https://itunes.apple.com/US/app/id854362248)
-[QIF Reader](https://itunes.apple.com/us/app/qif-reader/id374178932?mt=8)
+[Expenses Planner](https://itunes.apple.com/us/app/expenses-planner-reminders/id669431471?mt=8), [DigitalOcean Manager](https://itunes.apple.com/us/app/digitalocean-manager/id633128302?mt=8), [LovelyHeroku](https://itunes.apple.com/us/app/lovelyheroku/id706287663?mt=8&uo=4), [Flow Web Browser](https://itunes.apple.com/us/app/flow-web-browser-downloader/id705536564?mt=8), [Balance - Checkbook App](https://itunes.apple.com/US/app/id854362248), [QIF Reader](https://itunes.apple.com/us/app/qif-reader/id374178932?mt=8), [Zee - Personal Finance](https://itunes.apple.com/us/app/zee-personal-finance/id422694086?mt=8).
 
 If you're using this control, I'd love hearing from you!  
 
