@@ -266,7 +266,7 @@ static const CGFloat kFailedAttemptLabelHeight = 22.0f;
                                      completion:nil];
         }
         else if (!_displayedAsLockScreen) {
-            [self.navigationController popViewControllerAnimated:NO];
+            [self.navigationController popViewControllerAnimated:YES];
         }
 	}];
 	[[NSNotificationCenter defaultCenter]
