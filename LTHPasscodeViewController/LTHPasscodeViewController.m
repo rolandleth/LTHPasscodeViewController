@@ -1228,6 +1228,15 @@ options:NSNumericSearch] != NSOrderedAscending)
 	_passcodeTextField.text = @"";
     _OKButton.hidden = YES;
     
+    CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath: @"transform.translation.x"];
+    animation.duration = 0.6;
+    animation.timingFunction = [CAMediaTimingFunction functionWithName: kCAAnimationLinear];
+    animation.values = @[@-12, @12, @-12, @12, @-6, @6, @-3, @3, @0];
+    [_firstDigitTextField.layer addAnimation: animation forKey: @"shake"];
+    [_secondDigitTextField.layer addAnimation: animation forKey: @"shake"];
+    [_thirdDigitTextField.layer addAnimation: animation forKey: @"shake"];
+    [_fourthDigitTextField.layer addAnimation: animation forKey: @"shake"];
+    
 	_failedAttempts++;
 	
 	if (_maxNumberOfAllowedFailedAttempts > 0 &&

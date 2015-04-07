@@ -49,6 +49,7 @@
 		7D06D123191B842B00D399E8 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LTHPasscodeViewController.strings; sourceTree = "<group>"; };
 		7D06D124191B842B00D399E8 /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/LTHPasscodeViewController.strings; sourceTree = "<group>"; };
 		7D06D125191B842B00D399E8 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LTHPasscodeViewController.strings; sourceTree = "<group>"; };
+		AB21E3831AC174D600768B6F /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/LTHPasscodeViewController.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,6 +185,7 @@
 				ru,
 				ko,
 				"pt-PT",
+				nl,
 			);
 			mainGroup = 2AE8FFFD17D9503000DBDE63;
 			productRefGroup = 2AE8000717D9503000DBDE63 /* Products */;
@@ -245,6 +247,7 @@
 				7D06D125191B842B00D399E8 /* ru */,
 				73D3C16F1A09415700503F0A /* ko */,
 				2AF06FCB1A19F89E00C6F836 /* pt-PT */,
+				AB21E3831AC174D600768B6F /* nl */,
 			);
 			name = LTHPasscodeViewController.strings;
 			sourceTree = "<group>";
