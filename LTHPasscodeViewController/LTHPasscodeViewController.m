@@ -67,6 +67,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 @property (nonatomic, assign) BOOL        timerStartInSeconds;
 @property (nonatomic, assign) BOOL        isUsingTouchID;
 @property (nonatomic, assign) BOOL        useFallbackPasscode;
+@property (nonatomic, assign) BOOL        isAppNotificationsObserved
 
 #if !(TARGET_IPHONE_SIMULATOR)
 @property (nonatomic, strong) LAContext   *context;
@@ -353,7 +354,10 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-	[self _addObservers];
+    if (!self.isAppNotificationsObserved) {
+        [self _addObservers];
+        self.isAppNotificationsObserved = YES;
+    }
 	
     _backgroundImageView.image = _backgroundImage;
     if (!_isUsingTouchID) {
