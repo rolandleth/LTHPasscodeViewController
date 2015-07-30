@@ -67,7 +67,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 @property (nonatomic, assign) BOOL        timerStartInSeconds;
 @property (nonatomic, assign) BOOL        isUsingTouchID;
 @property (nonatomic, assign) BOOL        useFallbackPasscode;
-@property (nonatomic, assign) BOOL        isAppNotificationsObserved
+@property (nonatomic, assign) BOOL        isAppNotificationsObserved;
 
 #if !(TARGET_IPHONE_SIMULATOR)
 @property (nonatomic, strong) LAContext   *context;
