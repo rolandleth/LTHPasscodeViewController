@@ -8,7 +8,9 @@
 
 #import "LTHPasscodeViewController.h"
 #import "SFHFKeychainUtils.h"
-#import "BWAnalytics.h"
+#import "BWAnalyticsService.h"
+#import "AppDelegate.h"
+#import "BWServiceLocator.h"
 
 #define DegreesToRadians(x) ((x) * M_PI / 180.0)
 
@@ -115,7 +117,9 @@ static const CGFloat kFailedAttemptLabelHeight = 22.0f;
 							  andServiceName:_keychainServiceName
 									   error:nil];
 	
-	[[BWAnalytics sharedInstance] trackEventWithCategory:kEventCategoryConfiguration action:kEventActionDisabledPasscode];
+	[[AppDelegate sharedDelegate].serviceLocator.analyticsService tagEvent:BWAnalyticsEventSetupPasscode attributes:@{
+																													  BWAnalyticsAttributeNewState : @"disabled",
+																													  }];
 }
 
 
@@ -133,7 +137,9 @@ static const CGFloat kFailedAttemptLabelHeight = 22.0f;
                       updateExisting:YES
                                error:nil];
 	
-	[[BWAnalytics sharedInstance] trackEventWithCategory:kEventCategoryConfiguration action:kEventActionChangedOrEnabledPasscode];
+	[[AppDelegate sharedDelegate].serviceLocator.analyticsService tagEvent:BWAnalyticsEventSetupPasscode attributes:@{
+																													  BWAnalyticsAttributeNewState : @"enabled",
+																													  }];
 }
 
 
@@ -173,7 +179,7 @@ static const CGFloat kFailedAttemptLabelHeight = 22.0f;
 
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
-	[[BWAnalytics sharedInstance] trackViewNamed:kViewNamePasscodeView];
+	[[AppDelegate sharedDelegate].serviceLocator.analyticsService tagScreen:@"Passcode Screen"];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
