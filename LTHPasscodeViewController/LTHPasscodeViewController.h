@@ -297,6 +297,10 @@
  */
 - (void)setIsSimple:(BOOL)isSimple inViewController:(UIViewController *)viewController asModal:(BOOL)isModal;
 /**
+ @brief The passcode view will be shown by default when entering the app from background. This method disables this behavior by removing the observer for UIApplicationDidEnterBackgroundNotification and UIApplicationWillEnterForegroundNotification.
+ */
+- (void)disablePasscodeWhenApplicationEntersBackground;
+/**
  @brief  Returns a Boolean value that indicates whether a passcode exists (@c YES) or not (@c NO).
  @return @c YES if a passcode is enabled. This also means it is enabled, unless custom logic was added to the library.
  */

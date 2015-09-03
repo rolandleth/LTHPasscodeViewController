@@ -1686,6 +1686,11 @@ options:NSNumericSearch] != NSOrderedAscending)
     }
 }
 
+- (void)disablePasscodeWhenApplicationEntersBackground {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
+}
+
 
 + (CGFloat)getStatusBarHeight {
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
