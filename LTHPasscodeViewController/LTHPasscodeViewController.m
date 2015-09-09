@@ -930,10 +930,12 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 
 - (void)_prepareNavigationControllerWithController:(UIViewController *)viewController {
-	self.navigationItem.rightBarButtonItem =
-	[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-												  target:self
-												  action:@selector(_cancelAndDismissMe)];
+	if (!_hidesCancelButton) {
+		self.navigationItem.rightBarButtonItem =
+		[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+													  target:self
+													  action:@selector(_cancelAndDismissMe)];
+	}
 	
 	if (!_displayedAsModal) {
 		[viewController.navigationController pushViewController:self
@@ -1505,6 +1507,7 @@ options:NSNumericSearch] != NSOrderedAscending)
     _usesKeychain = YES;
     _displayedAsModal = YES;
     _hidesBackButton = YES;
+	_hidesCancelButton = YES;
     _allowUnlockWithTouchID = YES;
     _passcodeCharacter = @"\u2014"; // A longer "-";
     _localizationTableName = @"LTHPasscodeViewController";

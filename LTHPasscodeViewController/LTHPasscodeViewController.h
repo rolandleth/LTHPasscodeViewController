@@ -251,6 +251,12 @@
  @brief A Boolean value that indicates whether the back bar button is hidden (@c YES) or not (@c NO). Default is @c YES.
  */
 @property (nonatomic, assign) BOOL hidesBackButton;
+
+/**
+ @brief A Boolean value that indicates whether the right bar button is hidden (@c YES) or not (@c NO). Default is @c YES.
+ */
+@property (nonatomic, assign) BOOL hidesCancelButton;
+
 /**
  @brief A Boolean value that indicates whether Touch ID can be used (@c YES) or not (@c NO). Default is @c YES.
  */
