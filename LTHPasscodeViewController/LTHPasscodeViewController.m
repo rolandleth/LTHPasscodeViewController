@@ -1316,7 +1316,7 @@ options:NSNumericSearch] != NSOrderedAscending)
     }
 	
 	// Make sure nav bar for logout is off the screen
-    if (!_isUsingNavbar) {
+    if (_isUsingNavbar) {
         [self.navBar removeFromSuperview];
         self.navBar = nil;
     }
