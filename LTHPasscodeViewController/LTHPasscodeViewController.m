@@ -915,6 +915,8 @@ options:NSNumericSearch] != NSOrderedAscending)
                                              style:UIBarButtonItemStyleDone
                                             target:self
                                             action:@selector(_logoutWasPressed)];
+            [leftButton setTitlePositionAdjustment:UIOffsetMake(10, 0) forBarMetrics:UIBarMetricsDefault];
+            
 			UINavigationItem *item =
             [[UINavigationItem alloc] initWithTitle:self.title];
 			item.leftBarButtonItem = leftButton;
