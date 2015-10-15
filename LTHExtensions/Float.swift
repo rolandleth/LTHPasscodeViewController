@@ -9,15 +9,9 @@
 import Foundation
 
 extension Float {
-	var degreesToRadians: Float {
-		return self * 0.0174532925199432958
-	}
+	var degreesToRadians: Float { return self * 0.0174532925199432958 }
 }
 
 extension Double {
-	var degreesToRadians: Double {
-		let x = Float(self)
-		
-		return Double(x.degreesToRadians)
-	}
+	var degreesToRadians: Double { return Double(Float(self).degreesToRadians) }
 }

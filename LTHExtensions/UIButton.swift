@@ -6,31 +6,26 @@
 //  Copyright (c) 2014 Roland Leth. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 extension UIButton {
-	var custom: UIButton {
-		return UIButton.buttonWithType(.Custom) as UIButton
+	var custom: UIButton { return UIButton(type: .Custom) }
+	var system: UIButton { return UIButton(type: .System) }
+	var detailDisclosure: UIButton { return UIButton(type: .DetailDisclosure) }
+	var infoLight: UIButton { return UIButton(type: .InfoLight) }
+	var infoDark: UIButton { return UIButton(type: .InfoDark) }
+	var contactAdd: UIButton { return UIButton(type: .ContactAdd) }
+	
+	func alignImageOnTheRightOfTitle() {
+		titleEdgeInsets = UIEdgeInsets(top: 0, left: -(imageView!.width + 7), bottom: 0, right: imageView!.width + 7)
+		imageEdgeInsets = UIEdgeInsets(
+			top: 0, left: titleLabel!.width + 7,
+			bottom: 0, right: -(titleLabel!.width + 7)
+		)
 	}
 	
-	var system: UIButton {
-		return UIButton.buttonWithType(.System) as UIButton
-	}
-	
-	var detailDisclosure: UIButton {
-		return UIButton.buttonWithType(.DetailDisclosure) as UIButton
-	}
-	
-	var infoLight: UIButton {
-		return UIButton.buttonWithType(.InfoLight) as UIButton
-	}
-	
-	var infoDark: UIButton {
-		return UIButton.buttonWithType(.InfoDark) as UIButton
-	}
-	
-	var contactAdd: UIButton {
-		return UIButton.buttonWithType(.ContactAdd) as UIButton
+	func alignImageOnTheLeftOfTitle() {
+		titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -11)
+		imageEdgeInsets = UIEdgeInsets(top: 0, left: -7, bottom: 0, right: 0)
 	}
 }

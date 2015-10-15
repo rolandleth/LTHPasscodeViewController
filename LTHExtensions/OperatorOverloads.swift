@@ -37,7 +37,7 @@ func |||<T,V> (left: T?, right: V) -> Any  {
 }
 
 // Thanks to http://airspeedvelocity.net/2014/06/10/implementing-rubys-operator-in-swift/
-func ||= <T>(inout lhs: T?, rhs: @autoclosure () -> T) {
+func ||= <T>(inout lhs: T?, @autoclosure rhs:  () -> T) {
 	if lhs == nil {
 		lhs = rhs()
 	}

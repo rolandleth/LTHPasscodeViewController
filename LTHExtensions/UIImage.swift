@@ -32,8 +32,8 @@ extension UIImage {
 		UIRectFill(bounds);
 		drawInRect(bounds, blendMode: blendMode, alpha: 1.0)
 		
-		if blendMode.value != kCGBlendModeDestinationIn.value {
-			drawInRect(bounds, blendMode:kCGBlendModeDestinationIn, alpha:1.0)
+		if blendMode.rawValue != CGBlendMode.DestinationIn.rawValue {
+			drawInRect(bounds, blendMode:CGBlendMode.DestinationIn, alpha:1.0)
 		}
 		
 		let tintedImage = UIGraphicsGetImageFromCurrentImageContext();

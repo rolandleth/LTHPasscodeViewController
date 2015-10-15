@@ -9,25 +9,11 @@
 import Foundation
 
 extension Int {
-	var isEven: Bool {
-		return self % 2 == 0
-	}
-	
-	var isOdd: Bool {
-		return !isEven
-	}
-	
-	var squared: Int {
-		return self * self
-	}
-	
-	var degreesToRadians: Float {
-		return toFloat * 0.0174532925199432958
-	}
-	
-	var toFloat: Float {
-		return Float(self)
-	}
+	var isEven: Bool { return self % 2 == 0 }
+	var isOdd: Bool { return !isEven }
+	var squared: Int { return self * self }
+	var degreesToRadians: Float { return toFloat * 0.0174532925199432958 }
+	var toFloat: Float { return Float(self) }
 	
 	func square() -> Int {
 		return self.squared

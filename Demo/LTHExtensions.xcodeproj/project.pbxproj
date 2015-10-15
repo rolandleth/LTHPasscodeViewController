@@ -9,12 +9,12 @@
 /* Begin PBXBuildFile section */
 		2A14DA0E194C59BB00215FFF /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A14DA06194C59BB00215FFF /* Array.swift */; };
 		2A14DA0F194C59BB00215FFF /* Float.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A14DA07194C59BB00215FFF /* Float.swift */; };
-		2A14DA10194C59BB00215FFF /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A14DA08194C59BB00215FFF /* Helpers.swift */; };
 		2A14DA11194C59BB00215FFF /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A14DA09194C59BB00215FFF /* UIImage.swift */; };
 		2A14DA12194C59BB00215FFF /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A14DA0A194C59BB00215FFF /* Int.swift */; };
 		2A14DA13194C59BB00215FFF /* OperatorOverloads.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A14DA0B194C59BB00215FFF /* OperatorOverloads.swift */; };
 		2A14DA14194C59BB00215FFF /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A14DA0C194C59BB00215FFF /* String.swift */; };
 		2A14DA15194C59BB00215FFF /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A14DA0D194C59BB00215FFF /* UIView.swift */; };
+		2AC846BE1AF6142700FCCCBF /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC846BD1AF6142700FCCCBF /* Utils.swift */; };
 		2ADB95FD195708A9002C0A70 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADB95FC195708A9002C0A70 /* Dictionary.swift */; };
 		2ADB95FF19576B6E002C0A70 /* UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADB95FE19576B6E002C0A70 /* UIButton.swift */; };
 		2AFD52F3193F6B270098C4DF /* LTHAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AFD52F2193F6B270098C4DF /* LTHAppDelegate.swift */; };
@@ -24,12 +24,12 @@
 /* Begin PBXFileReference section */
 		2A14DA06194C59BB00215FFF /* Array.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		2A14DA07194C59BB00215FFF /* Float.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Float.swift; sourceTree = "<group>"; };
-		2A14DA08194C59BB00215FFF /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		2A14DA09194C59BB00215FFF /* UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		2A14DA0A194C59BB00215FFF /* Int.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
 		2A14DA0B194C59BB00215FFF /* OperatorOverloads.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperatorOverloads.swift; sourceTree = "<group>"; };
 		2A14DA0C194C59BB00215FFF /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		2A14DA0D194C59BB00215FFF /* UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
+		2AC846BD1AF6142700FCCCBF /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		2ADB95FC195708A9002C0A70 /* Dictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dictionary.swift; sourceTree = "<group>"; };
 		2ADB95FE19576B6E002C0A70 /* UIButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIButton.swift; sourceTree = "<group>"; };
 		2AFD52ED193F6B270098C4DF /* LTHExtensions.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LTHExtensions.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -56,12 +56,12 @@
 				2ADB95FE19576B6E002C0A70 /* UIButton.swift */,
 				2ADB95FC195708A9002C0A70 /* Dictionary.swift */,
 				2A14DA07194C59BB00215FFF /* Float.swift */,
-				2A14DA08194C59BB00215FFF /* Helpers.swift */,
 				2A14DA09194C59BB00215FFF /* UIImage.swift */,
 				2A14DA0A194C59BB00215FFF /* Int.swift */,
 				2A14DA0B194C59BB00215FFF /* OperatorOverloads.swift */,
 				2A14DA0C194C59BB00215FFF /* String.swift */,
 				2A14DA0D194C59BB00215FFF /* UIView.swift */,
+				2AC846BD1AF6142700FCCCBF /* Utils.swift */,
 			);
 			name = LTHExtensions;
 			path = ../../LTHExtensions;
@@ -128,7 +128,9 @@
 		2AFD52E5193F6B270098C4DF /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0600;
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Roland Leth";
 				TargetAttributes = {
 					2AFD52EC193F6B270098C4DF = {
@@ -176,8 +178,8 @@
 				2ADB95FF19576B6E002C0A70 /* UIButton.swift in Sources */,
 				2ADB95FD195708A9002C0A70 /* Dictionary.swift in Sources */,
 				2A14DA12194C59BB00215FFF /* Int.swift in Sources */,
+				2AC846BE1AF6142700FCCCBF /* Utils.swift in Sources */,
 				2AFD52F3193F6B270098C4DF /* LTHAppDelegate.swift in Sources */,
-				2A14DA10194C59BB00215FFF /* Helpers.swift in Sources */,
 				2A14DA0E194C59BB00215FFF /* Array.swift in Sources */,
 				2A14DA11194C59BB00215FFF /* UIImage.swift in Sources */,
 			);
@@ -206,6 +208,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -273,6 +276,7 @@
 				INFOPLIST_FILE = LTHExtensions/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rolandleth.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -285,6 +289,7 @@
 				INFOPLIST_FILE = LTHExtensions/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rolandleth.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
