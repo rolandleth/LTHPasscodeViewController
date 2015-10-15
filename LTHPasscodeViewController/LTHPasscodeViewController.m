@@ -1610,7 +1610,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 
 #pragma mark - Handling rotation
-- (NSUInteger)supportedInterfaceOrientations {
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
 	if (_displayedAsLockScreen)
         return LTHiOS8 ? UIInterfaceOrientationMaskPortrait : UIInterfaceOrientationMaskAll;
 	// I'll be honest and mention I have no idea why this line of code below works.
@@ -1618,7 +1618,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 	// and then inside of a modal, the orientation will be wrong.
 	
 	// If you could explain why, I'd be more than grateful :)
-	return UIInterfaceOrientationPortraitUpsideDown;
+	return UIInterfaceOrientationMaskPortraitUpsideDown;
 }
 
 
