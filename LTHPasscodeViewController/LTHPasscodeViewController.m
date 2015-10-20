@@ -472,14 +472,6 @@ options:NSNumericSearch] != NSOrderedAscending)
             [self.navigationController popViewControllerAnimated:NO];
         }
 	}];
-	[[NSNotificationCenter defaultCenter]
-     removeObserver: self
-     name: UIApplicationDidChangeStatusBarOrientationNotification
-     object: nil];
-	[[NSNotificationCenter defaultCenter]
-     removeObserver: self
-     name: UIApplicationDidChangeStatusBarFrameNotification
-     object: nil];
 }
 
 
@@ -1618,7 +1610,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 	// and then inside of a modal, the orientation will be wrong.
 	
 	// If you could explain why, I'd be more than grateful :)
-	return UIInterfaceOrientationMaskPortraitUpsideDown;
+	return UIInterfaceOrientationMaskPortrait;
 }
 
 
