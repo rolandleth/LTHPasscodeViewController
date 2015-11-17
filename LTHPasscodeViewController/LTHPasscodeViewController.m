@@ -29,6 +29,11 @@ options:NSNumericSearch] != NSOrderedAscending)
 #define kEnterPasscodeLabelWidth [_enterPasscodeLabel.text sizeWithFont:_labelFont].width
 #endif
 
+#ifndef LTHPasscodeViewControllerStrings
+#define LTHPasscodeViewControllerStrings(key) \
+[[NSBundle bundleWithPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"LTHPasscodeViewController" ofType:@"bundle"]] localizedStringForKey:(key) value:@"" table:_localizationTableName]
+#endif
+
 @interface LTHPasscodeViewController () <UITextFieldDelegate>
 @property (nonatomic, strong) UIView      *coverView;
 @property (nonatomic, strong) UIView      *animatingView;
@@ -287,7 +292,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 
             // Authenticate User
             [self.context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
-                         localizedReason:NSLocalizedStringFromTable(self.touchIDString, _localizationTableName, @"")
+                         localizedReason:LTHPasscodeViewControllerStrings(self.touchIDString)
                                    reply:^(BOOL success, NSError *error) {
                                        
                                        if (error) {
@@ -513,7 +518,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 	_failedAttemptLabel.textAlignment = NSTextAlignmentCenter;
 	[_animatingView addSubview: _failedAttemptLabel];
     
-    _enterPasscodeLabel.text = _isUserChangingPasscode ? NSLocalizedStringFromTable(self.enterOldPasscodeString, _localizationTableName, @"") : NSLocalizedStringFromTable(self.enterPasscodeString, _localizationTableName, @"");
+    _enterPasscodeLabel.text = _isUserChangingPasscode ? LTHPasscodeViewControllerStrings(self.enterOldPasscodeString) : LTHPasscodeViewControllerStrings(self.enterPasscodeString);
     _enterPasscodeLabel.translatesAutoresizingMaskIntoConstraints = NO;
 	_failedAttemptLabel.translatesAutoresizingMaskIntoConstraints = NO;
 }
@@ -551,7 +556,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 - (void)_setupOKButton {
     _OKButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_OKButton setTitle:NSLocalizedStringFromTable(@"OK", _localizationTableName, nil)
+    [_OKButton setTitle:LTHPasscodeViewControllerStrings(@"OK")
                forState:UIControlStateNormal];
     _OKButton.titleLabel.font = _labelFont;
     _OKButton.backgroundColor = _enterPasscodeLabelBackgroundColor;
@@ -971,7 +976,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 	_displayedAsModal = isModal;
 	[self _prepareForEnablingPasscode];
 	[self _prepareNavigationControllerWithController:viewController];
-	self.title = NSLocalizedStringFromTable(self.enablePasscodeString, _localizationTableName, @"");
+	self.title = LTHPasscodeViewControllerStrings(self.enablePasscodeString);
 }
 
 
@@ -980,7 +985,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 	_displayedAsModal = isModal;
 	[self _prepareForChangingPasscode];
 	[self _prepareNavigationControllerWithController:viewController];
-	self.title = NSLocalizedStringFromTable(self.changePasscodeString, _localizationTableName, @"");
+	self.title = LTHPasscodeViewControllerStrings(self.changePasscodeString);
 }
 
 
@@ -989,7 +994,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 	_displayedAsModal = isModal;
 	[self _prepareForTurningOffPasscode];
 	[self _prepareNavigationControllerWithController:viewController];
-	self.title = NSLocalizedStringFromTable(self.turnOffPasscodeString, _localizationTableName, @"");
+	self.title = LTHPasscodeViewControllerStrings(self.turnOffPasscodeString);
 }
 
 
@@ -1251,10 +1256,10 @@ options:NSNumericSearch] != NSOrderedAscending)
 	
 	if (_failedAttempts == 1) {
         _failedAttemptLabel.text =
-        NSLocalizedStringFromTable(@"1 Passcode Failed Attempt", _localizationTableName, @"");
+        LTHPasscodeViewControllerStrings(@"1 Passcode Failed Attempt");
     }
 	else {
-		_failedAttemptLabel.text = [NSString stringWithFormat: NSLocalizedStringFromTable(@"%i Passcode Failed Attempts", _localizationTableName, @""), _failedAttempts];
+		_failedAttemptLabel.text = [NSString stringWithFormat: LTHPasscodeViewControllerStrings(@"%i Passcode Failed Attempts"), _failedAttempts];
 	}
 	_failedAttemptLabel.layer.cornerRadius = kFailedAttemptLabelHeight * 0.65f;
 	_failedAttemptLabel.clipsToBounds = true;
@@ -1290,22 +1295,22 @@ options:NSNumericSearch] != NSOrderedAscending)
 	_passcodeTextField.text = @"";
 	if (_isUserConfirmingPasscode) {
 		if (_isUserEnablingPasscode) {
-            _enterPasscodeLabel.text = NSLocalizedStringFromTable(self.reenterPasscodeString, _localizationTableName, @"");
+            _enterPasscodeLabel.text = LTHPasscodeViewControllerStrings(self.reenterPasscodeString);
         }
 		else if (_isUserChangingPasscode) {
-            _enterPasscodeLabel.text = NSLocalizedStringFromTable(self.reenterNewPasscodeString, _localizationTableName, @"");
+            _enterPasscodeLabel.text = LTHPasscodeViewControllerStrings(self.reenterNewPasscodeString);
         }
 	}
 	else if (_isUserBeingAskedForNewPasscode) {
 		if (_isUserEnablingPasscode || _isUserChangingPasscode) {
-			_enterPasscodeLabel.text = NSLocalizedStringFromTable(self.enterNewPasscodeString, _localizationTableName, @"");
+			_enterPasscodeLabel.text = LTHPasscodeViewControllerStrings(self.enterNewPasscodeString);
 		}
 	}
 	else {
         if (_isUserChangingPasscode) {
-            _enterPasscodeLabel.text = NSLocalizedStringFromTable(self.enterOldPasscodeString, _localizationTableName, @"");
+            _enterPasscodeLabel.text = LTHPasscodeViewControllerStrings(self.enterOldPasscodeString);
         } else {
-            _enterPasscodeLabel.text = NSLocalizedStringFromTable(self.enterPasscodeString, _localizationTableName, @"");
+            _enterPasscodeLabel.text = LTHPasscodeViewControllerStrings(self.enterPasscodeString);
         }
     }
 	
@@ -1328,10 +1333,10 @@ options:NSNumericSearch] != NSOrderedAscending)
 	NSString *savedPasscode = [LTHKeychainUtils getPasswordForUsername: _keychainPasscodeUsername
 														 andServiceName: _keychainServiceName
 																  error: nil];
-	_enterPasscodeLabel.text = savedPasscode.length == 0 ? NSLocalizedStringFromTable(self.enterPasscodeString, _localizationTableName, @"") : NSLocalizedStringFromTable(self.enterNewPasscodeString, _localizationTableName, @"");
+	_enterPasscodeLabel.text = savedPasscode.length == 0 ? LTHPasscodeViewControllerStrings(self.enterPasscodeString) : LTHPasscodeViewControllerStrings(self.enterNewPasscodeString);
 	
 	_failedAttemptLabel.hidden = NO;
-	_failedAttemptLabel.text = NSLocalizedStringFromTable(@"Passcodes did not match. Try again.", _localizationTableName, @"");
+	_failedAttemptLabel.text = LTHPasscodeViewControllerStrings(@"Passcodes did not match. Try again.");
 	_failedAttemptLabel.backgroundColor = [UIColor clearColor];
 	_failedAttemptLabel.layer.borderWidth = 0;
 	_failedAttemptLabel.layer.borderColor = [UIColor clearColor].CGColor;
