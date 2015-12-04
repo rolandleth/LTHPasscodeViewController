@@ -263,7 +263,7 @@ options:NSNumericSearch] != NSOrderedAscending)
                                error:nil];
     
     
-    [LTHKeychainUtils storeUsername:_keychainIsSimpleUsername
+    [LTHKeychainUtils storeUsername:_keychainPasscodeIsSimpleUsername
                         andPassword:[NSString stringWithFormat:@"%@", [self isSimple] ? @"YES" : @"NO"]
                      forServiceName:_keychainServiceName
                      updateExisting:YES
@@ -1490,10 +1490,10 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 
 - (void)_commonInit {
-    if ([LTHKeychainUtils getPasswordForUsername:_keychainIsSimpleUsername
+    if ([LTHKeychainUtils getPasswordForUsername:_keychainPasscodeIsSimpleUsername
                                   andServiceName:_keychainServiceName
                                            error:nil]) {
-        _isSimple = [[LTHKeychainUtils getPasswordForUsername:_keychainIsSimpleUsername
+        _isSimple = [[LTHKeychainUtils getPasswordForUsername:_keychainPasscodeIsSimpleUsername
                                                andServiceName:_keychainServiceName
                                                         error:nil] boolValue];
     } else {
@@ -1585,7 +1585,7 @@ options:NSNumericSearch] != NSOrderedAscending)
     _keychainTimerStartUsername = @"demoPasscodeTimerStart";
     _keychainServiceName = @"demoServiceName";
     _keychainTimerDurationUsername = @"passcodeTimerDuration";
-    _keychainIsSimpleUsername = @"passcodeIsSimple";
+    _keychainPasscodeIsSimpleUsername = @"passcodeIsSimple";
 }
 
 

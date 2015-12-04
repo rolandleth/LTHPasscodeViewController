@@ -178,7 +178,7 @@
 /**
  @brief The string to be used as username for the "isSimple" in the Keychain.
  */
-@property (nonatomic, strong) NSString  *keychainIsSimpleUsername;
+@property (nonatomic, strong) NSString  *keychainPasscodeIsSimpleUsername;
 /**
  @brief The string to be used as service name for all the Keychain entries.
  */
