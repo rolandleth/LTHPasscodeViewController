@@ -1252,10 +1252,10 @@ options:NSNumericSearch] != NSOrderedAscending)
 	_failedAttempts++;
 	
 	if (_maxNumberOfAllowedFailedAttempts > 0 &&
-		_failedAttempts == _maxNumberOfAllowedFailedAttempts &&
+		_failedAttempts >= _maxNumberOfAllowedFailedAttempts &&
 		[self.delegate respondsToSelector: @selector(maxNumberOfFailedAttemptsReached)]) {
 		[self.delegate maxNumberOfFailedAttemptsReached];
-    }
+	}
 //	Or, if you prefer by notifications:
 //	[[NSNotificationCenter defaultCenter] postNotificationName: @"maxNumberOfFailedAttemptsReached"
 //														object: self
