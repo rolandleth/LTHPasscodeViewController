@@ -282,37 +282,6 @@ options:NSNumericSearch] != NSOrderedAscending)
 											   error:nil];
 }
 
-- (void)_saveAllowUnlockWithTouchID {
-    if (!_usesKeychain &&
-        [self.delegate respondsToSelector:@selector(saveAllowUnlockWithTouchID:)]) {
-        [self.delegate saveAllowUnlockWithTouchID:_allowUnlockWithTouchID];
-        
-        return;
-    }
-    
-    [LTHKeychainUtils storeUsername:_keychainAllowUnlockWithTouchID
-                        andPassword:[NSString stringWithFormat: @"%d",
-                                     _allowUnlockWithTouchID]
-                     forServiceName:_keychainServiceName
-                     updateExisting:YES
-                              error:nil];
-}
-
-
-
-- (BOOL)_allowUnlockWithTouchID {
-    if (!_usesKeychain &&
-        [self.delegate respondsToSelector:@selector(allowUnlockWithTouchID)]) {
-        return [self.delegate allowUnlockWithTouchID];
-    }
-    
-    NSString *keychainValue = [LTHKeychainUtils getPasswordForUsername:_keychainAllowUnlockWithTouchID
-                                                        andServiceName:_keychainServiceName
-                                                                 error:nil];
-    if (!keychainValue) return YES;
-    return keychainValue.boolValue;
-}
-
 #if !(TARGET_IPHONE_SIMULATOR)
 - (void)_setupFingerPrint {
     if (!self.context && _allowUnlockWithTouchID) {
@@ -371,6 +340,44 @@ options:NSNumericSearch] != NSOrderedAscending)
         [self _resetUI];
         self.context = nil;
     }
+}
+
+
+- (void)_saveAllowUnlockWithTouchID {
+    if (!_usesKeychain &&
+        [self.delegate respondsToSelector:@selector(saveAllowUnlockWithTouchID:)]) {
+        [self.delegate saveAllowUnlockWithTouchID:_allowUnlockWithTouchID];
+        
+        return;
+    }
+    
+    [LTHKeychainUtils storeUsername:_keychainAllowUnlockWithTouchID
+                        andPassword:[NSString stringWithFormat: @"%d",
+                                     _allowUnlockWithTouchID]
+                     forServiceName:_keychainServiceName
+                     updateExisting:YES
+                              error:nil];
+}
+
+
+
+- (BOOL)_allowUnlockWithTouchID {
+    if (!_usesKeychain &&
+        [self.delegate respondsToSelector:@selector(allowUnlockWithTouchID)]) {
+        return [self.delegate allowUnlockWithTouchID];
+    }
+    
+    NSString *keychainValue = [LTHKeychainUtils getPasswordForUsername:_keychainAllowUnlockWithTouchID
+                                                        andServiceName:_keychainServiceName
+                                                                 error:nil];
+    if (!keychainValue) return YES;
+    return keychainValue.boolValue;
+}
+
+
+- (void)setAllowUnlockWithTouchID:(BOOL)setAllowUnlockWithTouchID {
+    _allowUnlockWithTouchID = setAllowUnlockWithTouchID;
+    [self _saveAllowUnlockWithTouchID];
 }
 
 #endif
@@ -1418,12 +1425,6 @@ options:NSNumericSearch] != NSOrderedAscending)
     return _isSimple;
 }
 
-
-- (void)setAllowUnlockWithTouchID:(BOOL)setAllowUnlockWithTouchID {
-    _allowUnlockWithTouchID = setAllowUnlockWithTouchID;
-    [self _saveAllowUnlockWithTouchID];
-}
-
 #pragma mark - Notification Observers
 - (void)_applicationDidEnterBackground {
 	if ([self _doesPasscodeExist]) {
@@ -1567,7 +1568,11 @@ options:NSNumericSearch] != NSOrderedAscending)
     _displayedAsModal = YES;
     _hidesBackButton = YES;
     _hidesCancelButton = YES;
+#if !(TARGET_IPHONE_SIMULATOR)
     _allowUnlockWithTouchID = [self _allowUnlockWithTouchID];
+#else
+    _allowUnlockWithTouchID = NO;
+#endif
     _passcodeCharacter = @"\u2014"; // A longer "-";
     _localizationTableName = @"LTHPasscodeViewController";
 }
