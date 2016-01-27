@@ -9,6 +9,7 @@
 #import "LTHDemoViewController.h"
 #import "LTHPasscodeViewController.h"
 #import "LTHAppDelegate.h"
+#import <LocalAuthentication/LAContext.h>
 
 
 @interface LTHDemoViewController () <LTHPasscodeViewControllerDelegate>
@@ -18,6 +19,8 @@
 @property (nonatomic, strong) UIButton *turnOffPasscode;
 @property (nonatomic, strong) UILabel  *typeLabel;
 @property (nonatomic, strong) UISwitch *typeSwitch;
+@property (nonatomic, strong) UILabel  *touchIDLabel;
+@property (nonatomic, strong) UISwitch *touchIDSwitch;
 @end
 
 
@@ -49,6 +52,7 @@
 	}
     
     _typeSwitch.on = [[LTHPasscodeViewController sharedUser] isSimple];
+    _touchIDSwitch.on = [[LTHPasscodeViewController sharedUser] allowUnlockWithTouchID];
 }
 
 - (void)viewDidLoad {
@@ -64,12 +68,24 @@
 	_testPasscode = [UIButton buttonWithType: UIButtonTypeCustom];
 	_turnOffPasscode = [UIButton buttonWithType: UIButtonTypeCustom];
     
-    _typeLabel = [[UILabel alloc] initWithFrame:(CGRect){230, 230, 60, 30}];
-	_typeSwitch = [[UISwitch alloc] initWithFrame:(CGRect){230, 260, 100, 100}];
 	_enablePasscode.frame = CGRectMake(100, 100, 100, 50);
 	_testPasscode.frame = CGRectMake(100, 200, 100, 50);
 	_changePasscode.frame = CGRectMake(100, 300, 100, 50);
-	_turnOffPasscode.frame = CGRectMake(100, 400, 100, 50);
+    _turnOffPasscode.frame = CGRectMake(100, 400, 100, 50);
+    
+    if ([self isTouchIDAvailable]) {
+        _typeLabel = [[UILabel alloc] initWithFrame:(CGRect){230, 190, 60, 30}];
+        _typeSwitch = [[UISwitch alloc] initWithFrame:(CGRect){230, 220, 100, 100}];
+        _touchIDLabel = [[UILabel alloc] initWithFrame:(CGRect){230, 290, 90, 30}];
+        _touchIDSwitch = [[UISwitch alloc] initWithFrame:(CGRect){230, 320, 100, 100}];
+        _touchIDLabel.text = @"Touch ID";
+        [_touchIDSwitch addTarget:self action:@selector(_touchIDPasscodeType:) forControlEvents:UIControlEventValueChanged];
+        [self.view addSubview:_touchIDSwitch];
+        [self.view addSubview:_touchIDLabel];
+    } else {
+        _typeLabel = [[UILabel alloc] initWithFrame:(CGRect){230, 230, 60, 30}];
+        _typeSwitch = [[UISwitch alloc] initWithFrame:(CGRect){230, 260, 100, 100}];
+    }
 
 	
 	[_turnOffPasscode setTitle: @"Turn Off" forState: UIControlStateNormal];
@@ -129,6 +145,10 @@
                                                 asModal:YES];
 }
 
+- (void)_touchIDPasscodeType:(UISwitch *)sender {
+    [[LTHPasscodeViewController sharedUser] setAllowUnlockWithTouchID:sender.isOn];
+}
+
 - (void)showLockViewForEnablingPasscode {
 	[[LTHPasscodeViewController sharedUser] showForEnablingPasscodeInViewController:self
                                                                             asModal:YES];
@@ -150,6 +170,13 @@
 - (void)showLockViewForTurningPasscodeOff {
 	[[LTHPasscodeViewController sharedUser] showForDisablingPasscodeInViewController:self
                                                                              asModal:NO];
+}
+
+- (BOOL)isTouchIDAvailable {
+    if ([[[UIDevice currentDevice] systemVersion] compare:@"8.0" options:NSNumericSearch] != NSOrderedAscending) {
+        return [[[LAContext alloc] init] canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:nil];
+    }
+    return NO;
 }
 
 # pragma mark - LTHPasscodeViewController Delegates -

@@ -72,6 +72,18 @@
  @return The passcode.
  */
 - (NSString *)passcode;
+/**
+ @brief   Handle here the saving of the preference for allowing the use of Touch ID.
+ @details Called if @c +useKeychain:NO was used, but falls back to the Keychain anyway if not implemented.
+ @param allowUnlockWithTouchID The boolean for the preference for allowing the use of Touch ID.
+ */
+- (void)saveAllowUnlockWithTouchID:(BOOL)allowUnlockWithTouchID;
+/**
+ @brief   Retrieve here the saved preference for allowing the use of Touch ID.
+ @details Called if @c +useKeychain:NO was used, but falls back to the Keychain anyway if not implemented.
+ @return allowUnlockWithTouchID boolean.
+ */
+- (BOOL)allowUnlockWithTouchID;
 @end
 
 @interface LTHPasscodeViewController : UIViewController
@@ -183,6 +195,10 @@
  @brief The string to be used as service name for all the Keychain entries.
  */
 @property (nonatomic, strong) NSString  *keychainServiceName;
+/**
+ @brief The string to be used as username for allow Touch ID unlock in the Keychain.
+ */
+@property (nonatomic, strong) NSString  *keychainAllowUnlockWithTouchID;
 /**
  @brief The character for the passcode digit.
  */
