@@ -73,13 +73,13 @@
  */
 - (NSString *)passcode;
 /**
- @brief   Handle here the saving of the preference for allowing the use of Touch ID.
+ @brief   Handle here the saving of the preference for allowing the use of TouchID.
  @details Called if @c +useKeychain:NO was used, but falls back to the Keychain anyway if not implemented.
- @param allowUnlockWithTouchID The boolean for the preference for allowing the use of Touch ID.
+ @param allowUnlockWithTouchID The boolean for the preference for allowing the use of TouchID.
  */
 - (void)saveAllowUnlockWithTouchID:(BOOL)allowUnlockWithTouchID;
 /**
- @brief   Retrieve here the saved preference for allowing the use of Touch ID.
+ @brief   Retrieve here the saved preference for allowing the use of TouchID.
  @details Called if @c +useKeychain:NO was used, but falls back to the Keychain anyway if not implemented.
  @return allowUnlockWithTouchID boolean.
  */
@@ -196,7 +196,7 @@
  */
 @property (nonatomic, strong) NSString  *keychainServiceName;
 /**
- @brief The string to be used as username for allow Touch ID unlock in the Keychain.
+ @brief The string to be used as username for allow TouchID unlock in the Keychain.
  */
 @property (nonatomic, strong) NSString  *keychainAllowUnlockWithTouchID;
 /**
@@ -244,7 +244,7 @@
  */
 @property (nonatomic, strong) NSString *reenterNewPasscodeString;
 /**
- @brief The string displayed while user unlocks with Touch ID.
+ @brief The string displayed while user unlocks with TouchID.
  */
 @property (nonatomic, strong) NSString *touchIDString;
 /**
@@ -278,7 +278,7 @@
 @property (nonatomic, assign) BOOL hidesCancelButton;
 
 /**
- @brief A Boolean value that indicates whether Touch ID can be used (@c YES) or not (@c NO). Default is @c YES.
+ @brief A Boolean value that indicates whether TouchID can be used (@c YES) or not (@c NO). Default is @c YES.
  */
 @property (nonatomic, assign) BOOL allowUnlockWithTouchID;
 

@@ -1,3 +1,9 @@
+# 3.7.3
+* Made `allowUnlockWithTouchID` customizable.
+* Realigned indentation to 4 spaces.
+* Cosmetic improvements.
+* Typo fixes.
+
 # 3.7.2
 * Added README and CHANGELOG to the pod.
 
