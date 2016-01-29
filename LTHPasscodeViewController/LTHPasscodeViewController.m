@@ -34,6 +34,20 @@ options:NSNumericSearch] != NSOrderedAscending)
 [[NSBundle bundleWithPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"LTHPasscodeViewController" ofType:@"bundle"]] localizedStringForKey:(key) value:@"" table:_localizationTableName]
 #endif
 
+// Usually, the app's window is the first on the stack. I'm doing this because if an alertView or actionSheet
+// is open when presenting the lockscreen causes problems, because the av/as has it's own window that replaces the keyWindow
+// and due to how Apple handles said window internally.
+// Currently the lockscreen appears behind the av/as, which is the best compromise for now.
+// You can read and/or give a hand following one of the links below
+// http://stackoverflow.com/questions/19816142/uialertviews-uiactionsheets-and-keywindow-problems
+// https://github.com/rolandleth/LTHPasscodeViewController/issues/16
+// Usually not more than one window is needed, but your needs may vary; modify below.
+// Also, in case the control doesn't work properly,
+// try it with .keyWindow before anything else, it might work.
+
+// [UIApplication sharedApplication].keyWindow
+#define LTHMainWindow [UIApplication sharedApplication].windows[0]
+
 @interface LTHPasscodeViewController () <UITextFieldDelegate>
 @property (nonatomic, strong) UIView      *coverView;
 @property (nonatomic, strong) UIView      *animatingView;
@@ -60,7 +74,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 @property (nonatomic, assign) BOOL        usesKeychain;
 @property (nonatomic, assign) BOOL        displayedAsModal;
 @property (nonatomic, assign) BOOL        displayedAsLockScreen;
-@property (nonatomic, assign) BOOL        isUsingNavbar;
+@property (nonatomic, assign) BOOL        isUsingNavBar;
 @property (nonatomic, assign) BOOL        isCurrentlyOnScreen;
 @property (nonatomic, assign) BOOL        isSimple;// YES by default
 @property (nonatomic, assign) BOOL        isUserConfirmingPasscode;
@@ -301,7 +315,16 @@ options:NSNumericSearch] != NSOrderedAscending)
                                            dispatch_async(dispatch_get_main_queue(), ^{
                                                _useFallbackPasscode = YES;
                                                _animatingView.hidden = NO;
+                                               
+                                               BOOL usingNavBar = _isUsingNavBar;
+                                               NSString *logoutTitle = usingNavBar ? _navBar.items.firstObject.leftBarButtonItem.title : @"";
+                                               
                                                [self _resetUI];
+                                               
+                                               if (usingNavBar) {
+                                                   _isUsingNavBar = usingNavBar;
+                                                   [self _setupNavBarWithLogoutTitle:logoutTitle];
+                                               }
                                            });
                                            self.context = nil;
                                            return;
@@ -527,6 +550,38 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 
 #pragma mark - UI setup
+- (void)_setupNavBarWithLogoutTitle:(NSString *)logoutTitle {
+    // Navigation Bar with custom UI
+    self.navBar =
+    [[UINavigationBar alloc] initWithFrame:CGRectMake(0, LTHMainWindow.frame.origin.y,
+                                                      LTHMainWindow.frame.size.width, 64)];
+    self.navBar.tintColor = self.navigationTintColor;
+    if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
+        self.navBar.barTintColor = self.navigationBarTintColor;
+        self.navBar.translucent  = self.navigationBarTranslucent;
+    }
+    if (self.navigationTitleColor) {
+        self.navBar.titleTextAttributes =
+        @{ NSForegroundColorAttributeName : self.navigationTitleColor };
+    }
+    
+    // Navigation item
+    UIBarButtonItem *leftButton =
+    [[UIBarButtonItem alloc] initWithTitle:logoutTitle
+                                     style:UIBarButtonItemStyleDone
+                                    target:self
+                                    action:@selector(_logoutWasPressed)];
+    [leftButton setTitlePositionAdjustment:UIOffsetMake(10, 0) forBarMetrics:UIBarMetricsDefault];
+    
+    UINavigationItem *item =
+    [[UINavigationItem alloc] initWithTitle:self.title];
+    item.leftBarButtonItem = leftButton;
+    item.hidesBackButton = YES;
+    
+    [self.navBar pushNavigationItem:item animated:NO];
+    [LTHMainWindow addSubview:self.navBar];
+}
+
 - (void)_setupViews {
     _coverView = [[UIView alloc] initWithFrame: CGRectZero];
     _coverView.backgroundColor = _coverViewBackgroundColor;
@@ -879,20 +934,9 @@ options:NSNumericSearch] != NSOrderedAscending)
     
     // In case the user leaves the app while the lockscreen is already active.
     if (!_isCurrentlyOnScreen) {
-        // Usually, the app's window is the first on the stack. I'm doing this because if an alertView or actionSheet
-        // is open when presenting the lockscreen causes problems, because the av/as has it's own window that replaces the keyWindow
-        // and due to how Apple handles said window internally.
-        // Currently the lockscreen appears behind the av/as, which is the best compromise for now.
-        // You can read and/or give a hand following one of the links below
-        // http://stackoverflow.com/questions/19816142/uialertviews-uiactionsheets-and-keywindow-problems
-        // https://github.com/rolandleth/LTHPasscodeViewController/issues/16
-        // Usually not more than one window is needed, but your needs may vary; modify below.
-        // Also, in case the control doesn't work properly,
-        // try it with .keyWindow before anything else, it might work.
-        //		UIWindow *mainWindow = [UIApplication sharedApplication].keyWindow;
-        UIWindow *mainWindow = [UIApplication sharedApplication].windows[0];
-        [mainWindow addSubview: self.view];
-        //		[mainWindow.rootViewController addChildViewController: self];
+        [LTHMainWindow addSubview: self.view];
+        //		[LTHMainWindow.rootViewController addChildViewController: self];
+        
         // All this hassle because a view added to UIWindow does not rotate automatically
         // and if we would have added the view anywhere else, it wouldn't display properly
         // (having a modal on screen when the user leaves the app, for example).
@@ -901,29 +945,29 @@ options:NSNumericSearch] != NSOrderedAscending)
         [self statusBarFrameOrOrientationChanged:nil];
         if (LTHiOS8) {
             self.view.center = CGPointMake(self.view.center.x, self.view.center.y * -1.f);
-            newCenter = CGPointMake(mainWindow.center.x,
-                                    mainWindow.center.y + self.navigationController.navigationBar.frame.size.height / 2);
+            newCenter = CGPointMake(LTHMainWindow.center.x,
+                                    LTHMainWindow.center.y + self.navigationController.navigationBar.frame.size.height / 2);
         }
         else {
             if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) {
                 self.view.center = CGPointMake(self.view.center.x * -1.f, self.view.center.y);
-                newCenter = CGPointMake(mainWindow.center.x - self.navigationController.navigationBar.frame.size.height / 2,
-                                        mainWindow.center.y);
+                newCenter = CGPointMake(LTHMainWindow.center.x - self.navigationController.navigationBar.frame.size.height / 2,
+                                        LTHMainWindow.center.y);
             }
             else if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight) {
                 self.view.center = CGPointMake(self.view.center.x * 2.f, self.view.center.y);
-                newCenter = CGPointMake(mainWindow.center.x + self.navigationController.navigationBar.frame.size.height / 2,
-                                        mainWindow.center.y);
+                newCenter = CGPointMake(LTHMainWindow.center.x + self.navigationController.navigationBar.frame.size.height / 2,
+                                        LTHMainWindow.center.y);
             }
             else if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) {
                 self.view.center = CGPointMake(self.view.center.x, self.view.center.y * -1.f);
-                newCenter = CGPointMake(mainWindow.center.x,
-                                        mainWindow.center.y - self.navigationController.navigationBar.frame.size.height / 2);
+                newCenter = CGPointMake(LTHMainWindow.center.x,
+                                        LTHMainWindow.center.y - self.navigationController.navigationBar.frame.size.height / 2);
             }
             else {
                 self.view.center = CGPointMake(self.view.center.x, self.view.center.y * 2.f);
-                newCenter = CGPointMake(mainWindow.center.x,
-                                        mainWindow.center.y + self.navigationController.navigationBar.frame.size.height / 2);
+                newCenter = CGPointMake(LTHMainWindow.center.x,
+                                        LTHMainWindow.center.y + self.navigationController.navigationBar.frame.size.height / 2);
             }
         }
         if (animated) {
@@ -937,36 +981,8 @@ options:NSNumericSearch] != NSOrderedAscending)
         
         // Add nav bar & logout button if specified
         if (hasLogout) {
-            _isUsingNavbar = hasLogout;
-            // Navigation Bar with custom UI
-            self.navBar =
-            [[UINavigationBar alloc] initWithFrame:CGRectMake(0, mainWindow.frame.origin.y,
-                                                              mainWindow.frame.size.width, 64)];
-            self.navBar.tintColor = self.navigationTintColor;
-            if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
-                self.navBar.barTintColor = self.navigationBarTintColor;
-                self.navBar.translucent  = self.navigationBarTranslucent;
-            }
-            if (self.navigationTitleColor) {
-                self.navBar.titleTextAttributes =
-                @{ NSForegroundColorAttributeName : self.navigationTitleColor };
-            }
-            
-            // Navigation item
-            UIBarButtonItem *leftButton =
-            [[UIBarButtonItem alloc] initWithTitle:logoutTitle
-                                             style:UIBarButtonItemStyleDone
-                                            target:self
-                                            action:@selector(_logoutWasPressed)];
-            [leftButton setTitlePositionAdjustment:UIOffsetMake(10, 0) forBarMetrics:UIBarMetricsDefault];
-            
-            UINavigationItem *item =
-            [[UINavigationItem alloc] initWithTitle:self.title];
-            item.leftBarButtonItem = leftButton;
-            item.hidesBackButton = YES;
-            
-            [self.navBar pushNavigationItem:item animated:NO];
-            [mainWindow addSubview:self.navBar];
+            _isUsingNavBar = hasLogout;
+            [self _setupNavBarWithLogoutTitle:logoutTitle];
         }
         
         _isCurrentlyOnScreen = YES;
@@ -1361,11 +1377,11 @@ options:NSNumericSearch] != NSOrderedAscending)
     }
     
     // Make sure nav bar for logout is off the screen
-    if (_isUsingNavbar) {
+    if (_isUsingNavBar) {
         [self.navBar removeFromSuperview];
         self.navBar = nil;
     }
-    _isUsingNavbar = NO;
+    _isUsingNavBar = NO;
     
     _OKButton.hidden = YES;
 }

@@ -1,3 +1,8 @@
+# 3.7.4
+* Fixed the logout button disappearing when canceling TouchID.
+* Renamed all occurrences of *navbar* with *navBar*.
+* Added a macro for the previous `mainWindow` local variable, because now it's used in more than one place.
+
 # 3.7.3
 * Made `allowUnlockWithTouchID` customizable.
 * Realigned indentation to 4 spaces.
