@@ -292,6 +292,30 @@ options:NSNumericSearch] != NSOrderedAscending)
 }
 
 #if !(TARGET_IPHONE_SIMULATOR)
+- (void)_handleTouchIDFailureAndDisableTouchID:(BOOL)disableTouchID {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (disableTouchID) {
+            _isUsingTouchID = NO;
+            _allowUnlockWithTouchID = NO;
+        }
+        
+        _useFallbackPasscode = YES;
+        _animatingView.hidden = NO;
+        
+        BOOL usingNavBar = _isUsingNavBar;
+        NSString *logoutTitle = usingNavBar ? _navBar.items.firstObject.leftBarButtonItem.title : @"";
+        
+        [self _resetUI];
+        
+        if (usingNavBar) {
+            _isUsingNavBar = usingNavBar;
+            [self _setupNavBarWithLogoutTitle:logoutTitle];
+        }
+    });
+    
+    self.context = nil;
+}
+
 - (void)_setupFingerPrint {
     if (!self.context && _allowUnlockWithTouchID) {
         self.context = [[LAContext alloc] init];
@@ -312,21 +336,7 @@ options:NSNumericSearch] != NSOrderedAscending)
                                    reply:^(BOOL success, NSError *error) {
                                        
                                        if (error) {
-                                           dispatch_async(dispatch_get_main_queue(), ^{
-                                               _useFallbackPasscode = YES;
-                                               _animatingView.hidden = NO;
-                                               
-                                               BOOL usingNavBar = _isUsingNavBar;
-                                               NSString *logoutTitle = usingNavBar ? _navBar.items.firstObject.leftBarButtonItem.title : @"";
-                                               
-                                               [self _resetUI];
-                                               
-                                               if (usingNavBar) {
-                                                   _isUsingNavBar = usingNavBar;
-                                                   [self _setupNavBarWithLogoutTitle:logoutTitle];
-                                               }
-                                           });
-                                           self.context = nil;
+                                           [self _handleTouchIDFailureAndDisableTouchID:false];
                                            return;
                                        }
                                        
@@ -338,25 +348,20 @@ options:NSNumericSearch] != NSOrderedAscending)
                                                    [self.delegate performSelector: @selector(passcodeWasEnteredSuccessfully)];
                                                }
                                            });
+                                           
+                                           self.context = nil;
                                        }
                                        else {
-                                           dispatch_async(dispatch_get_main_queue(), ^{
-                                               _useFallbackPasscode = YES;
-                                               _animatingView.hidden = NO;
-                                               [self _resetUI];
-                                           });
+                                           [self _handleTouchIDFailureAndDisableTouchID:false];
                                        }
-                                       
-                                       self.context = nil;
-                                       
                                    }];
         }
-    } else {
-        _isUsingTouchID = NO;
-        _useFallbackPasscode = YES;
-        _animatingView.hidden = NO;
-        [self _resetUI];
-        self.context = nil;
+        else {
+            [self _handleTouchIDFailureAndDisableTouchID:true];
+        }
+    }
+    else {
+        [self _handleTouchIDFailureAndDisableTouchID:true];
     }
 }
 
