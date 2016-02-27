@@ -1,3 +1,9 @@
+# 3.7.6
+* Fixed the `_setupFingerPrint` method.
+
+# 3.7.5
+* Fixed the logic when TouchID disabling.
+
 # 3.7.4
 * Fixed the logout button disappearing when canceling TouchID.
 * Renamed all occurrences of *navbar* with *navBar*.
