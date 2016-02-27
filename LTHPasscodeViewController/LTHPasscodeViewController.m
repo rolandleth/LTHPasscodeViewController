@@ -317,7 +317,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 }
 
 - (void)_setupFingerPrint {
-    if (!self.context && _allowUnlockWithTouchID) {
+    if (!self.context && _allowUnlockWithTouchID && !_useFallbackPasscode) {
         self.context = [[LAContext alloc] init];
         
         NSError *error = nil;
