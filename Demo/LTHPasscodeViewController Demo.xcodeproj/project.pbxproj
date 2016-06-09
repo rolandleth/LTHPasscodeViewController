@@ -1,0 +1,363 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2AE8000A17D9503000DBDE63 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AE8000917D9503000DBDE63 /* Foundation.framework */; };
+		2AE8000C17D9503000DBDE63 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AE8000B17D9503000DBDE63 /* CoreGraphics.framework */; };
+		2AE8000E17D9503000DBDE63 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AE8000D17D9503000DBDE63 /* UIKit.framework */; };
+		2AE8001417D9503000DBDE63 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2AE8001217D9503000DBDE63 /* InfoPlist.strings */; };
+		2AE8001617D9503000DBDE63 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AE8001517D9503000DBDE63 /* main.m */; };
+		2AE8001A17D9503000DBDE63 /* LTHAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AE8001917D9503000DBDE63 /* LTHAppDelegate.m */; };
+		2AE8001C17D9503000DBDE63 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2AE8001B17D9503000DBDE63 /* Images.xcassets */; };
+		2AE8004117D9507E00DBDE63 /* LTHDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AE8004017D9507E00DBDE63 /* LTHDemoViewController.m */; };
+		2AF19595182C09D5005CE38A /* LTHPasscodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF1958F182C09D5005CE38A /* LTHPasscodeViewController.m */; };
+		2AF19596182C09D5005CE38A /* LTHKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF19592182C09D5005CE38A /* LTHKeychainUtils.m */; };
+		A74908891BFBA75E00C6DA16 /* LTHPasscodeViewController.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A74908881BFBA75E00C6DA16 /* LTHPasscodeViewController.bundle */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		2AE8000617D9503000DBDE63 /* LTHPasscodeViewController Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LTHPasscodeViewController Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2AE8000917D9503000DBDE63 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		2AE8000B17D9503000DBDE63 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		2AE8000D17D9503000DBDE63 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		2AE8001317D9503000DBDE63 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2AE8001517D9503000DBDE63 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		2AE8001717D9503000DBDE63 /* LTHPasscodeViewController Demo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LTHPasscodeViewController Demo-Prefix.pch"; sourceTree = "<group>"; };
+		2AE8001817D9503000DBDE63 /* LTHAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LTHAppDelegate.h; sourceTree = "<group>"; };
+		2AE8001917D9503000DBDE63 /* LTHAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LTHAppDelegate.m; sourceTree = "<group>"; };
+		2AE8001B17D9503000DBDE63 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		2AE8002217D9503000DBDE63 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		2AE8003F17D9507E00DBDE63 /* LTHDemoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTHDemoViewController.h; sourceTree = "<group>"; };
+		2AE8004017D9507E00DBDE63 /* LTHDemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTHDemoViewController.m; sourceTree = "<group>"; };
+		2AF06FCC1A19F89E00C6F836 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		2AF1958E182C09D5005CE38A /* LTHPasscodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; path = LTHPasscodeViewController.h; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; };
+		2AF1958F182C09D5005CE38A /* LTHPasscodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = LTHPasscodeViewController.m; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; };
+		2AF19591182C09D5005CE38A /* LTHKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTHKeychainUtils.h; sourceTree = "<group>"; };
+		2AF19592182C09D5005CE38A /* LTHKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTHKeychainUtils.m; sourceTree = "<group>"; };
+		2AF4E8391848F9FE00AB18EE /* LTHPasscodeViewController Demo-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LTHPasscodeViewController Demo-Info.plist"; sourceTree = "<group>"; };
+		A74908881BFBA75E00C6DA16 /* LTHPasscodeViewController.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = LTHPasscodeViewController.bundle; sourceTree = "<group>"; };
+		A749088A1BFBAB3900C6DA16 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E5FE63591BA05DCF00427B5F /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2AE8000317D9503000DBDE63 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2AE8000C17D9503000DBDE63 /* CoreGraphics.framework in Frameworks */,
+				2AE8000E17D9503000DBDE63 /* UIKit.framework in Frameworks */,
+				2AE8000A17D9503000DBDE63 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2AE8000717D9503000DBDE63 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2AE8000617D9503000DBDE63 /* LTHPasscodeViewController Demo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2AE8000817D9503000DBDE63 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2AE8000917D9503000DBDE63 /* Foundation.framework */,
+				2AE8000B17D9503000DBDE63 /* CoreGraphics.framework */,
+				2AE8000D17D9503000DBDE63 /* UIKit.framework */,
+				2AE8002217D9503000DBDE63 /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2AE8000F17D9503000DBDE63 /* LTHPasscodeViewController Demo */ = {
+			isa = PBXGroup;
+			children = (
+				2AF19587182C09D5005CE38A /* LTHPasscodeViewController */,
+				2AE8001817D9503000DBDE63 /* LTHAppDelegate.h */,
+				2AE8001917D9503000DBDE63 /* LTHAppDelegate.m */,
+				2AE8003F17D9507E00DBDE63 /* LTHDemoViewController.h */,
+				2AE8004017D9507E00DBDE63 /* LTHDemoViewController.m */,
+				2AE8001B17D9503000DBDE63 /* Images.xcassets */,
+				2AE8001017D9503000DBDE63 /* Supporting Files */,
+			);
+			path = "LTHPasscodeViewController Demo";
+			sourceTree = "<group>";
+		};
+		2AE8001017D9503000DBDE63 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				2AF4E8391848F9FE00AB18EE /* LTHPasscodeViewController Demo-Info.plist */,
+				2AE8001217D9503000DBDE63 /* InfoPlist.strings */,
+				2AE8001517D9503000DBDE63 /* main.m */,
+				2AE8001717D9503000DBDE63 /* LTHPasscodeViewController Demo-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		2AE8FFFD17D9503000DBDE63 = {
+			isa = PBXGroup;
+			children = (
+				2AE8000F17D9503000DBDE63 /* LTHPasscodeViewController Demo */,
+				2AE8000817D9503000DBDE63 /* Frameworks */,
+				2AE8000717D9503000DBDE63 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2AF19587182C09D5005CE38A /* LTHPasscodeViewController */ = {
+			isa = PBXGroup;
+			children = (
+				7D06D11D191B842B00D399E8 /* Localizations */,
+				2AF1958E182C09D5005CE38A /* LTHPasscodeViewController.h */,
+				2AF1958F182C09D5005CE38A /* LTHPasscodeViewController.m */,
+				2AF19591182C09D5005CE38A /* LTHKeychainUtils.h */,
+				2AF19592182C09D5005CE38A /* LTHKeychainUtils.m */,
+			);
+			name = LTHPasscodeViewController;
+			path = ../../LTHPasscodeViewController;
+			sourceTree = "<group>";
+		};
+		7D06D11D191B842B00D399E8 /* Localizations */ = {
+			isa = PBXGroup;
+			children = (
+				A74908881BFBA75E00C6DA16 /* LTHPasscodeViewController.bundle */,
+			);
+			name = Localizations;
+			path = ../Localizations;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2AE8000517D9503000DBDE63 /* LTHPasscodeViewController Demo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2AE8003217D9503000DBDE63 /* Build configuration list for PBXNativeTarget "LTHPasscodeViewController Demo" */;
+			buildPhases = (
+				2AE8000217D9503000DBDE63 /* Sources */,
+				2AE8000317D9503000DBDE63 /* Frameworks */,
+				2AE8000417D9503000DBDE63 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "LTHPasscodeViewController Demo";
+			productName = LTHPasscodeViewController;
+			productReference = 2AE8000617D9503000DBDE63 /* LTHPasscodeViewController Demo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2AE8FFFE17D9503000DBDE63 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = LTH;
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = "Roland Leth";
+			};
+			buildConfigurationList = 2AE8000117D9503000DBDE63 /* Build configuration list for PBXProject "LTHPasscodeViewController Demo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				de,
+				es,
+				ro,
+				ja,
+				fr,
+				ru,
+				ko,
+				"pt-PT",
+				nl,
+				it,
+				pt,
+			);
+			mainGroup = 2AE8FFFD17D9503000DBDE63;
+			productRefGroup = 2AE8000717D9503000DBDE63 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2AE8000517D9503000DBDE63 /* LTHPasscodeViewController Demo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2AE8000417D9503000DBDE63 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A74908891BFBA75E00C6DA16 /* LTHPasscodeViewController.bundle in Resources */,
+				2AE8001417D9503000DBDE63 /* InfoPlist.strings in Resources */,
+				2AE8001C17D9503000DBDE63 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2AE8000217D9503000DBDE63 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2AE8001617D9503000DBDE63 /* main.m in Sources */,
+				2AE8004117D9507E00DBDE63 /* LTHDemoViewController.m in Sources */,
+				2AF19596182C09D5005CE38A /* LTHKeychainUtils.m in Sources */,
+				2AE8001A17D9503000DBDE63 /* LTHAppDelegate.m in Sources */,
+				2AF19595182C09D5005CE38A /* LTHPasscodeViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		2AE8001217D9503000DBDE63 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2AE8001317D9503000DBDE63 /* en */,
+				2AF06FCC1A19F89E00C6F836 /* pt-PT */,
+				E5FE63591BA05DCF00427B5F /* it */,
+				A749088A1BFBAB3900C6DA16 /* pt */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		2AE8003017D9503000DBDE63 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2AE8003117D9503000DBDE63 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2AE8003317D9503000DBDE63 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "LTHPasscodeViewController Demo/LTHPasscodeViewController Demo-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/LTHPasscodeViewController Demo/LTHPasscodeViewController Demo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.RolandLeth.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "LTHPasscodeViewController Demo";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		2AE8003417D9503000DBDE63 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "LTHPasscodeViewController Demo/LTHPasscodeViewController Demo-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/LTHPasscodeViewController Demo/LTHPasscodeViewController Demo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.RolandLeth.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "LTHPasscodeViewController Demo";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2AE8000117D9503000DBDE63 /* Build configuration list for PBXProject "LTHPasscodeViewController Demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2AE8003017D9503000DBDE63 /* Debug */,
+				2AE8003117D9503000DBDE63 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2AE8003217D9503000DBDE63 /* Build configuration list for PBXNativeTarget "LTHPasscodeViewController Demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2AE8003317D9503000DBDE63 /* Debug */,
+				2AE8003417D9503000DBDE63 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2AE8FFFE17D9503000DBDE63 /* Project object */;
+}
