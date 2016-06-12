@@ -163,7 +163,7 @@
 
 
 - (void)showLockViewForChangingPasscode {
-	[[LTHPasscodeViewController sharedUser] showForChangingPasscodeInViewController:self asModal:YES];
+	[[LTHPasscodeViewController sharedUser] showForChangingPasscodeInViewController:self asModal:YES dontNeedold:YES];
 }
 
 
