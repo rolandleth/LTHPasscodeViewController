@@ -305,6 +305,7 @@
  @details              The back bar button is hidden by default. Set @c hidesBackButton to @c NO if you want it to be visible.
  @param	viewController The view controller where the passcode view controller will be displayed.
  @param asModal        Set to @c YES to present as a modal, or to @c NO to push on the current nav stack.
+@param oldAndSame        Set to @c YES to , or to @c NO passcode is can have the same as old passcode.
  */
 - (void)showForChangingPasscodeInViewController:(UIViewController *)viewController asModal:(BOOL)isModal dontNeedold:(BOOL)oldAndSame;
 /**
