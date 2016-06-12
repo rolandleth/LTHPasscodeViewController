@@ -42,10 +42,11 @@ if ([LTHPasscodeViewController doesPasscodeExist]) {
 /**
  @param	viewController The view controller where the passcode view controller will be displayed.
  @param asModal        Set to YES to present as a modal, or to NO to push on the current nav stack.
+ @param oldAndSame        Set to @c YES to passcode is not support same as old passcode, or to @c NO passcode is can have the same as old passcode.
  */
 - (void)showForEnablingPasscodeInViewController:(UIViewController *)viewController asModal:(BOOL)isModal;
 - (void)showForDisablingPasscodeInViewController:(UIViewController *)viewController asModal:(BOOL)isModal;
-- (void)showForChangingPasscodeInViewController:(UIViewController *)viewController asModal:(BOOL)isModal;
+- (void)showForChangingPasscodeInViewController:(UIViewController *)viewController asModal:(BOOL)isModal dontNeedold:(BOOL)oldAndSame
 ```
 
 * Show the lock screen:
