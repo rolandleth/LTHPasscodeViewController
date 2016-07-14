@@ -3,7 +3,7 @@
  */
 "Enter Passcode" = "输入密码";
 
-"Enter your old passcode" = "输入老的密码";
+"Enter your old passcode" = "输入旧密码";
 
 "Enter your passcode" = "输入你的密码";
 
@@ -21,8 +21,8 @@
 
 "Passcodes did not match. Try again." = "密码不正确,请重试!";
 
-"1 Passcode Failed Attempt" = "密码尝试失败一次";
+"1 Passcode Failed Attempt" = "密码错误 1 次";
 
-"%i Passcode Failed Attempts" = "%i 次密码尝试失败";
+"%i Passcode Failed Attempts" = "密码错误 %i 次";
 
 "Unlock using Touch ID" = "用 Touch ID 解锁";
