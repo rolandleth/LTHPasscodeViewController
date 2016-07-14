@@ -1048,8 +1048,9 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 
 - (void)showForChangingPasscodeInViewController:(UIViewController *)viewController
-                                        asModal:(BOOL)isModal {
+                                        asModal:(BOOL)isModal dontNeedold:(BOOL)oldAndSame{
     _displayedAsModal = isModal;
+    _oldAndSame = oldAndSame;
     [self _prepareForChangingPasscode];
     [self _prepareNavigationControllerWithController:viewController];
     self.title = LTHPasscodeViewControllerStrings(self.changePasscodeString);
@@ -1188,7 +1189,16 @@ options:NSNumericSearch] != NSOrderedAscending)
         else if (_isUserConfirmingPasscode) {
             // User entered the confirmation Passcode correctly
             if ([typedString isEqualToString: _tempPasscode]) {
-                [self _dismissMe];
+                if ([_tempPasscode isEqualToString:savedPasscode] && _oldAndSame) {
+                   // _oldAndSame = YES;
+                    [self performSelector:@selector(_reAskForNewPasscode)
+                               withObject:nil
+                               afterDelay:_slideAnimationDuration];
+                }
+                else{
+                  //  _oldAndSame = NO;
+                    [self _dismissMe];
+                }
             }
             // User entered the confirmation Passcode incorrectly, start over.
             else {
@@ -1260,7 +1270,15 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 
 - (void)_reAskForNewPasscode {
-    _isUserBeingAskedForNewPasscode = YES;
+    if (_oldAndSame) {
+        _isUserBeingAskedForNewPasscode = NO;
+        _isUserChangingPasscode = YES;
+    }
+    else{
+        _isUserBeingAskedForNewPasscode = YES;
+        _isUserChangingPasscode = NO;
+    }
+
     _isUserConfirmingPasscode = NO;
     _tempPasscode = @"";
     
@@ -1403,8 +1421,17 @@ options:NSNumericSearch] != NSOrderedAscending)
     _enterPasscodeLabel.text = savedPasscode.length == 0 ? LTHPasscodeViewControllerStrings(self.enterPasscodeString) : LTHPasscodeViewControllerStrings(self.enterNewPasscodeString);
     
     _failedAttemptLabel.hidden = NO;
-    _failedAttemptLabel.text = LTHPasscodeViewControllerStrings(@"Passcodes did not match. Try again.");
-    _failedAttemptLabel.backgroundColor = [UIColor clearColor];
+    
+    if (_oldAndSame) {
+        _failedAttemptLabel.text = NSLocalizedStringFromTable(@"New Pin and Old PIN must be different..", _localizationTableName, @"");
+        _failedAttemptLabel.backgroundColor = [UIColor blackColor];
+
+    }
+    else{
+        _failedAttemptLabel.text = NSLocalizedStringFromTable(@"Passcodes did not match. Try again.", _localizationTableName, @"");
+        _failedAttemptLabel.backgroundColor = [UIColor clearColor];
+    }
+    
     _failedAttemptLabel.layer.borderWidth = 0;
     _failedAttemptLabel.layer.borderColor = [UIColor clearColor].CGColor;
     _failedAttemptLabel.textColor = _labelTextColor;
@@ -1419,8 +1446,7 @@ options:NSNumericSearch] != NSOrderedAscending)
         _isUserSwitchingBetweenPasscodeModes = YES;
         // Display modified change passcode flow starting with input once passcode
         // of current type and then 2 times new one of another type
-        [self showForChangingPasscodeInViewController:viewController
-                                              asModal:isModal];
+        [self showForChangingPasscodeInViewController:viewController asModal:isModal dontNeedold:_oldAndSame];
     }
     else {
         _isUserSwitchingBetweenPasscodeModes = NO;
@@ -1581,6 +1607,7 @@ options:NSNumericSearch] != NSOrderedAscending)
     _maxNumberOfAllowedFailedAttempts = 0;
     _usesKeychain = YES;
     _displayedAsModal = YES;
+    _oldAndSame = NO;
     _hidesBackButton = YES;
     _hidesCancelButton = YES;
 #if !(TARGET_IPHONE_SIMULATOR)

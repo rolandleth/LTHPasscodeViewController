@@ -283,6 +283,11 @@
 @property (nonatomic, assign) BOOL allowUnlockWithTouchID;
 
 /**
+ @brief A Boolean value that check  whether the password is same as old password (@c YES) or not (@c NO). Default is @c NO.
+ */
+@property (nonatomic, assign) BOOL oldAndSame;
+
+/**
  @brief				Used for displaying the lock. The passcode view is added directly on the keyWindow.
  @param hasLogout   Set to @c YES for a navBar with a Logout button, set to @c NO for no navBar.
  @param logoutTitle The title of the Logout button.
@@ -300,8 +305,9 @@
  @details              The back bar button is hidden by default. Set @c hidesBackButton to @c NO if you want it to be visible.
  @param	viewController The view controller where the passcode view controller will be displayed.
  @param asModal        Set to @c YES to present as a modal, or to @c NO to push on the current nav stack.
+@param oldAndSame        Set to @c YES to , or to @c NO passcode is can have the same as old passcode.
  */
-- (void)showForChangingPasscodeInViewController:(UIViewController *)viewController asModal:(BOOL)isModal;
+- (void)showForChangingPasscodeInViewController:(UIViewController *)viewController asModal:(BOOL)isModal dontNeedold:(BOOL)oldAndSame;
 /**
  @brief				   Used for disabling the passcode.
  @details              The back bar button is hidden by default. Set @c hidesBackButton to @c NO if you want it to be visible.
