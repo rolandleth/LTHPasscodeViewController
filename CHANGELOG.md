@@ -1,3 +1,6 @@
+# 3.7.7
+* Simplified Chinese improved.
+
 # 3.7.6
 * Fixed the `_setupFingerPrint` method.
 
