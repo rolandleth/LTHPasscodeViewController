@@ -177,11 +177,6 @@ static const CGFloat kFailedAttemptLabelHeight = 22.0f;
     [self.view setNeedsUpdateConstraints];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-	[super viewDidAppear:animated];
-	[[AppDelegate sharedDelegate].serviceLocator.analyticsService tagScreen:@"Passcode Screen"];
-}
-
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     if (!_displayedAsModal && !_displayedAsLockScreen) {
