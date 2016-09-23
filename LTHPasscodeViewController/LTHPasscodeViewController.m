@@ -1248,7 +1248,6 @@ options:NSNumericSearch] != NSOrderedAscending)
     _failedAttemptLabel.hidden = YES;
     
     CATransition *transition = [CATransition animation];
-    [transition setDelegate: self];
     [self performSelector: @selector(_resetUI) withObject: nil afterDelay: 0.1f];
     [transition setType: kCATransitionPush];
     [transition setSubtype: kCATransitionFromRight];
@@ -1265,7 +1264,6 @@ options:NSNumericSearch] != NSOrderedAscending)
     _tempPasscode = @"";
     
     CATransition *transition = [CATransition animation];
-    [transition setDelegate: self];
     [self performSelector: @selector(_resetUIForReEnteringNewPasscode)
                withObject: nil
                afterDelay: 0.1f];
@@ -1284,7 +1282,6 @@ options:NSNumericSearch] != NSOrderedAscending)
     _failedAttemptLabel.hidden = YES;
     
     CATransition *transition = [CATransition animation];
-    [transition setDelegate: self];
     [self performSelector: @selector(_resetUI) withObject: nil afterDelay: 0.1f];
     [transition setType: kCATransitionPush];
     [transition setSubtype: kCATransitionFromRight];
@@ -1447,22 +1444,12 @@ options:NSNumericSearch] != NSOrderedAscending)
             _useFallbackPasscode = NO;
             [_passcodeTextField resignFirstResponder];
         }
-        // Without animation because otherwise it won't come down fast enough,
-        // so inside iOS' multitasking view the app won't be covered by anything.
-        if ([self _timerDuration] <= 0) {
-            // This is here and the rest in willEnterForeground because when self is pushed
-            // instead of presented as a modal,
-            // the app would be visible from the multitasking view.
-            if (_isCurrentlyOnScreen && !_displayedAsModal) return;
-            
-            [self showLockScreenWithAnimation:NO
-                                   withLogout:NO
-                               andLogoutTitle:nil];
-        }
-        else {
-            _coverView.hidden = NO;
-            if (![[UIApplication sharedApplication].keyWindow viewWithTag: _coverViewTag])
-                [[UIApplication sharedApplication].keyWindow addSubview: _coverView];
+        
+        if (_isCurrentlyOnScreen && !_displayedAsModal) return;
+        
+        _coverView.hidden = NO;
+        if (![[UIApplication sharedApplication].keyWindow viewWithTag: _coverViewTag]) {
+            [[UIApplication sharedApplication].keyWindow addSubview: _coverView];
         }
     }
 }
@@ -1481,9 +1468,7 @@ options:NSNumericSearch] != NSOrderedAscending)
     if ([self _doesPasscodeExist] &&
         [self _didPasscodeTimerEnd]) {
         _useFallbackPasscode = NO;
-        // This is here instead of didEnterBackground because when self is pushed
-        // instead of presented as a modal,
-        // the app would be visible from the multitasking view.
+        
         if (!_displayedAsModal && !_displayedAsLockScreen && _isCurrentlyOnScreen) {
             [_passcodeTextField resignFirstResponder];
             [self.navigationController popViewControllerAnimated:NO];
