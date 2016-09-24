@@ -1340,8 +1340,13 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 
 - (void)_resetTextFields {
-    if (![_passcodeTextField isFirstResponder] && (!_isUsingTouchID || _useFallbackPasscode)) {
-        [_passcodeTextField becomeFirstResponder];
+    if (![_passcodeTextField isFirstResponder] && (!(_isUsingTouchID || _allowUnlockWithTouchID) || _useFallbackPasscode)) {
+        //It seems like there's a glitch with how the alert gets removed when hitting
+        //cancel in the TouchID prompt. In some cases, the keyboard is present, but invisible
+        //after dismissing the alert unless we call becomeFirstResponder with a short delay
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [_passcodeTextField becomeFirstResponder];
+        });
     }
     _firstDigitTextField.secureTextEntry = NO;
     _secondDigitTextField.secureTextEntry = NO;
