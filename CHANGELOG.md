@@ -1,3 +1,7 @@
+# 3.7.8
+* Improved keyboard handling when displaying the lockscreen for the first time with TouchID enabled.
+* Fixed the bug where the keyboard was invisible after canceling the TouchID alert.
+
 # 3.7.7
 * Simplified Chinese improved.
 
