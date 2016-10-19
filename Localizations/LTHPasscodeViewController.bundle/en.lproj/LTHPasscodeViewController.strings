@@ -7,6 +7,8 @@
 
 "Enter your passcode" = "Enter your passcode";
 
+"Passcode info" = "You will be asked to enter this code\neverytime you open the application";
+
 "Enable Passcode" = "Enable Passcode";
 
 "Change Passcode" = "Change Passcode";

@@ -92,6 +92,10 @@
  */
 @property (nonatomic, weak) id<LTHPasscodeViewControllerDelegate> delegate;
 /**
+ @brief The count of digits for the simple passcode. By default passcode has 4 digits.
+ */
+@property (nonatomic, assign) int       digitsCount;
+/**
  @brief The gap between the passcode digits.
  */
 @property (nonatomic, assign) CGFloat   horizontalGap;
@@ -219,6 +223,8 @@
  @brief The string displayed when entering your passcode.
  */
 @property (nonatomic, strong) NSString *enterPasscodeString;
+@property (nonatomic, strong) NSString *enterPasscodeInfoString;
+@property (nonatomic, assign) BOOL     displayAdditionalInfoDuringSettingPasscode;
 /**
  @brief The string displayed when entering your new passcode (while changing).
  */
@@ -310,12 +316,12 @@
  */
 - (void)showForDisablingPasscodeInViewController:(UIViewController *)viewController asModal:(BOOL)isModal;
 /**
- @brief  Returns a Boolean value that indicates whether a simple, 4 digit (@c YES) or a complex passcode will be used (@c NO).
+ @brief  Returns a Boolean value that indicates whether a simple, N digit (4 by default or digitsCount) (@c YES) or a complex passcode will be used (@c NO).
  @return @c YES if the passcode is simple, @c NO if the passcode is complex
  */
 - (BOOL)isSimple;
 /**
- @brief                 Sets if the passcode should be simple (4 digits) or complex.
+ @brief                 Sets if the passcode should be simple (N digits - 4 by default or digitsCount) or complex.
  @param isSimple        Set to @c YES for a simple passcode, and to @c NO for a complex passcode.
  @param viewController  The view controller where the passcode view controller will be displayed.
  @param isModal         Set to @c YES to present as a modal, or to @c NO to push on the current nav stack.
