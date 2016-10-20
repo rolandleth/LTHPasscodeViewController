@@ -94,6 +94,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 @implementation LTHPasscodeViewController
 
+    static const int DEFAULT_COUNT_OF_PASSCODE_DIGITS = 4;
 
 #pragma mark - Public, class methods
 + (BOOL)doesPasscodeExist {
@@ -403,6 +404,28 @@ options:NSNumericSearch] != NSOrderedAscending)
 }
 #endif
 
+
+- (void) setDigitsCount:(int)digitsCount {
+    if (digitsCount < DEFAULT_COUNT_OF_PASSCODE_DIGITS) {
+        digitsCount = DEFAULT_COUNT_OF_PASSCODE_DIGITS;
+    }
+    
+    _digitsCount = digitsCount;
+}
+
+
+- (CGFloat)calculateConstantForPasscodeDigit:(int)passcodeDigitIndex {
+    
+    CGFloat delta = 10.0f;
+    
+    // calculate X position for passcodeDigitIndex based on information about odd or event digits we have
+    if (_digitsCount % 2 == 0) {
+        return passcodeDigitIndex < _digitsCount/2 ? - _horizontalGap * (_digitsCount/2 - passcodeDigitIndex) + delta : _horizontalGap * abs((_digitsCount/2 - passcodeDigitIndex)) + delta;
+    } else {
+        return passcodeDigitIndex < _digitsCount/2 ? - _horizontalGap * (_digitsCount/2 - passcodeDigitIndex) - delta: _horizontalGap * abs((_digitsCount/2 - passcodeDigitIndex)) - delta;
+    }
+}
+
 #pragma mark - View life
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -643,7 +666,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 - (void)_setupDigitFields {
     _digitTextFieldsArray = [NSMutableArray array];
-    for (int i = 0; i < _digitsCount; ++i) {
+    for (int i = 0; i < _digitsCount; i++) {
         UITextField *digitTextField = [self _makeDigitField];
         _digitTextFieldsArray[i] = digitTextField;
         [_animatingView addSubview:digitTextField];
@@ -689,7 +712,7 @@ options:NSNumericSearch] != NSOrderedAscending)
     [self.view removeConstraints:self.view.constraints];
     [_animatingView removeConstraints:_animatingView.constraints];
 
-    for (int i = 0; i < _digitsCount; ++i) {
+    for (int i = 0; i < _digitsCount; i++) {
         _digitTextFieldsArray[i].hidden = !self.isSimple;
     }
     
@@ -758,19 +781,18 @@ options:NSNumericSearch] != NSOrderedAscending)
     
     if (self.isSimple) {
         
-        float delta = 10.0f;
-        
-        for (int i = 0; i < _digitsCount; ++i) {
+        for (int i = 0; i < _digitsCount; i++) {
             
-            float constant = _digitsCount % 2 == 0
-                ? i < _digitsCount/2 ? - _horizontalGap * (_digitsCount/2 - i) + delta : _horizontalGap * abs((_digitsCount/2 - i)) + delta
-                : i < _digitsCount/2 ? - _horizontalGap * (_digitsCount/2 - i) - delta: _horizontalGap * abs((_digitsCount/2 - i)) - delta;
+//            UIView *toItem = i == 0 ? _animatingView : _digitTextFieldsArray[i - 1];
+            
+            CGFloat constant = [self calculateConstantForPasscodeDigit:i];
             
             NSLayoutConstraint *digitX =
             [NSLayoutConstraint constraintWithItem: _digitTextFieldsArray[i]
                                          attribute: NSLayoutAttributeLeft
                                          relatedBy: NSLayoutRelationEqual
                                             toItem: _animatingView
+//                                            toItem: toItem
                                          attribute: NSLayoutAttributeCenterX
                                         multiplier: 1.0f
                                         constant: constant];
@@ -1122,7 +1144,7 @@ options:NSNumericSearch] != NSOrderedAscending)
     
     if (self.isSimple) {
         
-        for (int i = 0; i < _digitsCount; ++i) {
+        for (int i = 0; i < _digitsCount; i++) {
             if (typedString.length >= i + 1) _digitTextFieldsArray[i].secureTextEntry = YES;
             else _digitTextFieldsArray[i].secureTextEntry = NO;
         }
@@ -1281,7 +1303,7 @@ options:NSNumericSearch] != NSOrderedAscending)
     animation.timingFunction = [CAMediaTimingFunction functionWithName: kCAAnimationLinear];
     animation.values = @[@-12, @12, @-12, @12, @-6, @6, @-3, @3, @0];
     
-    for (int i = 0; i < _digitsCount; ++i) {
+    for (int i = 0; i < _digitsCount; i++) {
         [_digitTextFieldsArray[i].layer addAnimation: animation forKey: @"shake"];
     }
     
@@ -1331,7 +1353,7 @@ options:NSNumericSearch] != NSOrderedAscending)
         });
     }
     
-    for (int i = 0; i < _digitsCount; ++i) {
+    for (int i = 0; i < _digitsCount; i++) {
         _digitTextFieldsArray[i].secureTextEntry = NO;
     }
 
@@ -1506,8 +1528,6 @@ options:NSNumericSearch] != NSOrderedAscending)
 - (id)init {
     self = [super init];
     
-    _digitsCount = 4;
-    
     if (self) {
         [self _commonInit];
     }
@@ -1559,6 +1579,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 
 - (void)_loadMiscDefaults {
+    _digitsCount = DEFAULT_COUNT_OF_PASSCODE_DIGITS;
     _coverViewTag = 994499;
     _lockAnimationDuration = 0.25;
     _slideAnimationDuration = 0.15;
