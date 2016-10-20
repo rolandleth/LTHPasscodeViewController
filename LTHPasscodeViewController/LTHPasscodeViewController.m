@@ -95,6 +95,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 @implementation LTHPasscodeViewController
 
     static const int DEFAULT_COUNT_OF_PASSCODE_DIGITS = 4;
+    static const int MAX_COUNT_OF_PASSCODE_DIGITS = 10;
 
 #pragma mark - Public, class methods
 + (BOOL)doesPasscodeExist {
@@ -408,6 +409,8 @@ options:NSNumericSearch] != NSOrderedAscending)
 - (void) setDigitsCount:(int)digitsCount {
     if (digitsCount < DEFAULT_COUNT_OF_PASSCODE_DIGITS) {
         digitsCount = DEFAULT_COUNT_OF_PASSCODE_DIGITS;
+    } else if (digitsCount > MAX_COUNT_OF_PASSCODE_DIGITS) {
+        digitsCount = MAX_COUNT_OF_PASSCODE_DIGITS;
     }
     
     _digitsCount = digitsCount;
