@@ -21,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2A882AC11DBD21FC007A5FE7 /* LTHPasscodeViewController Demo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "LTHPasscodeViewController Demo.entitlements"; sourceTree = "<group>"; };
 		2AE8000617D9503000DBDE63 /* LTHPasscodeViewController Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LTHPasscodeViewController Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2AE8000917D9503000DBDE63 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		2AE8000B17D9503000DBDE63 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -38,7 +39,7 @@
 		2AF1958E182C09D5005CE38A /* LTHPasscodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; path = LTHPasscodeViewController.h; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; };
 		2AF1958F182C09D5005CE38A /* LTHPasscodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = LTHPasscodeViewController.m; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; };
 		2AF19591182C09D5005CE38A /* LTHKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTHKeychainUtils.h; sourceTree = "<group>"; };
-		2AF19592182C09D5005CE38A /* LTHKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTHKeychainUtils.m; sourceTree = "<group>"; };
+		2AF19592182C09D5005CE38A /* LTHKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = LTHKeychainUtils.m; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; };
 		2AF4E8391848F9FE00AB18EE /* LTHPasscodeViewController Demo-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LTHPasscodeViewController Demo-Info.plist"; sourceTree = "<group>"; };
 		A74908881BFBA75E00C6DA16 /* LTHPasscodeViewController.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = LTHPasscodeViewController.bundle; sourceTree = "<group>"; };
 		A749088A1BFBAB3900C6DA16 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -81,6 +82,7 @@
 		2AE8000F17D9503000DBDE63 /* LTHPasscodeViewController Demo */ = {
 			isa = PBXGroup;
 			children = (
+				2A882AC11DBD21FC007A5FE7 /* LTHPasscodeViewController Demo.entitlements */,
 				2AF19587182C09D5005CE38A /* LTHPasscodeViewController */,
 				2AE8001817D9503000DBDE63 /* LTHAppDelegate.h */,
 				2AE8001917D9503000DBDE63 /* LTHAppDelegate.m */,
@@ -166,6 +168,11 @@
 				TargetAttributes = {
 					2AE8000517D9503000DBDE63 = {
 						DevelopmentTeam = 78653ABY96;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -330,6 +337,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = "LTHPasscodeViewController Demo/LTHPasscodeViewController Demo.entitlements";
 				DEVELOPMENT_TEAM = 78653ABY96;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LTHPasscodeViewController Demo/LTHPasscodeViewController Demo-Prefix.pch";
@@ -346,6 +354,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = "LTHPasscodeViewController Demo/LTHPasscodeViewController Demo.entitlements";
 				DEVELOPMENT_TEAM = 78653ABY96;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LTHPasscodeViewController Demo/LTHPasscodeViewController Demo-Prefix.pch";
