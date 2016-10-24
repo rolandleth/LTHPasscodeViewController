@@ -1,3 +1,11 @@
+# 3.7.10
+* New delegate method: `passcodeWasEnabled`. Called when the passcode was enabled (Closed [#156](https://github.com/rolandleth/LTHPasscodeViewController/issues/156)).
+* New method: `enablePasscodeWhenApplicationEntersBackground`. It reverts what `disablePasscodeWhenApplicationEntersBackground` does: it adds observers for `UIApplicationDidEnterBackgroundNotification` and `UIApplicationWillEnterForegroundNotification` (Closed [#158](https://github.com/rolandleth/LTHPasscodeViewController/issues/158)).
+
+# 3.7.9
+* Keychain leaks fixed.
+* Back button fixed, it now properly resets state.
+
 # 3.7.8
 * Improved keyboard handling when displaying the lockscreen for the first time with TouchID enabled.
 * Fixed the bug where the keyboard was invisible after canceling the TouchID alert.

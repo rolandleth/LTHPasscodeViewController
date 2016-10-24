@@ -201,5 +201,9 @@
 	NSLog(@"Logout Button Was Pressed");
 }
 
+- (void)passcodeWasEnabled {
+	NSLog(@"Passcode Was Enabled");
+}
+
 
 @end

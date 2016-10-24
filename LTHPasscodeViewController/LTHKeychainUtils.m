@@ -73,7 +73,7 @@ static NSString *SFHFKeychainUtilsErrorDomain = @"SFHFKeychainUtilsErrorDomain";
     
     CFTypeRef attrResult = NULL;
     OSStatus status = SecItemCopyMatching((__bridge CFDictionaryRef) attributeQuery,
-                                          &attrResult);
+                                          (CFTypeRef *) &attrResult);
     if (attrResult) CFRelease(attrResult);
     
     if (status != noErr) {
@@ -95,7 +95,7 @@ static NSString *SFHFKeychainUtilsErrorDomain = @"SFHFKeychainUtilsErrorDomain";
     
     CFTypeRef resData = NULL;
     status = SecItemCopyMatching((__bridge CFDictionaryRef) passwordQuery,
-                                 &resData);
+                                 (CFTypeRef *) &resData);
     NSData *resultData = (__bridge_transfer NSData *)resData;
     
     if (status != noErr) {

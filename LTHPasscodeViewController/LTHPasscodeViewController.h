@@ -23,6 +23,10 @@
  */
 - (void)passcodeWasEnteredSuccessfully;
 /**
+ @brief Called when the passcode was enabled.
+ */
+- (void)passcodeWasEnabled;
+/**
  @brief Called when the logout button was pressed.
  */
 - (void)logoutButtonWasPressed;
@@ -323,9 +327,13 @@
  */
 - (void)setIsSimple:(BOOL)isSimple inViewController:(UIViewController *)viewController asModal:(BOOL)isModal;
 /**
- @brief The passcode view will be shown by default when entering the app from background. This method disables this behavior by removing the observer for UIApplicationDidEnterBackgroundNotification and UIApplicationWillEnterForegroundNotification.
+ @brief The passcode view will be shown by default when entering the app from background. This method disables this behavior by removing the observers for UIApplicationDidEnterBackgroundNotification and UIApplicationWillEnterForegroundNotification.
  */
 - (void)disablePasscodeWhenApplicationEntersBackground;
+/**
+ @brief The passcode view will be shown by default when entering the app from background. `disablePasscodeWhenApplicationEntersBackground` can disable that behavior and this method enables it again, by adding back the observers for UIApplicationDidEnterBackgroundNotification and UIApplicationWillEnterForegroundNotification
+ */
+- (void)enablePasscodeWhenApplicationEntersBackground;
 /**
  @brief  Returns a Boolean value that indicates whether a passcode exists (@c YES) or not (@c NO).
  @return @c YES if a passcode is enabled. This also means it is enabled, unless custom logic was added to the library.

@@ -71,6 +71,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 @property (nonatomic, assign) CGFloat     iPadFontSizeModifier;
 @property (nonatomic, assign) CGFloat     iPhoneHorizontalGap;
 
+@property (nonatomic, assign) BOOL        passcodeAlreadyExists;
 @property (nonatomic, assign) BOOL        usesKeychain;
 @property (nonatomic, assign) BOOL        displayedAsModal;
 @property (nonatomic, assign) BOOL        displayedAsLockScreen;
@@ -258,6 +259,13 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 
 - (void)_savePasscode:(NSString *)passcode {
+    if (!_passcodeAlreadyExists &&
+        [self.delegate respondsToSelector:@selector(passcodeWasEnabled)]) {
+        [self.delegate passcodeWasEnabled];
+    }
+    
+    _passcodeAlreadyExists = YES;
+    
     if (!_usesKeychain &&
         [self.delegate respondsToSelector:@selector(savePasscode:)]) {
         [self.delegate savePasscode:passcode];
@@ -487,10 +495,7 @@ options:NSNumericSearch] != NSOrderedAscending)
     if ([self.delegate respondsToSelector: @selector(passcodeViewControllerWillClose)]) {
         [self.delegate performSelector: @selector(passcodeViewControllerWillClose)];
     }
-    // Or, if you prefer by notifications:
-    //	[[NSNotificationCenter defaultCenter] postNotificationName: @"passcodeViewControllerWillClose"
-    //														object: self
-    //													  userInfo: nil];
+
     if (_displayedAsModal) [self dismissViewControllerAnimated:YES completion:nil];
     else if (!_displayedAsLockScreen) [self.navigationController popViewControllerAnimated:YES];
 }
@@ -542,10 +547,7 @@ options:NSNumericSearch] != NSOrderedAscending)
         if ([self.delegate respondsToSelector: @selector(passcodeViewControllerWillClose)]) {
             [self.delegate performSelector: @selector(passcodeViewControllerWillClose)];
         }
-        // Or, if you prefer by notifications:
-        //		[[NSNotificationCenter defaultCenter] postNotificationName: @"passcodeViewControllerWillClose"
-        //															object: self
-        //														  userInfo: nil];
+
         if (_displayedAsLockScreen) {
             [self.view removeFromSuperview];
             [self removeFromParentViewController];
@@ -1048,6 +1050,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 - (void)showForEnablingPasscodeInViewController:(UIViewController *)viewController
                                         asModal:(BOOL)isModal {
     _displayedAsModal = isModal;
+    _passcodeAlreadyExists = NO;
     [self _prepareForEnablingPasscode];
     [self _prepareNavigationControllerWithController:viewController];
     self.title = LTHPasscodeViewControllerStrings(self.enablePasscodeString);
@@ -1222,10 +1225,6 @@ options:NSNumericSearch] != NSOrderedAscending)
     // App launch/Turning passcode off: Passcode OK -> dismiss, Passcode incorrect -> deny access.
     else {
         if ([typedString isEqualToString: savedPasscode]) {
-            // Or, if you prefer by notifications:
-            //            [[NSNotificationCenter defaultCenter] postNotificationName: @"passcodeWasEnteredSuccessfully"
-            //                                                                object: self
-            //                                                              userInfo: nil];
             [self _dismissMe];
             _useFallbackPasscode = NO;
             if ([self.delegate respondsToSelector: @selector(passcodeWasEnteredSuccessfully)]) {
@@ -1320,10 +1319,6 @@ options:NSNumericSearch] != NSOrderedAscending)
         [self.delegate respondsToSelector: @selector(maxNumberOfFailedAttemptsReached)]) {
         [self.delegate maxNumberOfFailedAttemptsReached];
     }
-    //	Or, if you prefer by notifications:
-    //	[[NSNotificationCenter defaultCenter] postNotificationName: @"maxNumberOfFailedAttemptsReached"
-    //														object: self
-    //													  userInfo: nil];
     
     if (_failedAttempts == 1) {
         _failedAttemptLabel.text =
@@ -1583,6 +1578,7 @@ options:NSNumericSearch] != NSOrderedAscending)
     _displayedAsModal = YES;
     _hidesBackButton = YES;
     _hidesCancelButton = YES;
+    _passcodeAlreadyExists = YES;
 #if !(TARGET_IPHONE_SIMULATOR)
     _allowUnlockWithTouchID = [self _allowUnlockWithTouchID];
 #else
@@ -1771,8 +1767,30 @@ options:NSNumericSearch] != NSOrderedAscending)
 }
 
 - (void)disablePasscodeWhenApplicationEntersBackground {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter]
+     removeObserver:self
+     name:UIApplicationDidEnterBackgroundNotification
+     object:nil];
+    [[NSNotificationCenter defaultCenter]
+     removeObserver:self
+     name:UIApplicationWillEnterForegroundNotification
+     object:nil];
+}
+
+- (void)enablePasscodeWhenApplicationEntersBackground {
+    // To avoid double registering.
+    [self disablePasscodeWhenApplicationEntersBackground];
+    
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(_applicationDidEnterBackground)
+     name:UIApplicationDidEnterBackgroundNotification
+     object:nil];
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(_applicationWillEnterForeground)
+     name:UIApplicationWillEnterForegroundNotification
+     object:nil];
 }
 
 
