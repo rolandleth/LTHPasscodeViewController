@@ -459,6 +459,13 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 
 - (void)viewWillDisappear:(BOOL)animated {
+    // If _isCurrentlyOnScreen is true at this point,
+    // it means the back button was tapped, so we need to reset.
+    if ([self isMovingFromParentViewController] && !_hidesBackButton && _isCurrentlyOnScreen) {
+        [self _close];
+        return;
+    }
+    
     [super viewWillDisappear:animated];
     if (!_displayedAsModal && !_displayedAsLockScreen) {
         [self textFieldShouldEndEditing:_passcodeTextField];

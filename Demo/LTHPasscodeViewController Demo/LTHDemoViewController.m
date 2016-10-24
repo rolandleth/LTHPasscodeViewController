@@ -163,7 +163,9 @@
 
 
 - (void)showLockViewForChangingPasscode {
-	[[LTHPasscodeViewController sharedUser] showForChangingPasscodeInViewController:self asModal:YES];
+	[LTHPasscodeViewController sharedUser].hidesCancelButton = NO;
+	[LTHPasscodeViewController sharedUser].hidesBackButton = NO;
+	[[LTHPasscodeViewController sharedUser] showForChangingPasscodeInViewController:self asModal:NO];
 }
 
 
