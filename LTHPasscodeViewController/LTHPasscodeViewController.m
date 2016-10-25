@@ -18,12 +18,14 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
 #define kPasscodeCharWidth [_passcodeCharacter sizeWithAttributes: @{NSFontAttributeName : _passcodeFont}].width
+#define kPasscodeCharHeight [_passcodeCharacter sizeWithAttributes: @{NSFontAttributeName : _passcodeFont}].height
 #define kFailedAttemptLabelWidth (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? [_failedAttemptLabel.text sizeWithAttributes: @{NSFontAttributeName : _labelFont}].width + 60.0f : [_failedAttemptLabel.text sizeWithAttributes: @{NSFontAttributeName : _labelFont}].width + 30.0f)
 #define kFailedAttemptLabelHeight [_failedAttemptLabel.text sizeWithAttributes: @{NSFontAttributeName : _labelFont}].height
 #define kEnterPasscodeLabelWidth [_enterPasscodeLabel.text sizeWithAttributes: @{NSFontAttributeName : _labelFont}].width
 #else
 // Thanks to Kent Nguyen - https://github.com/kentnguyen
 #define kPasscodeCharWidth [_passcodeCharacter sizeWithFont:_passcodeFont].width
+#define kPasscodeCharHeight [_passcodeCharacter sizeWithFont:_passcodeFont].height
 #define kFailedAttemptLabelWidth (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? [_failedAttemptLabel.text sizeWithFont:_labelFont].width + 60.0f : [_failedAttemptLabel.text sizeWithFont:_labelFont].width + 20.0f)
 #define kFailedAttemptLabelHeight [_failedAttemptLabel.text sizeWithFont:_labelFont].height
 #define kEnterPasscodeLabelWidth [_enterPasscodeLabel.text sizeWithFont:_labelFont].width
@@ -52,6 +54,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 @property (nonatomic, strong) UIView      *coverView;
 @property (nonatomic, strong) UIView      *animatingView;
 @property (nonatomic, strong) UIView      *complexPasscodeOverlayView;
+@property (nonatomic, strong) UIView      *simplePasscodeView;
 @property (nonatomic, strong) UIImageView *backgroundImageView;
 
 @property (nonatomic, strong) UITextField *passcodeTextField;
@@ -416,19 +419,6 @@ options:NSNumericSearch] != NSOrderedAscending)
     _digitsCount = digitsCount;
 }
 
-
-- (CGFloat)calculateConstantForPasscodeDigit:(int)passcodeDigitIndex {
-    
-    CGFloat delta = 10.0f;
-    
-    // calculate X position for passcodeDigitIndex based on information about odd or event digits we have
-    if (_digitsCount % 2 == 0) {
-        return passcodeDigitIndex < _digitsCount/2 ? - _horizontalGap * (_digitsCount/2 - passcodeDigitIndex) + delta : _horizontalGap * abs((_digitsCount/2 - passcodeDigitIndex)) + delta;
-    } else {
-        return passcodeDigitIndex < _digitsCount/2 ? - _horizontalGap * (_digitsCount/2 - passcodeDigitIndex) - delta: _horizontalGap * abs((_digitsCount/2 - passcodeDigitIndex)) - delta;
-    }
-}
-
 #pragma mark - View life
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -624,6 +614,11 @@ options:NSNumericSearch] != NSOrderedAscending)
     _complexPasscodeOverlayView = [[UIView alloc] initWithFrame:CGRectZero];
     _complexPasscodeOverlayView.backgroundColor = [UIColor whiteColor];
     _complexPasscodeOverlayView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    _simplePasscodeView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, _digitsCount * (kPasscodeCharWidth + _horizontalGap/2) - _horizontalGap/2 + _digitsCount/2, kPasscodeCharHeight)];
+    _simplePasscodeView.translatesAutoresizingMaskIntoConstraints = NO;
+   
+    [_animatingView addSubview:_simplePasscodeView];
     [_animatingView addSubview:_complexPasscodeOverlayView];
 }
 
@@ -672,7 +667,7 @@ options:NSNumericSearch] != NSOrderedAscending)
     for (int i = 0; i < _digitsCount; i++) {
         UITextField *digitTextField = [self _makeDigitField];
         _digitTextFieldsArray[i] = digitTextField;
-        [_animatingView addSubview:digitTextField];
+        [_simplePasscodeView addSubview:digitTextField];
     }
 }
 
@@ -714,10 +709,8 @@ options:NSNumericSearch] != NSOrderedAscending)
     [super updateViewConstraints];
     [self.view removeConstraints:self.view.constraints];
     [_animatingView removeConstraints:_animatingView.constraints];
-
-    for (int i = 0; i < _digitsCount; i++) {
-        _digitTextFieldsArray[i].hidden = !self.isSimple;
-    }
+    
+    _simplePasscodeView.hidden = !self.isSimple;
     
     _complexPasscodeOverlayView.hidden = self.isSimple;
     _passcodeTextField.hidden = self.isSimple;
@@ -727,6 +720,7 @@ options:NSNumericSearch] != NSOrderedAscending)
     
     if (self.isSimple) {
         [_animatingView addSubview:_passcodeTextField];
+        [_animatingView addSubview:_simplePasscodeView];
     }
     else {
         [_complexPasscodeOverlayView addSubview:_passcodeTextField];
@@ -784,34 +778,55 @@ options:NSNumericSearch] != NSOrderedAscending)
     
     if (self.isSimple) {
         
+        _simplePasscodeView.frame = CGRectMake(0, 0, _digitsCount * (kPasscodeCharWidth + _horizontalGap/2) - _horizontalGap/2 + _digitsCount/2, kPasscodeCharHeight);
+
         for (int i = 0; i < _digitsCount; i++) {
             
-//            UIView *toItem = i == 0 ? _animatingView : _digitTextFieldsArray[i - 1];
-            
-            CGFloat constant = [self calculateConstantForPasscodeDigit:i];
+            CGFloat constant = i == 0 ? 0 : i * _horizontalGap;
             
             NSLayoutConstraint *digitX =
             [NSLayoutConstraint constraintWithItem: _digitTextFieldsArray[i]
                                          attribute: NSLayoutAttributeLeft
                                          relatedBy: NSLayoutRelationEqual
-                                            toItem: _animatingView
-//                                            toItem: toItem
+                                            toItem: _simplePasscodeView
                                          attribute: NSLayoutAttributeCenterX
                                         multiplier: 1.0f
-                                        constant: constant];
+                                          constant: constant];
 
             NSLayoutConstraint *digitY =
             [NSLayoutConstraint constraintWithItem: _digitTextFieldsArray[i]
                                          attribute: NSLayoutAttributeCenterY
                                          relatedBy: NSLayoutRelationEqual
-                                            toItem: _enterPasscodeLabel
-                                         attribute: NSLayoutAttributeBottom
+                                            toItem: _simplePasscodeView
+                                         attribute: NSLayoutAttributeCenterY
                                         multiplier: 1.0f
-                                          constant: _verticalGap];
+                                          constant: 0];
             
             [self.view addConstraint:digitX];
             [self.view addConstraint:digitY];
         }
+
+        NSLayoutConstraint *simplePasscodeViewX =
+        [NSLayoutConstraint constraintWithItem: _simplePasscodeView
+                                     attribute: NSLayoutAttributeCenterX
+                                     relatedBy: NSLayoutRelationEqual
+                                        toItem: _animatingView
+                                     attribute: NSLayoutAttributeCenterX
+                                    multiplier: 1.0
+                                      constant: - _simplePasscodeView.bounds.size.width / 2];
+        
+        NSLayoutConstraint *simplePasscodeViewY =
+        [NSLayoutConstraint constraintWithItem: _simplePasscodeView
+                                     attribute: NSLayoutAttributeCenterY
+                                     relatedBy: NSLayoutRelationEqual
+                                        toItem: _enterPasscodeLabel
+                                     attribute: NSLayoutAttributeBottom
+                                    multiplier: 1.0
+                                      constant: _verticalGap];
+        
+        [self.view addConstraint:simplePasscodeViewX];
+        [self.view addConstraint:simplePasscodeViewY];
+
     }
     else {
         NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(_passcodeTextField, _OKButton);
