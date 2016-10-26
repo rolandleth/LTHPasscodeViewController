@@ -1,3 +1,7 @@
+# 3.7.11
+* Replaced all instances of `keyWindow` with `LTHMainWindow` (macro that expands `[UIApplication sharedApplication].windows[0]` - explanation in [#164](https://github.com/rolandleth/LTHPasscodeViewController/issues/164).
+* Fixed a bug where the UI would not be visible (Closed [#163](https://github.com/rolandleth/LTHPasscodeViewController/issues/163)).
+
 # 3.7.10
 * New delegate method: `passcodeWasEnabled`. Called when the passcode was enabled (Closed [#156](https://github.com/rolandleth/LTHPasscodeViewController/issues/156)).
 * New method: `enablePasscodeWhenApplicationEntersBackground`. It reverts what `disablePasscodeWhenApplicationEntersBackground` does: it adds observers for `UIApplicationDidEnterBackgroundNotification` and `UIApplicationWillEnterForegroundNotification` (Closed [#158](https://github.com/rolandleth/LTHPasscodeViewController/issues/158)).

@@ -34,18 +34,27 @@ options:NSNumericSearch] != NSOrderedAscending)
 [[NSBundle bundleWithPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"LTHPasscodeViewController" ofType:@"bundle"]] localizedStringForKey:(key) value:@"" table:_localizationTableName]
 #endif
 
-// Usually, the app's window is the first on the stack. I'm doing this because if an alertView or actionSheet
-// is open when presenting the lockscreen causes problems, because the av/as has it's own window that replaces the keyWindow
-// and due to how Apple handles said window internally.
-// Currently the lockscreen appears behind the av/as, which is the best compromise for now.
-// You can read and/or give a hand following one of the links below
-// http://stackoverflow.com/questions/19816142/uialertviews-uiactionsheets-and-keywindow-problems
-// https://github.com/rolandleth/LTHPasscodeViewController/issues/16
-// Usually not more than one window is needed, but your needs may vary; modify below.
-// Also, in case the control doesn't work properly,
-// try it with .keyWindow before anything else, it might work.
+// MARK: Please read
+/*
+ Using windows[0] instead of keyWindow due to an issue with UIAlertViews / UIActionSheets - displaying the lockscreen when an alertView / actionSheet is visible, or displaying one after the lockscreen is visible results in a few cases:
+ * the lockscreen and the keyboard appear on top the av/as, but
+   * the dimming of the av/as appears on top the lockscreen;
+   * if the app is closed and reopened, the order becomes av/as - lockscreen - dimming - keyboard.
+ * the lockscreen always appears behind the av/as, while the keyboard
+   * doesn't appear until the av/as is dismissed;
+   * appears on top on the av/as - if the app is closed and reopened with the av/as visible.
+ * the lockscreen appears above the av/as, while the keyboard appears below, so there's no way to enter the passcode.
+ 
+ The current implementation shows the lockscreen behind the av/as.
+ 
+ Relevant links:
+ * https://github.com/rolandleth/LTHPasscodeViewController/issues/16
+ * https://github.com/rolandleth/LTHPasscodeViewController/issues/164 (the description found above)
+ * https://stackoverflow.com/questions/19816142/uialertviews-uiactionsheets-and-keywindow-problems
+ 
+ Any help would be greatly appreciated.
+ */
 
-// [UIApplication sharedApplication].keyWindow
 #define LTHMainWindow [UIApplication sharedApplication].windows[0]
 
 @interface LTHPasscodeViewController () <UITextFieldDelegate>
@@ -441,20 +450,15 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
     if (!self.isAppNotificationsObserved) {
         [self _addObservers];
         self.isAppNotificationsObserved = YES;
     }
     
+    _animatingView.hidden = NO;
     _backgroundImageView.image = _backgroundImage;
-    if (!_isUsingTouchID) {
-        [_passcodeTextField becomeFirstResponder];
-    }
-}
-
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+    
     if (!_passcodeTextField.isFirstResponder && (!_isUsingTouchID || _isUserChangingPasscode || _isUserBeingAskedForNewPasscode || _isUserConfirmingPasscode || _isUserEnablingPasscode || _isUserSwitchingBetweenPasscodeModes || _isUserTurningPasscodeOff)) {
         [_passcodeTextField becomeFirstResponder];
         _animatingView.hidden = NO;
@@ -475,6 +479,7 @@ options:NSNumericSearch] != NSOrderedAscending)
     }
     
     [super viewWillDisappear:animated];
+    
     if (!_displayedAsModal && !_displayedAsLockScreen) {
         [self textFieldShouldEndEditing:_passcodeTextField];
     }
@@ -603,7 +608,7 @@ options:NSNumericSearch] != NSOrderedAscending)
     _coverView.userInteractionEnabled = NO;
     _coverView.tag = _coverViewTag;
     _coverView.hidden = YES;
-    [[UIApplication sharedApplication].keyWindow addSubview: _coverView];
+    [LTHMainWindow addSubview: _coverView];
     
     _complexPasscodeOverlayView = [[UIView alloc] initWithFrame:CGRectZero];
     _complexPasscodeOverlayView.backgroundColor = [UIColor whiteColor];
@@ -947,59 +952,53 @@ options:NSNumericSearch] != NSOrderedAscending)
     [self _prepareAsLockScreen];
     
     // In case the user leaves the app while the lockscreen is already active.
-    if (!_isCurrentlyOnScreen) {
-        [LTHMainWindow addSubview: self.view];
-        //		[LTHMainWindow.rootViewController addChildViewController: self];
-        
-        // All this hassle because a view added to UIWindow does not rotate automatically
-        // and if we would have added the view anywhere else, it wouldn't display properly
-        // (having a modal on screen when the user leaves the app, for example).
-        [self rotateAccordingToStatusBarOrientationAndSupportedOrientations];
-        CGPoint newCenter;
-        [self statusBarFrameOrOrientationChanged:nil];
-        if (LTHiOS8) {
+    if (_isCurrentlyOnScreen) { return; }
+    _isCurrentlyOnScreen = YES;
+    
+    [LTHMainWindow addSubview: self.view];
+    
+    // All this hassle because a view added to UIWindow does not rotate automatically
+    // and if we would have added the view anywhere else, it wouldn't display properly
+    // (having a modal on screen when the user leaves the app, for example).
+    [self rotateAccordingToStatusBarOrientationAndSupportedOrientations];
+    CGPoint newCenter;
+    [self statusBarFrameOrOrientationChanged:nil];
+    if (LTHiOS8) {
+        self.view.center = CGPointMake(self.view.center.x, self.view.center.y * -1.f);
+        newCenter = CGPointMake(LTHMainWindow.center.x,
+                                LTHMainWindow.center.y + self.navigationController.navigationBar.frame.size.height / 2);
+    }
+    else {
+        if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) {
+            self.view.center = CGPointMake(self.view.center.x * -1.f, self.view.center.y);
+            newCenter = CGPointMake(LTHMainWindow.center.x - self.navigationController.navigationBar.frame.size.height / 2,
+                                    LTHMainWindow.center.y);
+        }
+        else if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight) {
+            self.view.center = CGPointMake(self.view.center.x * 2.f, self.view.center.y);
+            newCenter = CGPointMake(LTHMainWindow.center.x + self.navigationController.navigationBar.frame.size.height / 2,
+                                    LTHMainWindow.center.y);
+        }
+        else if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) {
             self.view.center = CGPointMake(self.view.center.x, self.view.center.y * -1.f);
+            newCenter = CGPointMake(LTHMainWindow.center.x,
+                                    LTHMainWindow.center.y - self.navigationController.navigationBar.frame.size.height / 2);
+        }
+        else {
+            self.view.center = CGPointMake(self.view.center.x, self.view.center.y * 2.f);
             newCenter = CGPointMake(LTHMainWindow.center.x,
                                     LTHMainWindow.center.y + self.navigationController.navigationBar.frame.size.height / 2);
         }
-        else {
-            if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) {
-                self.view.center = CGPointMake(self.view.center.x * -1.f, self.view.center.y);
-                newCenter = CGPointMake(LTHMainWindow.center.x - self.navigationController.navigationBar.frame.size.height / 2,
-                                        LTHMainWindow.center.y);
-            }
-            else if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight) {
-                self.view.center = CGPointMake(self.view.center.x * 2.f, self.view.center.y);
-                newCenter = CGPointMake(LTHMainWindow.center.x + self.navigationController.navigationBar.frame.size.height / 2,
-                                        LTHMainWindow.center.y);
-            }
-            else if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) {
-                self.view.center = CGPointMake(self.view.center.x, self.view.center.y * -1.f);
-                newCenter = CGPointMake(LTHMainWindow.center.x,
-                                        LTHMainWindow.center.y - self.navigationController.navigationBar.frame.size.height / 2);
-            }
-            else {
-                self.view.center = CGPointMake(self.view.center.x, self.view.center.y * 2.f);
-                newCenter = CGPointMake(LTHMainWindow.center.x,
-                                        LTHMainWindow.center.y + self.navigationController.navigationBar.frame.size.height / 2);
-            }
-        }
-        if (animated) {
-            [UIView animateWithDuration: _lockAnimationDuration animations: ^{
-                self.view.center = newCenter;
-            }];
-        }
-        else {
-            self.view.center = newCenter;
-        }
-        
-        // Add nav bar & logout button if specified
-        if (hasLogout) {
-            _isUsingNavBar = hasLogout;
-            [self _setupNavBarWithLogoutTitle:logoutTitle];
-        }
-        
-        _isCurrentlyOnScreen = YES;
+    }
+    
+    [UIView animateWithDuration: animated ? _lockAnimationDuration : 0 animations: ^{
+        self.view.center = newCenter;
+    }];
+    
+    // Add nav bar & logout button if specified
+    if (hasLogout) {
+        _isUsingNavBar = hasLogout;
+        [self _setupNavBarWithLogoutTitle:logoutTitle];
     }
 }
 
@@ -1458,15 +1457,19 @@ options:NSNumericSearch] != NSOrderedAscending)
         if (_isCurrentlyOnScreen && !_displayedAsModal) return;
         
         _coverView.hidden = NO;
-        if (![[UIApplication sharedApplication].keyWindow viewWithTag: _coverViewTag]) {
-            [[UIApplication sharedApplication].keyWindow addSubview: _coverView];
+        if (![LTHMainWindow viewWithTag: _coverViewTag]) {
+            [LTHMainWindow addSubview: _coverView];
         }
     }
 }
 
 
 - (void)_applicationDidBecomeActive {
-    if(_isUsingTouchID && !_useFallbackPasscode) {
+    // If we are not being displayed as lockscreen, it means the TouchID alert
+    // just closed - it also calls UIApplicationDidBecomeActiveNotification
+    // and if we open for changing / turning off really fast, it will call this
+    // after viewWillAppear, and it will hide the UI.
+    if (_isUsingTouchID && !_useFallbackPasscode && _displayedAsLockScreen) {
         _animatingView.hidden = YES;
         [_passcodeTextField resignFirstResponder];
     }
@@ -1710,10 +1713,10 @@ options:NSNumericSearch] != NSOrderedAscending)
     }
     else {
         if (UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
-            _animatingView.frame = CGRectMake(0, 0, [UIApplication sharedApplication].keyWindow.frame.size.width, [UIApplication sharedApplication].keyWindow.frame.size.height);
+            _animatingView.frame = CGRectMake(0, 0, LTHMainWindow.frame.size.width, LTHMainWindow.frame.size.height);
         }
         else {
-            _animatingView.frame = CGRectMake(0, 0, [UIApplication sharedApplication].keyWindow.frame.size.height, [UIApplication sharedApplication].keyWindow.frame.size.width);
+            _animatingView.frame = CGRectMake(0, 0, LTHMainWindow.frame.size.height, LTHMainWindow.frame.size.width);
         }
     }
 }
