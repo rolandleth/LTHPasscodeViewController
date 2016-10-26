@@ -18,14 +18,12 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
 #define kPasscodeCharWidth [_passcodeCharacter sizeWithAttributes: @{NSFontAttributeName : _passcodeFont}].width
-#define kPasscodeCharHeight [_passcodeCharacter sizeWithAttributes: @{NSFontAttributeName : _passcodeFont}].height
 #define kFailedAttemptLabelWidth (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? [_failedAttemptLabel.text sizeWithAttributes: @{NSFontAttributeName : _labelFont}].width + 60.0f : [_failedAttemptLabel.text sizeWithAttributes: @{NSFontAttributeName : _labelFont}].width + 30.0f)
 #define kFailedAttemptLabelHeight [_failedAttemptLabel.text sizeWithAttributes: @{NSFontAttributeName : _labelFont}].height
 #define kEnterPasscodeLabelWidth [_enterPasscodeLabel.text sizeWithAttributes: @{NSFontAttributeName : _labelFont}].width
 #else
 // Thanks to Kent Nguyen - https://github.com/kentnguyen
 #define kPasscodeCharWidth [_passcodeCharacter sizeWithFont:_passcodeFont].width
-#define kPasscodeCharHeight [_passcodeCharacter sizeWithFont:_passcodeFont].height
 #define kFailedAttemptLabelWidth (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? [_failedAttemptLabel.text sizeWithFont:_labelFont].width + 60.0f : [_failedAttemptLabel.text sizeWithFont:_labelFont].width + 20.0f)
 #define kFailedAttemptLabelHeight [_failedAttemptLabel.text sizeWithFont:_labelFont].height
 #define kEnterPasscodeLabelWidth [_enterPasscodeLabel.text sizeWithFont:_labelFont].width
@@ -419,6 +417,15 @@ options:NSNumericSearch] != NSOrderedAscending)
     _digitsCount = digitsCount;
 }
 
+- (CGFloat)calculateConstantForPasscodeDigit:(int)passcodeDigitIndex {
+    
+    if (passcodeDigitIndex == 0) {
+        return 0;
+    } else {
+        return _horizontalGap;
+    }
+}
+
 #pragma mark - View life
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -615,11 +622,11 @@ options:NSNumericSearch] != NSOrderedAscending)
     _complexPasscodeOverlayView.backgroundColor = [UIColor whiteColor];
     _complexPasscodeOverlayView.translatesAutoresizingMaskIntoConstraints = NO;
     
-    _simplePasscodeView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, _digitsCount * (kPasscodeCharWidth + _horizontalGap/2) - _horizontalGap/2 + _digitsCount/2, kPasscodeCharHeight)];
+    _simplePasscodeView = [[UIView alloc] initWithFrame:CGRectZero];
     _simplePasscodeView.translatesAutoresizingMaskIntoConstraints = NO;
    
-    [_animatingView addSubview:_simplePasscodeView];
     [_animatingView addSubview:_complexPasscodeOverlayView];
+    [_animatingView addSubview:_simplePasscodeView];
 }
 
 
@@ -720,7 +727,6 @@ options:NSNumericSearch] != NSOrderedAscending)
     
     if (self.isSimple) {
         [_animatingView addSubview:_passcodeTextField];
-        [_animatingView addSubview:_simplePasscodeView];
     }
     else {
         [_complexPasscodeOverlayView addSubview:_passcodeTextField];
@@ -778,34 +784,57 @@ options:NSNumericSearch] != NSOrderedAscending)
     
     if (self.isSimple) {
         
-        _simplePasscodeView.frame = CGRectMake(0, 0, _digitsCount * (kPasscodeCharWidth + _horizontalGap/2) - _horizontalGap/2 + _digitsCount/2, kPasscodeCharHeight);
-
         for (int i = 0; i < _digitsCount; i++) {
             
-            CGFloat constant = i == 0 ? 0 : i * _horizontalGap;
+            CGFloat constant = [self calculateConstantForPasscodeDigit:i];
+            UIView *toItem = i == 0 ? _simplePasscodeView : _digitTextFieldsArray[i - 1];
             
             NSLayoutConstraint *digitX =
             [NSLayoutConstraint constraintWithItem: _digitTextFieldsArray[i]
                                          attribute: NSLayoutAttributeLeft
                                          relatedBy: NSLayoutRelationEqual
-                                            toItem: _simplePasscodeView
-                                         attribute: NSLayoutAttributeCenterX
+                                            toItem: toItem
+                                         attribute: NSLayoutAttributeLeft
                                         multiplier: 1.0f
                                           constant: constant];
 
-            NSLayoutConstraint *digitY =
+            NSLayoutConstraint *top =
             [NSLayoutConstraint constraintWithItem: _digitTextFieldsArray[i]
-                                         attribute: NSLayoutAttributeCenterY
+                                         attribute: NSLayoutAttributeTop
                                          relatedBy: NSLayoutRelationEqual
                                             toItem: _simplePasscodeView
-                                         attribute: NSLayoutAttributeCenterY
+                                         attribute: NSLayoutAttributeTop
+                                        multiplier: 1.0f
+                                          constant: 0];
+            
+            NSLayoutConstraint *bottom =
+            [NSLayoutConstraint constraintWithItem: _digitTextFieldsArray[i]
+                                         attribute: NSLayoutAttributeBottom
+                                         relatedBy: NSLayoutRelationEqual
+                                            toItem: _simplePasscodeView
+                                         attribute: NSLayoutAttributeBottom
                                         multiplier: 1.0f
                                           constant: 0];
             
             [self.view addConstraint:digitX];
-            [self.view addConstraint:digitY];
+            [self.view addConstraint:top];
+            [self.view addConstraint:bottom];
+            
+            if (i == _digitsCount - 1) {
+                
+                NSLayoutConstraint *trailing =
+                [NSLayoutConstraint constraintWithItem: _digitTextFieldsArray[i]
+                                             attribute: NSLayoutAttributeTrailing
+                                             relatedBy: NSLayoutRelationEqual
+                                                toItem: _simplePasscodeView
+                                             attribute: NSLayoutAttributeTrailing
+                                            multiplier: 1.0f
+                                              constant: 0];
+                
+                [self.view addConstraint:trailing];
+            }
         }
-
+        
         NSLayoutConstraint *simplePasscodeViewX =
         [NSLayoutConstraint constraintWithItem: _simplePasscodeView
                                      attribute: NSLayoutAttributeCenterX
@@ -813,7 +842,7 @@ options:NSNumericSearch] != NSOrderedAscending)
                                         toItem: _animatingView
                                      attribute: NSLayoutAttributeCenterX
                                     multiplier: 1.0
-                                      constant: - _simplePasscodeView.bounds.size.width / 2];
+                                      constant: 0];
         
         NSLayoutConstraint *simplePasscodeViewY =
         [NSLayoutConstraint constraintWithItem: _simplePasscodeView
@@ -823,6 +852,7 @@ options:NSNumericSearch] != NSOrderedAscending)
                                      attribute: NSLayoutAttributeBottom
                                     multiplier: 1.0
                                       constant: _verticalGap];
+        
         
         [self.view addConstraint:simplePasscodeViewX];
         [self.view addConstraint:simplePasscodeViewY];
