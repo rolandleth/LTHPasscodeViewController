@@ -417,14 +417,6 @@ options:NSNumericSearch] != NSOrderedAscending)
     _digitsCount = digitsCount;
 }
 
-- (CGFloat)calculateConstantForPasscodeDigit:(int)passcodeDigitIndex {
-    
-    if (passcodeDigitIndex == 0) {
-        return 0;
-    } else {
-        return _horizontalGap;
-    }
-}
 
 #pragma mark - View life
 - (void)viewDidLoad {
@@ -786,7 +778,7 @@ options:NSNumericSearch] != NSOrderedAscending)
         
         for (int i = 0; i < _digitsCount; i++) {
             
-            CGFloat constant = [self calculateConstantForPasscodeDigit:i];
+            CGFloat constant = i == 0 ? 0 : _horizontalGap;
             UIView *toItem = i == 0 ? _simplePasscodeView : _digitTextFieldsArray[i - 1];
             
             NSLayoutConstraint *digitX =
