@@ -1,6 +1,12 @@
 # 3.7.11
 * Replaced all instances of `keyWindow` with `LTHMainWindow` (macro that expands `[UIApplication sharedApplication].windows[0]` - explanation in [#164](https://github.com/rolandleth/LTHPasscodeViewController/issues/164).
 * Fixed a bug where the UI would not be visible (Closed [#163](https://github.com/rolandleth/LTHPasscodeViewController/issues/163)).
+* Made simple passcode configurable (Closed [#157](https://github.com/rolandleth/LTHPasscodeViewController/issues/157)).
+* Added a description label, placed below the passcode, to possibly explain the use of the passcode.
+* New properties:
+	* `digitsCount`: the number of digits for the simple passcode, between 4 and 10; can only be changed while there is no passcode active
+	* `enterPasscodeInfoString`: the text used for the description label
+	* `displayAdditionalInfoDuringSettingPasscode`: the flag that determines whether to show the description text or not
 
 # 3.7.10
 * New delegate method: `passcodeWasEnabled`. Called when the passcode was enabled (Closed [#156](https://github.com/rolandleth/LTHPasscodeViewController/issues/156)).

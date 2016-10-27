@@ -12,11 +12,13 @@
 #import <LocalAuthentication/LAContext.h>
 
 
-@interface LTHDemoViewController () <LTHPasscodeViewControllerDelegate>
+@interface LTHDemoViewController () <LTHPasscodeViewControllerDelegate, UITextFieldDelegate>
 @property (nonatomic, strong) UIButton *changePasscode;
 @property (nonatomic, strong) UIButton *enablePasscode;
 @property (nonatomic, strong) UIButton *testPasscode;
 @property (nonatomic, strong) UIButton *turnOffPasscode;
+@property (nonatomic, strong) UILabel  *digitsLabel;
+@property (nonatomic, strong) UITextField *digitsTextField;
 @property (nonatomic, strong) UILabel  *typeLabel;
 @property (nonatomic, strong) UISwitch *typeSwitch;
 @property (nonatomic, strong) UILabel  *touchIDLabel;
@@ -51,8 +53,17 @@
         _turnOffPasscode.backgroundColor = [UIColor colorWithWhite: 0.8f alpha: 1.0f];
     }
     
+    _digitsTextField.text = [NSString stringWithFormat:@"%zd", [LTHPasscodeViewController sharedUser].digitsCount];
     _typeSwitch.on = [[LTHPasscodeViewController sharedUser] isSimple];
     _touchIDSwitch.on = [[LTHPasscodeViewController sharedUser] allowUnlockWithTouchID];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [LTHPasscodeViewController sharedUser].horizontalGap = 30;
+    [LTHPasscodeViewController sharedUser].digitsCount = textField.text.integerValue;
+    [textField resignFirstResponder];
+    [self _refreshUI];
+    return true;
 }
 
 - (void)viewDidLoad {
@@ -61,7 +72,6 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     [LTHPasscodeViewController sharedUser].delegate = self;
-    [LTHPasscodeViewController sharedUser].maxNumberOfAllowedFailedAttempts = 3;
     
     _changePasscode = [UIButton buttonWithType: UIButtonTypeCustom];
     _enablePasscode = [UIButton buttonWithType: UIButtonTypeCustom];
@@ -87,12 +97,22 @@
         _typeSwitch = [[UISwitch alloc] initWithFrame:(CGRect){230, 260, 100, 100}];
     }
     
+    _digitsTextField = [[UITextField alloc] initWithFrame:(CGRect){230, _typeLabel.frame.origin.y - 35, 30, 30}];
+    _digitsTextField.delegate = self;
+    _digitsTextField.textAlignment = NSTextAlignmentRight;
+    _digitsTextField.backgroundColor = [UIColor whiteColor];
+    _digitsTextField.layer.borderColor = [UIColor grayColor].CGColor;
+    _digitsTextField.layer.borderWidth = 0.5;
+    _digitsTextField.layer.sublayerTransform = CATransform3DTranslate(CATransform3DIdentity, -5, 0, 0);
+    
+    _digitsLabel = [[UILabel alloc] initWithFrame:(CGRect){230, _digitsTextField.frame.origin.y - 30, 60, 30}];
     
     [_turnOffPasscode setTitle: @"Turn Off" forState: UIControlStateNormal];
     [_changePasscode setTitle: @"Change" forState: UIControlStateNormal];
     [_testPasscode setTitle: @"Test" forState: UIControlStateNormal];
     [_enablePasscode setTitle: @"Enable" forState: UIControlStateNormal];
     _typeLabel.text = @"Simple";
+    _digitsLabel.text = @"Digits";
     
     [self _refreshUI];
     
@@ -102,10 +122,12 @@
     [_turnOffPasscode addTarget: self action: @selector(_turnOffPasscode) forControlEvents: UIControlEventTouchUpInside];
     [_typeSwitch addTarget:self action:@selector(_switchPasscodeType:) forControlEvents:UIControlEventValueChanged];
     
-    [self.view addSubview: _changePasscode];
-    [self.view addSubview: _turnOffPasscode];
-    [self.view addSubview: _testPasscode];
-    [self.view addSubview: _enablePasscode];
+    [self.view addSubview:_changePasscode];
+    [self.view addSubview:_turnOffPasscode];
+    [self.view addSubview:_testPasscode];
+    [self.view addSubview:_enablePasscode];
+    [self.view addSubview:_digitsLabel];
+    [self.view addSubview:_digitsTextField];
     [self.view addSubview:_typeSwitch];
     [self.view addSubview:_typeLabel];
 }
