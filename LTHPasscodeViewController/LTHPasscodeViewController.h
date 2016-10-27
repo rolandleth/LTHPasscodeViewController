@@ -96,6 +96,10 @@
  */
 @property (nonatomic, weak) id<LTHPasscodeViewControllerDelegate> delegate;
 /**
+ @brief The count of digits for the simple passcode. Default is @c 4 digits.
+ */
+@property (nonatomic, assign) int       digitsCount;
+/**
  @brief The gap between the passcode digits.
  */
 @property (nonatomic, assign) CGFloat   horizontalGap;
@@ -224,6 +228,15 @@
  */
 @property (nonatomic, strong) NSString *enterPasscodeString;
 /**
+ @brief The string displays a text which explains the reason of setting passcode.
+ @details The given string is oprional and is displayed below passcode field.
+ */
+@property (nonatomic, strong) NSString *enterPasscodeInfoString;
+/**
+ @brief A Boolean value that indicates whether the @c enterPasscodeInfoString is displayed (@c YES) or not (@c NO). Default is @c YES.
+ */
+@property (nonatomic, assign) BOOL     displayAdditionalInfoDuringSettingPasscode;
+/**
  @brief The string displayed when entering your new passcode (while changing).
  */
 @property (nonatomic, strong) NSString *enterNewPasscodeString;
@@ -314,12 +327,12 @@
  */
 - (void)showForDisablingPasscodeInViewController:(UIViewController *)viewController asModal:(BOOL)isModal;
 /**
- @brief  Returns a Boolean value that indicates whether a simple, 4 digit (@c YES) or a complex passcode will be used (@c NO).
+ @brief  Returns a Boolean value that indicates whether a simple, N digit (4 by default or digitsCount) (@c YES) or a complex passcode will be used (@c NO).
  @return @c YES if the passcode is simple, @c NO if the passcode is complex
  */
 - (BOOL)isSimple;
 /**
- @brief                 Sets if the passcode should be simple (4 digits) or complex.
+ @brief                 Sets if the passcode should be simple (@c 4 digits by default) or complex.
  @param isSimple        Set to @c YES for a simple passcode, and to @c NO for a complex passcode.
  @param viewController  The view controller where the passcode view controller will be displayed.
  @param isModal         Set to @c YES to present as a modal, or to @c NO to push on the current nav stack.
