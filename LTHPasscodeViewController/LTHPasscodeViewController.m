@@ -1129,6 +1129,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     _isUserEnablingPasscode = NO;
     _isUserSwitchingBetweenPasscodeModes = NO;
     
+    self.title = @"";
     [self _resetUI];
 #if !(TARGET_IPHONE_SIMULATOR)
     [self _setupFingerPrint];
