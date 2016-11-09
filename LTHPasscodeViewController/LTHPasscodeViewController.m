@@ -429,10 +429,10 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     }
     
     _digitsCount = digitsCount;
-    
+	
     // If we haven't loaded yet, do nothing,
     // _setupDigitFields will be called in viewDidLoad.
-    if (!self.viewLoaded) { return; }
+    if (!self.isViewLoaded) { return; }
     [self _setupDigitFields];
 }
 
