@@ -166,6 +166,16 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 
 
 - (BOOL)_doesPasscodeExist {
+    if ([LTHKeychainUtils getPasswordForUsername:_keychainPasscodeIsSimpleUsername
+                                  andServiceName:_keychainServiceName
+                                           error:nil]) {
+        _isSimple = [[LTHKeychainUtils getPasswordForUsername:_keychainPasscodeIsSimpleUsername
+                                               andServiceName:_keychainServiceName
+                                                        error:nil] boolValue];
+    } else {
+        _isSimple = YES;
+    }
+    
     return [self _passcode].length != 0;
 }
 
@@ -282,7 +292,6 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
                      forServiceName:_keychainServiceName
                      updateExisting:YES
                               error:nil];
-    
     
     [LTHKeychainUtils storeUsername:_keychainPasscodeIsSimpleUsername
                         andPassword:[NSString stringWithFormat:@"%@", [self isSimple] ? @"YES" : @"NO"]
@@ -429,7 +438,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     }
     
     _digitsCount = digitsCount;
-	
+    
     // If we haven't loaded yet, do nothing,
     // _setupDigitFields will be called in viewDidLoad.
     if (!self.isViewLoaded) { return; }
@@ -693,7 +702,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
         [_digitTextFieldsArray addObject:digitTextField];
         [_simplePasscodeView addSubview:digitTextField];
     }
-
+    
     [self.view setNeedsUpdateConstraints];
 }
 
@@ -1602,16 +1611,6 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 
 
 - (void)_commonInit {
-    if ([LTHKeychainUtils getPasswordForUsername:_keychainPasscodeIsSimpleUsername
-                                  andServiceName:_keychainServiceName
-                                           error:nil]) {
-        _isSimple = [[LTHKeychainUtils getPasswordForUsername:_keychainPasscodeIsSimpleUsername
-                                               andServiceName:_keychainServiceName
-                                                        error:nil] boolValue];
-    } else {
-        _isSimple = YES;
-    }
-    
     [self _loadDefaults];
 }
 
@@ -1634,6 +1633,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     _slideAnimationDuration = 0.15;
     _maxNumberOfAllowedFailedAttempts = 0;
     _usesKeychain = YES;
+    _isSimple = YES;
     _displayedAsModal = YES;
     _hidesBackButton = YES;
     _hidesCancelButton = YES;
