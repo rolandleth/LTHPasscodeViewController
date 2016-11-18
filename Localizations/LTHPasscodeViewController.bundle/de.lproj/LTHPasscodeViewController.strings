@@ -26,3 +26,5 @@
 "%i Passcode Failed Attempts" = "%i fehlgeschlagene Eingabeversuche";
 
 "Unlock using Touch ID" = "Entsperrren mit Touch ID";
+
+"Cannot reuse the same passcode" = "Sie können nicht denselben Pincode benutzen";

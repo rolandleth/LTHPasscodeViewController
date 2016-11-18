@@ -1,4 +1,14 @@
-# 3.7.11
+# 3.8.3
+* Added a check that the new passcode is different than the existing one (Closed [#170](https://github.com/rolandleth/LTHPasscodeViewController/issues/170)).
+* Improved the handling of `isSimple`.
+
+# 3.8.2
+* Fixed the usage of `self.viewLoaded` to `self.isViewLoaded` (Closed [#168](https://github.com/rolandleth/LTHPasscodeViewController/issues/168)).
+
+# 3.8.1
+* Fixed title for lockscreen with navbar (Closed [#165](https://github.com/rolandleth/LTHPasscodeViewController/issues/165)).
+
+# 3.8.0
 * Replaced all instances of `keyWindow` with `LTHMainWindow` (macro that expands `[UIApplication sharedApplication].windows[0]` - explanation in [#164](https://github.com/rolandleth/LTHPasscodeViewController/issues/164).
 * Fixed a bug where the UI would not be visible (Closed [#163](https://github.com/rolandleth/LTHPasscodeViewController/issues/163)).
 * Made simple passcode configurable (Closed [#157](https://github.com/rolandleth/LTHPasscodeViewController/issues/157)).

@@ -28,3 +28,5 @@
 "%i Passcode Failed Attempts" = "%i Passcode Failed Attempts";
 
 "Unlock using Touch ID" = "Unlock using Touch ID";
+
+"Cannot reuse the same passcode" = "Cannot reuse the same passcode";

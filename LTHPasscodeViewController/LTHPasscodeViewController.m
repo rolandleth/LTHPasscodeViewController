@@ -73,6 +73,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 @property (nonatomic, assign) CGFloat     modifierForBottomVerticalGap;
 @property (nonatomic, assign) CGFloat     fontSizeModifier;
 
+@property (nonatomic, assign) BOOL        newPasscodeEqualsOldPasscode;
 @property (nonatomic, assign) BOOL        passcodeAlreadyExists;
 @property (nonatomic, assign) BOOL        usesKeychain;
 @property (nonatomic, assign) BOOL        displayedAsModal;
@@ -252,9 +253,8 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     NSTimeInterval now = [NSDate timeIntervalSinceReferenceDate];
     // startTime wasn't saved yet (first app use and it crashed, phone force
     // closed, etc) if it returns -1.
-    if (now - [self _timerStartTime] >= [self _timerDuration] ||
-        [self _timerStartTime] == -1) return YES;
-    return NO;
+    return now - [self _timerStartTime] >= [self _timerDuration] ||
+            [self _timerStartTime] == -1;
 }
 
 
@@ -1214,14 +1214,16 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
         
         if (typedString.length > _digitsCount) return NO;
     }
-    else _OKButton.hidden = [typedString length] == 0;
+    else {
+        _OKButton.hidden = [typedString length] == 0;
+    }
     
     return YES;
 }
 
 #pragma mark - Validation
 - (void)_validateComplexPasscode {
-    NSLog(@"isValid %@", [self _validatePasscode:_passcodeTextField.text] ? @"YES" : @"NO");
+    [self _validatePasscode:_passcodeTextField.text];
 }
 
 
@@ -1243,15 +1245,16 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
         }
         // User entered his Passcode correctly and we are at the confirming screen.
         else if (_isUserConfirmingPasscode) {
-            // User entered the confirmation Passcode correctly
-            if ([typedString isEqualToString: _tempPasscode]) {
-                [self _dismissMe];
-            }
-            // User entered the confirmation Passcode incorrectly, start over.
-            else {
+            // User entered the confirmation Passcode incorrectly, or the passcode is the same as the old one, start over.
+            _newPasscodeEqualsOldPasscode = [typedString isEqualToString:savedPasscode];
+            if (![typedString isEqualToString:_tempPasscode] || _newPasscodeEqualsOldPasscode) {
                 [self performSelector:@selector(_reAskForNewPasscode)
                            withObject:nil
                            afterDelay:_slideAnimationDuration];
+            }
+            // User entered the confirmation Passcode correctly.
+            else {
+                [self _dismissMe];
             }
         }
         // Changing Passcode and the entered Passcode is correct.
@@ -1443,7 +1446,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
         } else {
             _enterPasscodeLabel.text = LTHPasscodeViewControllerStrings(self.enterPasscodeString);
             //hidden for enabling PIN
-            _enterPasscodeInfoLabel.hidden = (_isUserEnablingPasscode && _displayAdditionalInfoDuringSettingPasscode) ? NO : YES;
+            _enterPasscodeInfoLabel.hidden = !(_isUserEnablingPasscode && _displayAdditionalInfoDuringSettingPasscode);
         }
     }
     
@@ -1468,10 +1471,14 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     NSString *savedPasscode = [LTHKeychainUtils getPasswordForUsername: _keychainPasscodeUsername
                                                         andServiceName: _keychainServiceName
                                                                  error: nil];
-    _enterPasscodeLabel.text = savedPasscode.length == 0 ? LTHPasscodeViewControllerStrings(self.enterPasscodeString) : LTHPasscodeViewControllerStrings(self.enterNewPasscodeString);
-    
+    _enterPasscodeLabel.text = savedPasscode.length == 0
+            ? LTHPasscodeViewControllerStrings(self.enterPasscodeString)
+            : LTHPasscodeViewControllerStrings(self.enterNewPasscodeString);
     _failedAttemptLabel.hidden = NO;
-    _failedAttemptLabel.text = LTHPasscodeViewControllerStrings(@"Passcodes did not match. Try again.");
+    _failedAttemptLabel.text = _newPasscodeEqualsOldPasscode
+            ? LTHPasscodeViewControllerStrings(@"Cannot reuse the same passcode")
+            : LTHPasscodeViewControllerStrings(@"Passcodes did not match. Try again.");
+    _newPasscodeEqualsOldPasscode = NO;
     _failedAttemptLabel.backgroundColor = [UIColor clearColor];
     _failedAttemptLabel.layer.borderWidth = 0;
     _failedAttemptLabel.layer.borderColor = [UIColor clearColor].CGColor;
@@ -1500,12 +1507,8 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 - (BOOL)isSimple {
     // Is in process of changing, but not finished ->
     // we need to display UI accordingly
-    if (_isUserSwitchingBetweenPasscodeModes &&
-        (_isUserBeingAskedForNewPasscode || _isUserConfirmingPasscode)) {
-        return !_isSimple;
-    }
-    
-    return _isSimple;
+    return (_isUserSwitchingBetweenPasscodeModes &&
+            (_isUserBeingAskedForNewPasscode || _isUserConfirmingPasscode)) == !_isSimple;
 }
 
 #pragma mark - Notification Observers
@@ -1638,6 +1641,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     _hidesBackButton = YES;
     _hidesCancelButton = YES;
     _passcodeAlreadyExists = YES;
+    _newPasscodeEqualsOldPasscode = NO;
 #if !(TARGET_IPHONE_SIMULATOR)
     _allowUnlockWithTouchID = [self _allowUnlockWithTouchID];
 #else

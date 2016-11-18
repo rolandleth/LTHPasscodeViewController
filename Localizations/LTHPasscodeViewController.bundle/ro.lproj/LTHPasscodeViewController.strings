@@ -24,3 +24,5 @@
 "1 Passcode Failed Attempt" = "1 încercare eșuată";
 
 "%i Passcode Failed Attempts" = "%i încercări eșuate";
+
+"Cannot reuse the same passcode" = "Nu puteți refolosi aceeași parolă";

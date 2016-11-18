@@ -21,12 +21,21 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2A2964741DDF46D400F44FFA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2A2964761DDF46D600F44FFA /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2A2964771DDF46D700F44FFA /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2A2964781DDF46D800F44FFA /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2A2964791DDF46D900F44FFA /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2A29647A1DDF46DA00F44FFA /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2A29647B1DDF46DB00F44FFA /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2A29647C1DDF46DC00F44FFA /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2A29647D1DDF46DD00F44FFA /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2A29647E1DDF470E00F44FFA /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2A882AC11DBD21FC007A5FE7 /* LTHPasscodeViewController Demo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "LTHPasscodeViewController Demo.entitlements"; sourceTree = "<group>"; };
 		2AE8000617D9503000DBDE63 /* LTHPasscodeViewController Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LTHPasscodeViewController Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2AE8000917D9503000DBDE63 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		2AE8000B17D9503000DBDE63 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		2AE8000D17D9503000DBDE63 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		2AE8001317D9503000DBDE63 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2AE8001517D9503000DBDE63 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2AE8001717D9503000DBDE63 /* LTHPasscodeViewController Demo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LTHPasscodeViewController Demo-Prefix.pch"; sourceTree = "<group>"; };
 		2AE8001817D9503000DBDE63 /* LTHAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LTHAppDelegate.h; sourceTree = "<group>"; };
@@ -42,7 +51,6 @@
 		2AF19592182C09D5005CE38A /* LTHKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = LTHKeychainUtils.m; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; };
 		2AF4E8391848F9FE00AB18EE /* LTHPasscodeViewController Demo-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LTHPasscodeViewController Demo-Info.plist"; sourceTree = "<group>"; };
 		A74908881BFBA75E00C6DA16 /* LTHPasscodeViewController.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = LTHPasscodeViewController.bundle; sourceTree = "<group>"; };
-		A749088A1BFBAB3900C6DA16 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E5FE63591BA05DCF00427B5F /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -236,10 +244,18 @@
 		2AE8001217D9503000DBDE63 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				2AE8001317D9503000DBDE63 /* en */,
 				2AF06FCC1A19F89E00C6F836 /* pt-PT */,
 				E5FE63591BA05DCF00427B5F /* it */,
-				A749088A1BFBAB3900C6DA16 /* pt */,
+				2A2964741DDF46D400F44FFA /* en */,
+				2A2964761DDF46D600F44FFA /* es */,
+				2A2964771DDF46D700F44FFA /* ro */,
+				2A2964781DDF46D800F44FFA /* ja */,
+				2A2964791DDF46D900F44FFA /* fr */,
+				2A29647A1DDF46DA00F44FFA /* ru */,
+				2A29647B1DDF46DB00F44FFA /* ko */,
+				2A29647C1DDF46DC00F44FFA /* nl */,
+				2A29647D1DDF46DD00F44FFA /* pt */,
+				2A29647E1DDF470E00F44FFA /* de */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
