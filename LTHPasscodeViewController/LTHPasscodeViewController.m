@@ -31,7 +31,7 @@ static const CGFloat kDigitHorizontalGap = 40.0f;
 static const CGFloat kFailedAttemptLabelYOffset = -216.0f;
 static const CGFloat kFailedAttemptLabelHeight = 22.0f;
 
-@interface LTHPasscodeViewController () <UITextFieldDelegate>
+@interface LTHPasscodeViewController () <UITextFieldDelegate, CAAnimationDelegate>
 @property (nonatomic, strong) UIView      *coverView;
 @property (nonatomic, strong) UIView      *animatingView;
 @property (nonatomic, strong) UIView      *complexPasscodeOverlayView;
@@ -1240,14 +1240,14 @@ static const CGFloat kFailedAttemptLabelHeight = 22.0f;
 
 
 #pragma mark - Handling rotation
-- (NSUInteger)supportedInterfaceOrientations {
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
 	if (_displayedAsLockScreen) return UIInterfaceOrientationMaskAll;
 	// I'll be honest and mention I have no idea why this line of code below works.
 	// Without it, if you present the passcode view as lockscreen (directly on the window)
 	// and then inside of a modal, the orientation will be wrong.
 	
 	// If you could explain why, I'd be more than grateful :)
-	return UIInterfaceOrientationPortraitUpsideDown;
+	return UIInterfaceOrientationMaskPortraitUpsideDown;
 }
 
 
