@@ -1,3 +1,6 @@
+# 3.8.4
+* Fixed not being able to show the keyboard again after dismissing it on iPad (Closed [#171](https://github.com/rolandleth/LTHPasscodeViewController/issues/171)).
+
 # 3.8.3
 * Added a check that the new passcode is different than the existing one (Closed [#170](https://github.com/rolandleth/LTHPasscodeViewController/issues/170)).
 * Improved the handling of `isSimple`.

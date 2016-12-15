@@ -471,7 +471,6 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     
     _passcodeTextField = [[UITextField alloc] initWithFrame: CGRectZero];
     _passcodeTextField.delegate = self;
-    _passcodeTextField.secureTextEntry = YES;
     _passcodeTextField.translatesAutoresizingMaskIntoConstraints = NO;
     
     [self.view setNeedsUpdateConstraints];
@@ -714,8 +713,9 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     field.text = _passcodeCharacter;
     field.textColor = _passcodeTextColor;
     field.font = _passcodeFont;
+    field.delegate = self;
     field.secureTextEntry = NO;
-    field.userInteractionEnabled = NO;
+    field.tintColor = [UIColor clearColor];
     field.translatesAutoresizingMaskIntoConstraints = NO;
     [field setBorderStyle:UITextBorderStyleNone];
     return field;
@@ -749,8 +749,11 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     
     _complexPasscodeOverlayView.hidden = self.isSimple;
     _passcodeTextField.hidden = self.isSimple;
-    _passcodeTextField.keyboardType =
-    self.isSimple ? UIKeyboardTypeNumberPad : UIKeyboardTypeASCIICapable;
+    // This would make the existing text to be cleared after dismissing
+    // the keyboard, then focusing the text field again.
+    // When simple, the text field only acts as a proxy and is hidden anyway.
+    _passcodeTextField.secureTextEntry = !self.isSimple;
+    _passcodeTextField.keyboardType = self.isSimple ? UIKeyboardTypeNumberPad : UIKeyboardTypeASCIICapable;
     [_passcodeTextField reloadInputViews];
     
     if (self.isSimple) {
@@ -1185,6 +1188,19 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 
 
 #pragma mark - UITextFieldDelegate
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    if (textField == _passcodeTextField) { return true; }
+    
+    [_passcodeTextField becomeFirstResponder];
+    
+    UITextPosition *end = _passcodeTextField.endOfDocument;
+    UITextRange *range = [_passcodeTextField textRangeFromPosition:end toPosition:end];
+    
+    [_passcodeTextField setSelectedTextRange:range];
+    
+    return false;
+}
+
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
     if ((!_displayedAsLockScreen && !_displayedAsModal) || (_isUsingTouchID || !_useFallbackPasscode)) {
         return YES;
