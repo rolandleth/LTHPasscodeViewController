@@ -1,3 +1,6 @@
+# 3.8.5
+* Fixed the lock being sometimes disabled when setting the date in the past (Closed [#174](https://github.com/rolandleth/LTHPasscodeViewController/issues/174)).
+
 # 3.8.4
 * Fixed not being able to show the keyboard again after dismissing it on iPad (Closed [#171](https://github.com/rolandleth/LTHPasscodeViewController/issues/171)).
 
