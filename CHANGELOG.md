@@ -1,3 +1,6 @@
+# 3.8.6
+* German translations fixed.
+
 # 3.8.5
 * Fixed the lock being sometimes disabled when setting the date in the past (Closed [#174](https://github.com/rolandleth/LTHPasscodeViewController/issues/174)).
 
