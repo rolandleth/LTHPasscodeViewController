@@ -25,7 +25,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 
 #ifndef LTHPasscodeViewControllerStrings
 #define LTHPasscodeViewControllerStrings(key) \
-[[NSBundle bundleWithPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"LTHPasscodeViewController" ofType:@"bundle"]] localizedStringForKey:(key) value:@"" table:_localizationTableName]
+[[NSBundle bundleWithPath:[[NSBundle bundleForClass:[LTHPasscodeViewController class]] pathForResource:@"LTHPasscodeViewController" ofType:@"bundle"]] localizedStringForKey:(key) value:@"" table:_localizationTableName]
 #endif
 
 // MARK: Please read
