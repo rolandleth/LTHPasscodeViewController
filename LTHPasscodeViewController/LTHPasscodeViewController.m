@@ -676,7 +676,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     // It is also used to display the "Passcodes did not match" error message
     // if the user fails to confirm the passcode.
     _failedAttemptLabel = [[UILabel alloc] initWithFrame: CGRectZero];
-    _failedAttemptLabel.text = @"1 Passcode Failed Attempt     ";
+    _failedAttemptLabel.text = LTHPasscodeViewControllerStrings(@"1 Passcode Failed Attempt");
     _failedAttemptLabel.numberOfLines = 0;
     _failedAttemptLabel.backgroundColor	= _failedAttemptLabelBackgroundColor;
     _failedAttemptLabel.hidden = YES;
