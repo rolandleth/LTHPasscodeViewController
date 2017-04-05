@@ -1,3 +1,6 @@
+# 3.8.8
+* Fixed translations.
+
 # 3.8.7
 * Fixed subclassing by changing `LTHPasscodeViewControllerStrings` macro to use `[LTHPasscodeViewController class]` instead of `[self class]`.
 
