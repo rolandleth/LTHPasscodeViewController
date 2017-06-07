@@ -1051,6 +1051,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
                                     LTHMainWindow.center.y + self.navigationController.navigationBar.frame.size.height / 2);
         }
     }
+    
     [UIView animateWithDuration: animated ? _lockAnimationDuration : 0 animations: ^{
         self.view.center = newCenter;
     }];
@@ -1105,6 +1106,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
                                     superviewCenter.y + self.navigationController.navigationBar.frame.size.height / 2);
         }
     }
+    
     [UIView animateWithDuration: animated ? _lockAnimationDuration : 0 animations: ^{
         self.view.center = newCenter;
     }];
