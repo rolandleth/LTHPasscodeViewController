@@ -1010,10 +1010,10 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 }
 
 - (void)showLockScreenWithAnimation:(BOOL)animated withLogout:(BOOL)hasLogout andLogoutTitle:(NSString*)logoutTitle {
-    [self showLockScreenIntoSuperview:LTHMainWindow withAnimation:animated withLogout:hasLogout andLogoutTitle:logoutTitle];
+    [self showLockScreenOver:LTHMainWindow withAnimation:animated withLogout:hasLogout andLogoutTitle:logoutTitle];
 }
 
-- (void)showLockScreenIntoSuperview:(UIView *)superview withAnimation:(BOOL)animated withLogout:(BOOL)hasLogout andLogoutTitle:(NSString*)logoutTitle {
+- (void)showLockScreenOver:(UIView *)superview withAnimation:(BOOL)animated withLogout:(BOOL)hasLogout andLogoutTitle:(NSString*)logoutTitle {
     [self _prepareAsLockScreen];
     
     // In case the user leaves the app while the lockscreen is already active.
