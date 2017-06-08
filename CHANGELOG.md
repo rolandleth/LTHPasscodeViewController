@@ -1,3 +1,7 @@
+# 3.8.9
+* Added support for iOS App Extensions:
+	* Now, if you add a macro to project settings (LTH_APP_EXTENSIONS), LTHPasscode doesn’t crash. Also, with a new method, you can provide the size of the view in which the LHTPasscode view is going to be presented.
+
 # 3.8.8
 * Fixed translations.
 

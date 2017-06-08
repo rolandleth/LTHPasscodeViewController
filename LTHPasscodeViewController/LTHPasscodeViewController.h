@@ -319,7 +319,7 @@
  @param hasLogout   Set to @c YES for a navBar with a Logout button, set to @c NO for no navBar.
  @param logoutTitle The title of the Logout button.
  */
-- (void)showLockScreenIntoSuperview:(UIView *)superview WithAnimation:(BOOL)animated withLogout:(BOOL)hasLogout andLogoutTitle:(NSString*)logoutTitle;
+- (void)showLockScreenIntoSuperview:(UIView *)superview withAnimation:(BOOL)animated withLogout:(BOOL)hasLogout andLogoutTitle:(NSString*)logoutTitle;
 /**
  @brief				   Used for enabling the passcode.
  @details              The back bar button is hidden by default. Set @c hidesBackButton to @c NO if you want it to be visible.

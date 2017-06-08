@@ -1010,60 +1010,10 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 }
 
 - (void)showLockScreenWithAnimation:(BOOL)animated withLogout:(BOOL)hasLogout andLogoutTitle:(NSString*)logoutTitle {
-    [self _prepareAsLockScreen];
-    
-    // In case the user leaves the app while the lockscreen is already active.
-    if (_isCurrentlyOnScreen) { return; }
-    _isCurrentlyOnScreen = YES;
-    
-    [LTHMainWindow addSubview: self.view];
-    
-    // All this hassle because a view added to UIWindow does not rotate automatically
-    // and if we would have added the view anywhere else, it wouldn't display properly
-    // (having a modal on screen when the user leaves the app, for example).
-    [self rotateAccordingToStatusBarOrientationAndSupportedOrientations];
-    CGPoint newCenter;
-    [self statusBarFrameOrOrientationChanged:nil];
-    if (LTHiOS8) {
-        self.view.center = CGPointMake(self.view.center.x, self.view.center.y * -1.f);
-        newCenter = CGPointMake(LTHMainWindow.center.x,
-                                LTHMainWindow.center.y + self.navigationController.navigationBar.frame.size.height / 2);
-    }
-    else {
-        if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) {
-            self.view.center = CGPointMake(self.view.center.x * -1.f, self.view.center.y);
-            newCenter = CGPointMake(LTHMainWindow.center.x - self.navigationController.navigationBar.frame.size.height / 2,
-                                    LTHMainWindow.center.y);
-        }
-        else if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight) {
-            self.view.center = CGPointMake(self.view.center.x * 2.f, self.view.center.y);
-            newCenter = CGPointMake(LTHMainWindow.center.x + self.navigationController.navigationBar.frame.size.height / 2,
-                                    LTHMainWindow.center.y);
-        }
-        else if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) {
-            self.view.center = CGPointMake(self.view.center.x, self.view.center.y * -1.f);
-            newCenter = CGPointMake(LTHMainWindow.center.x,
-                                    LTHMainWindow.center.y - self.navigationController.navigationBar.frame.size.height / 2);
-        }
-        else {
-            self.view.center = CGPointMake(self.view.center.x, self.view.center.y * 2.f);
-            newCenter = CGPointMake(LTHMainWindow.center.x,
-                                    LTHMainWindow.center.y + self.navigationController.navigationBar.frame.size.height / 2);
-        }
-    }
-    
-    [UIView animateWithDuration: animated ? _lockAnimationDuration : 0 animations: ^{
-        self.view.center = newCenter;
-    }];
-    
-    // Add nav bar & logout button if specified
-    if (hasLogout) {
-        _isUsingNavBar = hasLogout;
-        [self _setupNavBarWithLogoutTitle:logoutTitle];
-    }
+    [self showLockScreenIntoSuperview:LTHMainWindow withAnimation:animated withLogout:hasLogout andLogoutTitle:logoutTitle];
 }
 
-- (void)showLockScreenIntoSuperview:(UIView *)superview WithAnimation:(BOOL)animated withLogout:(BOOL)hasLogout andLogoutTitle:(NSString*)logoutTitle {
+- (void)showLockScreenIntoSuperview:(UIView *)superview withAnimation:(BOOL)animated withLogout:(BOOL)hasLogout andLogoutTitle:(NSString*)logoutTitle {
     [self _prepareAsLockScreen];
     
     // In case the user leaves the app while the lockscreen is already active.
@@ -1076,7 +1026,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     // and if we would have added the view anywhere else, it wouldn't display properly
     // (having a modal on screen when the user leaves the app, for example).
     [self rotateAccordingToStatusBarOrientationAndSupportedOrientations];
-    CGPoint superviewCenter = CGPointMake(superview.frame.size.width/2, superview.frame.size.height/2);
+    CGPoint superviewCenter = CGPointMake(superview.center.x, superview.center.y);
     CGPoint newCenter;
     [self statusBarFrameOrOrientationChanged:nil];
     if (LTHiOS8) {
