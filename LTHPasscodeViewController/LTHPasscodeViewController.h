@@ -314,6 +314,13 @@
  */
 - (void)showLockScreenWithAnimation:(BOOL)animated withLogout:(BOOL)hasLogout andLogoutTitle:(NSString*)logoutTitle;
 /**
+ @brief				Used for displaying the lock. The passcode view is added directly on the keyWindow.
+ @param superview   The superview where is to be presented, used to measure the center of the view.
+ @param hasLogout   Set to @c YES for a navBar with a Logout button, set to @c NO for no navBar.
+ @param logoutTitle The title of the Logout button.
+ */
+- (void)showLockScreenOver:(UIView *)superview withAnimation:(BOOL)animated withLogout:(BOOL)hasLogout andLogoutTitle:(NSString*)logoutTitle;
+/**
  @brief				   Used for enabling the passcode.
  @details              The back bar button is hidden by default. Set @c hidesBackButton to @c NO if you want it to be visible.
  @param	viewController The view controller where the passcode view controller will be displayed.

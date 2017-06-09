@@ -49,7 +49,11 @@ options:NSNumericSearch] != NSOrderedAscending)
  Any help would be greatly appreciated.
  */
 
+#if defined(LTH_APP_EXTENSIONS)
+#define LTHMainWindow [UIApplication sharedApplication].keyWindow
+#else
 #define LTHMainWindow [UIApplication sharedApplication].windows[0]
+#endif
 
 @interface LTHPasscodeViewController () <UITextFieldDelegate>
 @property (nonatomic, strong) UIView      *coverView;
@@ -1005,47 +1009,51 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     [self showLockScreenWithAnimation:NO withLogout:NO andLogoutTitle:nil];
 }
 
-
 - (void)showLockScreenWithAnimation:(BOOL)animated withLogout:(BOOL)hasLogout andLogoutTitle:(NSString*)logoutTitle {
+    [self showLockScreenOver:LTHMainWindow withAnimation:animated withLogout:hasLogout andLogoutTitle:logoutTitle];
+}
+
+- (void)showLockScreenOver:(UIView *)superview withAnimation:(BOOL)animated withLogout:(BOOL)hasLogout andLogoutTitle:(NSString*)logoutTitle {
     [self _prepareAsLockScreen];
     
     // In case the user leaves the app while the lockscreen is already active.
     if (_isCurrentlyOnScreen) { return; }
     _isCurrentlyOnScreen = YES;
     
-    [LTHMainWindow addSubview: self.view];
+    [superview addSubview: self.view];
     
     // All this hassle because a view added to UIWindow does not rotate automatically
     // and if we would have added the view anywhere else, it wouldn't display properly
     // (having a modal on screen when the user leaves the app, for example).
     [self rotateAccordingToStatusBarOrientationAndSupportedOrientations];
+    CGPoint superviewCenter = CGPointMake(superview.center.x, superview.center.y);
     CGPoint newCenter;
     [self statusBarFrameOrOrientationChanged:nil];
     if (LTHiOS8) {
         self.view.center = CGPointMake(self.view.center.x, self.view.center.y * -1.f);
-        newCenter = CGPointMake(LTHMainWindow.center.x,
-                                LTHMainWindow.center.y + self.navigationController.navigationBar.frame.size.height / 2);
+        newCenter = CGPointMake(superviewCenter.x,
+                                superviewCenter.y + self.navigationController.navigationBar.frame.size.height / 2);
     }
     else {
         if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) {
             self.view.center = CGPointMake(self.view.center.x * -1.f, self.view.center.y);
-            newCenter = CGPointMake(LTHMainWindow.center.x - self.navigationController.navigationBar.frame.size.height / 2,
-                                    LTHMainWindow.center.y);
+            newCenter = CGPointMake(superviewCenter.x - self.navigationController.navigationBar.frame.size.height / 2,
+                                    superviewCenter.y);
         }
         else if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight) {
             self.view.center = CGPointMake(self.view.center.x * 2.f, self.view.center.y);
-            newCenter = CGPointMake(LTHMainWindow.center.x + self.navigationController.navigationBar.frame.size.height / 2,
-                                    LTHMainWindow.center.y);
+            newCenter = CGPointMake(superviewCenter.x + self.navigationController.navigationBar.frame.size.height / 2,
+                                    superviewCenter.y);
         }
         else if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) {
             self.view.center = CGPointMake(self.view.center.x, self.view.center.y * -1.f);
-            newCenter = CGPointMake(LTHMainWindow.center.x,
-                                    LTHMainWindow.center.y - self.navigationController.navigationBar.frame.size.height / 2);
+            newCenter = CGPointMake(superviewCenter.x,
+                                    superviewCenter.y - self.navigationController.navigationBar.frame.size.height / 2);
         }
         else {
             self.view.center = CGPointMake(self.view.center.x, self.view.center.y * 2.f);
-            newCenter = CGPointMake(LTHMainWindow.center.x,
-                                    LTHMainWindow.center.y + self.navigationController.navigationBar.frame.size.height / 2);
+            newCenter = CGPointMake(superviewCenter.x,
+                                    superviewCenter.y + self.navigationController.navigationBar.frame.size.height / 2);
         }
     }
     
@@ -1834,12 +1842,12 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     CGFloat angle = UIInterfaceOrientationAngleOfOrientation(orientation);
     CGAffineTransform transform = CGAffineTransformMakeRotation(angle);
     
-    [self setIfNotEqualTransform: transform
-                           frame: self.view.window.bounds];
+    [self setIfNotEqualTransform: transform];
 }
 
 
-- (void)setIfNotEqualTransform:(CGAffineTransform)transform frame:(CGRect)frame {
+- (void)setIfNotEqualTransform:(CGAffineTransform)transform {
+    CGRect frame = self.view.superview.frame;
     if(!CGAffineTransformEqualToTransform(self.view.transform, transform)) {
         self.view.transform = transform;
     }
