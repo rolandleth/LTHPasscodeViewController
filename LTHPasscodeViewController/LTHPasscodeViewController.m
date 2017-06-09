@@ -1842,12 +1842,12 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     CGFloat angle = UIInterfaceOrientationAngleOfOrientation(orientation);
     CGAffineTransform transform = CGAffineTransformMakeRotation(angle);
     
-    [self setIfNotEqualTransform: transform
-                           frame: self.view.window.bounds];
+    [self setIfNotEqualTransform: transform];
 }
 
 
-- (void)setIfNotEqualTransform:(CGAffineTransform)transform frame:(CGRect)frame {
+- (void)setIfNotEqualTransform:(CGAffineTransform)transform {
+    CGRect frame = self.view.superview.frame;
     if(!CGAffineTransformEqualToTransform(self.view.transform, transform)) {
         self.view.transform = transform;
     }
