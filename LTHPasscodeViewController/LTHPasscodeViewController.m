@@ -49,7 +49,7 @@ options:NSNumericSearch] != NSOrderedAscending)
  Any help would be greatly appreciated.
  */
 
-#if defined(LTH_APP_EXTENSIONS)
+#ifdef LTH_IS_APP_EXTENSION
 #define LTHMainWindow [UIApplication sharedApplication].keyWindow
 #else
 #define LTHMainWindow [UIApplication sharedApplication].windows[0]

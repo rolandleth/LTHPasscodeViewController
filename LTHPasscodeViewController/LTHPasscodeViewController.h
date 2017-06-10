@@ -312,33 +312,33 @@
  @param hasLogout   Set to @c YES for a navBar with a Logout button, set to @c NO for no navBar.
  @param logoutTitle The title of the Logout button.
  */
-- (void)showLockScreenWithAnimation:(BOOL)animated withLogout:(BOOL)hasLogout andLogoutTitle:(NSString*)logoutTitle;
+- (void)showLockScreenWithAnimation:(BOOL)animated withLogout:(BOOL)hasLogout andLogoutTitle:(NSString *)logoutTitle;
 /**
- @brief				Used for displaying the lock. The passcode view is added directly on the keyWindow.
- @param superview   The superview where is to be presented, used to measure the center of the view.
+ @brief				Used for displaying the lock over a view; the lock will have the same size and center as the @c superview.
+ @param superview   The @c view where the lock will be added to and presented over.
  @param hasLogout   Set to @c YES for a navBar with a Logout button, set to @c NO for no navBar.
  @param logoutTitle The title of the Logout button.
  */
-- (void)showLockScreenOver:(UIView *)superview withAnimation:(BOOL)animated withLogout:(BOOL)hasLogout andLogoutTitle:(NSString*)logoutTitle;
+- (void)showLockScreenOver:(UIView *)superview withAnimation:(BOOL)animated withLogout:(BOOL)hasLogout andLogoutTitle:(NSString *)logoutTitle;
 /**
  @brief				   Used for enabling the passcode.
  @details              The back bar button is hidden by default. Set @c hidesBackButton to @c NO if you want it to be visible.
  @param	viewController The view controller where the passcode view controller will be displayed.
- @param asModal        Set to @c YES to present as a modal, or to @c NO to push on the current nav stack.
+ @param isModal        Set to @c YES to present as a modal, or to @c NO to push on the current nav stack.
  */
 - (void)showForEnablingPasscodeInViewController:(UIViewController *)viewController asModal:(BOOL)isModal;
 /**
  @brief				   Used for changing the passcode.
  @details              The back bar button is hidden by default. Set @c hidesBackButton to @c NO if you want it to be visible.
  @param	viewController The view controller where the passcode view controller will be displayed.
- @param asModal        Set to @c YES to present as a modal, or to @c NO to push on the current nav stack.
+ @param isModal        Set to @c YES to present as a modal, or to @c NO to push on the current nav stack.
  */
 - (void)showForChangingPasscodeInViewController:(UIViewController *)viewController asModal:(BOOL)isModal;
 /**
  @brief				   Used for disabling the passcode.
  @details              The back bar button is hidden by default. Set @c hidesBackButton to @c NO if you want it to be visible.
  @param	viewController The view controller where the passcode view controller will be displayed.
- @param asModal        Set to @c YES to present as a modal, or to @c NO to push on the current nav stack.
+ @param isModal        Set to @c YES to present as a modal, or to @c NO to push on the current nav stack.
  */
 - (void)showForDisablingPasscodeInViewController:(UIViewController *)viewController asModal:(BOOL)isModal;
 /**

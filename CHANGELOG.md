@@ -1,7 +1,6 @@
 # 3.8.9
-* Added support for iOS App Extensions:
-	* Now, if you add a macro to project settings (`LTH_APP_EXTENSIONS`), `LTHPasscodeViewController` doesn’t crash under an extension target.
-	* Also, with a new method, you can provide a view in which the lock is going to be presented and centered in.
+* Added support for iOS App Extensions: defining `LTH_IS_APP_EXTENSION` for an extension target will fix `LTHPasscodeViewController` crashing.
+* Added new method: `- (void)showLockScreenOver:(UIView *)superview withAnimation:(BOOL)animated withLogout:(BOOL)hasLogout andLogoutTitle:(NSString *)logoutTitle`. Used to provide a view in which the lock is going to be presented, sized to and centered in.
 
 # 3.8.8
 * Fixed translations.
