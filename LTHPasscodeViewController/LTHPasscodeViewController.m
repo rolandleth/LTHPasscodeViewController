@@ -320,6 +320,15 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
                                               error:nil];
 }
 
+
+- (void)resetPasscode {
+    if ([self _doesPasscodeExist]) {
+        NSString *passcode = [self _passcode];
+        [self _deletePasscode];
+        [self _savePasscode:passcode];
+    }
+}
+
 #if !(TARGET_IPHONE_SIMULATOR)
 - (void)_handleTouchIDFailureAndDisableTouchID:(BOOL)disableTouchID {
     dispatch_async(dispatch_get_main_queue(), ^{
