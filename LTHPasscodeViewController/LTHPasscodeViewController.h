@@ -416,5 +416,9 @@
  @brief  Returns the shared instance of the passcode view controller.
  */
 + (instancetype)sharedUser;
+/**
+ @brief  Resets the passcode.
+ */
+- (void)resetPasscode;
 
 @end

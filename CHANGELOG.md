@@ -1,3 +1,6 @@
+# 3.8.10
+* Added new method to reset passcode `- (void)resetPasscode`, useful when using app extensions.
+
 # 3.8.9
 * Added support for iOS App Extensions: defining `LTH_IS_APP_EXTENSION` for an extension target will fix `LTHPasscodeViewController` crashing.
 * Added new method: `- (void)showLockScreenOver:(UIView *)superview withAnimation:(BOOL)animated withLogout:(BOOL)hasLogout andLogoutTitle:(NSString *)logoutTitle`. Used to provide a view in which the lock is going to be presented, sized to and centered in.
