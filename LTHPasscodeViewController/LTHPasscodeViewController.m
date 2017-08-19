@@ -516,6 +516,12 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 }
 
 
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    _animatingView.frame = self.view.bounds;
+}
+
+
 - (void)viewWillDisappear:(BOOL)animated {
     // If _isCurrentlyOnScreen is true at this point,
     // it means the back button was tapped, so we need to reset.
@@ -1805,7 +1811,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
      */
     [self rotateAccordingToStatusBarOrientationAndSupportedOrientations];
     if (LTHiOS8) {
-        _animatingView.frame = self.view.frame;
+        _animatingView.frame = self.view.bounds;
     }
     else {
         if (UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
