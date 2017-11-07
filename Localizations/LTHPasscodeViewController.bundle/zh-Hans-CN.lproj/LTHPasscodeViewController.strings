@@ -26,3 +26,5 @@
 "%i Passcode Failed Attempts" = "密码错误 %i 次";
 
 "Unlock using Touch ID" = "用 Touch ID 解锁";
+
+"Unlock using Face ID" = "用 Face ID 解锁";

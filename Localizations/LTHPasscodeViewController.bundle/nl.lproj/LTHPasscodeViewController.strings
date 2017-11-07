@@ -26,3 +26,5 @@
 "%i Passcode Failed Attempts" = "%i mislukte toegangscodepogingen";
 
 "Unlock using Touch ID" = "Ontgrendel met Touch ID";
+
+"Unlock using Face ID" = "Ontgrendel met Face ID";

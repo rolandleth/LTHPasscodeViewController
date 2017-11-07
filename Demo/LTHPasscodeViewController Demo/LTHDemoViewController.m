@@ -21,8 +21,8 @@
 @property (nonatomic, strong) UITextField *digitsTextField;
 @property (nonatomic, strong) UILabel  *typeLabel;
 @property (nonatomic, strong) UISwitch *typeSwitch;
-@property (nonatomic, strong) UILabel  *touchIDLabel;
-@property (nonatomic, strong) UISwitch *touchIDSwitch;
+@property (nonatomic, strong) UILabel  *biometricsLabel;
+@property (nonatomic, strong) UISwitch *biometricsSwitch;
 @end
 
 
@@ -55,7 +55,7 @@
     
     _digitsTextField.text = [NSString stringWithFormat:@"%zd", [LTHPasscodeViewController sharedUser].digitsCount];
     _typeSwitch.on = [[LTHPasscodeViewController sharedUser] isSimple];
-    _touchIDSwitch.on = [[LTHPasscodeViewController sharedUser] allowUnlockWithTouchID];
+    _biometricsSwitch.on = [[LTHPasscodeViewController sharedUser] allowUnlockWithBiometrics];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -83,15 +83,27 @@
     _changePasscode.frame = CGRectMake(100, 300, 100, 50);
     _turnOffPasscode.frame = CGRectMake(100, 400, 100, 50);
     
-    if ([self isTouchIDAvailable]) {
+    if ([self areBiometricsAvailable]) {
         _typeLabel = [[UILabel alloc] initWithFrame:(CGRect){230, 190, 60, 30}];
         _typeSwitch = [[UISwitch alloc] initWithFrame:(CGRect){230, 220, 100, 100}];
-        _touchIDLabel = [[UILabel alloc] initWithFrame:(CGRect){230, 290, 90, 30}];
-        _touchIDSwitch = [[UISwitch alloc] initWithFrame:(CGRect){230, 320, 100, 100}];
-        _touchIDLabel.text = @"Touch ID";
-        [_touchIDSwitch addTarget:self action:@selector(_touchIDPasscodeType:) forControlEvents:UIControlEventValueChanged];
-        [self.view addSubview:_touchIDSwitch];
-        [self.view addSubview:_touchIDLabel];
+        _biometricsLabel = [[UILabel alloc] initWithFrame:(CGRect){230, 290, 90, 30}];
+        _biometricsSwitch = [[UISwitch alloc] initWithFrame:(CGRect){230, 320, 100, 100}];
+        
+        _biometricsLabel.text = @"Touch ID";
+        
+        LAContext *context = [[LAContext alloc] init];;
+        
+        if ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:nil]) {
+            if (@available(iOS 11.0, *)) {
+                if (context.biometryType == LABiometryTypeFaceID) {
+                    self.biometricsLabel.text = @"Face ID";
+                }
+            }
+        }
+        
+        [_biometricsSwitch addTarget:self action:@selector(_touchIDPasscodeType:) forControlEvents:UIControlEventValueChanged];
+        [self.view addSubview:_biometricsSwitch];
+        [self.view addSubview:_biometricsLabel];
     } else {
         _typeLabel = [[UILabel alloc] initWithFrame:(CGRect){230, 230, 60, 30}];
         _typeSwitch = [[UISwitch alloc] initWithFrame:(CGRect){230, 260, 100, 100}];
@@ -186,7 +198,7 @@
 }
 
 - (void)_touchIDPasscodeType:(UISwitch *)sender {
-    [[LTHPasscodeViewController sharedUser] setAllowUnlockWithTouchID:sender.isOn];
+    [[LTHPasscodeViewController sharedUser] setAllowUnlockWithBiometrics:sender.isOn];
 }
 
 - (void)showLockViewForEnablingPasscode {
@@ -214,7 +226,7 @@
                                                                              asModal:NO];
 }
 
-- (BOOL)isTouchIDAvailable {
+- (BOOL)areBiometricsAvailable {
     if ([[[UIDevice currentDevice] systemVersion] compare:@"8.0" options:NSNumericSearch] != NSOrderedAscending) {
         return [[[LAContext alloc] init] canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:nil];
     }

@@ -26,3 +26,5 @@
 "%i Passcode Failed Attempts" = "%i intentos fallidos";
 
 "Unlock using Touch ID" = "Desbloquea usando Touch ID";
+
+"Unlock using Face ID" = "Desbloquea usando Face ID";

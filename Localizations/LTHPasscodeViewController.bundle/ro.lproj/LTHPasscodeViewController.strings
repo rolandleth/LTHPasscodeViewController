@@ -26,3 +26,7 @@
 "%i Passcode Failed Attempts" = "%i încercări eșuate";
 
 "Cannot reuse the same passcode" = "Nu puteți refolosi aceeași parolă";
+
+"Unlock using Touch ID" = "Deblocați folosind Touch ID";
+
+"Unlock using Face ID" = "Deblocați folosind Face ID";

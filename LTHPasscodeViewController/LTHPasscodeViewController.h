@@ -77,17 +77,17 @@
  */
 - (NSString *)passcode;
 /**
- @brief   Handle here the saving of the preference for allowing the use of TouchID.
+ @brief   Handle here the saving of the preference for allowing the use of Biometrics.
  @details Called if @c +useKeychain:NO was used, but falls back to the Keychain anyway if not implemented.
- @param allowUnlockWithTouchID The boolean for the preference for allowing the use of TouchID.
+ @param allowUnlockWithBiometrics The boolean for the preference for allowing the use of Biometrics.
  */
-- (void)saveAllowUnlockWithTouchID:(BOOL)allowUnlockWithTouchID;
+- (void)saveAllowUnlockWithBiometrics:(BOOL)allowUnlockWithBiometrics;
 /**
- @brief   Retrieve here the saved preference for allowing the use of TouchID.
+ @brief   Retrieve here the saved preference for allowing the use of Biometrics.
  @details Called if @c +useKeychain:NO was used, but falls back to the Keychain anyway if not implemented.
- @return allowUnlockWithTouchID boolean.
+ @return allowUnlockWithBiometrics boolean.
  */
-- (BOOL)allowUnlockWithTouchID;
+- (BOOL)allowUnlockWithBiometrics;
 @end
 
 @interface LTHPasscodeViewController : UIViewController
@@ -209,9 +209,9 @@
  */
 @property (nonatomic, strong) NSString *keychainServiceName;
 /**
- @brief The string to be used as username for allow TouchID unlock in the Keychain.
+ @brief The string to be used as username for allow Biometrics unlock in the Keychain.
  */
-@property (nonatomic, strong) NSString *keychainAllowUnlockWithTouchID;
+@property (nonatomic, strong) NSString *keychainAllowUnlockWithBiometrics;
 /**
  @brief The character for the passcode digit.
  */
@@ -266,9 +266,10 @@
  */
 @property (nonatomic, strong) NSString *reenterNewPasscodeString;
 /**
- @brief The string displayed while user unlocks with TouchID.
+ @brief The string displayed while user unlocks with Biometrics.
+ @details Do not forget to test what kind of Biometrics the device is using, and display the correct string. (Touch ID vs Face ID, for example)
  */
-@property (nonatomic, strong) NSString *touchIDString;
+@property (nonatomic, strong) NSString *biometricsDetailsString;
 /**
  @brief The duration of the lock animation.
  */
@@ -300,9 +301,9 @@
 @property (nonatomic, assign) BOOL hidesCancelButton;
 
 /**
- @brief A Boolean value that indicates whether TouchID can be used (@c YES) or not (@c NO). Default is @c YES.
+ @brief A Boolean value that indicates whether Biometrics can be used (@c YES) or not (@c NO). Default is @c YES.
  */
-@property (nonatomic, assign) BOOL allowUnlockWithTouchID;
+@property (nonatomic, assign) BOOL allowUnlockWithBiometrics;
 
 
 // MARK: - Methods

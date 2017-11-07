@@ -26,3 +26,5 @@
 "%i Passcode Failed Attempts" = "%i번의 암호 입력 실패";
 
 "Unlock using Touch ID" = "Touch ID를 이용해 잠금 해제";
+
+"Unlock using Face ID" = "Face ID를 이용해 잠금 해제";
