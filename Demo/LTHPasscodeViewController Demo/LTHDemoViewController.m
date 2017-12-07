@@ -83,6 +83,8 @@
     _changePasscode.frame = CGRectMake(100, 300, 100, 50);
     _turnOffPasscode.frame = CGRectMake(100, 400, 100, 50);
     
+    [[LTHPasscodeViewController sharedUser] setMaxNumberOfAllowedFailedAttempts:2];
+    
     if ([self areBiometricsAvailable]) {
         _typeLabel = [[UILabel alloc] initWithFrame:(CGRect){230, 190, 60, 30}];
         _typeSwitch = [[UISwitch alloc] initWithFrame:(CGRect){230, 220, 100, 100}];
@@ -200,6 +202,7 @@
 - (void)_touchIDPasscodeType:(UISwitch *)sender {
     [[LTHPasscodeViewController sharedUser] setAllowUnlockWithBiometrics:sender.isOn];
 }
+
 
 - (void)showLockViewForEnablingPasscode {
     [[LTHPasscodeViewController sharedUser] showForEnablingPasscodeInViewController:self
