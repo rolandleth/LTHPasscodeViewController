@@ -1,3 +1,6 @@
+# 3.8.11
+* Fixed navigation bar layout when present passcode with logout enabled in iOS11.
+
 # 3.8.10
 * Added new method to reset passcode `- (void)resetPasscode`, useful when using app extensions.
 

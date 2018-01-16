@@ -12,6 +12,8 @@
 
 #define LTHiOS8 ([[[UIDevice currentDevice] systemVersion] compare:@"8.0" \
 options:NSNumericSearch] != NSOrderedAscending)
+#define LTHiOS11 ([[[UIDevice currentDevice] systemVersion] compare:@"11.0" \
+options:NSNumericSearch] != NSOrderedAscending)
 #define LTHiPad (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
@@ -457,6 +459,14 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     [self _setupDigitFields];
 }
 
+- (void)setStatusBarBackgroundColor:(UIColor *)color {
+    
+    UIView *statusBar = [[[UIApplication sharedApplication] valueForKey:@"statusBarWindow"] valueForKey:@"statusBar"];
+    
+    if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
+        statusBar.backgroundColor = color;
+    }
+}
 
 #pragma mark - View life
 - (void)viewDidLoad {
@@ -618,9 +628,18 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 #pragma mark - UI setup
 - (void)_setupNavBarWithLogoutTitle:(NSString *)logoutTitle {
     // Navigation Bar with custom UI
-    self.navBar =
-    [[UINavigationBar alloc] initWithFrame:CGRectMake(0, LTHMainWindow.frame.origin.y,
-                                                      LTHMainWindow.frame.size.width, 64)];
+    if (LTHiOS11) {
+        self.navBar =
+        [[UINavigationBar alloc] initWithFrame:CGRectMake(0, [LTHPasscodeViewController getStatusBarHeight],
+                                                          LTHMainWindow.frame.size.width, 64)];
+        [self setStatusBarBackgroundColor:[UIColor whiteColor]];
+    }
+    else {
+        self.navBar =
+        [[UINavigationBar alloc] initWithFrame:CGRectMake(0, LTHMainWindow.frame.origin.y,
+                                                          LTHMainWindow.frame.size.width, 64)];
+    }
+    
     self.navBar.tintColor = self.navigationTintColor;
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.navBar.barTintColor = self.navigationBarTintColor;
