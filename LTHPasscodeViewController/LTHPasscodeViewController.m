@@ -12,8 +12,6 @@
 
 #define LTHiOS8 ([[[UIDevice currentDevice] systemVersion] compare:@"8.0" \
 options:NSNumericSearch] != NSOrderedAscending)
-#define LTHiOS11 ([[[UIDevice currentDevice] systemVersion] compare:@"11.0" \
-options:NSNumericSearch] != NSOrderedAscending)
 #define LTHiPad (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
@@ -620,20 +618,15 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 #pragma mark - UI setup
 - (void)_setupNavBarWithLogoutTitle:(NSString *)logoutTitle {
     // Navigation Bar with custom UI
-    if (LTHiOS11) {
-        UIView *patchView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, LTHMainWindow.frame.size.width, [LTHPasscodeViewController getStatusBarHeight])];
-        patchView.backgroundColor = [UIColor whiteColor];
-        [self.view addSubview:patchView];
-        self.navBar =
-        [[UINavigationBar alloc] initWithFrame:CGRectMake(0, [LTHPasscodeViewController getStatusBarHeight],
+    UIView *patchView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, LTHMainWindow.frame.size.width, [LTHPasscodeViewController getStatusBarHeight])];
+    patchView.backgroundColor = [UIColor whiteColor];
+    patchView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    [self.view addSubview:patchView];
+    
+    self.navBar =
+    [[UINavigationBar alloc] initWithFrame:CGRectMake(0, patchView.frame.size.height,
                                                           LTHMainWindow.frame.size.width, 44)];
-    }
-    else {
-        self.navBar =
-        [[UINavigationBar alloc] initWithFrame:CGRectMake(0, LTHMainWindow.frame.origin.y,
-                                                          LTHMainWindow.frame.size.width, 64)];
-    }
-
+    self.navBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.navBar.tintColor = self.navigationTintColor;
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.navBar.barTintColor = self.navigationBarTintColor;
@@ -658,7 +651,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     item.hidesBackButton = YES;
     
     [self.navBar pushNavigationItem:item animated:NO];
-    [LTHMainWindow addSubview:self.navBar];
+    [self.view addSubview:self.navBar];
 }
 
 - (void)_setupViews {
