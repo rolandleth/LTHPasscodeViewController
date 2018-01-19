@@ -1,5 +1,8 @@
-# 3.8.11
+# 3.9.1
 * Fixed navigation bar layout when present passcode with logout enabled in iOS11.
+
+# 3.9.0
+* Replaced all Touch ID occurrences with Biometrics. On Touch ID-only devices, it has the same functionality, on Face ID-capable devices, it will use Face ID.
 
 # 3.8.10
 * Added new method to reset passcode `- (void)resetPasscode`, useful when using app extensions.
