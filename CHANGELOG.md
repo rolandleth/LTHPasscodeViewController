@@ -1,3 +1,6 @@
+# 3.9.2
+* Fixed wrong status bar height in landscape orientation.
+
 # 3.9.1
 * Fixed navigation bar layout when present passcode with logout enabled in iOS11.
 
