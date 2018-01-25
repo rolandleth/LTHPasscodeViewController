@@ -1853,6 +1853,8 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     CGAffineTransform transform = CGAffineTransformMakeRotation(angle);
     
     [self setIfNotEqualTransform: transform];
+    
+    [self _setupDigitFields];
 }
 
 
