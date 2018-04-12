@@ -325,6 +325,10 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     }
 }
 
+- (BOOL)isLockscreenPresent {
+    return self.isCurrentlyOnScreen && self.displayedAsLockScreen;
+}
+
 - (void)_handleBiometricsFailureAndDisableIt:(BOOL)disableBiometrics {
     dispatch_async(dispatch_get_main_queue(), ^{
         if (disableBiometrics) {

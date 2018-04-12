@@ -421,5 +421,10 @@
  @brief  Resets the passcode.
  */
 - (void)resetPasscode;
+/**
+ @brief  Returns a Boolean value that indicates whether the view controller is presented as lock screen (@c YES) or not (@c NO).
+ @return @c YES if a passcode is presented as lock screen.
+ */
+- (BOOL)isLockscreenPresent;
 
 @end
