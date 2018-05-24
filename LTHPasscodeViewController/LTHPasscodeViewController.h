@@ -23,10 +23,6 @@
  */
 - (void)passcodeWasEnteredSuccessfully;
 /**
- @brief Called when the TouchID/FaceID fails or is cancelled.
- */
-- (void)biometricsFailedToAuthenticate;
-/**
  @brief Called when the passcode was enabled.
  */
 - (void)passcodeWasEnabled;
