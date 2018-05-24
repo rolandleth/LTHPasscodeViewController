@@ -347,6 +347,10 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     });
     
     self.biometricsContext = nil;
+    
+    if ([self.delegate respondsToSelector: @selector(biometricsFailedToAuthenticate)]) {
+        [self.delegate performSelector: @selector(biometricsFailedToAuthenticate)];
+    }
 }
 
 - (void)_setupFingerPrint {
