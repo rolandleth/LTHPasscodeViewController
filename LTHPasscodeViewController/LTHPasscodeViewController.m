@@ -328,20 +328,20 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 - (void)_handleBiometricsFailureAndDisableIt:(BOOL)disableBiometrics {
     dispatch_async(dispatch_get_main_queue(), ^{
         if (disableBiometrics) {
-            _isUsingBiometrics = NO;
-            _allowUnlockWithBiometrics = NO;
+            self.isUsingBiometrics = NO;
+            self.allowUnlockWithBiometrics = NO;
         }
         
-        _useFallbackPasscode = YES;
-        _animatingView.hidden = NO;
+        self.useFallbackPasscode = YES;
+        self.animatingView.hidden = NO;
         
-        BOOL usingNavBar = _isUsingNavBar;
-        NSString *logoutTitle = usingNavBar ? _navBar.items.firstObject.leftBarButtonItem.title : @"";
+        BOOL usingNavBar = self.isUsingNavBar;
+        NSString *logoutTitle = usingNavBar ? self.navBar.items.firstObject.leftBarButtonItem.title : @"";
         
         [self _resetUI];
         
         if (usingNavBar) {
-            _isUsingNavBar = usingNavBar;
+            self.isUsingNavBar = usingNavBar;
             [self _setupNavBarWithLogoutTitle:logoutTitle];
         }
     });
@@ -569,7 +569,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     [self _resetUI];
     [_passcodeTextField resignFirstResponder];
     [UIView animateWithDuration: _lockAnimationDuration animations: ^{
-        if (_displayedAsLockScreen) {
+        if (self.displayedAsLockScreen) {
             if (LTHiOS8) {
                 self.view.center = CGPointMake(self.view.center.x, self.view.center.y * 2.f);
             }
@@ -590,18 +590,18 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
         }
         else {
             // Delete from Keychain
-            if (_isUserTurningPasscodeOff) {
+            if (self.isUserTurningPasscodeOff) {
                 [self _deletePasscode];
             }
             // Update the Keychain if adding or changing passcode
             else {
-                [self _savePasscode:_tempPasscode];
+                [self _savePasscode:self.tempPasscode];
                 //finalize type switching
-                if (_isUserSwitchingBetweenPasscodeModes) {
-                    _isUserConfirmingPasscode = NO;
+                if (self.isUserSwitchingBetweenPasscodeModes) {
+                    self.isUserConfirmingPasscode = NO;
                     [self setIsSimple:!self.isSimple
                      inViewController:nil
-                              asModal:_displayedAsModal];
+                              asModal:self.displayedAsModal];
                 }
             }
         }
@@ -610,15 +610,15 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
             [self.delegate performSelector: @selector(passcodeViewControllerWillClose)];
         }
         
-        if (_displayedAsLockScreen) {
+        if (self.displayedAsLockScreen) {
             [self.view removeFromSuperview];
             [self removeFromParentViewController];
         }
-        else if (_displayedAsModal) {
+        else if (self.displayedAsModal) {
             [self dismissViewControllerAnimated:YES
                                      completion:nil];
         }
-        else if (!_displayedAsLockScreen) {
+        else if (!self.displayedAsLockScreen) {
             [self.navigationController popViewControllerAnimated:NO];
         }
     }];
@@ -849,8 +849,8 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     
     if (self.isSimple) {
         [_digitTextFieldsArray enumerateObjectsUsingBlock:^(UITextField * _Nonnull textField, NSUInteger idx, BOOL * _Nonnull stop) {
-            CGFloat constant = idx == 0 ? 0 : _horizontalGap;
-            UIView *toItem = idx == 0 ? _simplePasscodeView : _digitTextFieldsArray[idx - 1];
+            CGFloat constant = idx == 0 ? 0 : self.horizontalGap;
+            UIView *toItem = idx == 0 ? self.simplePasscodeView : self.digitTextFieldsArray[idx - 1];
             
             NSLayoutConstraint *digitX =
             [NSLayoutConstraint constraintWithItem: textField
@@ -865,7 +865,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
             [NSLayoutConstraint constraintWithItem: textField
                                          attribute: NSLayoutAttributeTop
                                          relatedBy: NSLayoutRelationEqual
-                                            toItem: _simplePasscodeView
+                                            toItem: self.simplePasscodeView
                                          attribute: NSLayoutAttributeTop
                                         multiplier: 1.0f
                                           constant: 0];
@@ -874,7 +874,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
             [NSLayoutConstraint constraintWithItem: textField
                                          attribute: NSLayoutAttributeBottom
                                          relatedBy: NSLayoutRelationEqual
-                                            toItem: _simplePasscodeView
+                                            toItem: self.simplePasscodeView
                                          attribute: NSLayoutAttributeBottom
                                         multiplier: 1.0f
                                           constant: 0];
@@ -883,12 +883,12 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
             [self.view addConstraint:top];
             [self.view addConstraint:bottom];
             
-            if (idx == _digitTextFieldsArray.count - 1) {
+            if (idx == self.digitTextFieldsArray.count - 1) {
                 NSLayoutConstraint *trailing =
                 [NSLayoutConstraint constraintWithItem: textField
                                              attribute: NSLayoutAttributeTrailing
                                              relatedBy: NSLayoutRelationEqual
-                                                toItem: _simplePasscodeView
+                                                toItem: self.simplePasscodeView
                                              attribute: NSLayoutAttributeTrailing
                                             multiplier: 1.0f
                                               constant: 0];
@@ -1458,7 +1458,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
         // cancel in the Touch ID prompt. In some cases, the keyboard is present, but invisible
         // after dismissing the alert unless we call becomeFirstResponder with a short delay
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [_passcodeTextField becomeFirstResponder];
+            [self.passcodeTextField becomeFirstResponder];
         });
     }
     
