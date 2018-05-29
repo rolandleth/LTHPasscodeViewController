@@ -376,6 +376,11 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
                                               
                                               if (error || !success) {
                                                   [self _handleBiometricsFailureAndDisableIt:false];
+                                                  
+                                                  if ([self.delegate respondsToSelector: @selector(biometricsAuthenticationFailed)]) {
+                                                      [self.delegate performSelector: @selector(biometricsAuthenticationFailed)];
+                                                  }
+                                                  
                                                   return;
                                               }
                                               
