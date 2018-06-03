@@ -1905,13 +1905,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 
 
 + (CGFloat)getStatusBarHeight {
-    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
-    if (UIInterfaceOrientationIsLandscape(orientation)) {
-        return [UIApplication sharedApplication].statusBarFrame.size.width;
-    }
-    else {
-        return [UIApplication sharedApplication].statusBarFrame.size.height;
-    }
+    return [UIApplication sharedApplication].statusBarFrame.size.height;
 }
 
 
