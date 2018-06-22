@@ -22,6 +22,7 @@ if ([LTHPasscodeViewController doesPasscodeExist]) {
 ```
 
 * Supports simple (4 digit) and complex passcodes.
+* Supports Touch ID and Face ID. If you're using Face ID, be sure to add `NSFaceIDUsageDescription` to your `Info.plist`. Documentation can be found here: https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html#//apple_ref/doc/uid/TP40009251-SW75 (Thanks [@mgod](https://github.com/mgod) for the suggestion made in [#193](https://github.com/rolandleth/LTHPasscodeViewController/issues/193)).
 * Data us saved in the Keychain, by default. Supports custom saving, by calling `[LTHPasscodeViewController useKeychain:NO]` after initializing and implementing a few protocol methods (the same names the library uses for the same job):
 
 ```objc
