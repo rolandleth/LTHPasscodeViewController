@@ -353,13 +353,8 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     if (!self.biometricsContext && _allowUnlockWithBiometrics && !_useFallbackPasscode) {
         self.biometricsContext = [[LAContext alloc] init];
         
-        LAPolicy policy = LAPolicyDeviceOwnerAuthenticationWithBiometrics;
-        if (@available(iOS 9.0, *)) {
-            policy = LAPolicyDeviceOwnerAuthentication;
-        }
-        
         NSError *error = nil;
-        if ([self.biometricsContext canEvaluatePolicy:policy error:&error]) {
+        if ([self.biometricsContext canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error]) {
             if (error) {
                 return;
             }
@@ -375,7 +370,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
             _animatingView.hidden = YES;
             
             // Authenticate User
-            [self.biometricsContext evaluatePolicy:policy
+            [self.biometricsContext evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
                                 localizedReason:LTHPasscodeViewControllerStrings(self.biometricsDetailsString)
                                           reply:^(BOOL success, NSError *error) {
                                               
