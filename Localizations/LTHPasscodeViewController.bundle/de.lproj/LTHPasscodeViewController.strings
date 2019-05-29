@@ -1,17 +1,15 @@
 /*
  LTHPasscodeViewController.strings
  */
-"Enter Passcode" = "Pincode eingeben";
-
 "Enter your old passcode" = "Alten Pincode eingeben";
 
 "Enter your passcode" = "Geben Sie Ihren Pincode ein";
 
 "Enable Passcode" = "Pincode aktivieren";
 
-"Change Passcode" = "Pincode ändern";
+"Change passcode" = "Pincode ändern";
 
-"Turn Off Passcode" = "Pincode deaktivieren";
+"Turn off passcode" = "Pincode deaktivieren";
 
 "Re-enter your passcode" = "Pincode wiederholen";
 
@@ -21,9 +19,9 @@
 
 "Passcodes did not match. Try again." = "Pincodes nicht ident. Bitte nochmals versuchen.";
 
-"1 Passcode Failed Attempt" = "1 fehlgeschlagener Eingabeversuch";
+"1 Passcode failed attempt" = "1 fehlgeschlagener Eingabeversuch";
 
-"%i Passcode Failed Attempts" = "%i fehlgeschlagene Eingabeversuche";
+"%i Passcode failed attempts" = "%i fehlgeschlagene Eingabeversuche";
 
 "Unlock using Touch ID" = "Entsperren mit Touch ID";
 

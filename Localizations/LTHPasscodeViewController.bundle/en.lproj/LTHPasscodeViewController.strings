@@ -1,34 +1,33 @@
 /*
  LTHPasscodeViewController.strings
  */
-"Enter Passcode" = "Enter Passcode";
-
-"Enter your old passcode" = "Enter your old passcode";
-
-"Enter your passcode" = "Enter your passcode";
-
-"Passcode info" = "You will be asked to enter this code\neverytime you open the application";
-
-"Enable Passcode" = "Enable Passcode";
-
-"Change Passcode" = "Change Passcode";
-
-"Turn Off Passcode" = "Turn Off Passcode";
-
-"Re-enter your passcode" = "Re-enter your passcode";
-
-"Re-enter your new passcode" = "Re-enter your new passcode";
-
-"Enter your new passcode" = "Enter your new passcode";
-
-"Passcodes did not match. Try again." = "Passcodes did not match. Try again.";
-
-"1 Passcode Failed Attempt" = "1 Passcode Failed Attempt";
-
-"%i Passcode Failed Attempts" = "%i Passcode Failed Attempts";
-
-"Unlock using Touch ID" = "Unlock using Touch ID";
-
-"Unlock using Face ID" = "Unlock using Face ID";
-
-"Cannot reuse the same passcode" = "Cannot reuse the same passcode";
+/* Text used to enter your previous PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
+"Enter your old passcode"="Enter your old passcode";
+/* Text used to enter your current PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
+"Enter your passcode"="Enter your passcode";
+/*  You will be asked to enter this code everytime you open the application. */
+"Passcode info"="You will be asked to enter this code\neverytime you open the application";
+/* Text used to enable a PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
+"Enable Passcode"="Enable Passcode";
+/* Text used to change your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
+"Change passcode"="Change passcode";
+/* Text used to turn off your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
+"Turn off passcode"="Turn off passcode";
+/* Text used to re-enter your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
+"Re-enter your passcode"="Re-enter your passcode";
+/* Text used to enter your new PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
+"Re-enter your new passcode"="Re-enter your new passcode";
+/* Text used to enter your new PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
+"Enter your new passcode"="Enter your new passcode";
+/* Text used to state that your PIN codes do not match. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
+"Passcodes did not match. Try again."="Passcodes did not match. Try again.";
+/* Text used to state a failed attempt entering your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
+"1 Passcode failed attempt"="1 Passcode failed attempt";
+/* Plural. Text used to state several failed attempts entering your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
+"%i Passcode failed attempts"="%i Passcode failed attempts";
+/* Message shown to unlock the screen using Touch ID. */
+"Unlock using Touch ID"="Unlock using Touch ID";
+/* Message shown to unlock the screen using Face ID */
+"Unlock using Face ID"="Unlock using Face ID";
+/* Text used to explain it is not possible to reuse the same PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
+"Cannot reuse the same passcode"="Cannot reuse the same passcode";

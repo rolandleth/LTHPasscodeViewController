@@ -705,7 +705,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     // It is also used to display the "Passcodes did not match" error message
     // if the user fails to confirm the passcode.
     _failedAttemptLabel = [[UILabel alloc] initWithFrame: CGRectZero];
-    _failedAttemptLabel.text = LTHPasscodeViewControllerStrings(@"1 Passcode Failed Attempt");
+    _failedAttemptLabel.text = LTHPasscodeViewControllerStrings(@"1 Passcode failed attempt");
     _failedAttemptLabel.numberOfLines = 0;
     _failedAttemptLabel.backgroundColor	= _failedAttemptLabelBackgroundColor;
     _failedAttemptLabel.hidden = YES;
@@ -1423,10 +1423,10 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     
     NSString *translationText;
     if (_failedAttempts == 1) {
-        translationText = LTHPasscodeViewControllerStrings(@"1 Passcode Failed Attempt");
+        translationText = LTHPasscodeViewControllerStrings(@"1 Passcode failed attempt");
     }
     else {
-        translationText = [NSString stringWithFormat:LTHPasscodeViewControllerStrings(@"%i Passcode Failed Attempts"), _failedAttempts];
+        translationText = [NSString stringWithFormat:LTHPasscodeViewControllerStrings(@"%i Passcode failed attempts"), _failedAttempts];
         
     }
     // To give it some padding. Since it's center-aligned,
@@ -1705,8 +1705,8 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     self.enterPasscodeString = @"Enter your passcode";
     self.enterPasscodeInfoString = @"Passcode info";
     self.enablePasscodeString = @"Enable Passcode";
-    self.changePasscodeString = @"Change Passcode";
-    self.turnOffPasscodeString = @"Turn Off Passcode";
+    self.changePasscodeString = @"Change passcode";
+    self.turnOffPasscodeString = @"Turn off passcode";
     self.reenterPasscodeString = @"Re-enter your passcode";
     self.reenterNewPasscodeString = @"Re-enter your new passcode";
     self.enterNewPasscodeString = @"Enter your new passcode";
