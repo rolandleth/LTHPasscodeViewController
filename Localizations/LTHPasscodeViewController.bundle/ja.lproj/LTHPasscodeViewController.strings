@@ -1,8 +1,6 @@
 /*
  LTHPasscodeViewController.strings
  */
-"Enter Passcode" = "パスコードを入力";
-
 "Enter your old passcode" = "古いパスコードを入力";
 
 "Enter your passcode" = "パスコードを入力";

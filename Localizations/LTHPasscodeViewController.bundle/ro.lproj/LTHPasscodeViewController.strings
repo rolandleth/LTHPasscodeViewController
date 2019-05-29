@@ -1,8 +1,6 @@
 /*
  LTHPasscodeViewController.strings
  */
-"Enter Passcode" = "Introduceți parola";
-
 "Enter your old passcode" = "Introduceți parola veche";
 
 "Enter your passcode" = "Introduceți parola";

@@ -1,8 +1,6 @@
 /*
  LTHPasscodeViewController.strings
  */
-"Enter Passcode" = "Digite sua senha";
-
 "Enter your old passcode" = "Digite sua senha antiga";
 
 "Enter your passcode" = "Digite sua senha";
