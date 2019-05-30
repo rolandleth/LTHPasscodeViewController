@@ -1,8 +1,6 @@
 /*
  LTHPasscodeViewController.strings
  */
-"Enter Passcode" = "Vložte Passcode";
-
 "Enter your old passcode" = "Vložte stávající passcode";
 
 "Enter your passcode" = "Vložte svůj passcode";

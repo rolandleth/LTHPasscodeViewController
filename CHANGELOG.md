@@ -1,3 +1,7 @@
+# 3.9.3
+* Fixed a crash in demo project.
+* Removed unused string.
+
 # 3.9.1
 * Fixed navigation bar layout when present passcode with logout enabled in iOS11.
 

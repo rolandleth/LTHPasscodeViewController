@@ -1,8 +1,6 @@
 /*
  LTHPasscodeViewController.strings
  */
-"Enter Passcode" = "输入密码";
-
 "Enter your old passcode" = "输入旧密码";
 
 "Enter your passcode" = "输入你的密码";
