@@ -1,28 +1,33 @@
 /*
  LTHPasscodeViewController.strings
  */
-"Enter your old passcode" = "Entrez votre ancien mot de passe";
-
-"Enter your passcode" = "Entrez votre mot de passe";
-
-"Enable Passcode" = "Entrez votre mot de passe";
-
-"Change passcode" = "Changez votre mot de passe";
-
-"Turn off passcode" = "Supprimez votre mot de passe";
-
-"Re-enter your passcode" = "Réentrez votre mot de passe";
-
-"Re-enter your new passcode" = "Réentrez votre nouveau mot de passe";
-
-"Enter your new passcode" = "Entrez votre nouveau mot de passe";
-
-"Passcodes did not match. Try again." = "Les mots de passe ne correspondent pas. Essayez à nouveau.";
-
-"1 Passcode failed attempt" = "1 échec";
-
-"%i Passcode failed attempts" = "%i échecs";
-
-"Unlock using Touch ID" = "Déverrouillez en utilisant Touch ID";
-
-"Unlock using Face ID" = "Déverrouillez en utilisant Face ID";
+/* Text used to enter your previous PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
+"Enter your old passcode"="Saisir votre ancien code d'accès";
+/* Text used to enter your current PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
+"Enter your passcode"="Saisir votre code d'accès";
+/*  You will be asked to enter this code everytime you open the application. */
+"Passcode info"="Ce code vous sera demandé chaque\nfois que vous ouvrez l’application";
+/* Text used to enable a PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
+"Enable Passcode"="Activer le code d'accès";
+/* Text used to change your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
+"Change passcode"="Changer le code d’accès";
+/* Text used to turn off your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
+"Turn off passcode"="Désactiver le code d’accès";
+/* Text used to re-enter your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
+"Re-enter your passcode"="Saisir votre code d’accès de nouveau";
+/* Text used to enter your new PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
+"Re-enter your new passcode"="Saisir votre nouveau code d’accès de nouveau";
+/* Text used to enter your new PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
+"Enter your new passcode"="Saisir votre nouveau code d’accès";
+/* Text used to state that your PIN codes do not match. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
+"Passcodes did not match. Try again."="Les codes d’accès ne correspondent pas. Ressayer.";
+/* Text used to state a failed attempt entering your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
+"1 Passcode failed attempt"="1 tentative d’accès infructueuse";
+/* Plural. Text used to state several failed attempts entering your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
+"%i Passcode failed attempts"="%i tentatives d’accès infructueuses";
+/* Message shown to unlock the screen using Touch ID. */
+"Unlock using Touch ID"="Déverrouiller avec Touch ID";
+/* Message shown to unlock the screen using Face ID */
+"Unlock using Face ID"="Déverrouiller avec Face ID";
+/* Text used to explain it is not possible to reuse the same PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
+"Cannot reuse the same passcode"="Le même code d’accès ne peut pas être réutilisé";
