@@ -6,7 +6,7 @@
 /* Text used to enter your current PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Enter your passcode"="輸入您的密碼";
 /*  You will be asked to enter this code everytime you open the application. */
-"Passcode info"="You will be asked to enter this code\neverytime you open the application";
+"Passcode info"="每次開啟應用程式時\n都會要求您輸入此代碼";
 /* Text used to enable a PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Enable Passcode"="啟用密碼";
 /* Text used to change your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
@@ -22,12 +22,12 @@
 /* Text used to state that your PIN codes do not match. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Passcodes did not match. Try again."="密碼不相符，請再試一遍。";
 /* Text used to state a failed attempt entering your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
-"1 Passcode failed attempt"="1 failed passcode attempt";
+"1 Passcode failed attempt"="密碼輸入錯誤1次";
 /* Plural. Text used to state several failed attempts entering your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
-"%i Passcode failed attempts"="%i failed passcode attempts";
+"%i Passcode failed attempts"="密碼輸入錯誤%i次";
 /* Message shown to unlock the screen using Touch ID. */
-"Unlock using Touch ID"="Unlock using Touch ID";
+"Unlock using Touch ID"="使用Touch ID解鎖";
 /* Message shown to unlock the screen using Face ID */
-"Unlock using Face ID"="Unlock using Face ID";
+"Unlock using Face ID"="使用Face ID解鎖";
 /* Text used to explain it is not possible to reuse the same PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
-"Cannot reuse the same passcode"="Cannot reuse the same passcode";
+"Cannot reuse the same passcode"="不可重複使用相同的密碼";
