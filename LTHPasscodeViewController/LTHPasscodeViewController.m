@@ -50,7 +50,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 #ifdef LTH_IS_APP_EXTENSION
 #define LTHMainWindow [UIApplication sharedApplication].keyWindow
 #else
-#define LTHMainWindow [UIApplication sharedApplication].windows[0]
+#define LTHMainWindow [UIApplication sharedApplication].windows.firstObject
 #endif
 
 @interface LTHPasscodeViewController () <UITextFieldDelegate>
