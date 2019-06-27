@@ -1,3 +1,6 @@
+# 3.9.4
+* Avoid a crash in iOS 13 accessing the first object of the windows.
+
 # 3.9.3
 * Fixed a crash in demo project.
 * Removed unused string.
