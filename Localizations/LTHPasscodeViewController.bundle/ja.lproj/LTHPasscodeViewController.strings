@@ -2,32 +2,32 @@
  LTHPasscodeViewController.strings
  */
 /* Text used to enter your previous PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
-"Enter your old passcode"="古いパスコードを入力して下さい";
+"Enter your old passcode"="古いパスコードを入力";
 /* Text used to enter your current PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
-"Enter your passcode"="パスコードを入力して下さい。";
+"Enter your passcode"="パスコードを入力";
 /*  You will be asked to enter this code everytime you open the application. */
 "Passcode info"="アプリケーションを開くたびに、\nこのコードを入力するように求められます。";
 /* Text used to enable a PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
-"Enable Passcode"="パスコードを使う";
+"Enable Passcode"="パスコードを設定";
 /* Text used to change your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Change passcode"="パスコードを変更して下さい";
 /* Text used to turn off your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Turn off passcode"="パスコードを無効にする";
 /* Text used to re-enter your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
-"Re-enter your passcode"="パスコードを再入力して下さい。";
+"Re-enter your passcode"="パスコードを再入力";
 /* Text used to enter your new PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
-"Re-enter your new passcode"="新しいパスコードを再入力して下さい。";
+"Re-enter your new passcode"="新しいパスコードを再入力";
 /* Text used to enter your new PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
-"Enter your new passcode"="新しいパスコードを入力して下さい。";
+"Enter your new passcode"="新しいパスコードを入力";
 /* Text used to state that your PIN codes do not match. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
-"Passcodes did not match. Try again."="パスコード合致せず。やり直して下さい。";
+"Passcodes did not match. Try again."="パスコードが一致しません。\nもう一度入力してください。";
 /* Text used to state a failed attempt entering your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "1 Passcode failed attempt"="パスコード試行に1回失敗";
 /* Plural. Text used to state several failed attempts entering your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "%i Passcode failed attempts"="パスコード試行に%i回失敗";
 /* Message shown to unlock the screen using Touch ID. */
-"Unlock using Touch ID"="Touch IDを使用してロック解除";
+"Unlock using Touch ID"="Touch IDで解除";
 /* Message shown to unlock the screen using Face ID */
-"Unlock using Face ID"="Face IDを使用してロック解除";
+"Unlock using Face ID"="Face IDで解除";
 /* Text used to explain it is not possible to reuse the same PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Cannot reuse the same passcode"="同じパスコードは再利用できません";
