@@ -12,7 +12,7 @@
 
 #define LTHiOS8 ([[[UIDevice currentDevice] systemVersion] compare:@"8.0" \
 options:NSNumericSearch] != NSOrderedAscending)
-#define LTHiPad (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+#define LTHiPad ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
 #define LTHFailedAttemptLabelHeight [_failedAttemptLabel.text sizeWithAttributes: @{NSFontAttributeName : _labelFont}].height
