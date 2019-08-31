@@ -574,13 +574,13 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
                 self.view.center = CGPointMake(self.view.center.x, self.view.center.y * 2.f);
             }
             else {
-                if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) {
+                if ([LTHPasscodeViewController currentOrientation] == UIInterfaceOrientationLandscapeLeft) {
                     self.view.center = CGPointMake(self.view.center.x * -1.f, self.view.center.y);
                 }
-                else if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight) {
+                else if ([LTHPasscodeViewController currentOrientation] == UIInterfaceOrientationLandscapeRight) {
                     self.view.center = CGPointMake(self.view.center.x * 2.f, self.view.center.y);
                 }
-                else if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) {
+                else if ([LTHPasscodeViewController currentOrientation] == UIInterfaceOrientationPortrait) {
                     self.view.center = CGPointMake(self.view.center.x, self.view.center.y * -1.f);
                 }
                 else {
@@ -1061,17 +1061,17 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
                                 superviewCenter.y + self.navigationController.navigationBar.frame.size.height / 2);
     }
     else {
-        if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) {
+        if ([LTHPasscodeViewController currentOrientation] == UIInterfaceOrientationLandscapeLeft) {
             self.view.center = CGPointMake(self.view.center.x * -1.f, self.view.center.y);
             newCenter = CGPointMake(superviewCenter.x - self.navigationController.navigationBar.frame.size.height / 2,
                                     superviewCenter.y);
         }
-        else if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight) {
+        else if ([LTHPasscodeViewController currentOrientation] == UIInterfaceOrientationLandscapeRight) {
             self.view.center = CGPointMake(self.view.center.x * 2.f, self.view.center.y);
             newCenter = CGPointMake(superviewCenter.x + self.navigationController.navigationBar.frame.size.height / 2,
                                     superviewCenter.y);
         }
-        else if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) {
+        else if ([LTHPasscodeViewController currentOrientation] == UIInterfaceOrientationPortrait) {
             self.view.center = CGPointMake(self.view.center.x, self.view.center.y * -1.f);
             newCenter = CGPointMake(superviewCenter.x,
                                     superviewCenter.y - self.navigationController.navigationBar.frame.size.height / 2);
@@ -1795,6 +1795,28 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 
 
 #pragma mark - Handling rotation
+
+// Internal method for fetching the current orientation
++ (UIInterfaceOrientation)currentOrientation
+{
+    // statusBarOrientation is deprecated in iOS 13 and windowScene isn't available before iOS 13
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 130000
+    if (@available(iOS 13.0, *))
+    {
+        return LTHMainWindow.windowScene.interfaceOrientation;
+    }
+    else
+    {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#endif
+        return [[UIApplication sharedApplication] statusBarOrientation];
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 130000
+#pragma clang diagnostic pop
+    }
+#endif
+}
+
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     if (_displayedAsLockScreen)
         return LTHiOS8 ? UIInterfaceOrientationMaskPortrait : UIInterfaceOrientationMaskAll;
@@ -1819,7 +1841,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
         _animatingView.frame = self.view.bounds;
     }
     else {
-        if (UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
+        if (UIInterfaceOrientationIsPortrait([LTHPasscodeViewController currentOrientation])) {
             _animatingView.frame = CGRectMake(0, 0, LTHMainWindow.frame.size.width, LTHMainWindow.frame.size.height);
         }
         else {
@@ -1834,8 +1856,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 // then presenting it inside a modal in another orientation would display
 // the view in the first orientation.
 - (UIInterfaceOrientation)desiredOrientation {
-    UIInterfaceOrientation statusBarOrientation =
-    [[UIApplication sharedApplication] statusBarOrientation];
+    UIInterfaceOrientation statusBarOrientation = [LTHPasscodeViewController currentOrientation];
     UIInterfaceOrientationMask statusBarOrientationAsMask = UIInterfaceOrientationMaskFromOrientation(statusBarOrientation);
     if(self.supportedInterfaceOrientations & statusBarOrientationAsMask) {
         return statusBarOrientation;
@@ -1905,7 +1926,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 
 
 + (CGFloat)getStatusBarHeight {
-    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    UIInterfaceOrientation orientation = [LTHPasscodeViewController currentOrientation];
     if (UIInterfaceOrientationIsLandscape(orientation)) {
         return [UIApplication sharedApplication].statusBarFrame.size.width;
     }
