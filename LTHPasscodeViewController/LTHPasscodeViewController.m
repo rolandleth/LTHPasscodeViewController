@@ -1927,12 +1927,33 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 
 + (CGFloat)getStatusBarHeight {
     UIInterfaceOrientation orientation = [LTHPasscodeViewController currentOrientation];
-    if (UIInterfaceOrientationIsLandscape(orientation)) {
-        return [UIApplication sharedApplication].statusBarFrame.size.width;
+    
+    // statusBarFrame is deprecated in iOS 13 and windowScene isn't available before iOS 13
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 130000
+    if (@available(iOS 13.0, *))
+    {
+        if (UIInterfaceOrientationIsLandscape(orientation)) {
+            return LTHMainWindow.windowScene.statusBarManager.statusBarFrame.size.width;
+        }
+        else {
+            return LTHMainWindow.windowScene.statusBarManager.statusBarFrame.size.height;
+        }
     }
-    else {
-        return [UIApplication sharedApplication].statusBarFrame.size.height;
+    else
+    {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#endif
+        if (UIInterfaceOrientationIsLandscape(orientation)) {
+            return [UIApplication sharedApplication].statusBarFrame.size.width;
+        }
+        else {
+            return [UIApplication sharedApplication].statusBarFrame.size.height;
+        }
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 130000
+#pragma clang diagnostic pop
     }
+#endif
 }
 
 
