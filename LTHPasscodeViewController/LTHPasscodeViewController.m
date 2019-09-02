@@ -1113,6 +1113,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     }
     UINavigationController *navController =
     [[UINavigationController alloc] initWithRootViewController:self];
+    navController.modalPresentationStyle = UIModalPresentationFullScreen;
     
     // Make sure nav bar for logout is off the screen
     [self.navBar removeFromSuperview];
