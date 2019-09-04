@@ -1017,7 +1017,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     _isCurrentlyOnScreen = YES;
     
     [superview addSubview: self.view];
-    
+
     // All this hassle because a view added to UIWindow does not rotate automatically
     // and if we would have added the view anywhere else, it wouldn't display properly
     // (having a modal on screen when the user leaves the app, for example).
@@ -1734,16 +1734,13 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 #pragma mark - Handling rotation
 
 // Internal method for fetching the current orientation
-+ (UIInterfaceOrientation)currentOrientation
-{
++ (UIInterfaceOrientation)currentOrientation {
     // statusBarOrientation is deprecated in iOS 13 and windowScene isn't available before iOS 13
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 130000
-    if (@available(iOS 13.0, *))
-    {
+    if (@available(iOS 13.0, *)) {
         return LTHMainWindow.windowScene.interfaceOrientation;
     }
-    else
-    {
+    else {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 #endif
@@ -1771,17 +1768,18 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 - (UIInterfaceOrientation)desiredOrientation {
     UIInterfaceOrientation statusBarOrientation = [LTHPasscodeViewController currentOrientation];
     UIInterfaceOrientationMask statusBarOrientationAsMask = UIInterfaceOrientationMaskFromOrientation(statusBarOrientation);
-    if(self.supportedInterfaceOrientations & statusBarOrientationAsMask) {
+
+    if (self.supportedInterfaceOrientations & statusBarOrientationAsMask) {
         return statusBarOrientation;
     }
     else {
-        if(self.supportedInterfaceOrientations & UIInterfaceOrientationMaskPortrait) {
+        if (self.supportedInterfaceOrientations & UIInterfaceOrientationMaskPortrait) {
             return UIInterfaceOrientationPortrait;
         }
-        else if(self.supportedInterfaceOrientations & UIInterfaceOrientationMaskLandscapeLeft) {
+        else if (self.supportedInterfaceOrientations & UIInterfaceOrientationMaskLandscapeLeft) {
             return UIInterfaceOrientationLandscapeLeft;
         }
-        else if(self.supportedInterfaceOrientations & UIInterfaceOrientationMaskLandscapeRight) {
+        else if (self.supportedInterfaceOrientations & UIInterfaceOrientationMaskLandscapeRight) {
             return UIInterfaceOrientationLandscapeRight;
         }
         else {
@@ -1795,17 +1793,13 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     UIInterfaceOrientation orientation = [self desiredOrientation];
     CGFloat angle = UIInterfaceOrientationAngleOfOrientation(orientation);
     CGAffineTransform transform = CGAffineTransformMakeRotation(angle);
-    
-    [self setIfNotEqualTransform: transform];
-}
-
-
-- (void)setIfNotEqualTransform:(CGAffineTransform)transform {
     CGRect frame = self.view.superview.frame;
-    if(!CGAffineTransformEqualToTransform(self.view.transform, transform)) {
+
+    if (!CGAffineTransformEqualToTransform(self.view.transform, transform)) {
         self.view.transform = transform;
     }
-    if(!CGRectEqualToRect(self.view.frame, frame)) {
+
+    if (!CGRectEqualToRect(self.view.frame, frame)) {
         self.view.frame = frame;
     }
 }
@@ -1843,8 +1837,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     
     // statusBarFrame is deprecated in iOS 13 and windowScene isn't available before iOS 13
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 130000
-    if (@available(iOS 13.0, *))
-    {
+    if (@available(iOS 13.0, *)) {
         if (UIInterfaceOrientationIsLandscape(orientation)) {
             return LTHMainWindow.windowScene.statusBarManager.statusBarFrame.size.width;
         }
@@ -1852,8 +1845,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
             return LTHMainWindow.windowScene.statusBarManager.statusBarFrame.size.height;
         }
     }
-    else
-    {
+    else {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 #endif
