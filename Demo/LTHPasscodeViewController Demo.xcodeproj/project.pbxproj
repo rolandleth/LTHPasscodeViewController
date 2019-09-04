@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A8702B3231F86EC00B178E4 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2A8702B2231F86EC00B178E4 /* Launch Screen.storyboard */; };
 		2AE8000A17D9503000DBDE63 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AE8000917D9503000DBDE63 /* Foundation.framework */; };
 		2AE8000C17D9503000DBDE63 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AE8000B17D9503000DBDE63 /* CoreGraphics.framework */; };
 		2AE8000E17D9503000DBDE63 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AE8000D17D9503000DBDE63 /* UIKit.framework */; };
@@ -31,6 +32,7 @@
 		2A29647C1DDF46DC00F44FFA /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2A29647D1DDF46DD00F44FFA /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2A29647E1DDF470E00F44FFA /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2A8702B2231F86EC00B178E4 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = "Launch Screen.storyboard"; path = "lthpasscodeviewcontroller demo/Launch Screen.storyboard"; sourceTree = SOURCE_ROOT; };
 		2A882AC11DBD21FC007A5FE7 /* LTHPasscodeViewController Demo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "LTHPasscodeViewController Demo.entitlements"; sourceTree = "<group>"; };
 		2AE8000617D9503000DBDE63 /* LTHPasscodeViewController Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LTHPasscodeViewController Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2AE8000917D9503000DBDE63 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -109,6 +111,7 @@
 				2AE8001217D9503000DBDE63 /* InfoPlist.strings */,
 				2AE8001517D9503000DBDE63 /* main.m */,
 				2AE8001717D9503000DBDE63 /* LTHPasscodeViewController Demo-Prefix.pch */,
+				2A8702B2231F86EC00B178E4 /* Launch Screen.storyboard */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -185,8 +188,8 @@
 				};
 			};
 			buildConfigurationList = 2AE8000117D9503000DBDE63 /* Build configuration list for PBXProject "LTHPasscodeViewController Demo" */;
-			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
@@ -201,6 +204,7 @@
 				nl,
 				it,
 				pt,
+				Base,
 			);
 			mainGroup = 2AE8FFFD17D9503000DBDE63;
 			productRefGroup = 2AE8000717D9503000DBDE63 /* Products */;
@@ -219,6 +223,7 @@
 			files = (
 				A74908891BFBA75E00C6DA16 /* LTHPasscodeViewController.bundle in Resources */,
 				2AE8001417D9503000DBDE63 /* InfoPlist.strings in Resources */,
+				2A8702B3231F86EC00B178E4 /* Launch Screen.storyboard in Resources */,
 				2AE8001C17D9503000DBDE63 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -310,7 +315,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -357,7 +362,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -368,13 +373,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "LTHPasscodeViewController Demo/LTHPasscodeViewController Demo.entitlements";
 				DEVELOPMENT_TEAM = 78653ABY96;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LTHPasscodeViewController Demo/LTHPasscodeViewController Demo-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/LTHPasscodeViewController Demo/LTHPasscodeViewController Demo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.RolandLeth.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "LTHPasscodeViewController Demo";
 				WRAPPER_EXTENSION = app;
@@ -385,13 +389,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "LTHPasscodeViewController Demo/LTHPasscodeViewController Demo.entitlements";
 				DEVELOPMENT_TEAM = 78653ABY96;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LTHPasscodeViewController Demo/LTHPasscodeViewController Demo-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/LTHPasscodeViewController Demo/LTHPasscodeViewController Demo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.RolandLeth.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "LTHPasscodeViewController Demo";
 				WRAPPER_EXTENSION = app;
