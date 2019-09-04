@@ -10,8 +10,6 @@
 #import "LTHKeychainUtils.h"
 #import <LocalAuthentication/LocalAuthentication.h>
 
-#define LTHiOS8 ([[[UIDevice currentDevice] systemVersion] compare:@"8.0" \
-options:NSNumericSearch] != NSOrderedAscending)
 #define LTHiPad ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
@@ -565,23 +563,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     [_passcodeTextField resignFirstResponder];
     [UIView animateWithDuration: _lockAnimationDuration animations: ^{
         if (self.displayedAsLockScreen) {
-            if (LTHiOS8) {
-                self.view.center = CGPointMake(self.view.center.x, self.view.center.y * 2.f);
-            }
-            else {
-                if ([LTHPasscodeViewController currentOrientation] == UIInterfaceOrientationLandscapeLeft) {
-                    self.view.center = CGPointMake(self.view.center.x * -1.f, self.view.center.y);
-                }
-                else if ([LTHPasscodeViewController currentOrientation] == UIInterfaceOrientationLandscapeRight) {
-                    self.view.center = CGPointMake(self.view.center.x * 2.f, self.view.center.y);
-                }
-                else if ([LTHPasscodeViewController currentOrientation] == UIInterfaceOrientationPortrait) {
-                    self.view.center = CGPointMake(self.view.center.x, self.view.center.y * -1.f);
-                }
-                else {
-                    self.view.center = CGPointMake(self.view.center.x, self.view.center.y * 2.f);
-                }
-            }
+            self.view.center = CGPointMake(self.view.center.x, self.view.center.y * 2.f);
         }
         else {
             // Delete from Keychain
@@ -1049,34 +1031,10 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     [self rotateAccordingToStatusBarOrientationAndSupportedOrientations];
     CGPoint superviewCenter = CGPointMake(superview.center.x, superview.center.y);
     CGPoint newCenter;
-    [self statusBarFrameOrOrientationChanged:nil];
-    if (LTHiOS8) {
-        self.view.center = CGPointMake(self.view.center.x, self.view.center.y * -1.f);
-        newCenter = CGPointMake(superviewCenter.x,
-                                superviewCenter.y + self.navigationController.navigationBar.frame.size.height / 2);
-    }
-    else {
-        if ([LTHPasscodeViewController currentOrientation] == UIInterfaceOrientationLandscapeLeft) {
-            self.view.center = CGPointMake(self.view.center.x * -1.f, self.view.center.y);
-            newCenter = CGPointMake(superviewCenter.x - self.navigationController.navigationBar.frame.size.height / 2,
-                                    superviewCenter.y);
-        }
-        else if ([LTHPasscodeViewController currentOrientation] == UIInterfaceOrientationLandscapeRight) {
-            self.view.center = CGPointMake(self.view.center.x * 2.f, self.view.center.y);
-            newCenter = CGPointMake(superviewCenter.x + self.navigationController.navigationBar.frame.size.height / 2,
-                                    superviewCenter.y);
-        }
-        else if ([LTHPasscodeViewController currentOrientation] == UIInterfaceOrientationPortrait) {
-            self.view.center = CGPointMake(self.view.center.x, self.view.center.y * -1.f);
-            newCenter = CGPointMake(superviewCenter.x,
-                                    superviewCenter.y - self.navigationController.navigationBar.frame.size.height / 2);
-        }
-        else {
-            self.view.center = CGPointMake(self.view.center.x, self.view.center.y * 2.f);
-            newCenter = CGPointMake(superviewCenter.x,
-                                    superviewCenter.y + self.navigationController.navigationBar.frame.size.height / 2);
-        }
-    }
+
+    self.view.center = CGPointMake(self.view.center.x, self.view.center.y * -1.f);
+    newCenter = CGPointMake(superviewCenter.x,
+                            superviewCenter.y + self.navigationController.navigationBar.frame.size.height / 2);
     
     [UIView animateWithDuration: animated ? _lockAnimationDuration : 0 animations: ^{
         self.view.center = newCenter;
@@ -1777,16 +1735,6 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
      selector: @selector(_applicationWillEnterForeground)
      name: UIApplicationWillEnterForegroundNotification
      object: nil];
-    [[NSNotificationCenter defaultCenter]
-     addObserver:self
-     selector:@selector(statusBarFrameOrOrientationChanged:)
-     name:UIApplicationDidChangeStatusBarOrientationNotification
-     object:nil];
-    [[NSNotificationCenter defaultCenter]
-     addObserver:self
-     selector:@selector(statusBarFrameOrOrientationChanged:)
-     name:UIApplicationDidChangeStatusBarFrameNotification
-     object:nil];
 }
 
 
@@ -1814,36 +1762,12 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    if (_displayedAsLockScreen)
-        return LTHiOS8 ? UIInterfaceOrientationMaskPortrait : UIInterfaceOrientationMaskAll;
     // I'll be honest and mention I have no idea why this line of code below works.
     // Without it, if you present the passcode view as lockscreen (directly on the window)
     // and then inside of a modal, the orientation will be wrong.
     
     // If you could explain why, I'd be more than grateful :)
     return UIInterfaceOrientationMaskPortrait;
-}
-
-
-// All of the rotation handling is thanks to Håvard Fossli's - https://github.com/hfossli
-// answer: http://stackoverflow.com/a/4960988/793916
-- (void)statusBarFrameOrOrientationChanged:(NSNotification *)notification {
-    /*
-     This notification is most likely triggered inside an animation block,
-     therefore no animation is needed to perform this nice transition.
-     */
-    [self rotateAccordingToStatusBarOrientationAndSupportedOrientations];
-    if (LTHiOS8) {
-        _animatingView.frame = self.view.bounds;
-    }
-    else {
-        if (UIInterfaceOrientationIsPortrait([LTHPasscodeViewController currentOrientation])) {
-            _animatingView.frame = CGRectMake(0, 0, LTHMainWindow.frame.size.width, LTHMainWindow.frame.size.height);
-        }
-        else {
-            _animatingView.frame = CGRectMake(0, 0, LTHMainWindow.frame.size.height, LTHMainWindow.frame.size.width);
-        }
-    }
 }
 
 
