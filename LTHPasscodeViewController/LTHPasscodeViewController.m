@@ -778,14 +778,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
         // because no constraints are added manually in that case
         [_passcodeTextField removeConstraints:_passcodeTextField.constraints];
     }
-    
-    // MARK: Please read
-    // The controller works properly on all devices and orientations, but looks odd on iPhone's landscape.
-    // Usually, lockscreens on iPhone are kept portrait-only, though. It also doesn't fit inside a modal when landscape.
-    // That's why only portrait is selected for iPhone's supported orientations.
-    // Modify this to fit your needs.
-    
-    CGFloat yOffsetFromCenter = -self.view.frame.size.height * 0.24 + _verticalOffset;
+
     NSLayoutConstraint *enterPasscodeConstraintCenterX =
     [NSLayoutConstraint constraintWithItem: _enterPasscodeLabel
                                  attribute: NSLayoutAttributeCenterX
@@ -800,8 +793,8 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
                                  relatedBy: NSLayoutRelationEqual
                                     toItem: _animatingView
                                  attribute: NSLayoutAttributeCenterY
-                                multiplier: 1.0f
-                                  constant: yOffsetFromCenter];
+                                multiplier: 0.5f
+                                  constant: 0];
     [self.view addConstraint: enterPasscodeConstraintCenterX];
     [self.view addConstraint: enterPasscodeConstraintCenterY];
     
