@@ -1022,6 +1022,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     // and if we would have added the view anywhere else, it wouldn't display properly
     // (having a modal on screen when the user leaves the app, for example).
     [self rotateAccordingToStatusBarOrientationAndSupportedOrientations];
+    
     CGPoint superviewCenter = CGPointMake(superview.center.x, superview.center.y);
     CGPoint newCenter;
 
@@ -1053,12 +1054,11 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
         [viewController.navigationController pushViewController:self
                                                        animated:YES];
         self.navigationItem.hidesBackButton = _hidesBackButton;
-        [self rotateAccordingToStatusBarOrientationAndSupportedOrientations];
         
         return;
     }
-    UINavigationController *navController =
-    [[UINavigationController alloc] initWithRootViewController:self];
+
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self];
     navController.modalPresentationStyle = UIModalPresentationFullScreen;
     
     // Make sure nav bar for logout is off the screen
@@ -1069,10 +1069,12 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     // Make sure UITextAttributeTextColor is not set to nil
     // barTintColor & translucent is only called on iOS7+
     navController.navigationBar.tintColor = self.navigationTintColor;
+
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         navController.navigationBar.barTintColor = self.navigationBarTintColor;
         navController.navigationBar.translucent = self.navigationBarTranslucent;
     }
+
     if (self.navigationTitleColor) {
         navController.navigationBar.titleTextAttributes =
         @{ NSForegroundColorAttributeName : self.navigationTitleColor };
@@ -1081,7 +1083,6 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     [viewController presentViewController:navController
                                  animated:YES
                                completion:nil];
-    [self rotateAccordingToStatusBarOrientationAndSupportedOrientations];
 }
 
 
@@ -1119,6 +1120,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     if (_isCurrentlyOnScreen && !_displayedAsLockScreen) {
         [self _cancelAndDismissMe];
     }
+
     _displayedAsLockScreen = YES;
     _isUserTurningPasscodeOff = NO;
     _isUserChangingPasscode = NO;
