@@ -16,9 +16,9 @@
 /* Text used to re-enter your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Re-enter your passcode"="Saisissez votre code d’accès de nouveau";
 /* Text used to enter your new PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
-"Re-enter your new passcode"="Saisir votre nouveau code d’accès de nouveau";
+"Re-enter your new passcode"="Saisissez votre nouveau code d’accès de nouveau";
 /* Text used to enter your new PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
-"Enter your new passcode"="Saisir votre nouveau code d’accès";
+"Enter your new passcode"="Saisissez votre nouveau code d’accès";
 /* Text used to state that your PIN codes do not match. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Passcodes did not match. Try again."="Les codes d’accès ne correspondent pas. Ressayez.";
 /* Text used to state a failed attempt entering your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
