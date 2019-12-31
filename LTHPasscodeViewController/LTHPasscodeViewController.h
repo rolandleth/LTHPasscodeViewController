@@ -309,6 +309,11 @@
  */
 @property (nonatomic, assign) BOOL allowUnlockWithBiometrics;
 
+/**
+ @brief A Boolean value that indicates whether the lockscreen is currently on screen or not.
+ */
+@property (nonatomic, readonly) BOOL isCurrentlyOnScreen;
+
 
 // MARK: - Methods
 

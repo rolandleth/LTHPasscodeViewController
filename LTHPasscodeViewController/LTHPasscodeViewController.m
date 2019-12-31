@@ -79,7 +79,6 @@
 @property (nonatomic, assign) BOOL        displayedAsModal;
 @property (nonatomic, assign) BOOL        displayedAsLockScreen;
 @property (nonatomic, assign) BOOL        isUsingNavBar;
-@property (nonatomic, assign) BOOL        isCurrentlyOnScreen;
 @property (nonatomic, assign) BOOL        isSimple; // YES by default
 @property (nonatomic, assign) BOOL        isUserConfirmingPasscode;
 @property (nonatomic, assign) BOOL        isUserBeingAskedForNewPasscode;

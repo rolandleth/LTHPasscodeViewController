@@ -1,3 +1,12 @@
+# 4.0.1
+* Made `isCurrentlyOnScreen` public.
+
+# 4.0.0
+* Minimum deployment target increased to `10.3`.
+* Removed iOS 8 specific code.
+* Code style improvements.
+* Misc demo project improvements.
+
 # 3.9.4
 * Avoid a crash in iOS 13 accessing the first object of the windows.
 
@@ -28,25 +37,25 @@
 * German translations fixed.
 
 # 3.8.5
-* Fixed the lock being sometimes disabled when setting the date in the past (Closed [#174](https://github.com/rolandleth/LTHPasscodeViewController/issues/174)).
+* Fixed the lock being sometimes disabled when setting the date in the past (Closed [^174](https://github.com/rolandleth/LTHPasscodeViewController/issues/174)).
 
 # 3.8.4
-* Fixed not being able to show the keyboard again after dismissing it on iPad (Closed [#171](https://github.com/rolandleth/LTHPasscodeViewController/issues/171)).
+* Fixed not being able to show the keyboard again after dismissing it on iPad (Closed [^171](https://github.com/rolandleth/LTHPasscodeViewController/issues/171)).
 
 # 3.8.3
-* Added a check that the new passcode is different than the existing one (Closed [#170](https://github.com/rolandleth/LTHPasscodeViewController/issues/170)).
+* Added a check that the new passcode is different than the existing one (Closed [^170](https://github.com/rolandleth/LTHPasscodeViewController/issues/170)).
 * Improved the handling of `isSimple`.
 
 # 3.8.2
-* Fixed the usage of `self.viewLoaded` to `self.isViewLoaded` (Closed [#168](https://github.com/rolandleth/LTHPasscodeViewController/issues/168)).
+* Fixed the usage of `self.viewLoaded` to `self.isViewLoaded` (Closed [^168](https://github.com/rolandleth/LTHPasscodeViewController/issues/168)).
 
 # 3.8.1
-* Fixed title for lockscreen with navbar (Closed [#165](https://github.com/rolandleth/LTHPasscodeViewController/issues/165)).
+* Fixed title for lockscreen with navbar (Closed [^165](https://github.com/rolandleth/LTHPasscodeViewController/issues/165)).
 
 # 3.8.0
-* Replaced all instances of `keyWindow` with `LTHMainWindow` (macro that expands `[UIApplication sharedApplication].windows[0]` - explanation in [#164](https://github.com/rolandleth/LTHPasscodeViewController/issues/164).
-* Fixed a bug where the UI would not be visible (Closed [#163](https://github.com/rolandleth/LTHPasscodeViewController/issues/163)).
-* Made simple passcode configurable (Closed [#157](https://github.com/rolandleth/LTHPasscodeViewController/issues/157)).
+* Replaced all instances of `keyWindow` with `LTHMainWindow` (macro that expands `[UIApplication sharedApplication].windows[0]` - explanation in [^164](https://github.com/rolandleth/LTHPasscodeViewController/issues/164).
+* Fixed a bug where the UI would not be visible (Closed [^163](https://github.com/rolandleth/LTHPasscodeViewController/issues/163)).
+* Made simple passcode configurable (Closed [^157](https://github.com/rolandleth/LTHPasscodeViewController/issues/157)).
 * Added a description label, placed below the passcode, to possibly explain the use of the passcode.
 * New properties:
 	* `digitsCount`: the number of digits for the simple passcode, between 4 and 10; can only be changed while there is no passcode active
@@ -54,8 +63,8 @@
 	* `displayAdditionalInfoDuringSettingPasscode`: the flag that determines whether to show the description text or not
 
 # 3.7.10
-* New delegate method: `passcodeWasEnabled`. Called when the passcode was enabled (Closed [#156](https://github.com/rolandleth/LTHPasscodeViewController/issues/156)).
-* New method: `enablePasscodeWhenApplicationEntersBackground`. It reverts what `disablePasscodeWhenApplicationEntersBackground` does: it adds observers for `UIApplicationDidEnterBackgroundNotification` and `UIApplicationWillEnterForegroundNotification` (Closed [#158](https://github.com/rolandleth/LTHPasscodeViewController/issues/158)).
+* New delegate method: `passcodeWasEnabled`. Called when the passcode was enabled (Closed [^156](https://github.com/rolandleth/LTHPasscodeViewController/issues/156)).
+* New method: `enablePasscodeWhenApplicationEntersBackground`. It reverts what `disablePasscodeWhenApplicationEntersBackground` does: it adds observers for `UIApplicationDidEnterBackgroundNotification` and `UIApplicationWillEnterForegroundNotification` (Closed [^158](https://github.com/rolandleth/LTHPasscodeViewController/issues/158)).
 
 # 3.7.9
 * Keychain leaks fixed.
@@ -98,8 +107,8 @@
 * Added all localization files inside a bundle.
 
 # 3.6.8
-* Rotation fixes (Closed [#74](https://github.com/rolandleth/LTHPasscodeViewController/issues/74) and [#102](https://github.com/rolandleth/LTHPasscodeViewController/issues/102)).
-* Fixed crash related to `UIInterfaceOrientationMaskPortrait` (Closed [#129](https://github.com/rolandleth/LTHPasscodeViewController/issues/129)).
+* Rotation fixes (Closed [^74](https://github.com/rolandleth/LTHPasscodeViewController/issues/74) and [^102](https://github.com/rolandleth/LTHPasscodeViewController/issues/102)).
+* Fixed crash related to `UIInterfaceOrientationMaskPortrait` (Closed [^129](https://github.com/rolandleth/LTHPasscodeViewController/issues/129)).
 
 # 3.6.7
 * Navigation bar fixes.
@@ -119,10 +128,10 @@
 * Animations for failed attemp.
 
 # 3.6.3
-* Moved the `_addObservers` from `init` to `viewWillAppear` (Possible fix for [#74](https://github.com/rolandleth/LTHPasscodeViewController/issues/74)).
+* Moved the `_addObservers` from `init` to `viewWillAppear` (Possible fix for [^74](https://github.com/rolandleth/LTHPasscodeViewController/issues/74)).
 
 # 3.6.2
-* Hide animatingView and dismiss keyboard when using TouchID (Closed [#99](https://github.com/rolandleth/LTHPasscodeViewController/issues/99)).
+* Hide animatingView and dismiss keyboard when using TouchID (Closed [^99](https://github.com/rolandleth/LTHPasscodeViewController/issues/99)).
 
 # 3.6.1
 * Ability to change the "Enter passcode" vertical offset.
@@ -130,11 +139,11 @@
 
 # 3.6.0
 * Portugese localization.
-* Posibility to subclass (Closed [#95](https://github.com/rolandleth/LTHPasscodeViewController/issues/95)).
+* Posibility to subclass (Closed [^95](https://github.com/rolandleth/LTHPasscodeViewController/issues/95)).
 
 # 3.5.0
 * Czech localization.
-* Passcode can be beaten by killing the app (Closed [#78](https://github.com/rolandleth/LTHPasscodeViewController/issues/78)).
+* Passcode can be beaten by killing the app (Closed [^78](https://github.com/rolandleth/LTHPasscodeViewController/issues/78)).
 * Changed some `performSelectorOnMainThread` calls to `dispatch_async`.
 
 # 3.4.0
@@ -145,7 +154,7 @@
 * Spanish translations corrections.
 
 # 3.3.2
-* Added a close method (Closed [#68](https://github.com/rolandleth/LTHPasscodeViewController/issues/68)).
+* Added a close method (Closed [^68](https://github.com/rolandleth/LTHPasscodeViewController/issues/68)).
 
 # 3.3.1
 * Fixes.
@@ -154,10 +163,10 @@
 * TouchID support.
 
 # 3.2.1
-* iPad and iOS 8 layout fixes (Closed [#74](https://github.com/rolandleth/LTHPasscodeViewController/issues/74)).
+* iPad and iOS 8 layout fixes (Closed [^74](https://github.com/rolandleth/LTHPasscodeViewController/issues/74)).
 
 # 3.2.0
-* Crash when opening the app with turn off view opened (Closed [#80](https://github.com/rolandleth/LTHPasscodeViewController/issues/80)).
+* Crash when opening the app with turn off view opened (Closed [^80](https://github.com/rolandleth/LTHPasscodeViewController/issues/80)).
 
 # 3.1.9
 * Removed redundant code.
@@ -169,7 +178,7 @@
 * Moved the dismissal call before calling the `passcodeWasEnteredSuccessfully` delegate method.
 
 # 3.1.6
-* Opening lock screen in landscape (Closed [#72](https://github.com/rolandleth/LTHPasscodeViewController/issues/72)).
+* Opening lock screen in landscape (Closed [^72](https://github.com/rolandleth/LTHPasscodeViewController/issues/72)).
 
 # 3.1.5
 * Fixed a bug where keyboard did not appear on iOS6.
@@ -200,7 +209,7 @@ New customizable strings:
 * reenterNewPasscodeString - The string displayed when asking for the passcode confirmation (changing)
 
 # 3.0.2
-Renamed `SFHFKeychainUtils` to `LTHKeychainUtils` due to the possibility of conflicts with a version already present in the project. `LTHKeychainUtils` differs from the original library only by being ARC-compliant, so all the rights and thanks go to the original author, [Buzz Anders](https://github.com/ldandersen).
+Renamed `SFHFKeychainUtils` to `LTHKeychainUtils` due to the possibility of conflicts with a version already present in the project. `LTHKeychainUtils` differs from the original library only by being ARC-compliant, so all the rights and thanks go to the original author, [Buzz Anders][1].
 
 # 3.0.1
 * Added `+deletePasscodeAndClose`.
@@ -216,3 +225,5 @@ Renamed `SFHFKeychainUtils` to `LTHKeychainUtils` due to the possibility of conf
 Please swap the deprecated methods with the suggested ones; I will remove them in the next release.
 
 #### Thanks to everyone for the help and all the suggestions that found their way into this library!
+
+[1]:	https://github.com/ldandersen
