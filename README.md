@@ -1,8 +1,31 @@
 # LTHPasscodeViewController
 Simple to use iOS 7 style Passcode - the one you get in Settings when changing your passcode.
 
+# Installation
+
+### CocoaPods
+
+[CocoaPods](https://cocoapods.org) is a dependency manager for Cocoa projects. For usage and installation instructions, visit their website. To integrate LTHPasscodeViewController into your Xcode project using CocoaPods, specify it in your `Podfile`:
+
+```ruby
+pod 'LTHPasscodeViewController', '~> 4.0.1'
+```
+
+### Swift Package Manager
+
+__NOTE__: _These instructions are intended for usage on Xcode 11 and higher. Xcode 11 is the first version of Xcode that integrates Swift Package manager and makes it way easier to use than it was at the command line. If you are using older versions of Xcode, we recommend using CocoaPods._
+
+1. Go to File > Swift Packages > Add Package Dependency...
+2. Paste the URL to the LTHPasscodeViewController repo on GitHub (https://github.com/rolandleth/LTHPasscodeViewController.git) into the search bar, then hit the Next button:
+3. Select what version you want to use, then hit next (Xcode will automatically suggest the current version Up to Next Major).
+4. Select the `LTHPasscodeViewController` library and then hit finish.
+5. You're done!
+
+### Manually
+
+Simply clone the repo and drag the contents of `LTHPasscodeViewController` to your project.
+
 # How to use
-Drag the contents of `LTHPasscodeViewController` to your project, or add `pod 'LTHPasscodeViewController'` to your Podfile (preffered).
 
 If your app uses extensions, `LTH_IS_APP_EXTENSION` needs to be defined:
 
