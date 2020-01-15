@@ -1,3 +1,6 @@
+# 4.0.2
+* Adds support for Swift Package Manager
+
 # 4.0.1
 * Made `isCurrentlyOnScreen` public.
 
