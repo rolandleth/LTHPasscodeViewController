@@ -12,7 +12,7 @@ let package = Package(
             path: ".",
             exclude: ["Demo"],
             sources: ["LTHPasscodeViewController", "Localizations"],
-            publicHeadersPath: "include"
+            publicHeadersPath: "LTHPasscodeViewController"
         )
     ]
 )
