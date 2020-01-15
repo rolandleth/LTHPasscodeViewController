@@ -11,7 +11,8 @@ let package = Package(
             dependencies: [],
             path: ".",
             exclude: ["Demo"],
-            sources: ["LTHPasscodeViewController", "Localizations"]
+            sources: ["LTHPasscodeViewController", "Localizations"],
+            publicHeadersPath: "include"
         )
     ]
 )
