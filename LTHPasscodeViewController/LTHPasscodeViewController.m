@@ -853,10 +853,10 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
             
             NSLayoutConstraint *digitX =
             [NSLayoutConstraint constraintWithItem: textField
-                                         attribute: NSLayoutAttributeLeft
+                                         attribute: NSLayoutAttributeLeading
                                          relatedBy: NSLayoutRelationEqual
                                             toItem: toItem
-                                         attribute: NSLayoutAttributeLeft
+                                         attribute: NSLayoutAttributeLeading
                                         multiplier: 1.0f
                                           constant: constant];
             
@@ -963,10 +963,10 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
         
         NSLayoutConstraint *overlayViewLeftConstraint =
         [NSLayoutConstraint constraintWithItem: _complexPasscodeOverlayView
-                                     attribute: NSLayoutAttributeLeft
+                                     attribute: NSLayoutAttributeLeading
                                      relatedBy: NSLayoutRelationEqual
                                         toItem: _animatingView
-                                     attribute: NSLayoutAttributeLeft
+                                     attribute: NSLayoutAttributeLeading
                                     multiplier: 1.0f
                                       constant: 0.0f];
         
