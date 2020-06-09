@@ -1,3 +1,6 @@
+# 4.0.2
+* Minor change: remove no needed code related to unsupported iOS versions (iOS < 7).
+
 # 4.0.1
 * Made `isCurrentlyOnScreen` public.
 
