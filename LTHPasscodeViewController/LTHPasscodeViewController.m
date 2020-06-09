@@ -12,12 +12,7 @@
 
 #define LTHiPad ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
 
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
 #define LTHFailedAttemptLabelHeight [_failedAttemptLabel.text sizeWithAttributes: @{NSFontAttributeName : _labelFont}].height
-#else
-// Thanks to Kent Nguyen - https://github.com/kentnguyen
-#define LTHFailedAttemptLabelHeight [_failedAttemptLabel.text sizeWithFont:_labelFont].height
-#endif
 
 #ifndef LTHPasscodeViewControllerStrings
 #define LTHPasscodeViewControllerStrings(key) \
