@@ -10,6 +10,10 @@
 #import "LTHKeychainUtils.h"
 #import <LocalAuthentication/LocalAuthentication.h>
 
+#ifndef LTH_IS_APP_EXTENSION
+#import "MEGA-Swift.h"
+#endif
+
 #define LTHiOS8 ([[[UIDevice currentDevice] systemVersion] compare:@"8.0" \
 options:NSNumericSearch] != NSOrderedAscending)
 #define LTHiPad (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
@@ -542,6 +546,19 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 }
 
 
+#ifndef LTH_IS_APP_EXTENSION
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+    
+    if (@available(iOS 13.0, *)) {
+        if ([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]) {
+            [AppearanceManager forceNavigationBarUpdate:self.navigationController.navigationBar traitCollection:self.traitCollection];
+        }
+    }
+}
+#endif
+
+
 - (void)_cancelAndDismissMe {
     _isCurrentlyOnScreen = NO;
     _isUserBeingAskedForNewPasscode = NO;
@@ -628,7 +645,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 - (void)_setupNavBarWithLogoutTitle:(NSString *)logoutTitle {
     // Navigation Bar with custom UI
     UIView *patchView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, LTHMainWindow.frame.size.width, [LTHPasscodeViewController getStatusBarHeight])];
-    patchView.backgroundColor = [UIColor whiteColor];
+    patchView.backgroundColor = UIColor.mnz_background;
     patchView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [self.view addSubview:patchView];
     
@@ -673,7 +690,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     [LTHMainWindow addSubview: _coverView];
     
     _complexPasscodeOverlayView = [[UIView alloc] initWithFrame:CGRectZero];
-    _complexPasscodeOverlayView.backgroundColor = [UIColor whiteColor];
+    _complexPasscodeOverlayView.backgroundColor = UIColor.mnz_background;
     _complexPasscodeOverlayView.translatesAutoresizingMaskIntoConstraints = NO;
     
     _simplePasscodeView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -762,7 +779,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     _OKButton.titleLabel.font = _labelFont;
     _OKButton.backgroundColor = _enterPasscodeLabelBackgroundColor;
     [_OKButton setTitleColor:_labelTextColor forState:UIControlStateNormal];
-    [_OKButton setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
+    [_OKButton setTitleColor:UIColor.mnz_label forState:UIControlStateHighlighted];
     [_OKButton addTarget:self
                   action:@selector(_validateComplexPasscode)
         forControlEvents:UIControlEventTouchUpInside];
@@ -1736,16 +1753,16 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 
 - (void)_loadColorDefaults {
     // Backgrounds
-    _backgroundColor = [UIColor colorWithRed:0.97f green:0.97f blue:1.0f alpha:1.00f];
+    _backgroundColor = UIColor.mnz_background;
     _passcodeBackgroundColor = [UIColor clearColor];
-    _coverViewBackgroundColor = [UIColor colorWithRed:0.97f green:0.97f blue:1.0f alpha:1.00f];
-    _failedAttemptLabelBackgroundColor =  [UIColor colorWithRed:0.8f green:0.1f blue:0.2f alpha:1.000f];
+    _coverViewBackgroundColor = UIColor.mnz_background;
+    _failedAttemptLabelBackgroundColor =  UIColor.mnz_redError;
     _enterPasscodeLabelBackgroundColor = [UIColor clearColor];
     
     // Text
-    _labelTextColor = [UIColor colorWithWhite:0.31f alpha:1.0f];
-    _passcodeTextColor = [UIColor colorWithWhite:0.31f alpha:1.0f];
-    _failedAttemptLabelTextColor = [UIColor whiteColor];
+    _labelTextColor = UIColor.mnz_label;
+    _passcodeTextColor = UIColor.mnz_label;
+    _failedAttemptLabelTextColor = UIColor.mnz_background;
 }
 
 
