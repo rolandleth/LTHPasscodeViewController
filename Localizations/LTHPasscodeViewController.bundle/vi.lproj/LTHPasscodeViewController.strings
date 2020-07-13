@@ -6,7 +6,7 @@
 /* Text used to enter your current PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Enter your passcode"="Nhập mã truy cập của bạn";
 /*  You will be asked to enter this code everytime you open the application. */
-"Passcode info"="You will be asked to enter this code\neverytime you open the application";
+"Passcode info"="Mã này sẽ được yêu cầu để nhập vào\nmỗi lần khi muốn sử dụng ứng dụng";
 /* Text used to enable a PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Enable Passcode"="Kích Hoạt Mã Passcode";
 /* Text used to change your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
