@@ -125,10 +125,6 @@
  */
 @property (nonatomic, assign) CGFloat failedAttemptLabelGap;
 /**
- @brief The gap between the failed label and the options button.
- */
-@property (nonatomic, assign) CGFloat optionsButtonGap;
-/**
  @brief The height for the complex passcode overlay.
  */
 @property (nonatomic, assign) CGFloat passcodeOverlayHeight;
@@ -201,9 +197,17 @@
  */
 @property (nonatomic, strong) UIColor *eraseLocalDataLabelTextColor;
 /**
- @brief The text color for the options.
+ @brief The text color for the options button.
  */
-@property (nonatomic, strong) UIColor *optionsTextColor;
+@property (nonatomic, strong) UIColor *optionsButtonTextColor;
+/**
+ @brief The text color for the cancel button.
+ */
+@property (nonatomic, strong) UIColor *cancelButtonTextColor;
+/**
+ @brief The border color for the textFiled.
+ */
+@property (nonatomic, strong) UIColor *textFieldBorderColor;
 /**
  @brief The tint color to apply to the navigation items and bar button items.
  */
