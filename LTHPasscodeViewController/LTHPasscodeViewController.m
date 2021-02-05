@@ -298,6 +298,8 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     [LTHKeychainUtils deleteItemForUsername:_keychainPasscodeIsSimpleUsername
                              andServiceName:_keychainServiceName
                                       error:nil];
+    _passcodeType = PasscodeTypeFourDigits;
+    _isSimple = YES;
 }
 
 
@@ -510,6 +512,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
         [self _setupDigitFields];
     }
     _isUserSwitchingBetweenPasscodeModes = YES;
+    _failedAttemptLabel.hidden = YES;
     [self setIsSimple:!(passcodeType == PasscodeTypeCustomAlphanumeric) inViewController:nil asModal:self.displayedAsModal];
 }
 
@@ -628,8 +631,11 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     _isUserEnablingPasscode = NO;
     _isUserTurningPasscodeOff = NO;
     _isUserSwitchingBetweenPasscodeModes = NO;
-    // reset to previous passcode type
-    [self _doesPasscodeExist];
+
+    if (![self _doesPasscodeExist]) {
+        _passcodeType = PasscodeTypeFourDigits;
+        _isSimple = YES;
+    };
     [self.view setNeedsUpdateConstraints];
     [self _resetUI];
     [_passcodeTextField resignFirstResponder];
@@ -907,14 +913,13 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     
     UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
     if (UIDeviceOrientationIsLandscape(orientation)) {
-        _verticalOffset = -65;
+        _verticalOffset = LTHiPad? -110 : -65;
         _passcodeButtonGap = 0;
     } else {
         _verticalOffset = -5;
         _passcodeButtonGap = _verticalGap;
     }
-    
-    CGFloat yOffsetFromCenter = -self.view.frame.size.height * 0.24 + _verticalOffset;
+    CGFloat yOffsetFromCenter = -LTHMainWindow.screen.bounds.size.height * 0.24 + _verticalOffset;
     NSLayoutConstraint *enterPasscodeConstraintCenterX =
     [NSLayoutConstraint constraintWithItem: _enterPasscodeLabel
                                  attribute: NSLayoutAttributeCenterX
@@ -1546,6 +1551,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 - (void)_denyAccess {
     [self _resetTextFields];
     _passcodeTextField.text = @"";
+    [_passcodeTextField becomeFirstResponder];
     
     CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath: @"transform.translation.x"];
     animation.duration = 0.6;
@@ -1922,7 +1928,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 - (void)_loadGapDefaults {
     _fontSizeModifier = LTHiPad ? 1.5 : 1;
     _horizontalGap = 40 * _fontSizeModifier;
-    _verticalGap = LTHiPad ? 60.0f : 25.0f;
+    _verticalGap = LTHiPad ? 50.0f : 25.0f;
     _modifierForBottomVerticalGap = LTHiPad ? 2.6f : 3.0f;
     _failedAttemptLabelGap = _verticalGap * _modifierForBottomVerticalGap - 2.0f;
     _passcodeOverlayHeight = LTHiPad ? 96.0f : 40.0f;
