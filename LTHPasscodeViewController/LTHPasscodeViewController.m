@@ -82,6 +82,7 @@ options:NSNumericSearch] != NSOrderedAscending)
 @property (nonatomic, assign) CGFloat     keyboardHeight;
 
 @property (nonatomic, assign) NSLayoutConstraint *optionsButtonConstraintTop;
+@property (nonatomic, assign) BOOL        isResetPasscode;
 
 @property (nonatomic, assign) BOOL        newPasscodeEqualsOldPasscode;
 @property (nonatomic, assign) BOOL        passcodeAlreadyExists;
@@ -298,8 +299,12 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     [LTHKeychainUtils deleteItemForUsername:_keychainPasscodeIsSimpleUsername
                              andServiceName:_keychainServiceName
                                       error:nil];
-    _passcodeType = PasscodeTypeFourDigits;
-    _isSimple = YES;
+    if (!_isResetPasscode) {
+        _passcodeType = PasscodeTypeFourDigits;
+        _isSimple = YES;
+    } else {
+        _isResetPasscode = NO;
+    }
 }
 
 
@@ -352,6 +357,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 - (void)resetPasscode {
     if ([self _doesPasscodeExist]) {
         NSString *passcode = [self _passcode];
+        _isResetPasscode = YES;
         [self _deletePasscode];
         [self _savePasscode:passcode];
     }
