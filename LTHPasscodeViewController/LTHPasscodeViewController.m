@@ -73,6 +73,8 @@ options:NSNumericSearch] != NSOrderedAscending)
 @property (nonatomic, strong) UILabel     *eraseLocalDataLabel;
 @property (nonatomic, strong) UILabel     *enterPasscodeLabel;
 @property (nonatomic, strong) UIButton    *optionsButton;
+@property (nonatomic, strong) UIView      *topBorder;
+@property (nonatomic, strong) UIView      *bottomBorder;
 
 @property (nonatomic, strong) NSString    *tempPasscode;
 @property (nonatomic, assign) NSInteger   failedAttempts;
@@ -596,6 +598,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 - (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
     _animatingView.frame = self.view.bounds;
+    [self setUpOptionButtonLocation];
 }
 
 
@@ -872,15 +875,15 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 }
 
 - (void)_setupPasscodeOverlayBorder {
-    CALayer *topBorder = [CALayer layer];
-    topBorder.frame = CGRectMake(0, 0, self.view.frame.size.width, 1);
-    topBorder.backgroundColor = _textFieldBorderColor.CGColor;
-    [_complexPasscodeOverlayView.layer addSublayer:topBorder];
+    _topBorder = [[UIView alloc] initWithFrame:CGRectZero];
+    _topBorder.backgroundColor = _textFieldBorderColor;
+    [_complexPasscodeOverlayView addSubview:_topBorder];
+    _topBorder.translatesAutoresizingMaskIntoConstraints = NO;
 
-    CALayer *bottomBorder = [CALayer layer];
-    bottomBorder.frame = CGRectMake(0, _passcodeOverlayHeight - 1, self.view.frame.size.width, 1);
-    bottomBorder.backgroundColor = _textFieldBorderColor.CGColor;
-    [_complexPasscodeOverlayView.layer addSublayer:bottomBorder];
+    _bottomBorder = [[UIView alloc] initWithFrame:CGRectZero];
+    _bottomBorder.backgroundColor = _textFieldBorderColor;
+    [_complexPasscodeOverlayView addSubview:_bottomBorder];
+    _bottomBorder.translatesAutoresizingMaskIntoConstraints = NO;
 }
 
 - (void)updateViewConstraints {
@@ -1093,6 +1096,16 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
                                     multiplier: 1.0f
                                       constant: 0.0f];
         [self.view addConstraints:@[overlayViewLeftConstraint, overlayViewY, overlayViewHeight, overlayViewWidth]];
+        
+        [_topBorder.widthAnchor constraintEqualToAnchor:_complexPasscodeOverlayView.widthAnchor].active = YES;
+        [_topBorder.centerXAnchor constraintEqualToAnchor:_complexPasscodeOverlayView.centerXAnchor].active = YES;
+        [_topBorder.topAnchor constraintEqualToAnchor:_complexPasscodeOverlayView.topAnchor].active = YES;
+        [_topBorder.heightAnchor constraintEqualToConstant:1.0f].active = YES;
+        
+        [_bottomBorder.widthAnchor constraintEqualToAnchor:_complexPasscodeOverlayView.widthAnchor].active = YES;
+        [_bottomBorder.centerXAnchor constraintEqualToAnchor:_complexPasscodeOverlayView.centerXAnchor].active = YES;
+        [_bottomBorder.topAnchor constraintEqualToAnchor:_complexPasscodeOverlayView.bottomAnchor constant:-1.0f].active = YES;
+        [_bottomBorder.heightAnchor constraintEqualToConstant:1.0f].active = YES;
     }
     
     NSLayoutConstraint *failedAttemptLabelCenterX =
@@ -1418,6 +1431,14 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
+    if (_passcodeType != PasscodeTypeCustomAlphanumeric) {
+        NSInteger inputLength = _passcodeTextField.text.length;
+        NSInteger expectLength = _passcodeType == PasscodeTypeFourDigits ? 4 : 6;
+        if (inputLength != expectLength) {
+            [textField becomeFirstResponder];
+            return NO;
+        }
+    }
     [self _validateComplexPasscode];
     return YES;
 }
@@ -2155,17 +2176,6 @@ CGFloat UIInterfaceOrientationAngleOfOrientation(UIInterfaceOrientation orientat
 
 UIInterfaceOrientationMask UIInterfaceOrientationMaskFromOrientation(UIInterfaceOrientation orientation) {
     return 1 << orientation;
-}
-
-- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
-    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context){}
-                                 completion:^(id<UIViewControllerTransitionCoordinatorContext> context){
-        self.complexPasscodeOverlayView.layer.sublayers = nil;
-        [self _setupPasscodeOverlayBorder];
-        self.keyboardHeight = 0;
-        [self.view setNeedsUpdateConstraints];
-    }];
 }
 
 @end
