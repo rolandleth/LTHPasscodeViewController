@@ -1197,6 +1197,12 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 - (void)showLockScreenOver:(UIView *)superview withAnimation:(BOOL)animated withLogout:(BOOL)hasLogout andLogoutTitle:(NSString*)logoutTitle {
     [self _prepareAsLockScreen];
     
+    // Add nav bar & logout button if specified
+    if (hasLogout) {
+        _isUsingNavBar = hasLogout;
+        [self _setupNavBarWithLogoutTitle:logoutTitle];
+    }
+    
     // In case the user leaves the app while the lockscreen is already active.
     if (_isCurrentlyOnScreen) { return; }
     _isCurrentlyOnScreen = YES;
@@ -1241,12 +1247,6 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     [UIView animateWithDuration: animated ? _lockAnimationDuration : 0 animations: ^{
         self.view.center = newCenter;
     }];
-    
-    // Add nav bar & logout button if specified
-    if (hasLogout) {
-        _isUsingNavBar = hasLogout;
-        [self _setupNavBarWithLogoutTitle:logoutTitle];
-    }
 }
 
 
