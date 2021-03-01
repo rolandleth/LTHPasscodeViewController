@@ -196,7 +196,6 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     
     if (_isSimple) {
         _digitsCount = (_passcodeType == PasscodeTypeFourDigits) ? 4 : 6;
-        [self _setupDigitFields];
     }
     
     return [self _passcode].length != 0;
@@ -304,6 +303,8 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     if (!_isResetPasscode) {
         _passcodeType = PasscodeTypeFourDigits;
         _isSimple = YES;
+        _digitsCount = 4;
+        [self _setupDigitFields];
     } else {
         _isResetPasscode = NO;
     }
@@ -557,9 +558,11 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     
     // If on first launch we have a passcode, the number of digits should equal that.
     if ([self _doesPasscodeExist]) {
-        _digitsCount = [self _passcode].length;
+        if (_isSimple) {
+            _digitsCount = [self _passcode].length;
+            [self _setupDigitFields];
+        }
     }
-    [self _setupDigitFields];
     
     _passcodeTextField = [[UITextField alloc] initWithFrame: CGRectZero];
     _passcodeTextField.textAlignment = NSTextAlignmentCenter;
@@ -644,8 +647,9 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     if (![self _doesPasscodeExist]) {
         _passcodeType = PasscodeTypeFourDigits;
         _isSimple = YES;
-    };
-    [self.view setNeedsUpdateConstraints];
+        _digitsCount = 4;
+    }
+    [self _setupDigitFields];
     [self _resetUI];
     [_passcodeTextField resignFirstResponder];
     
