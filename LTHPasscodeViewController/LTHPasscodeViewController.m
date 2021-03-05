@@ -575,9 +575,9 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     if ([self _doesPasscodeExist]) {
         if (_isSimple) {
             _digitsCount = [self _passcode].length;
-            [self _setupDigitFields];
         }
     }
+    [self _setupDigitFields];
     
     _passcodeTextField = [[UITextField alloc] initWithFrame: CGRectZero];
     _passcodeTextField.textAlignment = NSTextAlignmentCenter;
