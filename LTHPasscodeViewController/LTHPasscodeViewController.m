@@ -14,22 +14,11 @@
 
 #define LTHFailedAttemptLabelHeight [_failedAttemptLabel.text sizeWithAttributes: @{NSFontAttributeName : _labelFont}].height
 
-//#ifndef LTHPasscodeViewControllerStrings
-//#define LTHPasscodeViewControllerStrings(key) \
-//NSString *localizedString = [[NSBundle bundleWithPath:[[NSBundle bundleForClass:[LTHPasscodeViewController class]] pathForResource:@"LTHPasscodeViewController" ofType:@"bundle"]] localizedStringForKey:(key) value:@"" table:_localizationTableName] \
-//printf(localizedString); \
-//if ([localizedString length] == 0) { \
-//    printf([SWIFTPM_MODULE_BUNDLE localizedStringForKey: (key) value:@"" table:_localizationTableName]); \
-//    return [SWIFTPM_MODULE_BUNDLE localizedStringForKey: (key) value:@"" table:_localizationTableName] \
-//} else { \
-//    return localizedString \
-//}
-//#endif
-
 #ifndef LTHPasscodeViewControllerStrings
 #define LTHPasscodeViewControllerStrings(key) \
-[[[NSBundle bundleWithPath:[[NSBundle bundleForClass:[LTHPasscodeViewController class]] pathForResource:@"LTHPasscodeViewController" ofType:@"bundle"]] localizedStringForKey:(key) value:@"" table:_localizationTableName] length] == 0 ? [SWIFTPM_MODULE_BUNDLE localizedStringForKey: (key) value:@"" table:_localizationTableName] : [[NSBundle bundleWithPath:[[NSBundle bundleForClass:[LTHPasscodeViewController class]] pathForResource:@"LTHPasscodeViewController" ofType:@"bundle"]] localizedStringForKey:(key) value:@"" table:_localizationTableName]
+[[[NSBundle bundleWithPath:[[NSBundle bundleForClass:[LTHPasscodeViewController class]] pathForResource:@"LTHPasscodeViewController" ofType:@"bundle"]] localizedStringForKey:(key) value:@"" table:_localizationTableName] length] == 0 ? NSLocalizedString(key, bundle: .module, comment: "") : [[NSBundle bundleWithPath:[[NSBundle bundleForClass:[LTHPasscodeViewController class]] pathForResource:@"LTHPasscodeViewController" ofType:@"bundle"]] localizedStringForKey:(key) value:@"" table:_localizationTableName]
 #endif
+
 // MARK: Please read
 /*
  Using windows[0] instead of keyWindow due to an issue with UIAlertViews / UIActionSheets - displaying the lockscreen when an alertView / actionSheet is visible, or displaying one after the lockscreen is visible results in a few cases:
