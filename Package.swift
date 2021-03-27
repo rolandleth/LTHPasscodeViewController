@@ -3,6 +3,7 @@ import PackageDescription
 
 let package = Package(
     name: "LTHPasscodeViewController",
+    defaultLocalization: "en",
     platforms: [
         .iOS(.v10)
     ],
@@ -18,7 +19,7 @@ let package = Package(
             path: ".",
             exclude: ["Demo", "CHANGELOG.md", "LICENSE.txt", "README.md"],
             sources: ["LTHPasscodeViewController/LTHKeychainUtils.h", "LTHPasscodeViewController/LTHKeychainUtils.m", "LTHPasscodeViewController/LTHPasscodeViewController.h", "LTHPasscodeViewController/LTHPasscodeViewController.m"],
-            resources: [.copy("Localizations")],
+            resources: [.process("Localizations/LTHPasscodeViewController.bundle")],
             publicHeadersPath: "LTHPasscodeViewController"
         )
     ]
