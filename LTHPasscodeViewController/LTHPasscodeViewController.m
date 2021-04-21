@@ -187,6 +187,8 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
         _isSimple = [[LTHKeychainUtils getPasswordForUsername:_keychainPasscodeIsSimpleUsername
                                                andServiceName:_keychainServiceName
                                                         error:nil] boolValue];
+    } else {
+        _isSimple = YES;
     }
     
     if ([LTHKeychainUtils getPasswordForUsername:_keychainPasscodeTypeUsername
@@ -195,10 +197,14 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
         _passcodeType = (PasscodeType)[[LTHKeychainUtils getPasswordForUsername:_keychainPasscodeTypeUsername
                                                andServiceName:_keychainServiceName
                                                         error:nil] integerValue];
+    } else {
+        _passcodeType = PasscodeTypeFourDigits;
     }
     
     if (_isSimple) {
         _digitsCount = (_passcodeType == PasscodeTypeFourDigits) ? 4 : 6;
+    } else {
+        _passcodeType = PasscodeTypeCustomAlphanumeric;
     }
     
     return [self _passcode].length != 0;
