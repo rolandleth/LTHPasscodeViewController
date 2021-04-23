@@ -14,9 +14,14 @@
 
 #define LTHFailedAttemptLabelHeight [_failedAttemptLabel.text sizeWithAttributes: @{NSFontAttributeName : _labelFont}].height
 
+#ifndef LTHLocalizedString
+#define LTHLocalizedString(key) [[NSBundle bundleWithPath:[[NSBundle bundleForClass:[LTHPasscodeViewController class]] pathForResource:@"LTHPasscodeViewController" ofType:@"bundle"]] localizedStringForKey:(key) value:@"" table:_localizationTableName]
+#endif
+
 #ifndef LTHPasscodeViewControllerStrings
-#define LTHPasscodeViewControllerStrings(key) \
-[[NSBundle bundleWithPath:[[NSBundle bundleForClass:[LTHPasscodeViewController class]] pathForResource:@"LTHPasscodeViewController" ofType:@"bundle"]] localizedStringForKey:(key) value:@"" table:_localizationTableName]
+#define LTHPasscodeViewControllerStrings(key) [LTHLocalizedString(key) length] == 0 \
+    ? NSLocalizedString(key, bundle: .module) \
+    : LTHLocalizedString(key)
 #endif
 
 // MARK: Please read
@@ -147,6 +152,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 
 
 #pragma mark - Private methods
+
 - (void)_close {
     if (_displayedAsLockScreen) [self _dismissMe];
     else [self _cancelAndDismissMe];
