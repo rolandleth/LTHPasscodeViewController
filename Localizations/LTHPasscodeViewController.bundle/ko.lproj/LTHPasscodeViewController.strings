@@ -6,7 +6,7 @@
 /* Text used to enter your current PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Enter your passcode"="암호 입력";
 /*  You will be asked to enter this code everytime you open the application. */
-"Passcode info"="어플리케이션을 열 때마다\n비밀번호를 입력해야합니다";
+"Passcode info"="어플리케이션을 열 때마다\n암호를 입력해야합니다";
 /* Text used to enable a PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Enable Passcode"="암호 켜기";
 /* Text used to change your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
