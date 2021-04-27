@@ -1643,7 +1643,12 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 - (void)_logoutWasPressed {
     // Notify delegate that logout button was pressed
     if ([self.delegate respondsToSelector: @selector(logoutButtonWasPressed)]) {
-        [self.delegate logoutButtonWasPressed];
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"proceedToLogout", @"Title to confirm that you want to logout") message:NSLocalizedString(@"When you logout, files from your Offline section will be deleted from your device and ongoing transfers will be cancelled.", @"Warning message to alert user about logout in My Account section if has offline files and transfers in progress.") preferredStyle:UIAlertControllerStyleAlert];
+        [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"cancel", @"Button title to cancel something") style:UIAlertActionStyleCancel handler:nil]];
+        [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"logoutLabel", @"Title of the button which logs out from your account.") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [self.delegate logoutButtonWasPressed];
+        }]];
+        [self presentViewController:alertController animated:YES completion:nil];
     }
 }
 
