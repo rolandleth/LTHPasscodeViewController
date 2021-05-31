@@ -1,11 +1,8 @@
-/*
- LTHPasscodeViewController.strings
- */
 /* Text used to enter your previous PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Enter your old passcode"="Inserire il codice precedente";
 /* Text used to enter your current PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Enter your passcode"="Inserisci il codice";
-/*  You will be asked to enter this code everytime you open the application. */
+/* You will be asked to enter this code everytime you open the application. */
 "Passcode info"="Ti verrà chiesto di inserire questo codice\nogni volta che apri l'applicazione";
 /* Text used to enable a PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Enable Passcode"="Abilita codice";

@@ -1,14 +1,11 @@
-/*
- LTHPasscodeViewController.strings
- */
 /* Text used to enter your previous PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Enter your old passcode"="Voer oude toegangscode in";
 /* Text used to enter your current PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Enter your passcode"="Voer uw toegangscode in";
-/*  You will be asked to enter this code everytime you open the application. */
+/* You will be asked to enter this code everytime you open the application. */
 "Passcode info"="Elke keer dat u de applicatie opent, wordt u gevraagd om deze code \n in te voeren";
 /* Text used to enable a PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
-"Enable Passcode"="Zet code aan";
+"Enable Passcode"="Toegangscode Aanzetten";
 /* Text used to change your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Change Passcode"="Wijzig toegangscode";
 /* Text used to turn off your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
@@ -20,7 +17,7 @@
 /* Text used to enter your new PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Enter your new passcode"="Voer nieuwe toegangscode in";
 /* Text used to state that your PIN codes do not match. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
-"Passcodes did not match. Try again."="Codes niet hetzelfde. Probeer opnieuw.";
+"Passcodes did not match. Try again."="Toegangscodes komen niet overeen. Probeer opnieuw.";
 /* Text used to state a failed attempt entering your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "1 Passcode failed attempt"="1 mislukte poging tot toegangscode";
 /* Plural. Text used to state several failed attempts entering your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
@@ -30,4 +27,4 @@
 /* Message shown to unlock the screen using Face ID */
 "Unlock using Face ID"="Ontgrendel met Face ID";
 /* Text used to explain it is not possible to reuse the same PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
-"Cannot reuse the same passcode"="Kan hetzelfde wachtwoord niet hergebruiken";
+"Cannot reuse the same passcode"="Kan dezelfde toegangscode niet hergebruiken";

@@ -1,11 +1,8 @@
-/*
- LTHPasscodeViewController.strings
- */
 /* Text used to enter your previous PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Enter your old passcode"="Introduce tu antiguo código de acceso";
 /* Text used to enter your current PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Enter your passcode"="Introduce el código de acceso";
-/*  You will be asked to enter this code everytime you open the application. */
+/* You will be asked to enter this code everytime you open the application. */
 "Passcode info"="Tendrás que introducir este código\n cada vez que abras la aplicación";
 /* Text used to enable a PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Enable Passcode"="Activar código de acceso";
@@ -20,7 +17,7 @@
 /* Text used to enter your new PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Enter your new passcode"="Introduce tu nuevo código de acceso";
 /* Text used to state that your PIN codes do not match. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
-"Passcodes did not match. Try again."="Los códigos no coinciden. Inténtelo de nuevo.";
+"Passcodes did not match. Try again."="Los códigos no coinciden. Inténtalo de nuevo.";
 /* Text used to state a failed attempt entering your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "1 Passcode failed attempt"="1 intento fallido";
 /* Plural. Text used to state several failed attempts entering your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
