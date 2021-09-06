@@ -608,14 +608,39 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     [[UINavigationBar alloc] initWithFrame:CGRectMake(0, patchView.frame.size.height,
                                                           LTHMainWindow.frame.size.width, 44)];
     self.navBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    self.navBar.tintColor = self.navigationTintColor;
-    if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
-        self.navBar.barTintColor = self.navigationBarTintColor;
-        self.navBar.translucent  = self.navigationBarTranslucent;
-    }
-    if (self.navigationTitleColor) {
-        self.navBar.titleTextAttributes =
-        @{ NSForegroundColorAttributeName : self.navigationTitleColor };
+
+    if (@available(iOS 13.0, *)) {
+        UINavigationBarAppearance *appearance = [[UINavigationBarAppearance alloc] init];
+
+        if (self.navigationTintColor) {
+            UIBarButtonItemAppearance *barButtonItemAppearance = [[UIBarButtonItemAppearance alloc] init];
+            barButtonItemAppearance.normal.titleTextAttributes = @{
+                NSForegroundColorAttributeName: self.navigationTintColor
+            };
+            appearance.buttonAppearance = barButtonItemAppearance;
+        }
+
+        appearance.backgroundColor = self.navigationBarTintColor;
+
+        if (self.navigationTitleColor) {
+            appearance.titleTextAttributes = @{
+                NSForegroundColorAttributeName: self.navigationTitleColor
+            };
+        }
+
+        self.navBar.standardAppearance = appearance;
+        self.navBar.compactAppearance = appearance;
+        self.navBar.scrollEdgeAppearance = appearance;
+    } else {
+        self.navBar.tintColor = self.navigationTintColor;
+        if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
+            self.navBar.barTintColor = self.navigationBarTintColor;
+            self.navBar.translucent  = self.navigationBarTranslucent;
+        }
+        if (self.navigationTitleColor) {
+            self.navBar.titleTextAttributes =
+            @{ NSForegroundColorAttributeName : self.navigationTitleColor };
+        }
     }
     
     // Navigation item
@@ -1059,19 +1084,46 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     [self.navBar removeFromSuperview];
     self.navBar = nil;
     
-    // Customize navigation bar
-    // Make sure UITextAttributeTextColor is not set to nil
-    // barTintColor & translucent is only called on iOS7+
-    navController.navigationBar.tintColor = self.navigationTintColor;
+    if (@available(iOS 13.0, *)) {
+        UINavigationBarAppearance *appearance = [[UINavigationBarAppearance alloc] init];
 
-    if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
-        navController.navigationBar.barTintColor = self.navigationBarTintColor;
-        navController.navigationBar.translucent = self.navigationBarTranslucent;
+        if (self.navigationTintColor) {
+            UIBarButtonItemAppearance *barButtonItemAppearance = [[UIBarButtonItemAppearance alloc] init];
+            barButtonItemAppearance.normal.titleTextAttributes = @{
+                NSForegroundColorAttributeName: self.navigationTintColor
+            };
+            appearance.buttonAppearance = barButtonItemAppearance;
+        }
+
+        appearance.backgroundColor = self.navigationBarTintColor;
+
+        if (self.navigationTitleColor) {
+            appearance.titleTextAttributes = @{
+                NSForegroundColorAttributeName: self.navigationTitleColor
+            };
+        }
+
+        navController.navigationBar.standardAppearance = appearance;
+        navController.navigationBar.compactAppearance = appearance;
+        navController.navigationBar.scrollEdgeAppearance = appearance;
+    } else {
+        // Customize navigation bar
+        // Make sure UITextAttributeTextColor is not set to nil
+        // barTintColor & translucent is only called on iOS7+
+        navController.navigationBar.tintColor = self.navigationTintColor;
+
+        if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
+            navController.navigationBar.barTintColor = self.navigationBarTintColor;
+        }
+
+        if (self.navigationTitleColor) {
+            navController.navigationBar.titleTextAttributes =
+            @{ NSForegroundColorAttributeName : self.navigationTitleColor };
+        }
     }
 
-    if (self.navigationTitleColor) {
-        navController.navigationBar.titleTextAttributes =
-        @{ NSForegroundColorAttributeName : self.navigationTitleColor };
+    if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
+        navController.navigationBar.translucent = self.navigationBarTranslucent;
     }
     
     [viewController presentViewController:navController
