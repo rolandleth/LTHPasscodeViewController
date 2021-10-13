@@ -125,6 +125,10 @@
  */
 @property (nonatomic, assign) CGFloat failedAttemptLabelGap;
 /**
+ @brief The gap between the passcode button and the keyboard.
+ */
+@property (nonatomic, assign) CGFloat passcodeButtonGap;
+/**
  @brief The height for the complex passcode overlay.
  */
 @property (nonatomic, assign) CGFloat passcodeOverlayHeight;
@@ -137,6 +141,10 @@
  */
 @property (nonatomic, assign) CGFloat passcodeFontSize;
 /**
+ @brief The font size for the options button.
+ */
+@property (nonatomic, assign) CGFloat optionsButtonFontSize;
+/**
  @brief The font for the top label.
  */
 @property (nonatomic, strong) UIFont *labelFont;
@@ -144,6 +152,10 @@
  @brief The font for the passcode digits.
  */
 @property (nonatomic, strong) UIFont *passcodeFont;
+/**
+ @brief The font for the options button.
+ */
+@property (nonatomic, strong) UIFont *optionsButtonFont;
 /**
  @brief The background color for the top label.
  */
@@ -169,6 +181,10 @@
  */
 @property (nonatomic, strong) UIColor *failedAttemptLabelBackgroundColor;
 /**
+ @brief The background color for the erase local data label.
+ */
+@property (nonatomic, strong) UIColor *eraseLocalDataLabelBackgroundColor;
+/**
  @brief The text color for the top label.
  */
 @property (nonatomic, strong) UIColor *labelTextColor;
@@ -180,6 +196,18 @@
  @brief The text color for the failed attempt label.
  */
 @property (nonatomic, strong) UIColor *failedAttemptLabelTextColor;
+/**
+ @brief The text color for the erase local data label.
+ */
+@property (nonatomic, strong) UIColor *eraseLocalDataLabelTextColor;
+/**
+ @brief The text color for the options button.
+ */
+@property (nonatomic, strong) UIColor *optionsButtonTextColor;
+/**
+ @brief The border color for the textFiled.
+ */
+@property (nonatomic, strong) UIColor *textFieldBorderColor;
 /**
  @brief The tint color to apply to the navigation items and bar button items.
  */
@@ -208,6 +236,10 @@
  @brief The string to be used as username for the "isSimple" in the Keychain.
  */
 @property (nonatomic, strong) NSString *keychainPasscodeIsSimpleUsername;
+/**
+@brief The string to be used as username for the "passcodeType" in the Keychain.
+*/
+@property (nonatomic, strong) NSString *keychainPasscodeTypeUsername;
 /**
  @brief The string to be used as service name for all the Keychain entries.
  */
@@ -309,6 +341,14 @@
  */
 @property (nonatomic, assign) BOOL allowUnlockWithBiometrics;
 
+/* The types of passcodes that may be used. */
+typedef NS_ENUM(NSInteger, PasscodeType) {
+    PasscodeTypeFourDigits,           // 4 Numbers
+    PasscodeTypeSixDigits,            // 6 Numbers
+    PasscodeTypeCustomAlphanumeric    // Any length of characters
+};
+
+@property (nonatomic, assign) PasscodeType passcodeType;
 
 // MARK: - Methods
 
@@ -425,5 +465,10 @@
  @brief  Resets the passcode.
  */
 - (void)resetPasscode;
+/**
+ @brief  Returns a Boolean value that indicates whether the view controller is presented as lock screen (@c YES) or not (@c NO).
+ @return @c YES if a passcode is presented as lock screen.
+ */
+- (BOOL)isLockscreenPresent;
 
 @end

@@ -1,28 +1,30 @@
-/*
- LTHPasscodeViewController.strings
- */
-"Enter your old passcode" = "이전 암호 입력";
-
-"Enter your passcode" = "암호 입력";
-
-"Enable Passcode" = "암호 켜기";
-
-"Change Passcode" = "암호 변경";
-
-"Turn Off Passcode" = "암호 끄기";
-
-"Re-enter your passcode" = "암호 재입력";
-
-"Re-enter your new passcode" = "새로운 암호 재입력";
-
-"Enter your new passcode" = "새로운 암호 입력";
-
-"Passcodes did not match. Try again." = "암호가 일치하지 않습니다. 다시 시도하십시오.";
-
-"1 Passcode Failed Attempt" = "1번의 암호 입력 실패";
-
-"%i Passcode Failed Attempts" = "%i번의 암호 입력 실패";
-
-"Unlock using Touch ID" = "Touch ID를 이용해 잠금 해제";
-
-"Unlock using Face ID" = "Face ID를 이용해 잠금 해제";
+/* Text used to enter your previous PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
+"Enter your old passcode"="기존 암호를 입력하세요";
+/* Text used to enter your current PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
+"Enter your passcode"="암호를 입력하세요";
+/* You will be asked to enter this code everytime you open the application. */
+"Passcode info"="애플리케이션을 열 때마다\n암호를 입력해야 합니다.";
+/* Text used to enable a PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
+"Enable Passcode"="암호 활성화";
+/* Text used to change your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
+"Change Passcode"="암호 변경";
+/* Text used to turn off your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
+"Turn off passcode"="암호 끄기";
+/* Text used to re-enter your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
+"Re-enter your passcode"="암호 재입력";
+/* Text used to enter your new PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
+"Re-enter your new passcode"="새 암호를 다시 입력하세요";
+/* Text used to enter your new PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
+"Enter your new passcode"="새 암호를 입력하세요";
+/* Text used to state that your PIN codes do not match. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
+"Passcodes did not match. Try again."="암호가 일치하지 않습니다. 다시 시도하세요.";
+/* Text used to state a failed attempt entering your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
+"1 Passcode failed attempt"="암호 시도 1회 실패";
+/* Plural. Text used to state several failed attempts entering your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
+"%i Passcode failed attempts"="암호 시도 %i회 실패";
+/* Message shown to unlock the screen using Touch ID. */
+"Unlock using Touch ID"="Touch ID를 이용해 잠금 해제";
+/* Message shown to unlock the screen using Face ID */
+"Unlock using Face ID"="Face ID를 이용해 잠금 해제";
+/* Text used to explain it is not possible to reuse the same PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
+"Cannot reuse the same passcode"="같은 암호를 재사용할 수 없습니다";
