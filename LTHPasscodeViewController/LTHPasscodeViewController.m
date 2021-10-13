@@ -405,10 +405,8 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
                 return;
             }
             
-            if (@available(iOS 11.0, *)) {
-                if (self.biometricsContext.biometryType == LABiometryTypeFaceID) {
+            if (self.biometricsContext.biometryType == LABiometryTypeFaceID) {
                     self.biometricsDetailsString = @"Unlock using Face ID";
-                }
             }
             
             _isUsingBiometrics = YES;
@@ -641,11 +639,9 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
     [super traitCollectionDidChange:previousTraitCollection];
     
-    if (@available(iOS 13.0, *)) {
-        if ([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]) {
-            [AppearanceManager forceNavigationBarUpdate:self.navigationController.navigationBar traitCollection:self.traitCollection];
-            self.view.backgroundColor = [UIColor mnz_mainBarsForTraitCollection:self.traitCollection];
-        }
+    if ([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]) {
+        [AppearanceManager forceNavigationBarUpdate:self.navigationController.navigationBar traitCollection:self.traitCollection];
+        self.view.backgroundColor = [UIColor mnz_mainBarsForTraitCollection:self.traitCollection];
     }
 }
 #endif
@@ -1573,8 +1569,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
         translationText = LTHPasscodeViewControllerStrings(@"1 Passcode failed attempt");
     }
     else {
-        translationText = [NSString stringWithFormat:LTHPasscodeViewControllerStrings(@"%i Passcode failed attempts"), _failedAttempts];
-        
+        translationText = [NSString stringWithFormat:LTHPasscodeViewControllerStrings(@"%ld Passcode Failed Attempts"), _failedAttempts];
     }
     // To give it some padding. Since it's center-aligned,
     // it will automatically distribute the extra space.
