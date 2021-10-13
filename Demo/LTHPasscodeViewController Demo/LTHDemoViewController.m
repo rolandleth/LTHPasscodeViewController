@@ -96,10 +96,8 @@
         LAContext *context = [[LAContext alloc] init];;
         
         if ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:nil]) {
-            if (@available(iOS 11.0, *)) {
-                if (context.biometryType == LABiometryTypeFaceID) {
+            if (context.biometryType == LABiometryTypeFaceID) {
                     self.biometricsLabel.text = @"Face ID";
-                }
             }
         }
         

@@ -405,10 +405,8 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
                 return;
             }
             
-            if (@available(iOS 11.0, *)) {
-                if (self.biometricsContext.biometryType == LABiometryTypeFaceID) {
+            if (self.biometricsContext.biometryType == LABiometryTypeFaceID) {
                     self.biometricsDetailsString = @"Unlock using Face ID";
-                }
             }
             
             _isUsingBiometrics = YES;
@@ -641,11 +639,9 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
     [super traitCollectionDidChange:previousTraitCollection];
     
-    if (@available(iOS 13.0, *)) {
-        if ([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]) {
-            [AppearanceManager forceNavigationBarUpdate:self.navigationController.navigationBar traitCollection:self.traitCollection];
-            self.view.backgroundColor = [UIColor mnz_mainBarsForTraitCollection:self.traitCollection];
-        }
+    if ([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]) {
+        [AppearanceManager forceNavigationBarUpdate:self.navigationController.navigationBar traitCollection:self.traitCollection];
+        self.view.backgroundColor = [UIColor mnz_mainBarsForTraitCollection:self.traitCollection];
     }
 }
 #endif
