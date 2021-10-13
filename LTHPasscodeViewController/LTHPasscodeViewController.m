@@ -1422,7 +1422,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
         translationText = LTHPasscodeViewControllerStrings(@"1 Passcode Failed Attempt");
     }
     else {
-        translationText = [NSString stringWithFormat:LTHPasscodeViewControllerStrings(@"%i Passcode Failed Attempts"), _failedAttempts];
+        translationText = [NSString stringWithFormat:LTHPasscodeViewControllerStrings(@"%ld Passcode Failed Attempts"), _failedAttempts];
         
     }
     // To give it some padding. Since it's center-aligned,
