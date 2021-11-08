@@ -14,7 +14,7 @@
 #import "MEGA-Swift.h"
 #endif
 
-#define LTHiPad (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+#define LTHiPad (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad)
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
 #define LTHFailedAttemptLabelHeight [_failedAttemptLabel.text sizeWithAttributes: @{NSFontAttributeName : _labelFont}].height
@@ -39,7 +39,8 @@
 + (UIWindow *)currentWindow {
     UIWindow *window;
 #ifdef LTH_IS_APP_EXTENSION
-    window = [UIApplication sharedApplication].keyWindow;
+    NSPredicate *isKeyWindow = [NSPredicate predicateWithFormat:@"isKeyWindow == YES"];
+    window = [UIApplication.sharedApplication.windows filteredArrayUsingPredicate:isKeyWindow].firstObject;
 #else
     window = [UIApplication sharedApplication].windows.firstObject;
 #endif
@@ -1207,7 +1208,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     [self rotateAccordingToStatusBarOrientationAndSupportedOrientations];
     CGPoint superviewCenter = CGPointMake(superview.center.x, superview.center.y);
     CGPoint newCenter;
-    [self statusBarFrameOrOrientationChanged:nil];
+    [self statusBarOrientationChanged];
     self.view.center = CGPointMake(self.view.center.x, self.view.center.y * -1.f);
     newCenter = CGPointMake(superviewCenter.x,
                             superviewCenter.y + self.navigationController.navigationBar.frame.size.height / 2);
@@ -1996,16 +1997,6 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
      selector: @selector(_applicationWillEnterForeground)
      name: UIApplicationWillEnterForegroundNotification
      object: nil];
-    [[NSNotificationCenter defaultCenter]
-     addObserver:self
-     selector:@selector(statusBarFrameOrOrientationChanged:)
-     name:UIApplicationDidChangeStatusBarOrientationNotification
-     object:nil];
-    [[NSNotificationCenter defaultCenter]
-     addObserver:self
-     selector:@selector(statusBarFrameOrOrientationChanged:)
-     name:UIApplicationDidChangeStatusBarFrameNotification
-     object:nil];
 }
 
 
@@ -2020,9 +2011,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 }
 
 
-// All of the rotation handling is thanks to Håvard Fossli's - https://github.com/hfossli
-// answer: http://stackoverflow.com/a/4960988/793916
-- (void)statusBarFrameOrOrientationChanged:(NSNotification *)notification {
+- (void)statusBarOrientationChanged {
     /*
      This notification is most likely triggered inside an animation block,
      therefore no animation is needed to perform this nice transition.
@@ -2030,7 +2019,6 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     [self rotateAccordingToStatusBarOrientationAndSupportedOrientations];
     _animatingView.frame = self.view.bounds;
 }
-
 
 // And to his AGWindowView: https://github.com/hfossli/AGWindowView
 // Without the 'desiredOrientation' method, using showLockscreen in one orientation,
@@ -2137,6 +2125,7 @@ UIInterfaceOrientationMask UIInterfaceOrientationMaskFromOrientation(UIInterface
         [self calculateOffsetGap];
         self.enterPasscodeConstraintCenterY.constant = self.yOffsetFromCenter;
         self.optionsButtonConstraintTop.constant = [self calculateOptionsButtonTopGap];
+        [self statusBarOrientationChanged];
     }];
 }
 
