@@ -352,12 +352,17 @@ typedef NS_ENUM(NSInteger, PasscodeType) {
 
 // MARK: - Methods
 
+#ifndef LTH_IS_APP_EXTENSION
+
 /**
  @brief				Used for displaying the lock. The passcode view is added directly on the keyWindow.
  @param hasLogout   Set to @c YES for a navBar with a Logout button, set to @c NO for no navBar.
  @param logoutTitle The title of the Logout button.
  */
 - (void)showLockScreenWithAnimation:(BOOL)animated withLogout:(BOOL)hasLogout andLogoutTitle:(NSString *)logoutTitle;
+
+#endif
+
 /**
  @brief				Used for displaying the lock over a view; the lock will have the same size and center as the @c superview.
  @param superview   The @c view where the lock will be added to and presented over.

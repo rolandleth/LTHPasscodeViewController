@@ -28,6 +28,8 @@
 [[NSBundle bundleWithPath:[[NSBundle bundleForClass:[LTHPasscodeViewController class]] pathForResource:@"LTHPasscodeViewController" ofType:@"bundle"]] localizedStringForKey:(key) value:@"" table:_localizationTableName]
 #endif
 
+#ifndef LTH_IS_APP_EXTENSION
+
 @interface UIApplication (window)
 
 + (nullable UIWindow *)currentWindow;
@@ -37,19 +39,15 @@
 @implementation UIApplication (window)
 
 + (UIWindow *)currentWindow {
-    UIWindow *window;
-#ifdef LTH_IS_APP_EXTENSION
-    NSPredicate *isKeyWindow = [NSPredicate predicateWithFormat:@"isKeyWindow == YES"];
-    window = [UIApplication.sharedApplication.windows filteredArrayUsingPredicate:isKeyWindow].firstObject;
-#else
-    window = [UIApplication sharedApplication].windows.firstObject;
-#endif
-    return window;
+    return [UIApplication sharedApplication].windows.firstObject;
 }
 
 @end
 
+#endif
+
 @interface LTHPasscodeViewController () <UITextFieldDelegate>
+@property (nonatomic, weak)   UIView      *presentingView;
 @property (nonatomic, strong) UIView      *coverView;
 @property (nonatomic, strong) UIView      *animatingView;
 @property (nonatomic, strong) UIView      *complexPasscodeOverlayView;
@@ -372,7 +370,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     return self.isCurrentlyOnScreen && self.displayedAsLockScreen;
 }
 
-- (void)_handleBiometricsFailureAndDisableIt:(BOOL)disableBiometrics {
+- (void)_handleBiometricsFailureAndDisableIt:(BOOL)disableBiometrics width:(CGFloat)width {
     dispatch_async(dispatch_get_main_queue(), ^{
         if (disableBiometrics) {
             self.isUsingBiometrics = NO;
@@ -389,14 +387,14 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
         
         if (usingNavBar) {
             self.isUsingNavBar = usingNavBar;
-            [self _setupNavBarWithLogoutTitle:logoutTitle];
+            [self _setupNavBarWithLogoutTitle:logoutTitle width:width];
         }
     });
     
     self.biometricsContext = nil;
 }
 
-- (void)_setupFingerPrint {
+- (void)_setupFingerPrintWithWidth:(CGFloat)width {
     if (!self.biometricsContext && _allowUnlockWithBiometrics && !_useFallbackPasscode) {
         self.biometricsContext = [[LAContext alloc] init];
         
@@ -420,7 +418,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
                                              reply:^(BOOL success, NSError *error) {
                 
                 if (error || !success) {
-                    [self _handleBiometricsFailureAndDisableIt:false];
+                    [self _handleBiometricsFailureAndDisableIt:false width:width];
                     
                     if ([self.delegate respondsToSelector: @selector(biometricsAuthenticationFailed)]) {
                         [self.delegate performSelector: @selector(biometricsAuthenticationFailed)];
@@ -441,11 +439,11 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
             }];
         }
         else {
-            [self _handleBiometricsFailureAndDisableIt:true];
+            [self _handleBiometricsFailureAndDisableIt:true width:width];
         }
     }
     else {
-        [self _handleBiometricsFailureAndDisableIt:true];
+        [self _handleBiometricsFailureAndDisableIt:true width:width];
     }
 }
 
@@ -551,7 +549,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     if (_displayedAsLockScreen && _isUsingNavBar) {
         _verticalOffset += 50;
     }
-    _yOffsetFromCenter = _verticalOffset - CGRectGetHeight(UIApplication.currentWindow.bounds) * 0.24;
+    _yOffsetFromCenter = _verticalOffset - CGRectGetHeight(self.view.window.bounds) * 0.24;
 }
 
 #pragma mark - View life
@@ -722,16 +720,16 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 
 
 #pragma mark - UI setup
-- (void)_setupNavBarWithLogoutTitle:(NSString *)logoutTitle {
+- (void)_setupNavBarWithLogoutTitle:(NSString *)logoutTitle width:(CGFloat)width {
     // Navigation Bar with custom UI
-    UIView *patchView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIApplication currentWindow].frame.size.width, self.view.safeAreaInsets.top)];
+    UIView *patchView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, self.view.safeAreaInsets.top)];
     patchView.backgroundColor = UIColor.clearColor;
     patchView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [self.view addSubview:patchView];
     
     self.navBar =
     [[UINavigationBar alloc] initWithFrame:CGRectMake(0, patchView.frame.size.height,
-                                                      [UIApplication currentWindow].frame.size.width, 44)];
+                                                      width, 44)];
     self.navBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.navBar.tintColor = self.navigationTintColor;
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
@@ -767,8 +765,12 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     _coverView.userInteractionEnabled = NO;
     _coverView.tag = _coverViewTag;
     _coverView.hidden = YES;
-    [[UIApplication currentWindow] addSubview: _coverView];
     
+#ifndef LTH_IS_APP_EXTENSION
+    [[UIApplication currentWindow] addSubview: _coverView];
+#else
+    [self.view addSubview: _coverView];
+#endif
     _complexPasscodeOverlayView = [[UIView alloc] initWithFrame:CGRectZero];
     _complexPasscodeOverlayView.backgroundColor = UIColor.mnz_background;
     _complexPasscodeOverlayView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -1179,21 +1181,29 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 
 
 #pragma mark - Displaying
+
 - (void)showLockscreenWithoutAnimation {
     [self showLockScreenWithAnimation:NO withLogout:NO andLogoutTitle:nil];
 }
 
 - (void)showLockScreenWithAnimation:(BOOL)animated withLogout:(BOOL)hasLogout andLogoutTitle:(NSString*)logoutTitle {
+#ifndef LTH_IS_APP_EXTENSION
     [self showLockScreenOver:[UIApplication currentWindow] withAnimation:animated withLogout:hasLogout andLogoutTitle:logoutTitle];
+#else
+    if (self.presentingView != nil) {
+        [self showLockScreenOver:self.presentingView withAnimation:animated withLogout:hasLogout andLogoutTitle:logoutTitle];
+    }
+#endif
 }
 
 - (void)showLockScreenOver:(UIView *)superview withAnimation:(BOOL)animated withLogout:(BOOL)hasLogout andLogoutTitle:(NSString*)logoutTitle {
-    [self _prepareAsLockScreen];
+    self.presentingView = superview;
+    [self _prepareAsLockScreenWithWidth:superview.bounds.size.width];
     
     // Add nav bar & logout button if specified
     if (hasLogout) {
         _isUsingNavBar = hasLogout;
-        [self _setupNavBarWithLogoutTitle:logoutTitle];
+        [self _setupNavBarWithLogoutTitle:logoutTitle width:superview.bounds.size.width];
     }
     
     // In case the user leaves the app while the lockscreen is already active.
@@ -1291,7 +1301,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 
 
 #pragma mark - Preparing
-- (void)_prepareAsLockScreen {
+- (void)_prepareAsLockScreenWithWidth:(CGFloat)width {
     // In case the user leaves the app while changing/disabling Passcode.
     if (_isCurrentlyOnScreen && !_displayedAsLockScreen) {
         [self _cancelAndDismissMe];
@@ -1305,7 +1315,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     
     self.title = @"";
     [self _resetUI];
-    [self _setupFingerPrint];
+    [self _setupFingerPrintWithWidth:width];
 }
 
 
@@ -1782,9 +1792,16 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
         if (_isCurrentlyOnScreen && !_displayedAsModal) return;
         
         _coverView.hidden = NO;
+        
+#ifndef LTH_IS_APP_EXTENSION
         if (![[UIApplication currentWindow] viewWithTag: _coverViewTag]) {
             [[UIApplication currentWindow] addSubview: _coverView];
         }
+#else
+        if (![self.view viewWithTag: _coverViewTag]) {
+            [self.view addSubview: _coverView];
+        }
+#endif
     }
 }
 
