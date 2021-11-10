@@ -47,7 +47,9 @@
 #endif
 
 @interface LTHPasscodeViewController () <UITextFieldDelegate>
+#ifdef LTH_IS_APP_EXTENSION
 @property (nonatomic, weak)   UIView      *presentingView;
+#endif
 @property (nonatomic, strong) UIView      *coverView;
 @property (nonatomic, strong) UIView      *animatingView;
 @property (nonatomic, strong) UIView      *complexPasscodeOverlayView;
@@ -1197,7 +1199,9 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 }
 
 - (void)showLockScreenOver:(UIView *)superview withAnimation:(BOOL)animated withLogout:(BOOL)hasLogout andLogoutTitle:(NSString*)logoutTitle {
+#ifdef LTH_IS_APP_EXTENSION
     self.presentingView = superview;
+#endif
     [self _prepareAsLockScreenWithWidth:superview.bounds.size.width];
     
     // Add nav bar & logout button if specified
