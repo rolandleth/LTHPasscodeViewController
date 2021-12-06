@@ -20,7 +20,7 @@
 
 #ifndef LTHPasscodeViewControllerStrings
 #define LTHPasscodeViewControllerStrings(key) [LTHLocalizedString(key) length] == 0 \
-    ? NSLocalizedString(key, bundle: .module) \
+    ? [SWIFTPM_MODULE_BUNDLE localizedStringForKey:key value:@"" table:_localizationTableName] \
     : LTHLocalizedString(key)
 #endif
 
