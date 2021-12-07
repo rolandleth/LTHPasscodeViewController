@@ -10,6 +10,10 @@
 #import "LTHKeychainUtils.h"
 #import <LocalAuthentication/LocalAuthentication.h>
 
+#ifndef SWIFTPM_MODULE_BUNDLE
+#define SWIFTPM_MODULE_BUNDLE [NSBundle bundleWithPath:[[NSBundle bundleForClass:[LTHPasscodeViewController class]] pathForResource:@"LTHPasscodeViewController" ofType:@"bundle"]]
+#endif
+
 #define LTHiPad ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
 
 #define LTHFailedAttemptLabelHeight [_failedAttemptLabel.text sizeWithAttributes: @{NSFontAttributeName : _labelFont}].height
