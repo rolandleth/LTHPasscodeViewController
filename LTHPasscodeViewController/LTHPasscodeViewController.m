@@ -24,7 +24,7 @@
 
 #ifndef LTHPasscodeViewControllerStrings
 #define LTHPasscodeViewControllerStrings(key) [LTHLocalizedString(key) length] == 0 \
-    ? [[NSBundle bundleWithPath: [SWIFTPM_MODULE_BUNDLE pathForResource:@"LTHPasscodeViewController" ofType:@"bundle"]] localizedStringForKey:(@"Unlock using Touch ID") value:@"" table:_localizationTableName] \
+    ? [[NSBundle bundleWithPath: [SWIFTPM_MODULE_BUNDLE pathForResource:@"LTHPasscodeViewController" ofType:@"bundle"]] localizedStringForKey:(key) value:@"" table:_localizationTableName] \
     : LTHLocalizedString(key)
 #endif
 
