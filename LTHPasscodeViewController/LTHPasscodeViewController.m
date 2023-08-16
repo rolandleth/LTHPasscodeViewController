@@ -56,6 +56,8 @@
 @property (nonatomic, strong) UIView      *simplePasscodeView;
 @property (nonatomic, strong) UIImageView *backgroundImageView;
 
+@property (nonatomic)         UIStatusBarStyle statusBarStyle;
+
 @property (nonatomic, strong) UITextField *passcodeTextField;
 @property (nonatomic, strong) UILabel     *enterPasscodeInfoLabel;
 
@@ -635,6 +637,9 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     }
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return self.statusBarStyle;
+}
 
 #ifndef LTH_IS_APP_EXTENSION
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
@@ -643,6 +648,14 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     if ([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]) {
         [AppearanceManager forceNavigationBarUpdate:self.navigationController.navigationBar traitCollection:self.traitCollection];
         self.view.backgroundColor = [UIColor mnz_mainBarsForTraitCollection:self.traitCollection];
+
+        if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+            self.statusBarStyle = UIStatusBarStyleLightContent;
+        } else {
+            self.statusBarStyle = UIStatusBarStyleDarkContent;
+        }
+
+        [self setNeedsStatusBarAppearanceUpdate];
     }
 }
 #endif
