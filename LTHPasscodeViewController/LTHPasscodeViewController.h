@@ -307,6 +307,10 @@
  */
 @property (nonatomic, strong) NSString *biometricsDetailsString;
 /**
+ @brief The string displayed when a user tries to logout.
+ */
+@property (nonatomic, strong) NSString *logoutWarningMessageString;
+/**
  @brief The duration of the lock animation.
  */
 @property (nonatomic, assign) CGFloat lockAnimationDuration;
