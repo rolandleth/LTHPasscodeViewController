@@ -830,7 +830,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     [_animatingView addSubview: _failedAttemptLabel];
     
     _eraseLocalDataLabel = [[UILabel alloc] initWithFrame: CGRectZero];
-    _eraseLocalDataLabel.text = NSLocalizedString(@"failedAttempstSectionTitle", @"Footer text that explain what will happen if reach the max number of failed attempts");
+    _eraseLocalDataLabel.text = LTHPasscodeViewControllerStrings(@"failedAttempstSectionTitle");
     _eraseLocalDataLabel.numberOfLines = 3;
     _eraseLocalDataLabel.backgroundColor = _eraseLocalDataLabelBackgroundColor;
     _eraseLocalDataLabel.hidden = YES;
@@ -883,7 +883,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 
 - (void)_setupOptionsButton {
     _optionsButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    [_optionsButton setTitle:NSLocalizedString(@"Passcode Options", @"Button text to change the passcode type.") forState:UIControlStateNormal];
+    [_optionsButton setTitle: LTHPasscodeViewControllerStrings(@"Passcode Options") forState:UIControlStateNormal];
     _optionsButton.titleLabel.font = _optionsButtonFont;
     [_optionsButton setTitleColor:_optionsButtonTextColor forState:UIControlStateNormal];
     [_optionsButton sizeToFit];
@@ -1617,9 +1617,9 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 - (void)_logoutWasPressed {
     // Notify delegate that logout button was pressed
     if ([self.delegate respondsToSelector: @selector(logoutButtonWasPressed)]) {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"proceedToLogout", @"Title to confirm that you want to logout") message:NSLocalizedString(@"When you logout, files from your Offline section will be deleted from your device and ongoing transfers will be cancelled.", @"Warning message to alert user about logout in My Account section if has offline files and transfers in progress.") preferredStyle:UIAlertControllerStyleAlert];
-        [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"cancel", @"Button title to cancel something") style:UIAlertActionStyleCancel handler:nil]];
-        [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"logoutLabel", @"Title of the button which logs out from your account.") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:LTHPasscodeViewControllerStrings(@"proceedToLogout") message:LTHPasscodeViewControllerStrings(self.logoutWarningMessageString) preferredStyle:UIAlertControllerStyleAlert];
+        [alertController addAction:[UIAlertAction actionWithTitle:LTHPasscodeViewControllerStrings(@"cancel") style:UIAlertActionStyleCancel handler:nil]];
+        [alertController addAction:[UIAlertAction actionWithTitle:LTHPasscodeViewControllerStrings(@"logoutLabel") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [self.delegate logoutButtonWasPressed];
         }]];
         [self presentViewController:alertController animated:YES completion:nil];
@@ -1763,10 +1763,9 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
                        @(PasscodeTypeCustomAlphanumeric)
     ];
     
-    
-    NSArray *titles = @[NSLocalizedString(@"4-Digit Numeric Code", @"Action text to change to 4-Digit Numeric passcode type."),
-                        NSLocalizedString(@"6-Digit Numeric Code", @""),
-                        NSLocalizedString(@"Custom Alphanumeric Code", @"")];
+    NSArray *titles = @[LTHPasscodeViewControllerStrings(@"4-Digit Numeric Code"),
+                        LTHPasscodeViewControllerStrings(@"6-Digit Numeric Code"),
+                        LTHPasscodeViewControllerStrings(@"Custom Alphanumeric Code")];
     
     // Set current passcodeType based on current displayed passcode input area, to determin action options
     if (_passcodeTextField.hidden) {
@@ -1788,7 +1787,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     }
     
     // Cancel button
-    UIAlertAction* cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"cancel", @"Button title to cancel something") style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction* cancel = [UIAlertAction actionWithTitle:LTHPasscodeViewControllerStrings(@"cancel") style:UIAlertActionStyleCancel handler:nil];
     [alertController addAction:cancel];
     
     alertController.modalPresentationStyle = UIModalPresentationPopover;
@@ -1955,6 +1954,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     self.reenterNewPasscodeString = @"Re-enter your new passcode";
     self.enterNewPasscodeString = @"Enter your new passcode";
     self.biometricsDetailsString = @"Unlock using Touch ID";
+    self.logoutWarningMessageString = @"When you log out, files from your Offline section will be deleted from your device and ongoing transfers will be cancelled.";
 }
 
 
