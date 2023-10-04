@@ -1,30 +1,48 @@
 /* Text used to enter your previous PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Enter your old passcode"="أدخل رمز المرور القديم";
 /* Text used to enter your current PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
-"Enter your passcode"="إدخال رمز المرور الخاص";
+"Enter your passcode"="أدخل رمز المرور الخاص بك";
 /* You will be asked to enter this code everytime you open the application. */
 "Passcode info"="سيُطلب منك إدخال هذا الرمز\nفي كل مرة تفتح فيها التطبيق";
 /* Text used to enable a PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
-"Enable Passcode"="تفعيل رمز المرور";
+"Enable Passcode"="تمكين رمز المرور";
 /* Text used to change your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Change Passcode"="تغيير رمز المرور";
 /* Text used to turn off your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Turn off passcode"="قم بإيقاف تشغيل رمز المرور";
 /* Text used to re-enter your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
-"Re-enter your passcode"="إعادة إدخال رمز المرور الخاص";
+"Re-enter your passcode"="أعد إدخال رمز المرور الخاص بك";
 /* Text used to enter your new PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
-"Re-enter your new passcode"="إعادة إدخال رمز المرور الجديد";
+"Re-enter your new passcode"="أعد إدخال رمز المرور الجديد الخاص بك";
 /* Text used to enter your new PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
-"Enter your new passcode"="أدخل رمز المرور الجديد";
+"Enter your new passcode"="أدخل رمز المرور الجديد الخاص بك";
 /* Text used to state that your PIN codes do not match. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Passcodes did not match. Try again."="رموز المرور غير متطابقة. حاول مرة أخرى.";
 /* Text used to state a failed attempt entering your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
-"1 Passcode failed attempt"="1 محاولة رمز المرور فاشلة";
+"1 Passcode failed attempt"="1 محاولة فاشلة لإدخال رمز المرور";
 /* Plural. Text used to state several failed attempts entering your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
-"%i Passcode failed attempts"="%i محاولات رمز المرور فاشلة";
+"%i Passcode failed attempts"="%i محاولات فاشلة لإدخال رمز المرور";
 /* Message shown to unlock the screen using Touch ID. */
 "Unlock using Touch ID"="فتح باستخدام التعرف باللمس";
 /* Message shown to unlock the screen using Face ID */
 "Unlock using Face ID"="فتح باستخدام التعرف بالوجه";
 /* Text used to explain it is not possible to reuse the same PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
-"Cannot reuse the same passcode"="لا يمكن إعادة استخدام رمز المرور نفسه";
+"Cannot reuse the same passcode"="لا يمكن إعادة استخدام نفس رمز المرور";
+/* Button text to change the passcode type. */
+"Passcode Options"="Passcode options";
+/* Title to confirm that you want to logout */
+"proceedToLogout"="متابعة تسجيل الخروج";
+/* Warning message to alert user about logout in My Account section if has offline files and transfers in progress. */
+"When you logout, files from your Offline section will be deleted from your device and ongoing transfers will be cancelled."="عند تسجيل الخروج، سيتم حذف الملفات من قسم ”غير متصل بالانترنت” من جهازك وسيتم إلغاء عمليات تراسل المعطيات الجارية.";
+/* Button title to cancel something */
+"cancel"="إلغاء";
+/* Title of the button which logs out from your account. */
+"logoutLabel"="تسجيل خروج";
+/* Action text to change to 4-Digit Numeric passcode type. */
+"4-Digit Numeric Code"="رمز رقمي مكون من 4 أرقام";
+/* Action text to change to 6-Digit Numeric passcode type. */
+"6-Digit Numeric Code"="رمز رقمي مكون من 6 أرقام";
+/* Action text to change to Custom Alphanumeric passcode type. */
+"Custom Alphanumeric Code"="كود أبجدي رقمي مخصص";
+/* Footer text that explain what will happen if reach the max number of failed attempts */
+"failedAttempstSectionTitle"="سيتم تسجيل خروجك وسيتم حذف ملفاتك غير المتصلة بالانترنت بعد 10 محاولات فاشلة";

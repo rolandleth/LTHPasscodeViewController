@@ -3,7 +3,7 @@
 /* Text used to enter your current PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Enter your passcode"="암호를 입력하세요";
 /* You will be asked to enter this code everytime you open the application. */
-"Passcode info"="애플리케이션을 열 때마다\n암호를 입력해야 합니다.";
+"Passcode info"="애플리케이션을 열 때마다\n암호를 입력해야 합니다";
 /* Text used to enable a PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Enable Passcode"="암호 활성화";
 /* Text used to change your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
@@ -28,3 +28,21 @@
 "Unlock using Face ID"="Face ID를 이용해 잠금 해제";
 /* Text used to explain it is not possible to reuse the same PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Cannot reuse the same passcode"="같은 암호를 재사용할 수 없습니다";
+/* Button text to change the passcode type. */
+"Passcode Options"="Passcode options";
+/* Title to confirm that you want to logout */
+"proceedToLogout"="로그아웃 진행";
+/* Warning message to alert user about logout in My Account section if has offline files and transfers in progress. */
+"When you logout, files from your Offline section will be deleted from your device and ongoing transfers will be cancelled."="로그아웃하면, 기기의 오프라인 섹션의 파일들이 삭제되고 진행중인 전송이 취소됩니다.";
+/* Button title to cancel something */
+"cancel"="취소";
+/* Title of the button which logs out from your account. */
+"logoutLabel"="로그아웃";
+/* Action text to change to 4-Digit Numeric passcode type. */
+"4-Digit Numeric Code"="4자리 숫자 코드";
+/* Action text to change to 6-Digit Numeric passcode type. */
+"6-Digit Numeric Code"="6자리 숫자 코드";
+/* Action text to change to Custom Alphanumeric passcode type. */
+"Custom Alphanumeric Code"="영숫자 코드";
+/* Footer text that explain what will happen if reach the max number of failed attempts */
+"failedAttempstSectionTitle"="당신은 로그아웃 되고 오프라인 파일은 10번의 실패 후에 삭제됩니다";

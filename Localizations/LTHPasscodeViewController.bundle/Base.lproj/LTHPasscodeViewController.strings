@@ -5,7 +5,7 @@
 /* You will be asked to enter this code everytime you open the application. */
 "Passcode info"="You will be asked to enter this code\neverytime you open the application";
 /* Text used to enable a PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
-"Enable Passcode"="Enable Passcode";
+"Enable Passcode"="Enable passcode";
 /* Text used to change your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Change Passcode"="Change Passcode";
 /* Text used to turn off your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
@@ -29,11 +29,11 @@
 /* Text used to explain it is not possible to reuse the same PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Cannot reuse the same passcode"="Cannot reuse the same passcode";
 /* Button text to change the passcode type. */
-"Passcode Options" = "Passcode Options";
+"Passcode Options"="Passcode options";
 /* Title to confirm that you want to logout */
-"proceedToLogout" = "Proceed to log out";
+"proceedToLogout"="Proceed to log out";
 /* Warning message to alert user about logout in My Account section if has offline files and transfers in progress. */
-"When you logout, files from your Offline section will be deleted from your device and ongoing transfers will be cancelled." = "When you log out, files from your Offline section will be deleted from your device and ongoing transfers will be cancelled.";
+"When you logout, files from your Offline section will be deleted from your device and ongoing transfers will be cancelled."="When you log out, files from your Offline section will be deleted from your device and ongoing transfers will be cancelled.";
 /* Button title to cancel something */
 "cancel"="Cancel";
 /* Title of the button which logs out from your account. */

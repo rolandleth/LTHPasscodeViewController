@@ -3,7 +3,7 @@
 /* Text used to enter your current PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Enter your passcode"="パスコードを入力";
 /* You will be asked to enter this code everytime you open the application. */
-"Passcode info"="アプリケーションを開くたびに、\nこのコードを入力するように求められます。";
+"Passcode info"="アプリケーションを開くたびに、\nこのコードを入力するように求められます";
 /* Text used to enable a PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Enable Passcode"="パスコードを設定";
 /* Text used to change your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
@@ -28,3 +28,21 @@
 "Unlock using Face ID"="Face IDで解除";
 /* Text used to explain it is not possible to reuse the same PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Cannot reuse the same passcode"="同じパスコードは再利用できません";
+/* Button text to change the passcode type. */
+"Passcode Options"="パスコードオプション";
+/* Title to confirm that you want to logout */
+"proceedToLogout"="ログアウトに進みます";
+/* Warning message to alert user about logout in My Account section if has offline files and transfers in progress. */
+"When you logout, files from your Offline section will be deleted from your device and ongoing transfers will be cancelled."="ログアウトすると、あなたのオフラインセクションのファイルはお使いの端末から削除され、現在進行中の転送はキャンセルされます。";
+/* Button title to cancel something */
+"cancel"="キャンセル";
+/* Title of the button which logs out from your account. */
+"logoutLabel"="ログアウト";
+/* Action text to change to 4-Digit Numeric passcode type. */
+"4-Digit Numeric Code"="4桁の数値コード";
+/* Action text to change to 6-Digit Numeric passcode type. */
+"6-Digit Numeric Code"="6桁の数値コード";
+/* Action text to change to Custom Alphanumeric passcode type. */
+"Custom Alphanumeric Code"="カスタム英数字コード";
+/* Footer text that explain what will happen if reach the max number of failed attempts */
+"failedAttempstSectionTitle"="10回失敗するとログアウトされ、オフラインファイルが削除されます";

@@ -3,7 +3,7 @@
 /* Text used to enter your current PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Enter your passcode"="Geben Sie Ihren Pincode ein";
 /* You will be asked to enter this code everytime you open the application. */
-"Passcode info"="Sie werden bei jedem Öffnen der App\nnach diesem Code gefragt.";
+"Passcode info"="Sie werden bei jedem Öffnen der App\nnach diesem Code gefragt";
 /* Text used to enable a PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Enable Passcode"="Pincode aktivieren";
 /* Text used to change your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
@@ -28,3 +28,21 @@
 "Unlock using Face ID"="Entsperren mit Face ID";
 /* Text used to explain it is not possible to reuse the same PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Cannot reuse the same passcode"="Sie können nicht denselben Pincode benutzen";
+/* Button text to change the passcode type. */
+"Passcode Options"="Passcode-Optionen";
+/* Title to confirm that you want to logout */
+"proceedToLogout"="Mit dem Logout fortfahren";
+/* Warning message to alert user about logout in My Account section if has offline files and transfers in progress. */
+"When you logout, files from your Offline section will be deleted from your device and ongoing transfers will be cancelled."="Sobald Sie sich ausloggen, werden Ihre Offline-Dateien gelöscht und alle laufenden Transfers abgebrochen.";
+/* Button title to cancel something */
+"cancel"="Abbrechen";
+/* Title of the button which logs out from your account. */
+"logoutLabel"="Abmelden";
+/* Action text to change to 4-Digit Numeric passcode type. */
+"4-Digit Numeric Code"="4stellig numerisch";
+/* Action text to change to 6-Digit Numeric passcode type. */
+"6-Digit Numeric Code"="6stellig numerisch";
+/* Action text to change to Custom Alphanumeric passcode type. */
+"Custom Alphanumeric Code"="Alphanumerisch";
+/* Footer text that explain what will happen if reach the max number of failed attempts */
+"failedAttempstSectionTitle"="Nach 10 Fehlversuchen werden Sie ausgeloggt und Ihre Offlinedateien werden gelöscht";
