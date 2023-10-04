@@ -5,7 +5,7 @@
 /* You will be asked to enter this code everytime you open the application. */
 "Passcode info"="Elke keer dat u de applicatie opent, wordt u gevraagd om deze code \n in te voeren";
 /* Text used to enable a PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
-"Enable Passcode"="Toegangscode Aanzetten";
+"Enable Passcode"="Toegangscode aanzetten";
 /* Text used to change your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Change Passcode"="Wijzig toegangscode";
 /* Text used to turn off your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
@@ -28,3 +28,21 @@
 "Unlock using Face ID"="Ontgrendel met Face ID";
 /* Text used to explain it is not possible to reuse the same PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Cannot reuse the same passcode"="Kan dezelfde toegangscode niet hergebruiken";
+/* Button text to change the passcode type. */
+"Passcode Options"="Toegangscode opties";
+/* Title to confirm that you want to logout */
+"proceedToLogout"="Doorgaan met uitloggen";
+/* Warning message to alert user about logout in My Account section if has offline files and transfers in progress. */
+"When you logout, files from your Offline section will be deleted from your device and ongoing transfers will be cancelled."="Wanneer u uitlogt, worden bestanden vanuit uw Offline sectie verwijderd van uw apparaat en voortgaande overdrachten worden geannuleerd.";
+/* Button title to cancel something */
+"cancel"="Annuleren";
+/* Title of the button which logs out from your account. */
+"logoutLabel"="Uitloggen";
+/* Action text to change to 4-Digit Numeric passcode type. */
+"4-Digit Numeric Code"="4-Cijferige numerieke Code";
+/* Action text to change to 6-Digit Numeric passcode type. */
+"6-Digit Numeric Code"="6-Cijferige numerieke Code";
+/* Action text to change to Custom Alphanumeric passcode type. */
+"Custom Alphanumeric Code"="Aangepaste alfanumerieke code";
+/* Footer text that explain what will happen if reach the max number of failed attempts */
+"failedAttempstSectionTitle"="U wordt uitgelogd en uw offline bestanden worden verwijderd na 10 mislukte pogingen";

@@ -5,7 +5,7 @@
 /* You will be asked to enter this code everytime you open the application. */
 "Passcode info"="Anda akan diminta memasukkan kode ini \nsetiap kali Anda membuka aplikasi";
 /* Text used to enable a PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
-"Enable Passcode"="Izinkan Passcode";
+"Enable Passcode"="Izinkan passcode";
 /* Text used to change your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Change Passcode"="Ganti Paskode";
 /* Text used to turn off your PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
@@ -28,3 +28,21 @@
 "Unlock using Face ID"="Buka kunci menggunakan ID Wajah";
 /* Text used to explain it is not possible to reuse the same PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Cannot reuse the same passcode"="Tidak dapat menggunakan kembali kode sandi yang sama";
+/* Button text to change the passcode type. */
+"Passcode Options"="Passcode options";
+/* Title to confirm that you want to logout */
+"proceedToLogout"="Lanjutkan untuk keluar";
+/* Warning message to alert user about logout in My Account section if has offline files and transfers in progress. */
+"When you logout, files from your Offline section will be deleted from your device and ongoing transfers will be cancelled."="Saat anda keluar, file dari bagian Offline anda akan dihapus dari perangkat anda dan transfer yang sedang berlangsung akan dibatalkan.";
+/* Button title to cancel something */
+"cancel"="Batal";
+/* Title of the button which logs out from your account. */
+"logoutLabel"="Keluar";
+/* Action text to change to 4-Digit Numeric passcode type. */
+"4-Digit Numeric Code"="Kode Numerik 4-Digit";
+/* Action text to change to 6-Digit Numeric passcode type. */
+"6-Digit Numeric Code"="Kode Numerik 6-Digit";
+/* Action text to change to Custom Alphanumeric passcode type. */
+"Custom Alphanumeric Code"="Kode Alfanumerik Kustom";
+/* Footer text that explain what will happen if reach the max number of failed attempts */
+"failedAttempstSectionTitle"="Anda akan keluar dan file offline anda akan dihapus setelah 10 upaya gagal";

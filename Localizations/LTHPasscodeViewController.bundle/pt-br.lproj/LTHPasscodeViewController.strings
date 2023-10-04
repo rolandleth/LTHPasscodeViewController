@@ -28,3 +28,21 @@
 "Unlock using Face ID"="Desbloquear usando o Face ID";
 /* Text used to explain it is not possible to reuse the same PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Cannot reuse the same passcode"="Não é possível reutilizar o código";
+/* Button text to change the passcode type. */
+"Passcode Options"="Opções de código de acesso";
+/* Title to confirm that you want to logout */
+"proceedToLogout"="Fazer logout";
+/* Warning message to alert user about logout in My Account section if has offline files and transfers in progress. */
+"When you logout, files from your Offline section will be deleted from your device and ongoing transfers will be cancelled."="Quando você fizer logout, os arquivos da seção Offline serão deletados do seu dispositivo, e as transferências em andamento serão canceladas.";
+/* Button title to cancel something */
+"cancel"="Cancelar";
+/* Title of the button which logs out from your account. */
+"logoutLabel"="Fazer logout";
+/* Action text to change to 4-Digit Numeric passcode type. */
+"4-Digit Numeric Code"="Código numérico de 4 dígitos";
+/* Action text to change to 6-Digit Numeric passcode type. */
+"6-Digit Numeric Code"="Código numérico de 6 dígitos";
+/* Action text to change to Custom Alphanumeric passcode type. */
+"Custom Alphanumeric Code"="Código alfanumérico personalizado";
+/* Footer text that explain what will happen if reach the max number of failed attempts */
+"failedAttempstSectionTitle"="Depois de 10 tentativas incorretas, você será deslogado e os arquivos salvos em Offline serão deletados";

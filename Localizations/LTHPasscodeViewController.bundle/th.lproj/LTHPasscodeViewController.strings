@@ -28,3 +28,21 @@
 "Unlock using Face ID"="ปลดล็อคโดยใช้ Face ID";
 /* Text used to explain it is not possible to reuse the same PIN code. Not to be confused with "password". You can find how the Passcode is called in your language in an iOS device settings. */
 "Cannot reuse the same passcode"="ไม่สามารถใช้รหัสเดียวกันซ้ำได้";
+/* Button text to change the passcode type. */
+"Passcode Options"="ตัวเลือกรหัส";
+/* Title to confirm that you want to logout */
+"proceedToLogout"="ดำเนินการเพื่อออกจากระบบ";
+/* Warning message to alert user about logout in My Account section if has offline files and transfers in progress. */
+"When you logout, files from your Offline section will be deleted from your device and ongoing transfers will be cancelled."="เมื่อคุณออกจากระบบ ไฟล์จากส่วนออฟไลน์ของคุณจะถูกลบออกจากอุปกรณ์ และการถ่ายโอนที่กำลังดำเนินการอยู่จะถูกยกเลิกด้วยเช่นกัน";
+/* Button title to cancel something */
+"cancel"="ยกเลิก";
+/* Title of the button which logs out from your account. */
+"logoutLabel"="ออกจากระบบ";
+/* Action text to change to 4-Digit Numeric passcode type. */
+"4-Digit Numeric Code"="รหัสตัวเลข 4 หลัก";
+/* Action text to change to 6-Digit Numeric passcode type. */
+"6-Digit Numeric Code"="รหัสตัวเลข 6 หลัก";
+/* Action text to change to Custom Alphanumeric passcode type. */
+"Custom Alphanumeric Code"="รหัสตัวอักษรและตัวเลขที่กำหนดเอง";
+/* Footer text that explain what will happen if reach the max number of failed attempts */
+"failedAttempstSectionTitle"="คุณจะถูกออกจากระบบและไฟล์ออฟไลน์ของคุณจะถูกลบหลังจากความพยายามล้มเหลวเกิน 10 ครั้ง";
