@@ -1851,7 +1851,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
         else {
             [self showLockScreenWithAnimation:NO
                                    withLogout:YES
-                               andLogoutTitle:NSLocalizedString(@"logoutLabel", nil)];
+                               andLogoutTitle:LTHPasscodeViewControllerStrings(@"logoutLabel")];
         }
     }
 }
