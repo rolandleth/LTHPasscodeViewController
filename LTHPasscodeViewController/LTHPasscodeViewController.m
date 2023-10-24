@@ -12,6 +12,8 @@
 
 #ifndef LTH_IS_APP_EXTENSION
 #import "MEGA-Swift.h"
+#else
+#import "MEGAShare-Swift.h"
 #endif
 
 #define LTHiPad (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad)
