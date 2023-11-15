@@ -40,8 +40,8 @@
 
 @implementation UIApplication (window)
 
-+ (UIWindow *)currentWindow {
-    return [UIApplication sharedApplication].windows.firstObject;
++ (nullable UIWindow *)currentWindow {
+    return [UIApplication mnz_keyWindow];
 }
 
 @end
