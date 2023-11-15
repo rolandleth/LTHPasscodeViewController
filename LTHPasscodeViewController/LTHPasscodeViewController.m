@@ -41,7 +41,7 @@
 @implementation UIApplication (window)
 
 + (UIWindow *)currentWindow {
-    return [UIApplication sharedApplication].windows.firstObject;
+    return [UIApplication mnz_keyWindow];
 }
 
 @end
