@@ -40,7 +40,7 @@
 
 @implementation UIApplication (window)
 
-+ (UIWindow *)currentWindow {
++ (nullable UIWindow *)currentWindow {
     return [UIApplication mnz_keyWindow];
 }
 
