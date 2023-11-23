@@ -1992,8 +1992,8 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     _eraseLocalDataLabelBackgroundColor = [UIColor clearColor];
     
     // Text
-    _labelTextColor = UIColor.mnz_label;
-    _passcodeTextColor = UIColor.mnz_label;
+    _labelTextColor = UIColor.labelColor;
+    _passcodeTextColor = UIColor.labelColor;
     _failedAttemptLabelTextColor = UIColor.mnz_background;
     _eraseLocalDataLabelTextColor = UIColor.systemRedColor;
     _optionsButtonTextColor = [UIColor colorWithRed:0 green:168.0/255.0 blue:134.0/255.0 alpha:1.0];
