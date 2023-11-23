@@ -1720,7 +1720,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     _failedAttemptLabel.backgroundColor = [UIColor clearColor];
     _failedAttemptLabel.layer.borderWidth = 0;
     _failedAttemptLabel.layer.borderColor = [UIColor clearColor].CGColor;
-    _failedAttemptLabel.textColor = UIColor.mnz_redError;
+    _failedAttemptLabel.textColor = UIColor.systemRedColor;
     _eraseLocalDataLabel.hidden = YES;
     _optionsButton.hidden = NO;
 }
@@ -1987,7 +1987,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     _backgroundColor = [UIColor mnz_mainBarsForTraitCollection:self.traitCollection];
     _passcodeBackgroundColor = [UIColor clearColor];
     _coverViewBackgroundColor = UIColor.mnz_background;
-    _failedAttemptLabelBackgroundColor =  UIColor.mnz_redError;
+    _failedAttemptLabelBackgroundColor =  UIColor.systemRedColor;
     _enterPasscodeLabelBackgroundColor = [UIColor clearColor];
     _eraseLocalDataLabelBackgroundColor = [UIColor clearColor];
     
@@ -1995,7 +1995,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     _labelTextColor = UIColor.mnz_label;
     _passcodeTextColor = UIColor.mnz_label;
     _failedAttemptLabelTextColor = UIColor.mnz_background;
-    _eraseLocalDataLabelTextColor = UIColor.mnz_redError;
+    _eraseLocalDataLabelTextColor = UIColor.systemRedColor;
     _optionsButtonTextColor = [UIColor colorWithRed:0 green:168.0/255.0 blue:134.0/255.0 alpha:1.0];
     _textFieldBorderColor = [UIColor colorWithRed:60.0/255.0 green:60.0/255.0 blue:67.0/255.0 alpha:0.3];
 }
