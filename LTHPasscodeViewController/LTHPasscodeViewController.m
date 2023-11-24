@@ -789,7 +789,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     [self.view addSubview: _coverView];
 #endif
     _complexPasscodeOverlayView = [[UIView alloc] initWithFrame:CGRectZero];
-    _complexPasscodeOverlayView.backgroundColor = UIColor.mnz_background;
+    _complexPasscodeOverlayView.backgroundColor = UIColor.systemBackgroundColor;
     _complexPasscodeOverlayView.translatesAutoresizingMaskIntoConstraints = NO;
     [self _setupPasscodeOverlayBorder];
     
@@ -1986,7 +1986,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     // Backgrounds
     _backgroundColor = [UIColor mnz_mainBarsForTraitCollection:self.traitCollection];
     _passcodeBackgroundColor = [UIColor clearColor];
-    _coverViewBackgroundColor = UIColor.mnz_background;
+    _coverViewBackgroundColor = UIColor.systemBackgroundColor;
     _failedAttemptLabelBackgroundColor =  UIColor.systemRedColor;
     _enterPasscodeLabelBackgroundColor = [UIColor clearColor];
     _eraseLocalDataLabelBackgroundColor = [UIColor clearColor];
@@ -1994,7 +1994,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     // Text
     _labelTextColor = UIColor.labelColor;
     _passcodeTextColor = UIColor.labelColor;
-    _failedAttemptLabelTextColor = UIColor.mnz_background;
+    _failedAttemptLabelTextColor = UIColor.systemBackgroundColor;
     _eraseLocalDataLabelTextColor = UIColor.systemRedColor;
     _optionsButtonTextColor = [UIColor colorWithRed:0 green:168.0/255.0 blue:134.0/255.0 alpha:1.0];
     _textFieldBorderColor = [UIColor colorWithRed:60.0/255.0 green:60.0/255.0 blue:67.0/255.0 alpha:0.3];
