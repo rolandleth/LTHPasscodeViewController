@@ -789,7 +789,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     [self.view addSubview: _coverView];
 #endif
     _complexPasscodeOverlayView = [[UIView alloc] initWithFrame:CGRectZero];
-    _complexPasscodeOverlayView.backgroundColor = UIColor.systemBackgroundColor;
+    _complexPasscodeOverlayView.backgroundColor = _backgroundColor;
     _complexPasscodeOverlayView.translatesAutoresizingMaskIntoConstraints = NO;
     [self _setupPasscodeOverlayBorder];
     
