@@ -1717,10 +1717,10 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     ? LTHPasscodeViewControllerStrings(@"Cannot reuse the same passcode")
     : LTHPasscodeViewControllerStrings(@"Passcodes did not match. Try again.");
     _newPasscodeEqualsOldPasscode = NO;
-    _failedAttemptLabel.backgroundColor = [UIColor clearColor];
+    _failedAttemptLabel.backgroundColor = _failedAttemptLabelBackgroundColor;
     _failedAttemptLabel.layer.borderWidth = 0;
     _failedAttemptLabel.layer.borderColor = [UIColor clearColor].CGColor;
-    _failedAttemptLabel.textColor = UIColor.systemRedColor;
+    _failedAttemptLabel.textColor = _failedAttemptLabelTextColor;
     _eraseLocalDataLabel.hidden = YES;
     _optionsButton.hidden = NO;
 }
