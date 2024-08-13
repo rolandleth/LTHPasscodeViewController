@@ -540,7 +540,15 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 }
 
 - (CGFloat)calculateOptionsButtonTopGap {
-    return self.view.frame.size.height - _keyboardHeight - _passcodeButtonGap - _optionsButton.frame.size.height;
+    // If the keyboard is visible, we keep the current calculation logic
+    if ([_passcodeTextField isFirstResponder]) {
+        return self.view.frame.size.height - _keyboardHeight - _passcodeButtonGap - _optionsButton.frame.size.height;
+    } else {
+        // otherwise, use relative position
+        bool isLandscape = UIDeviceOrientationIsLandscape([[UIDevice currentDevice] orientation]);
+        int divider = isLandscape ? 3 : 2;
+        return self.view.frame.size.height / divider;
+    }
 }
 
 - (void)calculateOffsetGap {
@@ -1783,19 +1791,33 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
         
         id handler = ^(UIAlertAction *action) {
             [weakSelf setPasscodeTypeAndInputArea:type];
+            // Makes `passcodeTextField` the first responder again
+            // after the alert controller is dismissed
+            [weakSelf.passcodeTextField becomeFirstResponder];
         };
         UIAlertAction* action = [UIAlertAction actionWithTitle:titles[i] style:style handler:handler];
         [alertController addAction:action];
     }
     
     // Cancel button
-    UIAlertAction* cancel = [UIAlertAction actionWithTitle:LTHPasscodeViewControllerStrings(@"cancel") style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction* cancel = [UIAlertAction actionWithTitle:LTHPasscodeViewControllerStrings(@"cancel") 
+                                                     style:UIAlertActionStyleCancel
+                                                   handler:^(UIAlertAction * _Nonnull action) {
+        // Makes `passcodeTextField` the first responder again
+        // after the alert controller is dismissed
+        [weakSelf.passcodeTextField becomeFirstResponder];
+    }];
+    
     [alertController addAction:cancel];
     
     alertController.modalPresentationStyle = UIModalPresentationPopover;
     alertController.popoverPresentationController.sourceView = self.optionsButton;
     alertController.popoverPresentationController.sourceRect = self.optionsButton.bounds;
     alertController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionDown | UIPopoverArrowDirectionUp;
+    
+    // Manually resigns `passcodeTextField` as the first responder
+    // This is crucial for the conditional check in `calculateOptionsButtonTopGap`
+    [_passcodeTextField resignFirstResponder];
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
