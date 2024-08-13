@@ -789,7 +789,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     [self.view addSubview: _coverView];
 #endif
     _complexPasscodeOverlayView = [[UIView alloc] initWithFrame:CGRectZero];
-    _complexPasscodeOverlayView.backgroundColor = UIColor.systemBackgroundColor;
+    _complexPasscodeOverlayView.backgroundColor = _backgroundColor;
     _complexPasscodeOverlayView.translatesAutoresizingMaskIntoConstraints = NO;
     [self _setupPasscodeOverlayBorder];
     
@@ -1717,10 +1717,10 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     ? LTHPasscodeViewControllerStrings(@"Cannot reuse the same passcode")
     : LTHPasscodeViewControllerStrings(@"Passcodes did not match. Try again.");
     _newPasscodeEqualsOldPasscode = NO;
-    _failedAttemptLabel.backgroundColor = [UIColor clearColor];
+    _failedAttemptLabel.backgroundColor = _failedAttemptLabelBackgroundColor;
     _failedAttemptLabel.layer.borderWidth = 0;
     _failedAttemptLabel.layer.borderColor = [UIColor clearColor].CGColor;
-    _failedAttemptLabel.textColor = UIColor.systemRedColor;
+    _failedAttemptLabel.textColor = _failedAttemptLabelTextColor;
     _eraseLocalDataLabel.hidden = YES;
     _optionsButton.hidden = NO;
 }
@@ -1987,14 +1987,14 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     _backgroundColor = [UIColor mnz_mainBarsForTraitCollection:self.traitCollection];
     _passcodeBackgroundColor = [UIColor clearColor];
     _coverViewBackgroundColor = UIColor.systemBackgroundColor;
-    _failedAttemptLabelBackgroundColor =  UIColor.systemRedColor;
+    _failedAttemptLabelBackgroundColor = [UIColor clearColor];
     _enterPasscodeLabelBackgroundColor = [UIColor clearColor];
     _eraseLocalDataLabelBackgroundColor = [UIColor clearColor];
     
     // Text
     _labelTextColor = UIColor.labelColor;
     _passcodeTextColor = UIColor.labelColor;
-    _failedAttemptLabelTextColor = UIColor.systemBackgroundColor;
+    _failedAttemptLabelTextColor = UIColor.systemRedColor;
     _eraseLocalDataLabelTextColor = UIColor.systemRedColor;
     _optionsButtonTextColor = [UIColor colorWithRed:0 green:168.0/255.0 blue:134.0/255.0 alpha:1.0];
     _textFieldBorderColor = [UIColor colorWithRed:60.0/255.0 green:60.0/255.0 blue:67.0/255.0 alpha:0.3];
