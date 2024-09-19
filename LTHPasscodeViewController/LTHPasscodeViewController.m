@@ -657,7 +657,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     
     if ([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]) {
         [AppearanceManager forceNavigationBarUpdate:self.navigationController.navigationBar traitCollection:self.traitCollection];
-        self.view.backgroundColor = [UIColor mnz_mainBarsForTraitCollection:self.traitCollection];
+        self.view.backgroundColor = [UIColor surface1Background];
 
         if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
             self.statusBarStyle = UIStatusBarStyleLightContent;
@@ -2006,7 +2006,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 
 - (void)_loadColorDefaults {
     // Backgrounds
-    _backgroundColor = [UIColor mnz_mainBarsForTraitCollection:self.traitCollection];
+    _backgroundColor = [UIColor surface1Background];
     _passcodeBackgroundColor = [UIColor clearColor];
     _coverViewBackgroundColor = UIColor.systemBackgroundColor;
     _failedAttemptLabelBackgroundColor = [UIColor clearColor];
