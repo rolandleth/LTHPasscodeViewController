@@ -1599,6 +1599,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     if (_maxNumberOfAllowedFailedAttempts > 0 &&
         _failedAttempts >= _maxNumberOfAllowedFailedAttempts &&
         [self.delegate respondsToSelector: @selector(maxNumberOfFailedAttemptsReached)]) {
+        _failedAttempts = 0;
         [self.delegate maxNumberOfFailedAttemptsReached];
     }
     
