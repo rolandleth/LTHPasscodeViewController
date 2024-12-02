@@ -629,8 +629,18 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     [super viewWillLayoutSubviews];
     _animatingView.frame = self.view.bounds;
     [self setUpOptionButtonLocation];
+   
+    [self refreshNavBar];
 }
 
+- (void)refreshNavBar {
+    NSString *logoutTitle = self.isUsingNavBar ? self.navBar.items.firstObject.leftBarButtonItem.title : @"";
+#ifndef LTH_IS_APP_EXTENSION
+    [self _setupNavBarWithLogoutTitle:logoutTitle width:[UIApplication currentWindow].frame.size.width];
+#else
+    [self _setupNavBarWithLogoutTitle:logoutTitle width:self.presentingView.frame.size.width];
+#endif
+}
 
 - (void)viewWillDisappear:(BOOL)animated {
     // If _isCurrentlyOnScreen is true at this point,
@@ -746,15 +756,10 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 
 #pragma mark - UI setup
 - (void)_setupNavBarWithLogoutTitle:(NSString *)logoutTitle width:(CGFloat)width {
-    // Navigation Bar with custom UI
-    UIView *patchView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, self.view.safeAreaInsets.top)];
-    patchView.backgroundColor = UIColor.clearColor;
-    patchView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    [self.view addSubview:patchView];
-    
-    self.navBar =
-    [[UINavigationBar alloc] initWithFrame:CGRectMake(0, patchView.frame.size.height,
-                                                      width, 44)];
+    if(self.navBar != nil) {
+        [self.navBar removeFromSuperview];
+    }
+    self.navBar = [[UINavigationBar alloc] initWithFrame: CGRectMake(0, [LTHPasscodeViewController getStatusBarHeight], width, 44)];
     self.navBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.navBar.tintColor = self.navigationTintColor;
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
@@ -2150,6 +2155,16 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
      selector:@selector(_applicationWillEnterForeground)
      name:UIApplicationWillEnterForegroundNotification
      object:nil];
+}
+
+
++ (CGFloat)getStatusBarHeight {
+#ifdef LTH_IS_APP_EXTENSION
+    return 0.0; // Status bar height isn't applicable for extensions
+#else
+    UIWindowScene *windowScene = [UIApplication currentWindow].windowScene;
+    return windowScene.statusBarManager.statusBarFrame.size.height;
+#endif
 }
 
 CGFloat UIInterfaceOrientationAngleOfOrientation(UIInterfaceOrientation orientation) {
