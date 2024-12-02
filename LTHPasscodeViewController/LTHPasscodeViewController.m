@@ -554,7 +554,7 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 - (void)calculateOffsetGap {
     UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
     if (UIDeviceOrientationIsLandscape(orientation)) {
-        _verticalOffset = LTHiPad? -110 : -25;
+        _verticalOffset = LTHiPad? -110 : -40;
         _passcodeButtonGap = 0;
     } else {
         _verticalOffset = -5;
