@@ -677,6 +677,8 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
 
         [self setNeedsStatusBarAppearanceUpdate];
     }
+    
+    [self adjustLayoutForCurrentScreenConfiguration];
 }
 #endif
 
@@ -2194,13 +2196,16 @@ UIInterfaceOrientationMask UIInterfaceOrientationMaskFromOrientation(UIInterface
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context){}
-                                 completion:^(id<UIViewControllerTransitionCoordinatorContext> context){
-        [self calculateOffsetGap];
-        self.enterPasscodeConstraintCenterY.constant = self.yOffsetFromCenter;
-        self.optionsButtonConstraintTop.constant = [self calculateOptionsButtonTopGap];
-        [self statusBarOrientationChanged];
-    }];
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context){
+        [self adjustLayoutForCurrentScreenConfiguration];
+    } completion: nil];
+}
+
+- (void)adjustLayoutForCurrentScreenConfiguration {
+    [self calculateOffsetGap];
+    self.enterPasscodeConstraintCenterY.constant = self.yOffsetFromCenter;
+    self.optionsButtonConstraintTop.constant = [self calculateOptionsButtonTopGap];
+    [self statusBarOrientationChanged];
 }
 
 @end
