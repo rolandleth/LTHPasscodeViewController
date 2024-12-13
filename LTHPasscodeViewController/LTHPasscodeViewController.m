@@ -629,11 +629,13 @@ static const NSInteger LTHMaxPasscodeDigits = 10;
     [super viewWillLayoutSubviews];
     _animatingView.frame = self.view.bounds;
     [self setUpOptionButtonLocation];
-   
-    [self refreshNavBar];
 }
 
 - (void)refreshNavBar {
+    if (!self.isUsingNavBar || !self.displayedAsLockScreen) {
+        return;
+    }
+    
     NSString *logoutTitle = self.isUsingNavBar ? self.navBar.items.firstObject.leftBarButtonItem.title : @"";
 #ifndef LTH_IS_APP_EXTENSION
     [self _setupNavBarWithLogoutTitle:logoutTitle width:[UIApplication currentWindow].frame.size.width];
@@ -2198,6 +2200,7 @@ UIInterfaceOrientationMask UIInterfaceOrientationMaskFromOrientation(UIInterface
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context){
         [self adjustLayoutForCurrentScreenConfiguration];
+        [self refreshNavBar];
     } completion: nil];
 }
 
