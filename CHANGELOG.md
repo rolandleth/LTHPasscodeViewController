@@ -1,4 +1,5 @@
 # 4.0.3
+* Minor change: Updated Korean translations.
 * Project change: Improved project structure.
 * Project change: No longer uploading versions to CocoaPods.
 

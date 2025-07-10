@@ -26,3 +26,5 @@
 "Unlock using Touch ID" = "Touch ID를 이용해 잠금 해제";
 
 "Unlock using Face ID" = "Face ID를 이용해 잠금 해제";
+
+"Cannot reuse the same passcode" = "이전에 사용한 암호를 재사용할 수 없습니다.";
