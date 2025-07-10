@@ -1,3 +1,7 @@
+# 4.0.3
+* Project change: Improved project structure.
+* Project change: No longer uploading versions to CocoaPods.
+
 # 4.0.2
 * Minor change: remove no needed code related to unsupported iOS versions (iOS < 7).
 
