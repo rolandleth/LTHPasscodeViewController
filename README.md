@@ -7,13 +7,15 @@ Simple to use iOS 7 style Passcode - the one you get in Settings when changing y
 
 __NOTE__: _These instructions are intended for usage on Xcode 11 and higher. Xcode 11 is the first version of Xcode that integrates Swift Package manager and makes it way easier to use than it was at the command line. If you are using older versions of Xcode, we recommend using CocoaPods._
 
-1. Go to File > Swift Packages > Add Package Dependency...
+1. Go to `File > Swift Packages > Add Package Dependency...` or directly to `File > Add Package Dependency...`
 2. Paste the URL to the `LTHPasscodeViewController` repo on GitHub (https://github.com/rolandleth/LTHPasscodeViewController.git) into the search bar, then hit the Next button:
 3. Select what version you want to use, then hit next (Xcode will automatically suggest the current version Up to Next Major).
 4. Select the `LTHPasscodeViewController` library and then hit finish.
 5. You're done!
 
 ### CocoaPods
+
+__NOTE__: As per [this post](https://blog.cocoapods.org/CocoaPods-Specs-Repo/), it seems CocoaPods will sunset in the not-too-far future. I will leave this here for a while, but 4.0.1 is the last version to be added to CocoaPods and I will be exclusively using SPM moving forward. 
 
 [CocoaPods](https://cocoapods.org) is a dependency manager for Cocoa projects. For usage and installation instructions, visit their website. To integrate `LTHPasscodeViewController` into your Xcode project using CocoaPods, specify it in your `Podfile`:
 
